@@ -1,0 +1,13 @@
+<select id="selection_<%=objectId%>" onChange="mw3.getFaceHelper('<%=objectId%>').requestDoc(this)">
+
+<option> </option>
+
+<%
+
+	for(var i in value.selections){
+%>
+<option> <%=value.selections[i]%> </option>
+<%
+	}
+%>
+</select>

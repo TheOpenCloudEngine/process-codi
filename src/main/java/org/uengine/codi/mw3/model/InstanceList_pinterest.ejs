@@ -1,0 +1,22 @@
+
+
+<%if (value!=null){
+
+	mw3['pinterest_listCount']=0;
+%>
+
+<%=fields.instances.here()%>
+
+<%=fields.moreInstanceList.here()%>
+
+<%
+
+if(value.moreInstanceList==null){
+%>
+
+<div onactivate="alert('xxx')" class="box col1" onclick="<%=methods.more.caller()%>" style="background:#808599"><br><center><font color=white><%=mw3.localize("$more")%></font></center><br></div>
+
+
+<%}
+
+}%>

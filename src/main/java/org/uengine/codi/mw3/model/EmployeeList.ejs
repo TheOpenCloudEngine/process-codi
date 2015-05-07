@@ -1,0 +1,84 @@
+<%
+	if(value){
+%>
+<%
+		if( mw3.how == 'manager'){
+%>
+			<div class="form_table2"> 
+				<table border="1" cellspacing="0" >	
+					<tbody>
+						<tr>
+							<th width=200>사번</th>
+							<th>이름</th>
+							<th width=50>직책</th>
+							<th width=50>전화번호</th>
+							<th width=50>이메일</th>
+						</tr>
+						<%
+							for (var j=0; j<value.employee.length; j++){
+						%>
+							<tr>
+								<td><%=value.employee[j].empCode %></td>
+								<td><%=value.employee[j].empName %></td>
+								<td><%=value.employee[j].jikName %></td>
+								<td><%=value.employee[j].mobileNo %></td>
+								<td><%=value.employee[j].email %></td>
+							</tr>
+						<%
+							}
+						%>
+					</tbody>
+				</table>
+			</div>
+<%
+		}else if( mw3.how == 'searchList' ) {
+%>
+			<div class="form_table2"> 
+				<table border="1" cellspacing="0" >	
+					<tbody>
+						<tr>
+							<%if(value.checkBox){%><th></th><%}%>
+							<th width=200>사번</th>
+							<th>이름</th>
+							<th width=50>직책</th>
+							<th width=50>부서</th>
+						</tr>
+						<%
+							for (var j=0; j<value.employee.length; j++){
+						%>
+							<tr>
+								<%if(value.checkBox){%><td><input type="checkbox" id="<%=value.employee[j].empCode %>" name="empCheckBox" style="width:15px"></td><%}%>
+								<td><%=value.employee[j].empCode %></td>
+								<td><%=value.employee[j].empName %></td>
+								<td><%=value.employee[j].jikName %></td>
+								<td><%=value.employee[j].partName %></td>
+							</tr>
+						<%
+							}
+						%>
+					</tbody>
+				</table>
+			</div>
+<%
+		}else{
+%>
+		<ul>
+<%
+		if(value.employee){
+			for (var i=0; i<value.employee.length; i++){
+				if(typeof options == 'undefined') 
+					options = objectMetadata;
+			
+				options['index'] = i;
+				options['htmlTag'] =  'li';
+%>
+	<%=mw3.locateObject(value.employee[i], value.employee[i].__className, null, options, {objectId: value.__objectId, name: 'employee[' + i + ']'})%>	
+<%
+			}
+		}
+%>
+		</ul>
+<%	
+		}
+	}
+%>

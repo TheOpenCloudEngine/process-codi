@@ -1,0 +1,45 @@
+<%
+	if(value){
+		if(mw3.when == 'chat'){
+%>
+	
+	<%=fields.friend.here()%>
+	
+	<div id="chat_<%=objectId%>">
+ 	<div id="btnline" style="border-top:1px solid #E3E8F2; padding-top:8px;">
+		<ul>
+			<li style="float:left">제목 : </li>
+			<li style="float:left"> <%=fields.title.here({when:'edit'})%></li>
+			<li><a id="wBtn" href="#" onClick="<%=methods.start.caller()%>"><span><%=mw3.localize("$UnstructuredProcessInstanceStarter.start")%></span></a></li>
+		</ul>
+	</div>
+	<div>	
+<%
+		}else{
+%>
+<div class="view_box2" id="hiddenReply">
+	<div class="guide">
+		<span class="tl"></span>
+		<span class="tr"></span>
+	</div>
+	<div class="cont">
+		<p class="title">Share Something</p>
+		<span id="text_input"><%=fields.title.here()%></span>
+		<div id="btnline" style="padding-top:8px;">
+		<div id="method_<%=objectId%>_start">
+			<ul>
+				<li><a id="wBtn" href="#" onClick="<%=methods.start.caller()%>"><span><%=mw3.localize("$UnstructuredProcessInstanceStarter.start")%></span></a></li>
+			</ul>
+		</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="guide">
+		<span class="lb"></span>
+		<span class="rb"></span>
+	</div>
+</div>
+<%		
+		}
+	}
+%>

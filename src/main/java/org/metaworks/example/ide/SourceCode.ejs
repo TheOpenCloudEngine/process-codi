@@ -1,0 +1,23 @@
+
+
+
+<%
+	var width = descriptor.getOptionValue('width');
+	var height = descriptor.getOptionValue('height');
+	
+	if(width==null) width = "700px";
+	if(height==null) height = "450px";
+
+%>
+
+	<div class="view_box">
+		<div class="guide">
+			<span class="tl"></span>
+			<span class="tr"></span>
+		</div>
+		<div class="cont">
+<div id='sourceEditor_<%=objectId%>' style="position: absolute; width:<%=width%>; height:<%=height%>"><%=(value ? value : "")%></div>
+<div style="width:<%=width%>; height:<%=height%>"></div>
+
+		</div>
+	</div>

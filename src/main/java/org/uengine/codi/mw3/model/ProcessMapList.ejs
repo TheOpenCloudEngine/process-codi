@@ -1,0 +1,63 @@
+<%
+	if(value){
+		var session = mw3.getAutowiredObject('org.uengine.codi.mw3.model.Session');
+		
+		var admin = false;
+		if(session && session.employee)
+			admin = session.employee.isAdmin;
+		
+		if(value.processMapList){
+%>
+
+
+<div class="view_box4 intaglio" id="hiddenReply" style="display: block; margin-top:15px;">
+	<div class="guide">
+		<span class="tl"></span>
+		<span class="tr"></span>
+	</div>
+	<div class="cont" style="padding:10px;">
+		<p class="title" style="font-size: 14px;font-weight: bold;padding-left: 20px;">앱과 함께 시작</p>
+	
+		<ul class="process_map2">		
+						
+<%
+			for (var i=0; i<value.processMapList.length; i++){
+				if(typeof options == 'undefined') 
+					options = objectMetadata;
+			
+				options['index'] = i;
+				options['htmlTag'] =  'li';
+%>
+						<%=mw3.locateObject(value.processMapList[i], value.processMapList[i].__className, null, options, {objectId: value.__objectId, name: 'processMapList[' + i + ']'})%>	
+<%
+			}
+%>
+		</ul>
+<%          
+			if(true){
+%>					
+		<div id="btnline" style="padding-top:8px;">
+			<ul>
+				<li><a id="wBtn" href="#" onClick="<%=methods.append.caller()%>"><span><%=mw3.localize("$add")%></span></a></li>
+			</ul>
+		</div>
+<%
+			 }
+%>					
+		<div class="clear"></div>
+		<% if( value.dueDateSetting ){ %>
+		<div><span style="color: red">* <%=mw3.localize("$existingSchedule")%></span></div>
+		<% } %>
+	</div>
+
+	<div class="guide">
+		<span class="lb"></span>
+		<span class="rb"></span>
+	</div>
+</div>
+
+
+<%
+		}
+	}
+%>	

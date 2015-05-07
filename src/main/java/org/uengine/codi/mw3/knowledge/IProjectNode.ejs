@@ -1,0 +1,20 @@
+<%
+	if(value){
+		if(mw3.how == 'perspectivePanel'){
+			if(value.secuopt=='1'){
+%>	
+ 				<a onClick="<%=methods.loadTopic.caller()%>" href="#"><span class="icon-lab"></span><%=value.name%></a>
+<%	
+			}else{
+%>	 
+				<a onClick="<%=methods.loadTopic.caller()%>" href="#"><span class="icon-lab"></span><%=value.name%></a>
+<%
+	 		}
+		}else{
+%>
+		
+		<a style="font-size: 15px; margin: 10px;" onClick="<%=methods.goIDE.caller()%>" href="#" title="<%=value.name%>"><%=value.name%></a>
+<%	
+	 	}
+	}
+%>

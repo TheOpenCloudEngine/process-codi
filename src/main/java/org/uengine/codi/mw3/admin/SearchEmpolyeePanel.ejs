@@ -1,0 +1,19 @@
+<%
+	if(value){
+%>	
+			<div class="form_table2"> 
+				<table border="1" cellspacing="0" >	
+					<tbody>
+						<tr>
+							<th width=120>사원검색</th>
+							<td><%= fields.empName.here({when:'edit'}) %></td>
+							<td width=100><a id="wBtn" href="#" onClick="<%=methods.searchEmployee.caller()%>"><span>검색</span></a></td>
+						</tr>
+					</tbody>
+				</table>
+			<div>
+			<%= fields.employeeList.here() %>
+
+<%
+	}
+%>

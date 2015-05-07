@@ -1,0 +1,87 @@
+<%
+	var preview = false;
+%>
+	<span id="preview_<%=objectId%>">
+		<div class="workItem_tabs">
+			 <ul>
+				<li id="pdfPreview_<%=objectId%>">
+					<a href="#" onClick="mw3.getFaceHelper(<%=objectId%>).viewAsPDF();"><span><%=mw3.localize('$ViewAsPdf')%></span></a>
+				</li>	
+			 	<li id="imagePreview_<%=objectId%>">
+			 		<a href="#" onClick="mw3.getFaceHelper(<%=objectId%>).viewAsImages();"><span><%=mw3.localize('$ViewAsImage')%></span></a>
+			 	</li>
+			 </ul>
+		</div>
+<%		
+        var convertMimeType = value.mimeType;
+        if(convertMimeType != null && convertMimeType == 'image'){
+            if(value.convertStatus != null && value.convertStatus == '2')
+                preview = true
+        }else{          
+            if(value.convertStatus != null && (value.convertStatus =='1' || value.convertStatus =='2'))
+                preview = true
+        }
+        var errorFlag = value.errorStatus;
+        if( convertMimeType == 'pdf' && value.convertStatus =='1' && errorFlag ){
+            errorFlag = false;
+        }
+        
+		
+		if(!preview){
+%>
+		<div id="convert_progress_<%=value.convertStatus==null?'pdf':'img'%>_<%=objectId%>" align="center">
+			<br />
+			<br />
+			<br />
+			<li></li>
+			<%
+			if(errorFlag){
+			%>
+			     <li><br /><br /> <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> 변환중에 오류가 발생하였습니다. 관리자에게 문의해주세요.</div> </li>
+			<%
+			}else{
+			%>
+			     <li><br /><br /><b><%=mw3.localize('$PreviewLoading')%> </b><br /><br /> <img src="dwr/metaworks/images/circleloading.gif" /></li>
+			<%
+			}
+			%>
+			<li></li>
+		</div>
+<%
+		}
+		if(!errorFlag){
+		  if(convertMimeType != null && convertMimeType == 'image'){
+			if(!preview){
+%>
+		      <img style="display:none" src="preview/<%=value.taskId%>.image" />
+<%
+			}else{
+				if(value.pageCount != null){
+%>
+				<table>
+<%
+					for(i=1; i<parseInt(value.pageCount)+1; i++){
+%>
+ 					<tr>
+						<td> <img width="100%" src="preview/<%=value.taskId%>.pdf_<%=i%>.jpg"/></td>
+					</tr>
+					<tr>
+						<td align="center" style="padding:5px 0 20px 0; font-weight:bold">< Page <%=i%> ></td>
+					</tr>
+<%				
+					}
+%>
+				</table>
+<%
+				}		
+			}
+		  }else{
+%>
+		      <iframe id="converted_pdf_<%=objectId%>" style="display:none" onload="mw3.getFaceHelper(<%=objectId%>).onloadPdf();" src="preview/<%=value.taskId%>.pdf" frameborder="0" scrolling="no" width="100%" height="300px" />
+<%				
+		  }
+		}
+%>
+		<br />
+		<br />
+	</span>

@@ -1,0 +1,27 @@
+<%
+	if(value){
+%>
+
+<div class="depth1" onClick="<%=methods.select.caller() %>">
+	<div class="fist_menu">
+			<ul>
+				<li><a href="#"><span class="icon-feed"></span><span style="padding:0px;margin:0px;width:auto"><%=fields.label.here()%></span></a></li>
+				
+			</ul>
+	<div>			
+</div>
+	
+	
+	
+<%if(value.selected){%>
+
+	<div class="depth2">
+		<div class="fist_menu">		
+			<%=fields.projectPanel.here() %>
+		</div>
+	</div>
+<%}%>
+
+<%
+	}
+%>

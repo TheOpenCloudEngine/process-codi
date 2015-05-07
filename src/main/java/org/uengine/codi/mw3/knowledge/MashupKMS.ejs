@@ -1,0 +1,20 @@
+<%
+ 	if(value){
+%>
+
+<div class="form_table2"> 
+	<table border="1" cellspacing="0" > 
+		<tbody>
+			<tr>
+				<th scope="row">검색어</th>
+				<td><%=fields.keyword.here({when:'edit'})%></td>
+				<td><%=methods.search.here()%></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+ 
+ <%=fields.searchResults.here()%>
+<%
+	}
+%>

@@ -1,0 +1,11 @@
+<%
+	if(value){
+%>	
+		<div class="depth1"> <%=mw3.localize("$navigation.dept")%> <a href="#" onClick="<%=methods.addDept.caller()%>">[New]</a></div>
+		
+		<div class="depth2">		
+			<%=fields.deptList.here()%>
+		</div>	
+<%
+	}
+%>

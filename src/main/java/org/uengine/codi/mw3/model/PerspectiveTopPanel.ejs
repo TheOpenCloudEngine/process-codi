@@ -1,0 +1,26 @@
+<%
+	if(value){
+%>
+    <div id="searchbox">
+        <div class="searchboxline">
+        	<div class="searchboxline2">
+                    <div class="newprocessbtn">
+                        <a href="#" onclick="<%=methods.newInstance.caller()%>">
+                        	<span id="method_<%=objectId%>_newInstance">
+                        		<div id="startBtn">
+									<%=mw3.localize("$New")%>
+								</div>
+							</span>
+						</a>
+					</div>
+                <div class="searchboxarea" id="method_<%=objectId%>_newInstance">
+                	<%=fields.searchBox.here()%>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+<%
+	}
+%>

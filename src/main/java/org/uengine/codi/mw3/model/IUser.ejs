@@ -1,0 +1,94 @@
+<!--<%=mw3.when%>,<%=mw3.how%>,<%=mw3.where%>-->
+
+<%
+	if(value){
+		var contacts = mw3.contacts;
+		var friendAlias = value.name;
+		var contactPespective = mw3.getAutowiredObject('org.uengine.codi.mw3.model.ContactPerspective');
+		if( !contacts ){
+			if( contactPespective ){
+				if(contactPespective.more){
+					contacts = contactPespective.child;
+				}else{
+					contacts = contactPespective.loadAllContact();
+				}
+			}
+			mw3.contacts = contacts;
+		}
+		if( contacts ){
+			for(var i=0; i<contacts.length; i++){
+				var contact = contacts[i];
+				if(contact.friend && contact.friend.userId && contact.friend.userId == value.userId ){
+					friendAlias = contact.friend.name;
+				}
+					
+			}
+		}
+		var portrait = '';		
+		if(value.network == 'local' || value.network == null){
+			if(value.userId)
+				portrait = 'portrait/' + value.userId + '.thumnail';			
+		}else if(value.network == 'fb'){
+			if(value.userId)
+				portrait = 'http://graph.facebook.com/' + value.userId + '/picture';			
+		}		
+		
+		if(portrait.length == 0)
+			portrait = 'images/portrait/deleted_user.gif';
+%>
+			<div class="user" <%if(mw3.where == 'addfollower'){%>style="float:left; width:auto !important;cursor: Default;"<%}%>>		
+				<div class="user_focus" style="background: url('<%=portrait%>'); background-size:cover;"  title="<%=friendAlias%>">	
+					<img id="user_picture_<%=objectId%>" src="<%=portrait%>" class="pic <%=(value.size=='small' ? ' small':'')%>">
+<%	
+			var isOverlayName = true;
+			
+			if(mw3.where == 'addcontact' || mw3.where == 'addfollower' || mw3.where == 'pickerlist' || mw3.where == 'removefollower')
+				isOverlayName = false;
+			
+			if(isOverlayName && mw3.where != 'self' && mw3.where != 'instancelist' && friendAlias){
+%>
+					<div class="followers_name" title="<%=friendAlias%>"><%=friendAlias%></div>
+<%
+			}
+%>
+				</div>
+			
+<%
+			if(!isOverlayName){
+%>			
+				<div class="user_detail">
+					<span class="fontbold"><%=friendAlias%></span>
+					<span class="fontgray"><%=value.mood ? value.mood : ''%></span>
+				</div>
+<%
+			}
+%>			
+				
+
+<%
+			if(mw3.where == 'addcontact'){
+%>				
+				<div style="clear:both"></div>			
+				<div style="padding:3px 0px; border-bottom:1px solid #e7e7e7;" />
+<%
+			}
+			
+%>			
+<%
+			if(mw3.where != 'addfollower'){
+%>
+				<div style="clear:both"></div>	
+<%
+			}
+%>
+			</div>
+
+<%
+			if(mw3.when == mw3.WHEN_NEW || mw3.when == mw3.WHEN_EDIT){
+%>
+			
+			<div style="display:inline-block; margin-top:5px;"><%=methods.popupPicker.here()%></div>
+<%
+			}		 
+	}
+%>

@@ -1,0 +1,16 @@
+<%
+	if(value) {
+	
+		if(mw3.when=='edit' || mw3.when=='new'){
+%>	
+	<textarea id="ckEditor_<%=objectId%>" name="ckEditor_<%=objectId%>" cols="50" rows="20">
+		<%=value.contents%>
+	</textarea>
+<%
+		}else{
+%>		
+		<div class="editor_div"><%=value.contents%></div>
+<%		
+		}
+	} 
+%>

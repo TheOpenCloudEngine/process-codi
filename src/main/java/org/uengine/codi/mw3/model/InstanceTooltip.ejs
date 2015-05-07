@@ -1,0 +1,67 @@
+<%
+if(value!=null){
+if(mw3.how == 'action'){
+%>
+<div class="icon_toolbar">
+
+
+    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$Schedule")%>" class="icon-rounded m-r-10 tooltip-top" >
+        <i class="glyphicon glyphicon-info-sign workitem_btn" onClick="<%=methods.schedule.caller()%>"></i>
+    </div>
+
+    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$Delete")%>" class="icon-rounded m-r-10 tooltip-top" >
+        <i class="glyphicon glyphicon-trash workitem_btn" onClick="<%=methods.remove.caller()%>"></i>
+    </div>
+
+    <%
+    if(value.secuopt == null || value.secuopt == '0'){
+    %>
+    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$Privacy")%>" class="icon-rounded m-r-10 tooltip-top" >
+        <i class="glyphicon glyphicon-eye-close workitem_btn" onClick="<%=methods.toggleSecurityConversation.caller()%>"></i>
+    </div>
+    <%
+    }else{
+    %>
+    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$MakeItPrivacy")%>" class="icon-rounded m-r-10 tooltip-top" >
+        <i class="glyphicon glyphicon-eye-close workitem_btn" onClick="<%=methods.toggleSecurityConversation.caller()%>"></i>
+    </div>
+    <%
+    }
+        var isCompleted = false;
+        var enableComplete = !mw3.isHiddenMethod(methods.complete);
+        if(enableComplete){
+            isCompleted = value.status == 'Stopped' || value.status == 'Completed';
+    %>
+    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$Completing")%>" class="icon-rounded m-r-10 current tooltip-top" >
+        <i class="glyphicon glyphicon-ok workitem_btn current" onClick="<%=methods.complete.caller()%>"></i>
+    </div>
+    <%
+    }
+    if( value.eventTriggers ){
+    for(var i=0; i < value.eventTriggers.length; i++){
+        var options;
+        var eventTrigger = value.eventTriggers[i];
+        if(typeof options == 'undefined'){
+            options = objectMetadata;
+        }
+        options['htmlTag'] =  'li';
+    %>
+    <%=mw3.locateObject(eventTrigger, eventTrigger.__className, null , options, {objectId: objectId, name: '[' + i + ']'}) %>
+    <%
+    }
+    }
+    %>
+</div>
+
+
+
+<%
+}else{
+%>
+<span onClick="<%=methods.schedule.caller()%>"><img src="images/waveStyle/i_gantt.png" title="schedule" /></span>
+<span onClick="<%=methods.remove.caller()%>"><img src="images/waveStyle/i_delete.png" title="remove" /></span>
+<span onClick="<%=methods.complete.caller()%>"><img src="images/waveStyle/i_complete.png" title="complete" /></span>
+<%
+}
+}
+%>

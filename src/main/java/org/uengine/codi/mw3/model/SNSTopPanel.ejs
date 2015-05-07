@@ -1,0 +1,27 @@
+<%
+	if(value){
+%>
+	
+ 	<div style="float:left; margin-top:5px;"><%=fields.loginUser.here({when: 'self_small'})%></div>
+	<%=fields.notificationBadge.here()%>
+	
+	<%=fields.windowPanel.here()%>	
+	
+	<%=fields.tray.here()%>
+	
+    <div class="info">
+    <%=fields.searchBox.here()%>
+	    <div style="display:none">
+	        <%if(mw3.when!='__design-depth2'){/*TODO: later, rather use 'where' than 'when'.*/%>
+	        	<%=fields.session.here({when:'hidden'})%>
+	        <%}else{%>
+	        	session here.
+	        <%}%>	
+        </div>
+	</div>	
+	
+	
+	
+<%
+	}
+%>

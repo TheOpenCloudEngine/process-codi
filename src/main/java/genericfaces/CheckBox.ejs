@@ -1,0 +1,48 @@
+<%	
+	var checkedList = [];
+	
+	if(value != null) {
+		checkedList = value.split(",");
+	}
+		
+	if(mw3.when == mw3.WHEN_EDIT || mw3.when == mw3.WHEN_NEW){
+	
+		for(var i=0; i<descriptor.options.length; i++){
+			var inputOption = '';
+			
+			for(var j=0; j<checkedList.length; j++) {
+				if(checkedList[j] == descriptor.values[i]) {
+					inputOption = 'checked=\"checked\"';
+				}
+			}
+	%>
+	<label for="checkbox">
+		<input type="checkbox" name="checkBox_<%=objectId%>"
+			 				value="<%=mw3.localize(descriptor.values[i])%>"
+			 				<%=inputOption%> ></input> <%=mw3.localize(descriptor.options[i])%>
+    </label>
+		<div style="clear:both"></div>
+<% 
+		}
+	}else{
+%>
+	   <input type="hidden" id="checkedList" value="<%=value%>" />
+<%	
+    		for(var i=0; i<descriptor.options.length; i++){
+    			var inputOption = '';
+    			for(var j=0; j<checkedList.length; j++) {
+    				if(checkedList[j] == descriptor.values[i]) {
+    				    inputOption = 'checked=\"checked\"';
+    				}
+    			}
+	%>
+	       <label for="checkbox">
+    			<input type="checkbox" name="checkBox_<%=objectId%>"
+                            value="<%=mw3.localize(descriptor.values[i])%>"
+                            <%=inputOption%> disabled="disabled" ></input> <%=mw3.localize(descriptor.options[i])%> 
+            </label>
+                <div style="clear:both"></div>
+	<%
+    		}
+    }
+%>

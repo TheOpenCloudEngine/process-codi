@@ -1,0 +1,21 @@
+<%	
+	if(value){
+		if(mw3.when == mw3.WHEN_VIEW){
+			if(value.open){
+%>
+	<%=fields.session.here()%>
+	<%=fields.instanceViewContent.here()%>
+<%
+			}else{						
+%>
+	<div>
+		<span>해당 Instace(<%=value.instanceId%>) 는 접근이 제한되었습니다.</span>
+	</div>
+<%		
+			}
+		}
+%>
+	<span id="method_facebook_<%=objectId%>" style="display:none"><input id="facebook" class="submitFacebook"  value="" title="click is facebook subscribe" alt="click is facebook subscribe" onclick="mw3.getFaceHelper(<%=objectId%>).loginFacebook();"/></span>
+<%		
+	}
+%>

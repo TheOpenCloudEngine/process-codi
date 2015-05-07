@@ -1,0 +1,14 @@
+<%
+	if(value){
+%>
+	<div class="depth1" onClick="<%=methods.select.caller()%>"><span class="item"><%=mw3.localize("$Document")%></span></div>
+<%
+		if(value.selected){
+%>
+	<div class="depth2">		
+		<%=fields.documentPanel.here()%>
+	</div>
+<%
+		}
+	}
+%>

@@ -1,0 +1,29 @@
+<table>
+
+<tr>
+<td valign=top>
+
+<select id="assist_<%=objectId%>" onChange="mw3.getFaceHelper('<%=objectId%>').requestDoc(this)">
+
+<option> </option>
+
+<%
+
+	for(var i in value.assistances){
+%>
+<option> <%=value.assistances[i]%> </option>
+<%
+	}
+%>
+</select>
+
+</td>
+</tr>
+
+<tr><td bgcolor="#ffffbb">
+
+<%=fields.document.here()%>
+
+
+</td></tr>
+</table>

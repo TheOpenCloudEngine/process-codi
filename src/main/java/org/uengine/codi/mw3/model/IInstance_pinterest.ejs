@@ -1,0 +1,57 @@
+
+	<font size=2 color=gray face='Arial,돋움'>
+
+<% if(value!=null){
+
+			
+		var isChat = (value.defId == null && value.secuopt == '1')
+		var isOpenCollab = (value.defId == null && value.secuopt=='0')
+		var isProcess = (value.defId != null);
+		var isSecureProcess = (value.defId != null && value.secuopt == '1');
+		
+		
+		var pinterest_listCount = mw3['pinterest_listCount']++;
+	
+		var column = 4;
+		
+		if(pinterest_listCount > 3){
+			column = isProcess ? 2:1;
+		}
+		
+		if(mw3.when=='newItem'){
+			column = 3;
+		}
+	
+	%>
+	
+	
+<div class="box col<%=column%>"<%=mw3.when=='newItem' ? " style='background:#FFB249'":""%>>
+<a href="#" onClick="<%=methods.popupDetail.caller()%>">
+	<img src="portrait/<%=value.initiator.userId%>.thumnail.jpg" width="100%" align=left onerror="$(this).remove();">
+</a>
+	<b><font color=204070 size=<%=1+column%> face='Arial,돋움'><%=value.initiator.name%></font></b>
+				<% if(isChat){ %>
+					<span class="type_ping"></span><span class="instanceLock"></span>
+				<% }else if(isOpenCollab){ %>
+					<span class="type_ping"></span><span class="instanceUnLock"></span>
+				<% }else if(isProcess){ %>
+					<span class="type_process"></span><span class="instanceUnLock"></span>
+				<% }else if(isSecureProcess){ %>
+					<span class="type_process"></span><span class="instanceLock"></span>
+				<% } %>	
+						
+<a href="#" onClick="<%=methods.popupDetail.caller()%>"><font color=303030 size=<%=2+column%> face='Arial,돋움'><b><%=value.name%></b></font></a>
+				
+				<% if(value.currentUser && value.currentUser.userId && (value.initiator.userId!=value.currentUser.userId || value.name!=value.lastCmnt)){%>
+			<img src="portrait/<%=value.currentUser.userId%>.thumnail.jpg" width="30%" align=left onerror="$(this).remove();">
+			<font size=<%=column%>><%=value.lastCmnt%></font>
+				<%}%>
+
+		<%=fields.startedDate.here()%>
+		
+		<%if(value.status=='Completed'){%> ( <%=mw3.localize('$Complete')%> ) <%}%>
+
+</div>
+
+<%}%>
+

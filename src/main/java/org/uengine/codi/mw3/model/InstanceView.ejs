@@ -1,0 +1,45 @@
+<%
+	if(value == null && typeof value == 'undefined')
+		return;
+		if(mw3.how == 'loadDocument'){
+%>
+
+<div class="top" style="height: 68px;  position: absolute; min-width: 0px; min-height: 0px; max-width: 10000px; max-height: 10000px;  left: 0px; right: 0px; top: 0px;">
+<div style="position:absolute;width: 100%;text-align:  right;"><font size="5" color="white"><span align="right"><%=value.instanceName%></span>
+</font></div>
+
+	<%=fields.followers.here()%>
+	
+	<%=fields.instanceAction.here()%>		
+</div>
+
+<div class="bottom" style="top: 110px; overflow:auto; position: absolute; min-width: 0px; min-height: 0px; max-width: 10000px; max-height: 10000px;  left: 0px; right: 0px; bottom: 0px;">
+	<%=fields.eventTriggerPanel.here()%>
+	<%=value.scheduleEditor ? fields.scheduleEditor.here() : ""%>
+	
+	<%=fields.documentContentView.here()%>
+<%
+
+%>
+</div>
+
+
+
+<% }else{ %>
+<div class="top" style="height: 110px;  position: absolute; min-width: 0px; min-height: 0px; max-width: 10000px; max-height: 10000px;  left: 0px; right: 0px; top: 0px;">
+	<%=fields.followers.here()%>
+	
+	<%=fields.instanceAction.here()%>		
+</div>
+
+<div class="bottom InstanceViewPanel" style="top: 110px; overflow:auto; position: absolute; min-width: 0px; min-height: 0px; max-width: 10000px; max-height: 10000px;  left: 0px; right: 0px; bottom: 0px;">
+	<%=fields.instanceNameChanger.here({when:'edit'})%>
+	<%=fields.eventTriggerPanel.here()%>
+	<%=value.scheduleEditor ? fields.scheduleEditor.here() : ""%>
+	
+	<%=fields.instanceViewThreadPanel.here()%>
+<%
+
+%>
+</div>
+<%}%>

@@ -1,0 +1,14 @@
+<%
+	if(value){
+		if(value.dispatchOption == 1){
+%>												
+	<div style="color:#D20044; font-weight:bold; margin:10px 0; padding:5px; text-align:center; background:#F5F5F5; border:1px solid #EAEAEA;">
+		* 이 업무는 경합으로 부여된 업무이므로 수락을 하셔야 처리 가능합니다.
+	</div>
+<%
+		}
+%>
+	<%=fields.workItemHandler.here()%>
+<%
+	}
+%>

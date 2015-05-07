@@ -1,0 +1,12 @@
+<%
+	if(value){
+%>
+<div class="crowdSourcing">
+<span style="float:right; margin:5px 5px 0 5px;">
+	<a href="#" onClick="<%=value.open?methods.crowdSourcing.caller():methods.worker.caller()%>;"><img src="images/waveStyle/<%=value.open?'crowdSourcing_on':'crowdSourcing_off'%>.gif"></a>
+</span>
+<span style="float:right"><b><%=mw3.localize('$instanceView.crowdsourcer')%></b></span>
+</div>
+<%
+	}
+%>

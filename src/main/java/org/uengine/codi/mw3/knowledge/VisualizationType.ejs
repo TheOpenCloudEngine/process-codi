@@ -1,0 +1,58 @@
+<%
+	if(value){
+%>
+<div>
+	<div class="visualzation_selector">
+		<div class="visualzation_selector_img"><img src="images/waveStyle/visualization_01.gif" />
+		</div>
+		<div class="visualzation_selector_title">
+			<input type="radio" id="fwStyle_<%=objectId%>" name="wfStyle_<%=objectId%>" value="bullet"> 개조식
+		</div>	
+	</div>
+	<div class="visualzation_selector">
+		<div class="visualzation_selector_img"><img src="images/waveStyle/visualization_02.gif" />
+		</div>
+		<div class="visualzation_selector_title">
+			<input type="radio" id="fwStyle_<%=objectId%>" name="fwStyle_<%=objectId%>" value="mindmap"> 마인드맵
+		</div>	
+	</div>
+	<div class="visualzation_selector">
+		<div class="visualzation_selector_img"><img src="images/waveStyle/visualization_03.gif" />
+		</div>
+		<div class="visualzation_selector_title">
+			<input type="radio" id="fwStyle_<%=objectId%>" name="fwStyle_<%=objectId%>" value="uml"> UML
+		</div>	
+	</div>
+	<div class="visualzation_selector">
+		<div class="visualzation_selector_img"><img src="images/waveStyle/visualization_04.gif" />
+		</div>
+		<div class="visualzation_selector_title">
+			<input type="radio" id="fwStyle_<%=objectId%>" name="fwStyle_<%=objectId%>" value="table"> 표
+		</div>	
+	</div>
+	<div class="visualzation_selector">
+		<div class="visualzation_selector_img"><img src="images/waveStyle/visualization_06.gif" />
+		</div>
+		<div class="visualzation_selector_title">
+			<input type="radio" id="fwStyle_<%=objectId%>" name="fwStyle_<%=objectId%>" value="quiz"> 퀴즈
+		</div>	
+	</div>
+	<div class="visualzation_selector">
+		<div class="visualzation_selector_img"><img src="images/waveStyle/visualization_05.gif" />
+		</div>
+		<div class="visualzation_selector_title">
+			<input type="radio" id="fwStyle_<%=objectId%>" name="fwStyle_<%=objectId%>" value="pt"> 프리젠테이션
+		</div>	
+	</div>
+	<div class="clear"></div>
+	
+	<div id="btnline" style="padding-top:8px; border-top:1px solid #ccc;">
+		<ul>	
+			<li><a id="wBtn" href="#" onClick="<%=methods.save.caller()%>"><span>save</span></a></li>
+		</ul>
+	</div>	
+				
+</div>
+<%
+	}
+%>

@@ -1,0 +1,50 @@
+<%
+    if(value){
+       var portrait = '';
+        if(value.partName)
+                portrait = 'portrait/dept_' + value.partCode + '.thumnail'; 
+        
+%>
+        <ul>
+            <li class="user_card_top"></li>
+            <li class="user_card_title"></li>
+            <li>
+                <dl class="lst_type2" style="height:195px; padding-top:8px;">
+
+                    <dd class="photo">
+                        <div id="popupInfoImgWih"><img id="user_picture_<%=objectId%>" src="<%=portrait%>" width="104" height="104"></div>  
+                    </dd>
+                    <dd class="tit">
+                        <div id="popupInfoNameWih"><b><%=value.partName%></b></div>
+                    </dd>
+                    <div class="clear"></div>
+                </dl>
+                
+            </li>    
+        </ul>
+        <div style="clear:both"></div>
+        <div id="btnline" style="border-top:1px solid #E3E8F2; padding-top:8px;">
+            <ul>
+<%
+        var groupMap = {};
+        
+        if(objectMetadata.serviceMethodContexts){
+            for(var i=0; i<objectMetadata.serviceMethodContexts.length; i++){
+                var serviceMethod = objectMetadata.serviceMethodContexts[i];
+                
+                if(serviceMethod.mouseBinding == 'drag' || serviceMethod.mouseBinding == 'drop')
+                    continue;
+%>
+                <li style="<%=serviceMethod.group?'float:left':''%>"> <%=methods[serviceMethod.methodName].here()%></li>
+<%
+            }
+        }
+%>
+
+            </ul>
+        </div>
+        <div style="clear:both"></div>
+        
+<%
+    }
+%>

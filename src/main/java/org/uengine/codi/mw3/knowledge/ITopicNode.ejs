@@ -1,0 +1,11 @@
+<%
+	if(value){
+%>
+	<a onClick="<%=methods.loadTopic.caller()%>" href="#" title="<%=value.name%>">
+<%
+		if(value.secuopt=='1'){
+%>
+		<span class="icon-lock"></span><%}else{%><span class="icon-bubbles2"></span><%}%><%=value.name%></a>
+<%	
+	}
+%>

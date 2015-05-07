@@ -1,0 +1,17 @@
+<div class="view_box3 rolemapping" style="background:<%=value.mappedUser.userId ? "#D9EDF8":"#E8E8E8"%>; padding:8px; margin-bottom:20px;">
+<center>
+	<span style="display:inline-block"><b><%=value.roleName%></b></span>
+	<span style="display:inline-block"><%=value.mappedUser.userId ? "" : "<font color=gray size=-3>(" + mw3.localize("$NotSet") + ")</font>"%></span>
+	<div style="margin-top:10px; position:relative; width:66px">
+<%
+	if(value.mappedUser && value.mappedUser.userId){
+%>
+		<span class="icon-cancel-circle delete_user" onClick="<%=methods.removeUser.caller()%>"></span>		
+<%
+	}
+%>
+		<%=fields.mappedUser.here()%>
+	</div>
+	<div class="clear"></div>
+</center>
+</div>

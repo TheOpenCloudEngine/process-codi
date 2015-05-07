@@ -1,0 +1,35 @@
+<%
+	if(value){
+        var convertedMimeType = true;
+		var fileMimeType = value.file.mimeType; 
+        var isPreview = false;
+        
+		if(fileMimeType.indexOf("msdownload") == -1 && ( fileMimeType.indexOf("ms")>=1   || fileMimeType.indexOf("officedocument")>=1 || fileMimeType.indexOf("pdf")>=1) )
+			isPreview = true;
+			var sns = mw3.getAutowiredObject('org.uengine.codi.mw3.model.SNS');
+
+%>
+	<%=fields.workItemVersionChooser.here({htmlAttr:{style: 'float: right; margin-bottom: 5px;'}})%>
+<%
+		if(isPreview){
+			if(!sns.isPhone()){
+%>
+				<%=fields.preview.here()%>
+<%
+			}
+		}else if(fileMimeType && fileMimeType.indexOf('image') == 0){
+%>
+	<div id="convertProgress_<%=objectId%>" class="img_loader">
+		<div><img src="dwr/metaworks/images/circleloading.gif" width="16" height="16" style="width:16px !important; height:16px !important; margin:0px"/></div>
+	</div>
+	<div id="image_<%=objectId%>"></div>
+<%
+		}
+%>
+	<span>
+		<%=fields.file.here({when: 'attach'})%>
+	</span>
+
+<%
+	}
+%>

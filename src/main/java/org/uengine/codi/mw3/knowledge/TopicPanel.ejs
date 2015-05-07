@@ -1,0 +1,39 @@
+<%
+	if(value){
+		if(value.topicNode){
+%>
+	<ul>
+<%
+			for (var i=0; i<value.topicNode.length; i++){
+				if(typeof options == 'undefined') 
+					options = objectMetadata;
+			
+				options['index'] = i;
+				options['htmlTag'] =  'li';
+%>
+		<%=mw3.locateObject(value.topicNode[i], value.topicNode[i].__className, null, options, {objectId: value.__objectId, name: 'topicNode[' + i + ']'})%>	
+<%
+			}
+%>
+		</ul>
+		
+			<%
+			if(!value.selectedMore) {
+			
+				if(value.countTopicNode >=6) {
+			%>
+			
+				<span class="west_more_btn" style="display:none"><a onClick="<%=methods.moreView.caller()%>" href="#"><%=mw3.localize('$More')%></a></span>
+<%
+				}
+			}else{
+%>			
+	
+				<span class="west_more_btn" style="display:none"><a onClick="<%=methods.load.caller()%>" href="#"><%=mw3.localize('$SimpleView')%></a></span>
+					
+			
+<%			
+			}
+		}
+	}
+%>	

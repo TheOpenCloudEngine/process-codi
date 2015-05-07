@@ -1,0 +1,30 @@
+<%
+	if(value != null && typeof value != 'undefined'){
+%>
+	
+<div class="toolbar">
+    <ul>
+
+<%
+		if(objectMetadata.serviceMethodContexts){
+   			for(var i=0; i<objectMetadata.serviceMethodContexts.length; i++){
+   	   			var serviceMethod = objectMetadata.serviceMethodContexts[i];
+   	   			
+   	   			if(mw3.isHiddenMethodContext(serviceMethod)) continue;
+%>
+
+        <li id="<%=serviceMethod.methodName + '_' + this.objectId%>">
+        	<a href="#" onClick="<%=methods[serviceMethod.methodName].caller()%>">
+        		<span style=""><%=mw3.localize(serviceMethod.displayName)%></span>
+        	</a>
+        </li>
+<%
+			}
+		}
+%>			       
+    </ul>
+</div>
+
+<%
+	}
+%>	

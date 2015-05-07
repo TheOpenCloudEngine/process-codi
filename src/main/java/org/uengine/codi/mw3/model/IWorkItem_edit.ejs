@@ -1,0 +1,239 @@
+<%
+	if(value){
+%>
+<div class="view_box2 workitem_edit" style="<%= (mw3.how == 'sns' && value.taskId > -2 ? 'background:#fff; margin:0px;padding-bottom:5px;' : '')%>" >
+<%
+		if(mw3.when == 'new'){
+%>			
+				<div id="wih_button" style="<%=hideButton ? "display:none;" : ""%>">		
+					<a class="<%= value.type=='comment'?'comment_btn_on':'comment_btn_off' %>" onclick="<%=methods.newComment.caller()%>"><span class="icon-bubble"></span><span><%=mw3.localize("$Write")%></span><div class="comment_select"></div></a>
+					<!-- 파일 -->
+    				<a class="<%= (value.type=='file' || value.type=='document')?'comment_btn_on':'comment_btn_off' %>" onclick="<%=methods.newDocument.caller()%>"><span class="icon-attachment"></span><span id="method_<%=objectId%>_newFile"><%=mw3.localize("$File")%></span><div class="comment_select"></div></a>
+    				
+<%
+			var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");		
+			if( session && session.ux != 'phone'){
+				var newActivityFlag = true;
+				
+				if( value.instId == null && value.dueDate != null ){
+					newActivityFlag = false;
+				}
+				
+				if( (session && session.employee.preferUX != 'sns') || session.ux == 'oce'){
+					var hideButton = (mw3.how == 'sns' && mw3.where == 'oce');
+					if( session && session.ux != 'pad'){
+%>
+					<!-- 메모 -->			
+					<a class="<%= value.type=='memo'?'comment_btn_on':'comment_btn_off' %>" onclick="<%=methods.newMemo.caller()%>"><span class="icon-newspaper"></span><span id="method_<%=objectId%>_newMemo"><%=mw3.localize("$Memo")%><div class="comment_select"></div></span></a>
+        			
+        			<!-- 회상회의 -->
+        			<a class="<%= value.type=='remoteConf'?'comment_btn_on':'comment_btn_off' %>" onclick="<%=methods.newRemoteConference.caller()%>"><span class="icon-screen"></span><span id="method_<%=objectId%>_newRemoteConference"><%=mw3.localize("$RemoteConference")%><div class="comment_select"></div></span></a>
+        			
+<%
+					}
+%>
+    				<!-- 소스코드 -->
+    				<a class="<%= value.type=='src'?'comment_btn_on':'comment_btn_off' %>" onclick="<%=methods.newSourceCode.caller()%>"><span class="icon-code"></span><span id="method_<%=objectId%>_newSourceCode"><%=mw3.localize("$SourceCode")%><div class="comment_select"></div></span></a>
+					
+<%		
+					if(session && session.employee && session.employee.approved && !session.employee.guest && newActivityFlag){
+%>
+					<!-- 앱 -->
+					<a class="<%= value.type=='etc'?'comment_btn_on':'comment_btn_off' %>" onclick="<%=methods.newActivity.caller()%>"><span class="glyphicon glyphicon-th" style="width:18px;"></span><span id="method_<%=objectId%>_newActivity">앱<div class="comment_select"></div></span></a>
+					
+<%
+					}	
+				}
+			}
+%>
+				</div>
+<%				
+		}
+%>
+
+
+
+	
+ 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="position:relative; z-index:98">
+<%		
+		if(value.type == "comment"){
+%>
+		<tr>
+			<td width="67">
+				<div style="margin-left:16px; width:51px"><%=fields.writer.here({when:'view'})%></div>
+			</td>
+			<td style=" padding:10px 0 10px 10px;">			
+				<div id="commandDiv_<%=objectId%>"> 
+					<textarea class="wih_comment_input post_<%=objectId%>" class="<%=value.type%>" _placeholder="<%=mw3.localize('$WhatYouThinkNow')%>" id="post_<%=objectId%>" value="<%=value.title ? value.title : ''%>" tabindex=1 rows="1"><%=value.title ? value.title : ''%></textarea>
+					<div id="commandRecommendDiv_<%=objectId%>"></div>
+					<div id="commandFollowerDiv_<%=objectId%>"></div>
+				</div>				
+			</td>			
+			<td width=50 align="center" style="padding-right:15px;">
+				<button type="button" class="btn btn-warning btn-sm btn-block" style="width:46px;" onClick="mw3.getFaceHelper('<%=objectId%>').sendComment()"  id="method_<%=objectId%>_add" ><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>		
+							
+			</td>
+		</tr> 
+<%
+			if(value.dueDate){
+%>
+		<tr>
+			<td colspan="3">
+				<span class="workdueDate"><a href="#"><span class="badge"><span class="icon-alarm2"></span><span style="display:inline-block; margin-left:5px;"> <%=fields.dueDate.here({when:'view'})%></span></span></a></span>
+			</td>
+		</tr>
+<%
+			}
+			
+		}else if(value.type == "src"){
+%>
+
+		<tr>
+			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px"> 
+				<div style="text-align:center"><%=mw3.localize('$Title')%></span>
+			</td>
+						
+			<td style=" padding:10px 10px 0px 0px;"> 
+				<input id="post_<%=objectId%>" class="wih_comment_input <%=value.type%>" value="<%=value.title ? value.title : ''%>" style="width:99%;-webkit-border-radius:3px;  border:1px solid #ccc">
+			</td>			
+			
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div style="padding:15px;">
+					<div style="position:relative; height:300px; border:1px solid #ccc;">
+						<%=fields.sourceCode.here()%>
+					</div>
+				</div>
+			</td>
+		</tr>				
+		<tr>
+			<td height="30" colspan="2" style="padding-left:15px;">
+<%
+			if(value.dueDate){
+%>
+				<span class="workdueDate" style="margin-left:0px;"><a href="#"><span class="badge"><span class="icon-alarm2"></span><span style="display:inline-block; margin-left:5px;"> <%=fields.dueDate.here({when:'view'})%></span></span></a></span>
+<%
+			}
+%>		
+				<button type="button" class="btn btn-warning btn-sm "  onClick="<%=methods.add.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>		
+				<button type="button" class="btn btn-success btn-sm "  onClick="<%=methods.compile.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize("$Compile")%></button>
+			</td>
+		</tr>
+<%		
+		}else if(value.type == "memo"){
+%>
+
+		<tr>
+			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px"> 
+				<div style="text-align:center"><%=mw3.localize('$Title')%></span>
+			</td>			
+			<td style=" padding:10px 10px 0px 0px;"> 
+				<input id="post_<%=objectId%>" class="wih_comment_input <%=value.type%>" value="<%=value.title ? value.title : ''%>"  style="width:99%;-webkit-border-radius:3px;  border:1px solid #ccc">
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div style="padding:15px;">
+						<%=fields.memo.here({when:'edit'})%>
+				</div>
+			</td>
+		</tr>				
+		<tr>
+			<td height="30" colspan="2" style="padding-left:15px; ">
+<%
+			if(value.dueDate){
+%>
+				<span class="workdueDate" style="margin-left:0px;"><a href="#"><span class="badge"><span class="icon-alarm2"></span><span style="display:inline-block; margin-left:5px;"> <%=fields.dueDate.here({when:'view'})%></span></span></a></span>
+<%
+			}
+%>			
+				<button type="button" class="btn btn-warning btn-sm "  onClick="<%=methods.add.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>		
+			</td>
+		</tr>
+<%		
+		}else if(value.type == "file" || value.type == 'document'){
+%>
+		<tr>
+			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px"> 
+				<div style="text-align:center"><%=mw3.localize('$Title')%></span>
+			</td>			
+			<td style=" padding:10px 10px 0px 0px;" colspan="2"> 
+				<input id="post_<%=objectId%>" class=" wih_comment_input <%=value.type%>" value="<%=value.title ? value.title:''%>" style="width:99%;-webkit-border-radius:3px; border:1px solid #ccc">
+			</td>			
+			
+		</tr>			
+		<tr>
+			<td width="50" height="30" style=" padding:10px 15px 0px 10px;">
+				
+			</td>
+			<td style=" padding:10px 15px 0px 0px;">
+				<%if (value.taskId != null){%>
+					<span style="float:left; margin-right:15px;">					
+						<%=fields.versionUpOption.here()%>					
+					</span>
+				<%}%>
+				<span style="float:left; margin-top:4px;">
+					<%=fields.file.here()%>
+				</span>
+			</td>
+			<td style=" padding:10px 0px 0px 0px;">				
+				<button type="button" class="btn btn-warning btn-sm "  onClick="<%=methods.add.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>		
+			</td>
+		</tr>
+<%
+			if(value.dueDate){
+%>
+		<tr>
+			<td colspan="3">
+				<span class="workdueDate"><a href="#"><span class="badge"><span class="icon-alarm2"></span><span style="display:inline-block; margin-left:5px;"> <%=fields.dueDate.here({when:'view'})%></span></span></a></span>
+			</td>
+		</tr>
+<%
+			}
+			
+		}else if(value.type == "remoteConf"){
+%>
+		<tr>
+			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;"> 
+				<div style="text-align:center"><%=mw3.localize('$Title')%></span>
+			</td>			
+			<td style=" padding:10px 0;"> 
+				<input id="post_<%=objectId%>" class=" wih_comment_input <%=value.type%>" value="<%=value.title ? value.title:''%>" style="width:99%;-webkit-border-radius:3px; border:1px solid #ccc">
+			</td>			
+			<td width=50 align="center" style="padding-right:15px;">
+				<button type="button" class="btn btn-warning btn-sm btn-block" style="width:46px;" onClick="<%=methods.add.caller()%>"  id="method_<%=objectId%>_add" ><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<div id="commandFollowerDiv_<%=objectId%>"></div>
+			</td>
+		</tr>	
+		<tr>
+			<td width="110" height="25" style="color:#8D98AF; padding-left:10px;">
+				<div style="text-align:center">회의 시간 설정:</span></div>
+			</td>
+			<td>
+				<%=fields.remoteConferenceDate.here()%>
+			</td>
+		</tr>
+			
+<%
+			if(value.dueDate){
+%>
+		<tr>
+			<td colspan="3">
+				<span class="workdueDate"><a href="#"><span class="badge"><span class="icon-alarm2"></span><span style="display:inline-block; margin-left:5px;"> <%=fields.dueDate.here({when:'view'})%></span></span></a></span>
+			</td>
+		</tr>	
+<%
+			}	
+		}
+%>
+	</table>
+</div>
+
+<%
+	}
+%>

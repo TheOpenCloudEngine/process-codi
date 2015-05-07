@@ -1,0 +1,36 @@
+<%
+	if(value != null && typeof value != 'undefined'){
+%>
+<div class="workitem_list">
+<%
+		if(typeof options == 'undefined') 
+			options = objectMetadata;
+
+		for(var i=0; i<value.length; i++){
+			if('ovryCmnt' == value[i].type){ 
+			
+%>
+	<%=mw3.locateObject(value[i], value[i].__className, null, options, {objectId: objectId, name: '[' + i + ']'})%>
+<%
+			}
+		}
+					
+		for(var i=0; i<value.length; i++){
+			if('ovryCmnt' != value[i].type){ 
+			
+%>
+	<%=mw3.locateObject(value[i], value[i].__className, null, options, {objectId: objectId, name: '[' + i + ']'})%>
+<%
+			}
+		}
+
+
+
+		
+		mw3.onLoadFaceHelperScript();
+%>		
+</div>
+
+<%
+	}		
+%>

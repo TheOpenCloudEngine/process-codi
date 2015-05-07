@@ -1,0 +1,17 @@
+<div id="searchbox">
+	<div class="searchboxline">
+		<div class="searchboxline2">
+			<div class="newprocessbtn"><a onClick="<%=methods.startNewProcess.caller() %>" ><div id="startBtn">NEW</div></a></div>
+			<div class="searchboxarea">
+				<ul>
+					<li class="inputleft"><img src="/uengine-web/images/waveStyle/searchLeft.gif" border="0" /></li>
+					<li class="inputcenter">
+						<input id="search_<%=objectId%>" class="contactsinput" value="<%=value.keyword%>" onkeydown="mw3.getFaceHelper('<%=objectId%>').keydown(this);">
+					</li>
+					<li class="inputright" onClick="<%=methods.search.caller() %>" ><img src="/uengine-web/images/waveStyle/searchRight.gif" border="0" /></li>
+					<li style="clear:left;"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>  

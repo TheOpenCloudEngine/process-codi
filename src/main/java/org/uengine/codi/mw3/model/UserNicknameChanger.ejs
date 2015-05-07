@@ -1,0 +1,19 @@
+<%
+	if(value){
+		if(value.metaworksContext.when == mw3.WHEN_EDIT){
+%>
+	
+
+<div><span style="margin:0px">친구별칭 </span> <input type="text" class="form-control" style="display:inline-block; width:230px;fint-size:12px;" id="userNickname_<%=objectId%>" value="<%=value ? value.userNickname : ""%>"/></div>
+
+
+<%
+		}else {
+%>
+
+	<div id="userNickname_<%=objectId%>" class="instanceName" ><%=value.userNickname%></div>
+
+<%
+		}
+	}
+%>	

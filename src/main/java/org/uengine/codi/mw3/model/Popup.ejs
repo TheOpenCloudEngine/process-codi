@@ -1,0 +1,28 @@
+<%
+	if(value){
+%>
+	
+<div id="cluetip-outer" class="cluetip-outer" style="width: <%=value.width%>px;">
+	<h3 id="cluetip-title" class="cluetip-title" style="display: none"><b><%=mw3.localize(value.name)%></b>&nbsp;</h3>
+	<div id="cluetip-inner">
+		<div id="cluetip-close2" class="cluetip-close2" style="display: none">
+			<a><span class="ui-icon ui-icon-closethick"  onclick="mw3.getFaceHelper(<%=objectId%>).destoryPopup()"></span></a>
+		</div>
+	
+		<div id="addcontact-con" style="position:relative;display: block; overflow:auto;  height:<%=value.height%>px">
+			<%if(value.panel){%>
+				<%=fields.panel.here()%>
+			<%}else{%>
+				&nbsp;
+			<%}%>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div id="cluetip-extra"></div>
+<div class="cluetip-arrows" style="display: block; z-index: 98;"></div>
+
+<%
+	}
+%>	

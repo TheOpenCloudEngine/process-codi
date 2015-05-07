@@ -1,0 +1,25 @@
+	<ul>
+<%
+	if(value){
+%>
+	
+		<li>
+			<a href="#" onClick="<%=methods.loadUnformed.caller()%>"><span class="icon-folder"></span><%=value.tenentId%>의 미분류문서</a>
+		</li>
+<%
+		if(value.documentNode){
+		
+			for (var i=0; i<value.documentNode.length; i++){
+				if(typeof options == 'undefined') 
+					options = objectMetadata;		
+				
+				options['index'] = i;
+				options['htmlTag'] =  'li';
+	%>
+		<%=mw3.locateObject(value.documentNode[i], value.documentNode[i].__className, null, options, {objectId: value.__objectId, name:'documentNode[' + i + ']'})%>	
+	<%
+			}
+		}
+	}
+%>	
+</ul>

@@ -1,0 +1,33 @@
+	<%
+		if(value){
+	%>
+<div id="searchbox" style="height:42px;border-bottom: 1px solid #9EBFC4">
+	<div class="adduserline"> 
+		<dl>
+			<div class="usersAdded">
+			 	<div id="replyUsers">
+				 	<dl>
+					 	<dd class="followers_box">
+				 			<%=fields.followers.here({alignment:'horizontal'})%>
+				 			<div class="clear"></div>	
+				 		</dd>
+				 		
+				 		<dd class="followers_addbtn">
+							<img src="images/waveStyle/addUser.png" title="<%=mw3.localize('$AddUser')%>" onclick="javascript:<%=methods.popupAddFollowers.caller()%>" style="margin-top:7px;">
+				 		</dd>
+				 		<div class="closeFollowerBtn" onClick="mw3.getFaceHelper('<%=objectId%>').closeFllowers()">▲</div>
+				 		
+				 		<div class="clear"></div>	
+				 					 		
+				 	</dl>	
+				 				 	
+				</div>
+			</div>
+		</dl>
+	</div>
+	<div class="moreFollowerBtn" onClick="mw3.getFaceHelper('<%=objectId%>').moreFllowers()">▼</div>
+	
+</div>
+<%
+		}
+	%>

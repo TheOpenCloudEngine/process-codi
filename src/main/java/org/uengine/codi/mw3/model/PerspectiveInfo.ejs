@@ -1,0 +1,42 @@
+<%
+	if(value){
+%>
+	<%=fields.topPanel.here()%>
+	<!--
+	<div class="toolbar">
+        <ul>
+<%
+		var session = mw3.fn.getSession();
+		
+		if(session.lastPerspecteMode == 'personal' && session.lastSelectedItem != session.user.userId){
+%>       
+            <li onclick="<%=methods.switchToRequest.caller()%>" <%=(value.type=='request') ? "class='toolbar_current'" : ""%>>
+            	<span class="toolbarIcon icon-feed"></span><span><%=mw3.localize("$StartedBy")%></span>
+            </li>
+<%       
+        }else{
+%>
+            <li onclick="<%=methods.switchToInstanceList.caller()%>" <%=(value.type=='allICanSee') ? "class='toolbar_current'" : ""%>>
+            	<span class="toolbarIcon icon-feed"></span><span><%=mw3.localize("$ComingUp")%></span>
+            </li>
+<%       
+	    }
+%>
+
+
+            <li onclick="<%=methods.switchToInstanceListFollowing.caller()%>" <%=(value.type=='following') ? "class='toolbar_current'" : ""%>>
+            	<span class="toolbarIcon icon-users"></span><span ><%=mw3.localize("$Following")%></span>
+            </li>               
+            <li onclick="<%=methods.switchToInstanceListMyToDo.caller()%>" <%=(value.type=='inbox') ? "class='toolbar_current'" : ""%>>
+            	<span class="toolbarIcon icon-drawer2"></span><span><%=mw3.localize("$ToDo")%></span>
+            </li>               
+            <li onclick="<%=methods.switchToScheduleCalendar.caller()%>" <%=(value.type=='calendar') ? "class='toolbar_current'" : ""%>>
+            	<span class="toolbarIcon icon-calendar"></span><span><%=mw3.localize("$Calendar")%></span>
+            </li>
+        </ul>
+	</div>
+	-->
+
+<%
+	}
+%>

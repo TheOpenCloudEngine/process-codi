@@ -1,0 +1,14 @@
+<%
+	if(value != null && typeof value != 'undefined'){
+		if(value.loaded){
+%>
+	<%=fields.session.here()%>
+	<%=fields.content.here()%>
+<%
+		}else{
+%>
+	Loading
+<%
+	}
+	}
+%>

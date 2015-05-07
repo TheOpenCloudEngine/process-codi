@@ -1,0 +1,33 @@
+<%
+if(value){
+%>	
+
+
+<div style="width:340px; margin:15px auto;">
+<%
+	for(var i in value.optionValues){
+%>
+		<div style=" float:left; text-align:center; margin:0px; width:170px">
+			<div class="security_hidden_radio_box">
+				<div class="security_image_radio">
+				<%if(i == 0){%>  
+					<img src="images/waveStyle/security_btn_choiceImg<%=value.optionValues[i]%>.png" id="choiceImg<%=value.optionValues[i]%>" name="choice<%=value.optionValues[i]%>">
+				</div>
+					<input class="security_hidden_radio"  type="radio" checked="checked" name="img_radio_<%=objectId%>" value="<%=value.optionValues[i]%>" onClick="mw3.getFaceHelper('<%=objectId%>').checkSecuopt(this.value , '')">
+						
+				<%}else{%>
+					<img src="images/waveStyle/security_btn_off_<%=value.optionValues[i]%>.png" id="choiceImg<%=value.optionValues[i]%>" name="choice<%=value.optionValues[i]%>">
+				</div>
+					<input class="security_hidden_radio"  type="radio"  name="img_radio_<%=objectId%>" value="<%=value.optionValues[i]%>" onClick="mw3.getFaceHelper('<%=objectId%>').checkSecuopt(this.value , '')">						
+				<%}%>	
+			</div>
+			<div style="margin-top:15px;" ><%=mw3.localize(value.optionNames[i])%></div>
+		</div>
+<%
+	}
+%>
+<div class="clear"></div>
+</div>	
+<%	
+}
+%>

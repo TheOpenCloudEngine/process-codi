@@ -1,0 +1,98 @@
+<%
+	if(value){
+	
+	   var portrait = '';
+        if(value.roleName)
+                portrait = 'portrait/role_' + value.roleName + '.thumnail'; 
+%>
+		<%
+		if(mw3.how == 'manager'){
+		%>
+			<div class="form_table2"> 
+				<table border="1" cellspacing="0" >	
+					<tbody>
+						<tr>
+							<th width=100>회사명</th>
+							<td><%=fields.comCode.here({when:'view'})%></td>
+						</tr>
+						<tr>
+							<th>역할코드</th>
+							<td><%=fields.roleCode.here({when:'view'})%></td>
+						</tr>	
+						<tr>
+							<th>역할정보</th>
+							<td><%=fields.descr.here({when:'edit'})%></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		<%}else{ %>
+		<%
+				if(mw3.where == 'navigator'){
+		%>	
+			<a style="cursor: pointer" onClick="<%=methods.loadRole.caller() %>"><span class="icon-user4"></span><div style="display:inline-block"><%=fields.roleName.here() %></div></a>
+			
+		<%
+					if(value.selected) {
+		%>
+			<ul>
+				<li style="padding-left:15px;">	
+					<%=fields.employeeList.here()%>
+				</li>
+			</ul>
+		<%
+					}
+				} else if(mw3.where == 'pickerlist'){
+        %>
+             <div class="user" style="cursor: Default;">        
+                <div class="user_focus" style="background-size:cover;" title="<%=value.partName%>"> 
+                    <img id="user_picture_<%=objectId%>" src="<%=portrait%>" class="pic">
+                </div>
+                <div class="user_detail">
+                    <span class="fontbold"><%=fields.roleName.here()%></span>
+                </div>
+                <div style="clear:both"></div>              
+                <div style="padding:3px 0px; border-bottom:1px solid #e7e7e7;"></div>
+            </div>
+        <%
+				}else{
+					if(mw3.when == 'new' || mw3.when == 'edit') {
+		%>
+				
+				
+				<div class="form_table">
+					<table style="width: 100%;" border="0" cellspacing="0">	
+						<tbody>
+							<tr>
+								<th style="width:auto"><%=mw3.localize("$RoleName")%> </th>
+								<td><%=fields.roleName.here() %></td>
+							<tr>
+							<tr>
+								<th style="width:auto"><%=mw3.localize("$RoleDesc")%></th>
+								<td><%=fields.descr.here()%></td>
+							<tr>
+							<tr>
+								<th style="width:auto"><%=mw3.localize("$LogoFile")%></th>
+								<td><%=fields.logoFile.here({when:'edit'})%></td>
+							<tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div id="btnline" style="padding-top:8px; border-top:1px solid #ccc;">
+					<ul>	
+						<li><a id="wBtn" href="#" onClick="<%=methods.saveMe.caller()%>"><span><%=mw3.localize("$Save")%></span></a></li>	
+						
+					</ul>
+				</div>
+			
+				
+		
+		<%			
+					}
+		%>
+<%		
+			}
+		}
+	}
+%>			

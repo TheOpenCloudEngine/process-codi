@@ -1,0 +1,103 @@
+.x-grid3-hd-inner {
+    padding:3px 3px 3px 3px  !important;
+    border-bottom: solid 1px lightgray;
+}
+
+.x-layout-split {
+    width: 1px;
+}
+
+.ux-tasktree {
+    border-right: 1px solid #99BBE8;
+}
+
+.ux-tasktree .x-grid3-scroller {
+    overflow-y: hidden !important;
+    overflow-x: scroll !important;
+}
+
+.ux-summary {
+    border: 1px solid red;
+    background-color: #FFF3A5;
+    height: 8px;
+    position: relative;
+    top: 2px;
+    left: -2px;
+    cursor: default;
+}
+
+.move_cursor {
+    cursor: move  !important;
+}
+
+.ux-summary .progressbar {
+    border: none;
+    background-color: #FFBC00;
+    height: 8px;
+}
+
+.ux-summary .leftarrow {
+    background: url("../images/parentdownarrow.png") no-repeat scroll transparent;
+    background-position: -6px -6px;
+    border: 0 none;
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    bottom: -7px;
+    left: -1px;
+}
+
+.ux-summary .rightarrow {
+    background: url("../images/parentdownarrow.png") no-repeat scroll transparent;
+    background-position: 0 -6px;
+    border: 0 none;
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    bottom: -7px;
+    right: -1px;
+}
+
+.ux-schedulebar {
+    border: 1px solid #3172D7;
+    background-color: #E5ECF5;
+    height: 14px;
+    position: relative;
+    top: 2px;
+    left: -2px;
+    cursor: default;
+}
+
+.ux-schedulebar .progressbar {
+    border: none;
+    background-image: url("../images/progress_filled.png");
+    background-repeat: repeat;
+    height: 14px;
+}
+
+.ux-milestone {
+    background: url("../images/milestone.png") no-repeat transparent;
+    height: 16px;
+    width: 16px;
+    position: relative;
+    top: 2px;
+    left: 2px;
+    padding-left: 2px;
+    cursor: default;
+}
+
+.x-tool-zoomin {
+    background-image: url("../images/zoom_in.png") !important;
+}
+
+.x-tool-zoomin-over {
+    background-image: url("../images/zoom_in(2).png") !important;
+}
+
+.x-tool-zoomout {
+    background-image: url("../images/zoom_out.png") !important;
+}
+
+.x-tool-zoomout-over {
+    background-image: url("../images/zoom_out(2).png") !important;
+}

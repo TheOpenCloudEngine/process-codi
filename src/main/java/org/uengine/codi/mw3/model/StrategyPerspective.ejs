@@ -1,0 +1,33 @@
+<%
+	if(value != null && typeof value != 'undefined'){
+%>
+
+<%if(value.selected){%>
+
+<div id="navigator">
+	<div class="depth1">
+		<div class="depth1td_off"><b><%=value.label%></b></div>
+	</div>	
+	<div class="depth2">
+		<ul class="fist_menu">
+			<li>Strategy Tree Here<li>
+		</ul>
+		
+	</div>
+</div>
+
+
+<%}else{%>
+
+<div id="navigator">
+	<div class="depth1">
+		<div class="depth1td_on" onClick="javascript:toggleTree('<%=objectId%>')"><b><%=value.label%></b></div>
+	</div>	
+</div>
+
+<%}%>
+
+
+<%
+	}
+%>

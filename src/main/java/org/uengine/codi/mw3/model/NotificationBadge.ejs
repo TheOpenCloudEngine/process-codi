@@ -1,0 +1,18 @@
+<span style="float:left">	
+	<a class="badgeMail" href="#" onClick="<%=methods.showList.caller()%>">
+		<span class="glyphicon glyphicon-send" style="font-size:19px; color:#fff;margin-right:3px;line-height: 20px;"></span>
+	</a>	
+	
+</span>
+
+<% 
+	 if(value.newItemCount>0){
+%>
+		<span class="showTodoCount">	
+			<a class="badgeRed badgeBlue" href="#" onClick="<%=methods.showList.caller()%>" style="display:none">
+				<span><%=value.newItemCount%>333</span>
+			</a>	
+		</span>
+<% 
+	}
+%>

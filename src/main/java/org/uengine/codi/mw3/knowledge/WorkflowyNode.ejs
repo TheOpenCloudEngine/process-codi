@@ -1,0 +1,54 @@
+<%
+	if(value){
+		if(value.parentNode!=null){
+%>
+	
+	<ul>
+		<li>
+		
+<%
+			if(mw3.when != 'read'){
+%>			
+			<div id="wfnode_<%=objectId%>" style="height:24px">
+				<%  if(value.linkedInstId){%><span onclick="<%=methods.linkInstance.caller()%>">[<%=value.linkedInstId%>]</span><%}%>
+				<input type="text" id="wfnode_content_<%=objectId%>" size="100%" style="border:0; font-family: 'Helvetica Neue', Arial, Sans-serif; font-size: 16; font-weight: normal;none;background:transparent" value="<%=value.name%>" onkeydown="mw3.getFaceHelper('<%=objectId%>').press(this)">
+				<div id="wfinfo_<%=objectId%>"></div>
+			</div>
+<%
+			} else {
+%>
+			<div id="wfnode_<%=objectId%>" style="height:24px">
+				<input type="text" id="wfnode_content_<%=objectId%>" size="100%" style="border:0; font-family: 'Helvetica Neue', Arial, Sans-serif; font-size: 12px; font-weight: normal" value="<%=value.name%>" readonly>
+				<div id="wfinfo_<%=objectId%>"></div>
+			</div>
+<%			
+			}	
+
+		}
+		
+		if(value.childNode){
+%>			
+					<%=fields.childNode.here()%>
+<%
+		}
+		
+		if(value.parentNode!=null){
+%>
+		</li>
+<%		
+		}else{
+%>
+		<span style="padding-left:40px">
+			<%=methods.newNode.here()%>
+		</span>
+<%
+		}
+		
+		if(value.parentNode!=null){
+%>		
+	</ul>
+<%		
+		}
+	}
+%>	
+
