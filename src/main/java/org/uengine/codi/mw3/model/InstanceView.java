@@ -17,11 +17,12 @@ import org.metaworks.annotation.Test;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.filter.AllSessionFilter;
 import org.uengine.processmanager.ProcessManagerRemote;
 
-
+@Component
 public class InstanceView {
 
 	@Autowired

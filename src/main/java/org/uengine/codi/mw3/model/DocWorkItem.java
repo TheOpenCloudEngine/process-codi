@@ -58,9 +58,7 @@ public class DocWorkItem extends GenericWorkItem {
 		fileWorkItem.setMajorVer(1);
 		fileWorkItem.setFolderId(this.getFolderId());
 		fileWorkItem.setGrpTaskId(this.getTaskId());
-		fileWorkItem.setNotReturn(true);
 		fileWorkItem.add();
-		fileWorkItem.setNotReturn(false);
 
 		DocumentTool tool = new DocumentTool();
 		tool.session = session;

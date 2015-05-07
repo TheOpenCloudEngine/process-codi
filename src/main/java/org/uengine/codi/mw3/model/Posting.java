@@ -8,11 +8,12 @@ import org.directwebremoting.io.FileTransfer;
 import org.metaworks.annotation.Face;
 import org.metaworks.annotation.ServiceMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.CodiClassLoader;
 import org.uengine.processmanager.ProcessManagerRemote;
 import org.uengine.util.UEngineUtil;
 
-
+@Component
 public class Posting {
 	
 

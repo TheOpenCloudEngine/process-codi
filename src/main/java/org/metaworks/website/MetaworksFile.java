@@ -1,7 +1,7 @@
 package org.metaworks.website;
 
 import org.metaworks.website.AbstractMetaworksFile;
-import org.uengine.kernel.FormActivity;
+import org.uengine.kernel.GlobalContext;
 import org.uengine.util.UEngineUtil;
 
 public class MetaworksFile extends AbstractMetaworksFile{
@@ -9,7 +9,7 @@ public class MetaworksFile extends AbstractMetaworksFile{
 	@Override
 	public String overrideUploadPathPrefix() {
 		
-		String base = FormActivity.FILE_SYSTEM_DIR;
+		String base = GlobalContext.FILE_SYSTEM_DIR;
 		
 		return base + "/";
 		

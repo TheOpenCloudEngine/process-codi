@@ -12,7 +12,7 @@ import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.dwr.TransactionalDwrServlet;
 import org.springframework.web.context.WebApplicationContext;
-import org.uengine.codi.platform.SecurityContext;
+//import org.uengine.codi.platform.SecurityContext;
 import org.uengine.processmanager.ProcessManagerBean;
 import org.uengine.processmanager.ProcessManagerRemote;
 

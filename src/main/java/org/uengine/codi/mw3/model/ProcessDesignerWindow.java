@@ -3,7 +3,9 @@ package org.uengine.codi.mw3.model;
 import org.metaworks.MetaworksContext;
 import org.metaworks.annotation.Face;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 @Face(ejsPath = "genericfaces/Window.ejs", displayName = "ProcessDesigner Window", options = { "hideLabels" }, values = { "true" })
 public class ProcessDesignerWindow extends ContentWindow {
 	

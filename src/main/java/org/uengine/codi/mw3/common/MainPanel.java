@@ -1,9 +1,11 @@
 package org.uengine.codi.mw3.common;
 
 import org.metaworks.annotation.Available;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.model.PerspectivePanel;
 
+@Component
 public class MainPanel {
 	 
 	PerspectivePanel perspectivePanel;

@@ -4,7 +4,9 @@ import org.metaworks.annotation.Face;
 import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.Name;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 @Face(ejsPath="dwr/metaworks/genericfaces/Window.ejs",
 	  displayName="InstanceViewContent",
 	  options={"hideLabels", "maximize", "hideTitleBar"}, 

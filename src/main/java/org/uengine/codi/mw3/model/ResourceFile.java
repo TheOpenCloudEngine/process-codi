@@ -401,7 +401,7 @@ public class ResourceFile implements ContextAware {
 			name = name.substring(0, name.length() - 9);
 			
 			procDef = processManager.getProcessDefinition(getAlias());
-			String fullCommandPhrase = procDef.getDescription().getText();
+			String fullCommandPhrase = procDef.getDescription();
 			
 			if(fullCommandPhrase!=null){
 				int commandCotentStarts = fullCommandPhrase.indexOf(':');
@@ -415,7 +415,7 @@ public class ResourceFile implements ContextAware {
 			name = name.substring(0, name.length() - 4);
 			
 			procDef = processManager.getProcessDefinition(getAlias());
-			String fullCommandPhrase = procDef.getDescription().getText();
+			String fullCommandPhrase = procDef.getDescription();
 			
 			if(fullCommandPhrase!=null){
 				int commandCotentStarts = fullCommandPhrase.indexOf(':');

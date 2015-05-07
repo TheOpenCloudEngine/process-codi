@@ -119,8 +119,8 @@ public class InstanceTooltip implements ContextAware {
 					if( scopeAct.getName() != null){
 						EventTrigger eventTrigger = new EventTrigger();
 						eventTrigger.setInstanceId(this.getInstanceId().toString());
-						eventTrigger.setDisplayName(scopeAct.getDescription() == null ? scopeAct.getName().getText() : scopeAct.getDescription().getText());
-						eventTrigger.setEventName(scopeAct.getName().getText());
+						eventTrigger.setDisplayName(scopeAct.getDescription() == null ? scopeAct.getName() : scopeAct.getDescription());
+						eventTrigger.setEventName(scopeAct.getName());
 						eventTriggers[i] = eventTrigger;
 					}else{
 						continue;

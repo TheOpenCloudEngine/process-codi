@@ -2,8 +2,6 @@ package org.uengine.sso;
 
 import java.util.HashMap;
 
-import net.sf.json.JSONObject;
-
 public interface BaseAuthenticate {
 	public String authorize(HashMap<String, String> params);		// 인증 함수 
 	public String serviceTicket(String strTgt, String ssoService);	// 토큰 발행을 위한 코드 발급 함수 

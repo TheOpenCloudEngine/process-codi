@@ -18,7 +18,7 @@ import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.dwr.TransactionalDwrServlet;
 import org.oce.garuda.multitenancy.TenantContext;
 import org.uengine.codi.mw3.model.Session;
-import org.uengine.codi.platform.SecurityContext;
+//import org.uengine.codi.platform.SecurityContext;
 import org.uengine.kernel.GlobalContext;
 
 public class CodiDwrServlet extends TransactionalDwrServlet{
@@ -76,7 +76,7 @@ public class CodiDwrServlet extends TransactionalDwrServlet{
 		
 		//StackTraceElement[] stackElem = Thread.currentThread().getStackTrace();
 		
-		boolean needToCheck = SecurityContext.getThreadLocalInstance().isNeedSecurityCheck(); //false;
+		boolean needToCheck = false;//SecurityContext.getThreadLocalInstance().isNeedSecurityCheck(); //false;
 //		for(int i = stackElem.length-1; i > 4; i--){ //beyond 5 steps, they are the actual call stack.
 //			if(MetaworksRemoteService.class.getName().equals(stackElem[i].getClassName())
 //					&& "callMetaworksService".equals(stackElem[i].getMethodName())

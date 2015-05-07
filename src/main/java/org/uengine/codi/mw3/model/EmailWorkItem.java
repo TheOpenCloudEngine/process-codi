@@ -1,7 +1,10 @@
 package org.uengine.codi.mw3.model;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 
+@Component
 public class EmailWorkItem extends MemoWorkItem{
 	
 	public EmailWorkItem(){

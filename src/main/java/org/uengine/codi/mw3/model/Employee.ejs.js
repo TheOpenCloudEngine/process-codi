@@ -1,4 +1,4 @@
-var org_uengine_codi_mw3_model_IEmployee = function(objectId, className){
+var org_uengine_codi_mw3_model_Employee = function(objectId, className){
 	this.objectId = objectId;
 	this.className = className;
 	
@@ -36,7 +36,7 @@ var org_uengine_codi_mw3_model_IEmployee = function(objectId, className){
 	$('#objDiv_' + this.objectId).parent().parent().css({'border':'none'});
 };
 
-org_uengine_codi_mw3_model_IEmployee.prototype = {
+org_uengine_codi_mw3_model_Employee.prototype = {
 	getValue : function(){
 		var object = mw3.getObjectFromUI(this.objectId);//objects[this.objectId];
 		

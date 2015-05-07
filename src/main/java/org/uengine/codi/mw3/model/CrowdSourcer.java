@@ -4,9 +4,11 @@ import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.Id;
 import org.metaworks.annotation.ServiceMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.processmanager.ProcessManagerRemote;
 
+@Component
 public class CrowdSourcer {
 	
 	@Autowired

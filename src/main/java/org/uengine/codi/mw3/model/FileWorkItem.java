@@ -29,6 +29,7 @@ import org.metaworks.annotation.Test;
 import org.metaworks.dao.Database;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.website.MetaworksFile;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.util.CodiStatusUtil;
 import org.uengine.kernel.GlobalContext;
 import org.uengine.persistence.dao.UniqueKeyGenerator;
@@ -42,6 +43,7 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 
+@Component
 public class FileWorkItem extends WorkItem{
 
 	public FileWorkItem(){

@@ -9,6 +9,7 @@ import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.ITool;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.filter.AllSessionFilter;
@@ -23,6 +24,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
+@Component
 //@Face(ejsPath="faces/org/metaworks/widget/Window.ejs", options={"hideLabels"}, values={"true"}, displayName="업무 처리 화면")
 public class WorkItemHandler implements ContextAware {
 	
@@ -249,7 +251,7 @@ public class WorkItemHandler implements ContextAware {
 		cancelledHistory.processManager = processManager;
 		cancelledHistory.session = session;
 		cancelledHistory.setInstId(new Long(getInstanceId()));
-		cancelledHistory.setTitle(humanActivity.getName().getText() + " task has been cancelled by me.");
+		cancelledHistory.setTitle(humanActivity.getName() + " task has been cancelled by me.");
 		
 		
 		cancelledHistory.setWriter(session.getUser());
@@ -312,7 +314,7 @@ public class WorkItemHandler implements ContextAware {
 		cancelledHistory.session = session;
 		cancelledHistory.setInstId(new Long(getInstanceId()));
 		
-		cancelledHistory.setTitle(humanActivity.getName().getText() + " has been skipped by me.");
+		cancelledHistory.setTitle(humanActivity.getName() + " has been skipped by me.");
 		cancelledHistory.setWriter(session.getUser());
 		cancelledHistory.add();
 		
@@ -552,7 +554,7 @@ public class WorkItemHandler implements ContextAware {
 	}
 	
 	private IInstance saveLastComent(Instance instanceRef) throws Exception{
-		String title = humanActivity.getDescription() != null ? humanActivity.getDescription().getText() : null;
+		String title = humanActivity.getDescription() != null ? humanActivity.getDescription() : null;
 		
 		IUser writer = new User();
 		writer.setUserId(session.getUser().getUserId());

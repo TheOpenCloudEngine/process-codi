@@ -12,10 +12,14 @@ import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.example.ide.CompileError;
 import org.metaworks.example.ide.SourceCode;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.util.CodiStringUtil;
-import org.uengine.kernel.FormActivity;
+import org.uengine.kernel.GlobalContext;
 import org.uengine.util.UEngineUtil;
 
+@Scope("request")
+@Component
 public class SourceCodeWorkItem extends WorkItem{
 	
 	public SourceCodeWorkItem(){
@@ -46,7 +50,7 @@ public class SourceCodeWorkItem extends WorkItem{
 			if(getSourceCode().getCode().length() > 2990){
 				
 				String relativeFilePath = UEngineUtil.getCalendarDir() + "/src" + getInstId() + "_" + System.currentTimeMillis() + ".html";
-				String absoluteFilePath = CodiStringUtil.lastLastFileSeparatorChar(FormActivity.FILE_SYSTEM_DIR) + relativeFilePath;
+				String absoluteFilePath = CodiStringUtil.lastLastFileSeparatorChar(GlobalContext.FILE_SYSTEM_DIR) + relativeFilePath;
 				
 				File contentFile = new File(absoluteFilePath);
 				contentFile.getParentFile().mkdirs();
@@ -77,7 +81,7 @@ public class SourceCodeWorkItem extends WorkItem{
 		if(getExtFile()!=null){
 			ByteArrayOutputStream bao = new ByteArrayOutputStream();
 
-			String absoluteFilePath = CodiStringUtil.lastLastFileSeparatorChar(FormActivity.FILE_SYSTEM_DIR) + getExtFile();
+			String absoluteFilePath = CodiStringUtil.lastLastFileSeparatorChar(GlobalContext.FILE_SYSTEM_DIR) + getExtFile();
 
 			UEngineUtil.copyStream(new FileInputStream(absoluteFilePath), bao);
 			

@@ -3,9 +3,6 @@ package org.uengine.sso;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
-
 import org.metaworks.dao.TransactionContext;
 import org.springframework.web.util.CookieGenerator;
 import org.uengine.codi.mw3.StartCodi;

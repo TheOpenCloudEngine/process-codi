@@ -3,6 +3,7 @@ package org.uengine.codi.mw3.knowledge;
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
 import org.metaworks.annotation.ServiceMethod;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.model.IUser;
 
 import com.mongodb.BasicDBObject;
@@ -12,6 +13,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
+@Component
 public class Workflowy implements ContextAware {
 	
 	public Workflowy(){

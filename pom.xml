@@ -18,6 +18,17 @@
 	</properties>
 
 	<repositories>
+
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
 		<repository>
 			<id>oss-rh</id>
 			<url>https://oss.sonatype.org/content/groups/public</url>
@@ -323,6 +334,12 @@
 			<!--<version>3.0.3</version>-->
 		<!--</dependency>-->
 
+        <dependency>
+            <groupId>opensymphony</groupId>
+            <artifactId>quartz-all</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+
 		<dependency>
 			<groupId>org.uengine.cloud.garuda</groupId>
 			<artifactId>garuda-api</artifactId>
@@ -390,17 +407,17 @@
 			<version>2.13.0-rc1</version>
 		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>org.apache.solr</groupId>-->
-			<!--<artifactId>solr</artifactId>-->
-			<!--<version>4.4.0</version>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr</artifactId>
+			<version>4.4.0</version>
+		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>org.apache.solr</groupId>-->
-			<!--<artifactId>solr-solrj</artifactId>-->
-			<!--<version>4.4.0</version>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>4.4.0</version>
+		</dependency>
 
 
 		<!--<dependency>-->
@@ -445,6 +462,11 @@
 			<!--<version>1.0</version>-->
 		<!--</dependency>-->
 
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
+        </dependency>
 
 		<dependency>
 			<groupId>com.artofsolving</groupId>

@@ -1,4 +1,4 @@
-package org.uengine.codi.cron;
+package org.uengine.codi.scheduler.email;
 
 //import com.sun.mail.pop3.POP3SSLStore;
 //import java.io.File;
@@ -23,17 +23,17 @@ import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
 import org.metaworks.MetaworksContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.admin.WebEditor;
 import org.uengine.codi.mw3.model.Company;
 import org.uengine.codi.mw3.model.EmailWorkItem;
 import org.uengine.codi.mw3.model.Employee;
 import org.uengine.codi.mw3.model.ICompany;
 import org.uengine.codi.mw3.model.IEmployee;
-import org.uengine.codi.mw3.model.Invitation;
 import org.uengine.codi.mw3.model.User;
 import org.uengine.processmanager.ProcessManagerRemote;
 
+@Component
 public class EMailReader {
 	
 	public ProcessManagerRemote processManager;
@@ -188,7 +188,8 @@ public class EMailReader {
 					emailWorkItem.setMemo(new WebEditor());
 					emailWorkItem.getMemo().setContents(sb.toString());
 					emailWorkItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
-					
+//                    emailWorkItem.setNotReturn(true);
+
 					User codi = new User();
 					codi.setUserId(repMailEmp.getEmpCode());
 					codi.setName(repMailEmp.getEmpName());

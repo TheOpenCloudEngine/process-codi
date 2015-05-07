@@ -8,8 +8,12 @@ import org.metaworks.annotation.Range;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.annotation.Test;
 import org.metaworks.common.MetaworksUtil;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.admin.WebEditor;
 
+@Scope("request")
+@Component
 //@Face(displayName="답글")
 public class CommentWorkItem extends WorkItem{
 	

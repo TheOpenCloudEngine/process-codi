@@ -1,17 +1,13 @@
 package org.uengine.codi.mw3.model;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.UUID;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.metaworks.ContextAware;
 import org.metaworks.EventContext;
@@ -23,13 +19,9 @@ import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.Available;
 import org.metaworks.annotation.Face;
 import org.metaworks.annotation.ServiceMethod;
-import org.metaworks.dao.TransactionContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.uengine.codi.mw3.Login;
-import org.uengine.codi.util.CodiStringUtil;
-import org.uengine.kernel.GlobalContext;
-import org.uengine.webservices.emailserver.impl.EMailServerSoapBindingImpl;
-
+import org.uengine.codi.mw3.email.type.EmailSenderType;
+import org.uengine.codi.mw3.email.util.EmailSenderUtil;
 
 
 public class Invitation implements ContextAware{
@@ -97,7 +89,6 @@ public class Invitation implements ContextAware{
 	@ServiceMethod(callByContent=true, target="popup", validate=true)
 	@Face(displayName="$Invite")
 	public Object[] invite() throws Exception{
-		
 		String authKey = UUID.randomUUID().toString();
 		String[] emilList = null;
 		emilList = this.getEmail().split(",");
@@ -268,66 +259,15 @@ public class Invitation implements ContextAware{
 		newContact.createDatabaseMe();
 		newContact.flushDatabaseMe();
 	}
-	
 
-	
 	public void sendMailToNoUser(String authKey, String friendEmail) throws Exception {
-		
-		String from = GlobalContext.getPropertyString("codi.mail.support", "support@processcodi.com");
-		String beforeName = "user.name";
-		String afterName = session.getEmployee().getEmpName(); //초대 하는사람 이름
-		String beforeCompany = "user.company";
-		String afterCompany =  Employee.extractTenantName(session.getEmployee().getEmail()); //초대 하는사람
+        Properties properties = new Properties();
+        properties.setProperty("empName", session.getEmployee().getEmpName());
+        properties.setProperty("email", session.getEmployee().getEmail());
+        properties.setProperty("empCode", session.getEmployee().getEmpCode());
 
-
-		String baseUrl = "base/";//CodiStringUtil.lastLastFileSeparatorChar(TenantURL.getURL());
-
-		String url = "";
-		url += baseUrl + "activate.html?key=" + authKey;
-		String beforeFaceIcon = "face.icon";
-		String afterFaceIcon = session.getEmployee().getEmpCode();
-		String baseLinkUrl = "base.url";
-		String signUpURL = "signup.url";
-		
-		String content;
-		String tempContent = "";
-		
-		String resourcePath = CodiStringUtil.lastLastFileSeparatorChar(new HttpServletRequestWrapper(TransactionContext.getThreadLocalInstance().getRequest()).getRealPath(""));
-		String path = resourcePath + GlobalContext.getPropertyString("email.invite", "resources/mail/invitationMail.html");
-
-		ByteArrayOutputStream bao = new ByteArrayOutputStream();
-		FileInputStream is;
-		try {
-			is = new FileInputStream(path);
-			InputStreamReader isr = new InputStreamReader(is,"UTF-8");
-			BufferedReader br = new BufferedReader(isr);
-			
-			int data;
-			while((data = br.read()) != -1){
-				tempContent += (char)data;
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		String title = afterCompany+" 의 "+ afterName + " 님이  당신을  코디에 초대 하였습니다";
-		
-		
-		Login login = new Login();
-		content = login.replaceString(tempContent,beforeName,afterName);
-		content = login.replaceString(content, beforeCompany, afterCompany);
-		content = login.replaceString(content, baseLinkUrl, baseUrl);
-		content = login.replaceString(content, signUpURL, url);
-		content = login.replaceString(content, beforeFaceIcon, afterFaceIcon);
-		System.out.println(content);
-		
-		try{
-			(new EMailServerSoapBindingImpl()).sendMail(from, friendEmail, title, content);
-		}catch(Exception e){
-			throw new Exception("$FailedToSendInvitationMail");
-		}
+        EmailSenderUtil.sendEmail("activate.html?key=" + authKey, EmailSenderType.SIGN_UP_FRIEND_INVITATION,
+                friendEmail, properties);
 	}
 
 }

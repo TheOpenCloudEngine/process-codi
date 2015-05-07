@@ -25,6 +25,7 @@ import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.ErrorPage;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.calendar.ScheduleCalendar;
@@ -36,6 +37,7 @@ import org.uengine.codi.mw3.widget.IFrame;
 import org.uengine.kernel.Role;
 import org.uengine.processmanager.ProcessManagerRemote;
 
+@Component
 public class Instance extends Database<IInstance> implements IInstance{
 
 	public final static String INSTNACE_STATUS_STOPPED		= "Stopped";

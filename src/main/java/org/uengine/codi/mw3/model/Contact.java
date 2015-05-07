@@ -9,8 +9,10 @@ import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.dao.Database;
 import org.metaworks.dao.MetaworksDAO;
 import org.metaworks.dao.TransactionContext;
+import org.springframework.stereotype.Component;
 import org.uengine.kernel.GlobalContext;
 
+@Component
 public class Contact extends Database<IContact> implements IContact{
 	
 	public final static String DEFAULT_TOPIC_COUNT = GlobalContext.getPropertyString("contact.more.count", "9");

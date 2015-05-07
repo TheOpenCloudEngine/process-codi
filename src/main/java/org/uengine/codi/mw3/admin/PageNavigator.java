@@ -5,11 +5,13 @@ import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.annotation.Test;
 import org.metaworks.widget.layout.Layout;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.common.MainPanel;
 import org.uengine.codi.mw3.knowledge.Knowledge;
 import org.uengine.codi.mw3.model.*;
 import org.uengine.kernel.GlobalContext;
 
+@Component
 public class PageNavigator{
 	
 	public final static String USE_SNS = GlobalContext.getPropertyString("sns.use", "1");

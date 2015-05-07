@@ -6,10 +6,12 @@ import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.Id;
 import org.metaworks.annotation.ServiceMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.Login;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.processmanager.ProcessManagerRemote;
 
+@Component
 @Face(options={"hideNewBtn", "hideTitle", "hideViewBox", "hideLabels", "hideEditBtn"},
        values={"true", "true", "true", "true", "true"})
 public class InstanceViewPublic {

@@ -14,9 +14,11 @@ import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.annotation.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.Login;
 import org.uengine.processmanager.ProcessManagerRemote;
 
+@Component
 public class UnstructuredProcessInstanceStarter implements ContextAware {
 
 	public UnstructuredProcessInstanceStarter() {
@@ -100,7 +102,7 @@ public class UnstructuredProcessInstanceStarter implements ContextAware {
 //		Object[] returnObject = comment.add();
 		
 		instance.copyFrom(comment.save());
-		Object[] returnObject = comment.makeReturn(null, instance);
+		Object[] returnObject = comment.makeReturn(false, instance);
 		
 		instanceView.load(instance);
 	

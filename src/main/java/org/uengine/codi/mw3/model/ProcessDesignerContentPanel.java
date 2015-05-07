@@ -7,9 +7,10 @@ import org.metaworks.MetaworksContext;
 import org.metaworks.annotation.Face;
 import org.metaworks.annotation.ServiceMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.processmanager.ProcessManagerRemote;
 
-
+@Component
 public class ProcessDesignerContentPanel extends ContentWindow implements ContextAware {
 	
 	public void newProcessDefinition(String parentFolder) throws Exception{

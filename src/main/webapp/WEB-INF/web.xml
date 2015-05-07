@@ -76,7 +76,7 @@
   </servlet-mapping>
   <filter>
     <filter-name>TenantAwareFilter</filter-name>
-    <filter-class>org.oce.garuda.multitenancy.TenantAwareFilter</filter-class>
+    <filter-class>org.uengine.cloud.saasfier.TenantAwareFilter</filter-class>
     <init-param>
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
