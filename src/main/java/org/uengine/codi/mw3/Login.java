@@ -10,7 +10,6 @@ import org.metaworks.annotation.Face;
 import org.metaworks.common.MetaworksUtil;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.widget.ModalWindow;
-import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.collection.SessionIdHashTable;
 import org.uengine.codi.mw3.common.MainPanel;
@@ -33,7 +32,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
-@Component
+
 public class Login implements ContextAware {
 
     public static final String CACHE_PATH = GlobalContext.getPropertyString("cache");
