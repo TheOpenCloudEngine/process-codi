@@ -11,10 +11,9 @@ import org.metaworks.annotation.Available;
 import org.metaworks.annotation.Face;
 import org.metaworks.annotation.Id;
 import org.metaworks.annotation.ServiceMethod;
-import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.uengine.kernel.EventActivity;
 import org.uengine.kernel.ProcessInstance;
+import org.uengine.kernel.bpmn.Event;
 import org.uengine.processmanager.ProcessManagerRemote;
 
 public class InstanceTooltip implements ContextAware {
@@ -115,7 +114,7 @@ public class InstanceTooltip implements ContextAware {
 			EventTrigger[] eventTriggers = new EventTrigger[mls.size()];
 			if(mls!=null){
 				for(int i=0; i<mls.size(); i++){
-					EventActivity scopeAct = (EventActivity)definition.getActivity((String)mls.get(i));
+					Event scopeAct = (Event)definition.getActivity((String)mls.get(i));
 					if( scopeAct.getName() != null){
 						EventTrigger eventTrigger = new EventTrigger();
 						eventTrigger.setInstanceId(this.getInstanceId().toString());
