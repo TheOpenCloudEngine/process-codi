@@ -3,20 +3,16 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	   xmlns:context="http://www.springframework.org/schema/context"
        xmlns:task="http://www.springframework.org/schema/task"
-	   xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang"
-	   xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
-	   xmlns:util="http://www.springframework.org/schema/util" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	   xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:cxf="http://cxf.apache.org/core"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
-		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
     <!-- ============================================================= -->
     <!-- anotation scan -->
@@ -34,8 +30,6 @@
     <context:component-scan base-package="org.uengine.codi.mw3;org.uengine.codi.scheduler"/>
     <context:annotation-config/>
     <aop:aspectj-autoproxy/>
-
-
 
 	<!-- ============================================================= -->
 	<!-- DataAccess -->
@@ -100,6 +94,28 @@
     <task:annotation-driven executor="codiExecutor" scheduler="codiScheduler"/>
     <task:executor id="codiExecutor" pool-size="1"/>
     <task:scheduler id="codiScheduler" pool-size="2"/>
+
+    <!-- ============================================================= -->
+    <!-- Process Codi CXF REST API -->
+    <!-- ============================================================= -->
+    <bean id="appService" class="org.uengine.service.app.AppServiceImpl"/>
+    <jaxrs:server id="saasCxfServer" address="/">
+        <jaxrs:serviceBeans>
+            <ref bean="appService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:extensionMappings>
+            <entry key="json" value="application/json"/>
+        </jaxrs:extensionMappings>
+        <jaxrs:features>
+            <cxf:logging/>
+        </jaxrs:features>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+            <bean class="org.uengine.service.exception.mapper.ClientExceptionMapper" />
+            <bean class="org.uengine.service.exception.mapper.RestExceptionMapper" />
+            <bean class="org.uengine.service.exception.mapper.ThrowableMapper" />
+        </jaxrs:providers>
+    </jaxrs:server>
 
 	<!-- ============================================================= -->
 	<!-- Process Codi Services -->
