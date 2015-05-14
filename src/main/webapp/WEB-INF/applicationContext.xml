@@ -4,15 +4,11 @@
 	   xmlns:context="http://www.springframework.org/schema/context"
        xmlns:task="http://www.springframework.org/schema/task"
 	   xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-       xmlns:cxf="http://cxf.apache.org/core"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
-		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 
     <!-- ============================================================= -->
     <!-- anotation scan -->
@@ -27,7 +23,8 @@
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
 
-    <context:component-scan base-package="org.uengine.codi.mw3;org.uengine.codi.scheduler"/>
+    <!--<context:component-scan base-package="org.uengine.codi.mw3;org.uengine.codi.scheduler"/>-->
+    <context:component-scan base-package="org.uengine"/>
     <context:annotation-config/>
     <aop:aspectj-autoproxy/>
 
@@ -95,28 +92,6 @@
     <task:executor id="codiExecutor" pool-size="1"/>
     <task:scheduler id="codiScheduler" pool-size="2"/>
 
-    <!-- ============================================================= -->
-    <!-- Process Codi CXF REST API -->
-    <!-- ============================================================= -->
-    <bean id="appService" class="org.uengine.service.app.AppServiceImpl"/>
-    <jaxrs:server id="saasCxfServer" address="/">
-        <jaxrs:serviceBeans>
-            <ref bean="appService"/>
-        </jaxrs:serviceBeans>
-        <jaxrs:extensionMappings>
-            <entry key="json" value="application/json"/>
-        </jaxrs:extensionMappings>
-        <jaxrs:features>
-            <cxf:logging/>
-        </jaxrs:features>
-        <jaxrs:providers>
-            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
-            <bean class="org.uengine.service.exception.mapper.ClientExceptionMapper" />
-            <bean class="org.uengine.service.exception.mapper.RestExceptionMapper" />
-            <bean class="org.uengine.service.exception.mapper.ThrowableMapper" />
-        </jaxrs:providers>
-    </jaxrs:server>
-
 	<!-- ============================================================= -->
 	<!-- Process Codi Services -->
 	<!-- ============================================================= -->
@@ -147,7 +122,6 @@
 	<bean id="EmailWorkItem" class="org.uengine.codi.mw3.model.EmailWorkItem" />
 	<bean id="UnstructuredProcessInstanceStarter"
 		  class="org.uengine.codi.mw3.model.UnstructuredProcessInstanceStarter" />-->
-
 
 	<!--&lt;!&ndash; ============================================================= &ndash;&gt;-->
 	<!--&lt;!&ndash; Cron Job &ndash;&gt;-->
