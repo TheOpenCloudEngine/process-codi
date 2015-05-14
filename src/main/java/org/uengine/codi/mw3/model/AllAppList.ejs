@@ -1,0 +1,21 @@
+<%
+	if(value){
+%>
+		<div>
+			<ul class="process_map2 allApp">
+				<li onClick="<%=methods.goSNS.caller()%>"><img src="images/waveStyle/app_social.png"><div style="text-align:center">코디</div></li>
+<!--
+				<li onClick="<%=methods.goEssencia.caller()%>"><img src="images/waveStyle/tadpole.png"><div style="text-align:center">프로세스</div></li>
+-->
+			</ul>
+		</div>
+
+		<div style="border-bottom: 1px solid #ededed; margin: 0 20px;"></div>
+		<div>
+			<ul class="process_map2 allApp">
+				<%=fields.myAppsList.here()%>
+			</ul>
+		</div>
+<%
+	}
+%>
