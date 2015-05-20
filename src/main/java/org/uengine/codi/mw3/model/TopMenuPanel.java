@@ -1,9 +1,14 @@
 package org.uengine.codi.mw3.model;
 
+import org.directwebremoting.ServerContextFactory;
 import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.widget.ModalWindow;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import javax.servlet.ServletContext;
 
 public class TopMenuPanel {
 
@@ -28,7 +33,10 @@ public class TopMenuPanel {
     @ServiceMethod(target=ServiceMethodContext.TARGET_STICK)
     public Popup showApps() throws Exception{
 
-        AllAppList allAppList = new AllAppList();
+        ServletContext srvCtx = ServerContextFactory.get().getServletContext();
+        WebApplicationContext appContext =  WebApplicationContextUtils.getWebApplicationContext(srvCtx);
+
+        AllAppList allAppList = (AllAppList) appContext.getBean("AllAppList");
         allAppList.session = session;
         allAppList.load();
 

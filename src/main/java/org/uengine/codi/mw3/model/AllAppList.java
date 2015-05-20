@@ -3,7 +3,6 @@ package org.uengine.codi.mw3.model;
 import org.metaworks.*;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.ServiceMethod;
-import org.org.uengine.codi.mw3.ide.view.IFrameApplication;
 import org.uengine.codi.mw3.marketplace.AppMapping;
 import org.uengine.codi.mw3.marketplace.IAppMapping;
 import org.uengine.codi.mw3.widget.IFrame;
@@ -61,16 +60,6 @@ public class AllAppList {
     public Object[] goSNS() throws Exception {
         SNS sns = new SNS(session);
         return new Object[]{new Refresh(sns), new Refresh(sns.loadTopCenterPanel(session)), new ToEvent(ServiceMethodContext.TARGET_SELF, EventContext.EVENT_CLOSE)};
-    }
-
-    @ServiceMethod(target=ServiceMethodContext.TARGET_APPEND)
-    public Object[] goEssencia() throws Exception {
-        IFrame iframe = new IFrame("http://www.baidu.com/");
-
-        IFrameApplication application = new IFrameApplication();
-        application.setContent(iframe);
-
-        return new Object[]{new Refresh(application), new Refresh(application.loadTopCenterPanel(session)), new ToEvent(ServiceMethodContext.TARGET_SELF, EventContext.EVENT_CLOSE)};
     }
 
 

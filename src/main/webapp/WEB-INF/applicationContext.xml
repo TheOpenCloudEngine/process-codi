@@ -92,6 +92,10 @@
     <task:executor id="codiExecutor" pool-size="1"/>
     <task:scheduler id="codiScheduler" pool-size="2"/>
 
+
+	<!-- Variable Part -->
+	<bean id="AllAppList" class="org.uengine.codi.mw3.model.AllAppList"/>
+
 	<!-- ============================================================= -->
 	<!-- Process Codi Services -->
 	<!-- ============================================================= -->
