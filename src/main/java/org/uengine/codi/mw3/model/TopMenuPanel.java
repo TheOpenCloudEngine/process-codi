@@ -9,6 +9,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletContext;
+import java.util.Map;
 
 public class TopMenuPanel {
 
@@ -32,11 +33,20 @@ public class TopMenuPanel {
 
     @ServiceMethod(target=ServiceMethodContext.TARGET_STICK)
     public Popup showApps() throws Exception{
+        ServletContext e = ServerContextFactory.get().getServletContext();
+        WebApplicationContext springAppContext = WebApplicationContextUtils.getWebApplicationContext(e);
+        Map beanMap = springAppContext.getBeansOfType(AbstractAllAppList.class);
 
-        ServletContext srvCtx = ServerContextFactory.get().getServletContext();
-        WebApplicationContext appContext =  WebApplicationContextUtils.getWebApplicationContext(srvCtx);
+        AbstractAllAppList allAppList = null;
 
-        AllAppList allAppList = (AllAppList) appContext.getBean("AllAppList");
+        try {
+            for (Object key : beanMap.keySet()) {
+                allAppList = (AbstractAllAppList) beanMap.get(key);
+            }
+        } catch (Exception ex) {
+            return new Popup();
+        }
+
         allAppList.session = session;
         allAppList.load();
 
