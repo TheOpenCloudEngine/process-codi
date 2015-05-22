@@ -26,22 +26,22 @@ public class Perspective {
 	public final static String TYPE_INBOX 		= "inbox";
 	public final static String TYPE_STARTEDBYME     = "request";
 	public final static String TYPE_CALENDAR	= "calendar";
-
-    public final static String USE_PERSONAL = GlobalContext.getPropertyString("personal.use", "1");
-    public final static String USE_PROJECT = GlobalContext.getPropertyString("project.use", "1");
-    public final static String USE_TOPIC = GlobalContext.getPropertyString("topic.use", "1");
-    public final static String USE_COMPETITION = GlobalContext.getPropertyString("competition.use","0");
-    public final static String USE_ORGANIZATION = GlobalContext.getPropertyString("organization.use", "1");
-    public final static String USE_PROCESS = GlobalContext.getPropertyString("process.use", "0");
-    public final static String USE_ROLE = GlobalContext.getPropertyString("role.use", "0");
-    public final static String USE_APP = GlobalContext.getPropertyString("app.use", "0");
-    public final static String USE_CONTACT = GlobalContext.getPropertyString("contact.use", "1");
-    public final static String USE_COMMINGTODO = GlobalContext.getPropertyString("commingTodo.use", "0");
-    public final static String USE_PERSPECTIVE_KNOWLEDGE = GlobalContext.getPropertyString("perspective.knowledge.use", "0");
-    public final static String USE_DOCUMENT = GlobalContext.getPropertyString("document.use", "0");
-    public final static String USE_GROUP		= GlobalContext.getPropertyString("group.use", "1");
-    public final static String USE_VALUECHAIN		= GlobalContext.getPropertyString("valuechain.use", "0");
-
+	
+	public final static String USE_PERSONAL = GlobalContext.getPropertyString("personal.use", "1");
+	public final static String USE_PROJECT = GlobalContext.getPropertyString("project.use", "1");
+	public final static String USE_TOPIC = GlobalContext.getPropertyString("topic.use", "0");
+	public final static String USE_COMPETITION = GlobalContext.getPropertyString("competition.use","0");
+	public final static String USE_ORGANIZATION = GlobalContext.getPropertyString("organization.use", "0");
+	public final static String USE_PROCESS = GlobalContext.getPropertyString("process.use", "0");
+	public final static String USE_ROLE = GlobalContext.getPropertyString("role.use", "0");
+	public final static String USE_APP = GlobalContext.getPropertyString("app.use", "0");
+	public final static String USE_CONTACT = GlobalContext.getPropertyString("contact.use", "1");
+	public final static String USE_COMMINGTODO = GlobalContext.getPropertyString("commingTodo.use", "0");
+	public final static String USE_PERSPECTIVE_KNOWLEDGE = GlobalContext.getPropertyString("perspective.knowledge.use", "0");
+	public final static String USE_DOCUMENT = GlobalContext.getPropertyString("document.use", "0");
+	public final static String USE_GROUP		= GlobalContext.getPropertyString("group.use", "0");
+	public final static String USE_VALUECHAIN		= GlobalContext.getPropertyString("valuechain.use", "0");
+	
 	public final static String TYPE_COMMINGTODO = "commingTodo";
 	
 	String label;

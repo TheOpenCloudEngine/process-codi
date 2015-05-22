@@ -1,67 +1,142 @@
 <%
-if(value!=null){
-if(mw3.how == 'action'){
+	if(value!=null){
+		if(mw3.how == 'action'){
 %>
-<div class="icon_toolbar">
+			<div class="icon_toolbar">
+				<div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$process")%>" class="icon-rounded m-r-10 tooltip-top" >
+					<i class="glyphicon glyphicon-random  workitem_btn"></i>
+	            </div>
+	            
+	            <div data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="icon-rounded m-r-10 tooltip-top" >
+					<i class="glyphicon glyphicon-info-sign workitem_btn"></i>
+	            </div>
+	            
+	            <div data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="icon-rounded m-r-10 tooltip-top" >
+					<i class="glyphicon glyphicon-trash workitem_btn"></i> 
+	            </div>
+	            
+	            <div data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="icon-rounded m-r-10 tooltip-top" >
+					<i class="glyphicon glyphicon-eye-close workitem_btn"></i>
+	            </div>
+	            
+	            <div data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="icon-rounded m-r-10 current tooltip-top" >
+					<i class="glyphicon glyphicon-ok workitem_btn current"></i>
+	            </div>
+            </div>
+			
+			<!--
+			
+			
+			<div class="toolbar">
+			    <ul>
+			        
+			        <li id="wih_btn_item_Information">
+			        	<a href="#" onClick="<%=methods.monitor.caller()%>">
+			        		<span class="toolbarIcon icon-shuffle"></span>
+			        		<span><%=mw3.localize("$process")%></span>
+			        	</a>
+			        </li>
+			        <li id="wih_btn_item_GanttChart">
+			        	<a href="#" onClick="<%=methods.schedule.caller()%>">
+			        		<span class="toolbarIcon icon-info"></span>
+			        		<span style="color: black; "><%=mw3.localize("$Schedule")%></span>
+			        	</a>
+			        </li>
+			        <li id="wih_btn_sendMail" style="display: none; ">
+			        	<a href="#" onClick="sendMail()">
+			        		<span class="toolbarIcon icon-mail4"></span>
+			        		<span><%=mw3.localize("$Mail")%></span>
+			        	</a>
+			        </li>
 
-
-    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$Schedule")%>" class="icon-rounded m-r-10 tooltip-top" >
-        <i class="glyphicon glyphicon-info-sign workitem_btn" onClick="<%=methods.schedule.caller()%>"></i>
-    </div>
-
-    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$Delete")%>" class="icon-rounded m-r-10 tooltip-top" >
-        <i class="glyphicon glyphicon-trash workitem_btn" onClick="<%=methods.remove.caller()%>"></i>
-    </div>
-
-    <%
-    if(value.secuopt == null || value.secuopt == '0'){
-    %>
-    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$Privacy")%>" class="icon-rounded m-r-10 tooltip-top" >
-        <i class="glyphicon glyphicon-eye-close workitem_btn" onClick="<%=methods.toggleSecurityConversation.caller()%>"></i>
-    </div>
-    <%
-    }else{
-    %>
-    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$MakeItPrivacy")%>" class="icon-rounded m-r-10 tooltip-top" >
-        <i class="glyphicon glyphicon-eye-close workitem_btn" onClick="<%=methods.toggleSecurityConversation.caller()%>"></i>
-    </div>
-    <%
-    }
-        var isCompleted = false;
-        var enableComplete = !mw3.isHiddenMethod(methods.complete);
-        if(enableComplete){
-            isCompleted = value.status == 'Stopped' || value.status == 'Completed';
-    %>
-    <div data-toggle="tooltip" data-placement="top" title="<%=mw3.localize("$Completing")%>" class="icon-rounded m-r-10 current tooltip-top" >
-        <i class="glyphicon glyphicon-ok workitem_btn current" onClick="<%=methods.complete.caller()%>"></i>
-    </div>
-    <%
-    }
-    if( value.eventTriggers ){
-    for(var i=0; i < value.eventTriggers.length; i++){
-        var options;
-        var eventTrigger = value.eventTriggers[i];
-        if(typeof options == 'undefined'){
-            options = objectMetadata;
-        }
-        options['htmlTag'] =  'li';
-    %>
-    <%=mw3.locateObject(eventTrigger, eventTrigger.__className, null , options, {objectId: objectId, name: '[' + i + ']'}) %>
-    <%
-    }
-    }
-    %>
-</div>
-
-
-
+			        <li id="wih_btn_edit" style="display: none; ">
+			        	<a href="">
+			        		<span class="toolbarIcon icon-insert-template"></span>
+			        		<span><%=mw3.localize("$Edit")%></span>
+			        	</a>
+			        </li>
+			        <li id="wih_btn_delete" style="display: none; ">
+			        	<a href="#" onClick="deleteMail()">
+			        		<span class="toolbarIcon icon-close"></span>
+			        		<span><%=mw3.localize("$Deletemail")%></span>
+			        	</a>
+			        </li>
+			        <li id="wih_btn_item_delete" style="display: block; ">
+			        	<a href="#" onClick="<%=methods.remove.caller()%>">
+			        		<span class="toolbarIcon icon-remove2"></span>
+			        		<span><%=mw3.localize("$Delete")%></span>
+			        	</a>
+			        </li>
+			        <li id="wih_btn_toInstance" style="display: none; ">
+			        	<a href="#" onClick="getRecommandProcessList();">
+			        		<span class="toolbarIcon icon-shuffle"></span>
+			        		<span><%=mw3.localize("$processchange")%></span>
+			        	</a>
+			        </li>			       
 <%
-}else{
-%>
-<span onClick="<%=methods.schedule.caller()%>"><img src="images/waveStyle/i_gantt.png" title="schedule" /></span>
-<span onClick="<%=methods.remove.caller()%>"><img src="images/waveStyle/i_delete.png" title="remove" /></span>
-<span onClick="<%=methods.complete.caller()%>"><img src="images/waveStyle/i_complete.png" title="complete" /></span>
+			if(value.secuopt == null || value.secuopt == '0'){
+%>						        
+			        <li id="wih_btn_sec">
+			        	<a href="#" onClick="<%=methods.toggleSecurityConversation.caller()%>">
+			        		<span class="toolbarIcon icon-lock2"></span>
+			        		<span><%=mw3.localize("$Privacy")%></span>
+			        	</a>
+			        </li>
 <%
-}
-}
+			}else{
+%>						        
+			        <li id="wih_btn_sec" class="toolbar_current">
+			        	<a href="#" onClick="<%=methods.toggleSecurityConversation.caller()%>">
+			        		<span class="toolbarIcon icon-lock"></span>
+			        		<span><%=mw3.localize("$MakeItPrivacy")%></span>
+			        	</a>
+			        </li>
+<%
+			}
+
+			var isCompleted = false;
+			var enableComplete = !mw3.isHiddenMethod(methods.complete);
+			
+			
+			
+			if(enableComplete)
+				isCompleted = !(value.status != 'Stopped' && value.status != 'Completed');
+%>						        
+			        <li id="wih_btn_complete" class="<%=isCompleted?'toolbar_current':''%>">
+			        	<a href="#" onClick="<%=enableComplete?methods.complete.caller():''%>">
+			        		<span class="<%=!enableComplete?'disable':''%> <%=isCompleted?'icon-checkmark-circle':'icon-checkmark'%> toolbarIcon"></span>
+			        		<span class="<%=!enableComplete?'disable':''%>"><%=mw3.localize("$Completing")%></span>
+			        	</a>
+			        </li>
+			        
+<%		
+		if( value.eventTriggers ){
+		     for(var i=0; i < value.eventTriggers.length; i++){
+		          var options; 
+		          var eventTrigger = value.eventTriggers[i];
+                  if(typeof options == 'undefined'){
+                        options = objectMetadata;
+                  }
+                  options['htmlTag'] =  'li';
 %>
+                <%=mw3.locateObject(eventTrigger, eventTrigger.__className, null , options, {objectId: objectId, name: '[' + i + ']'}) %>
+<%		
+            }
+		}
+%>
+			    </ul>
+			</div>
+			-->
+			
+<%		
+		}else{
+%>
+	<span onClick="<%=methods.schedule.caller()%>"><img src="images/waveStyle/i_gantt.png" title="schedule" /></span>
+	<span onClick="<%=methods.remove.caller()%>"><img src="images/waveStyle/i_delete.png" title="remove" /></span>
+	<span onClick="<%=methods.complete.caller()%>"><img src="images/waveStyle/i_complete.png" title="complete" /></span>
+<%		
+		}
+	}
+%>
+
+
