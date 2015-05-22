@@ -3,6 +3,7 @@ package org.uengine.codi.mw3;
 import org.codehaus.commons.compiler.AbstractJavaSourceClassLoader;
 import org.codehaus.commons.compiler.jdk.ByteArrayJavaFileManager;
 import org.codehaus.commons.compiler.jdk.ByteArrayJavaFileManager.ByteArrayJavaFileObject;
+import org.metaworks.MetaworksException;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.oce.garuda.multitenancy.TenantContext;
 import org.uengine.kernel.GlobalContext;
@@ -17,8 +18,7 @@ import java.util.*;
 public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 
 	public final static String DEFAULT_NAME = "default";
-	public final static String PATH_SEPARATOR = "/";
-	
+
 	String						codebase;
 
 	private File[]             sourcePath;
@@ -62,71 +62,8 @@ public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 		return (CodiClassLoader) contextClassLoader;
 	}
 
-	/*
-	public String sourceCodeBase(){
-
-		//TODO. setting a collect sourcePath
-
-		//if(sourcePath!=null)
-		//	return sourcePath[0].getPath();
-
-		String mySourceCodeBase = mySourceCodeBase();
-
-		if(mySourceCodeBase!=null){
-
-			File wcDir = new File(mySourceCodeBase).getParentFile(); //project folder is one level parent folder than 'src'
-
-			if (wcDir.exists()) {
-				setSourcePath(new File[]{new File(mySourceCodeBase)});
-
-				return mySourceCodeBase;
-			}
-		}
-
-		String userId = null;
-		try{
-			userId = (String) TransactionContext.getThreadLocalInstance().getRequest().getSession().getAttribute("userId");
-		}catch(Exception e){
-
-		}
-
-		//if(userId==null)
-		userId = "main";
-
-		String codebaseRoot = getCodeBaseRoot();
-
-		String dir = codebaseRoot + userId;
-
-
-		File f = new File(dir);
-		if(!f.exists()) //f.mkdirs();
-			dir = codebaseRoot + "main";
-
-		// 1. 메타데이터가 있는 경우 우선적으로 메타데이터 path 를 보도록 한다.
-		String firstSourcePath = null;
-		if(MetadataBundle.projectBundle != null){
-			firstSourcePath = MetadataBundle.projectBundle.getProperty("sourceCodePath");
-			setSourcePath(new File[]{new File(firstSourcePath)});
-		}
-		if( firstSourcePath != null ){
-			File[] sourcePath2 = new File[sourcePath.length+1];
-			System.arraycopy(sourcePath, 0, sourcePath2, 0, sourcePath.length);
-			sourcePath2[sourcePath.length] = new File(dir + "/src/");
-			sourcePath = sourcePath2;
-		}else{
-			setSourcePath(new File[]{new File(dir + "/src/")});
-		}
-
-		return sourcePath[0].getPath();
-	}
-	*/
-
 	public static String getCodeBaseRoot() {
-		String coderoot = GlobalContext.getPropertyString("codebase", "codebase/");
-
-		if(!coderoot.endsWith("/")) coderoot=coderoot+"/";
-
-		return coderoot;
+        return GlobalContext.getPropertyString("codebase") + File.separator;
 	}
 
 	@Override
@@ -138,7 +75,7 @@ public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 			for(File file : this.sourcePath){
 				try {
 					if(file.exists()){
-						FileInputStream fis = new FileInputStream(file.getAbsolutePath() + "/" + name);
+						FileInputStream fis = new FileInputStream(file.getAbsolutePath() + File.separator + name);
 						return fis;
 					}
 				} catch (FileNotFoundException e) {
@@ -150,81 +87,7 @@ public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 		return super.getResourceAsStream(name);
 	}
 
-
-
-	//	@Override
-	//	protected synchronized Class<?> loadClass(String name,
-	//			boolean resolve) throws ClassNotFoundException {
-	//
-	//		if(securedClasses.containsKey(name)){
-	//           throw new ClassNotFoundException(securedClasses.get(name), new SecurityException());
-	//		}
-	//
-	//		return super.loadClass(name, resolve);
-	//	}
-	//
-	//
-	//
-	//	protected Class<?> findClass(String className)
-	//			throws ClassNotFoundException {
-	//
-	//		if(securedClasses.containsKey(className)){
-	//			throw new RuntimeException(securedClasses.get(className));
-	//		}
-	//
-	//		return super.findClass(className);
-	//	}
-
-
-
-
-	//----------------------------------------     from this line, the codes are just copied from JavaSourceClassLoader.java in janino ---------------------------//
-
-
-
-
-
-
-
 	private void init() {
-
-		//TODO: it's too complicated to use. so we switch to use HotSwapper on behalf of this
-
-		//    	// setting security filters for more fine-grained control
-		//    	try {
-		//    		pool = ClassPool.getDefault();
-		//
-		//    		pool.appendClassPath("/Users/jyjang/Documents/workspace/ProcessCodi_metaworks3/WebContent/WEB-INF/mongo-2.7.2.jar");
-		//
-		//    		CtClass cc = pool.get("com.mongodb.Mongo");
-		//
-		//    		CtConstructor cm = cc.getDeclaredConstructor(new CtClass[]{});
-		//
-		//    		cm.instrument(
-		//    		    new ExprEditor() {
-		//    		    	boolean checked = false;
-		//
-		//    		        public void edit(MethodCall m)
-		//    		                      throws CannotCompileException
-		//    		        {
-		//
-		//    		        	if(!checked){
-		//    		                m.replace("{ System.out.println(\"how many test\"); throw new SecurityException(\"platform denied you\"); $_ = $proceed($$); }");
-		//
-		//    		                checked = true;
-		//    		        	}
-		//    		        }
-		//    		    });
-		//
-		////    	    Loader cl = new Loader(pool);
-		////
-		////    	    SampleLoader loader = new SampleLoader(pool);
-		////    	    loader.findClass("java.io.File");
-		//    	}catch(Exception e){
-		//    		throw new RuntimeException(e);
-		//    	}
-		//
-
 		this.compiler = ToolProvider.getSystemJavaCompiler();
 		if (this.compiler == null) {
 			throw new UnsupportedOperationException(
@@ -305,24 +168,6 @@ public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 
 
 		//TODO: it looks bad so, we switch to use HotSwapper in the javassist
-
-		//    	if(className.equals("com.mongodb.Mongo")){
-		//            try {
-		//                CtClass cc = pool.get(className);
-		//                // modify the CtClass object here
-		//                byte[] b = cc.toBytecode();
-		//                return defineClass(className, b, 0, b.length);
-		//            } catch (NotFoundException e) {
-		//                //throw new ClassNotFoundException();
-		//            } catch (IOException e) {
-		//                //throw new ClassNotFoundException();
-		//            } catch (CannotCompileException e) {
-		//                //throw new ClassNotFoundException();
-		//            }
-		//
-		//    	}
-
-
 
 		byte[] ba;
 		int    size;
@@ -474,16 +319,8 @@ public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 		}
 	}
 	
-
 	public static CodiClassLoader createClassLoader(String projectId){
-		return createClassLoader(projectId, TenantContext.getThreadLocalInstance().getTenantId());
-	}
-	
-	public static CodiClassLoader createClassLoader(String projectId, String tenantId){
-
 		CodiClassLoader cl = new CodiClassLoader(CodiMetaworksRemoteService.class.getClassLoader());
-
-		String sep = System.getProperty("os.name").toLowerCase().indexOf("win") >= 0 ? ";" : ":";
 
 		if( CodiMetaworksRemoteService.class.getClassLoader() instanceof URLClassLoader ){
 
@@ -492,15 +329,7 @@ public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 			StringBuffer sbClasspath = new StringBuffer();
 			for(URL url : urls){
 				String urlStr = url.getFile().toString();
-				sbClasspath.append(urlStr).append(sep);
-				//needed for javassist version of metaworks2
-				//			try {
-				//				ObjectType.classPool.insertClassPath(urlStr);
-				//			} catch (NotFoundException e) {
-				//				// TODO Auto-generated catch block
-				//				e.printStackTrace();
-				//			}
-				//end of needed for
+				sbClasspath.append(urlStr).append(File.pathSeparator);
 			}
 
 			cl.setCompilerOptions(
@@ -508,36 +337,34 @@ public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 							"-classpath", sbClasspath.toString()
 					});
 		}
-		
-		//Loads user-defined library files
-
-
-		//ClassPool setting
-//		if(projectId == null)
-//			projectId = MetadataBundle.getProjectId();
 
 		List<File> sourcePath = new ArrayList<File>();
 
-		String codeBaseRoot = CodiClassLoader.getCodeBaseRoot();
-		
 		// add project source path
 		if(projectId != null){
-			if(tenantId != null)
-				sourcePath.add(new File(codeBaseRoot + projectId + PATH_SEPARATOR + tenantId + PATH_SEPARATOR));
-			sourcePath.add(new File(codeBaseRoot + projectId + PATH_SEPARATOR + "default" + PATH_SEPARATOR));			
+			sourcePath.add(new File(getCodeBaseRoot() + getProjectPathOfTenant(projectId)));
 		}
 
 		// add codi source path
-		if(tenantId != null)
-			sourcePath.add(new File(codeBaseRoot + "codi" + PATH_SEPARATOR + tenantId + PATH_SEPARATOR));
-		sourcePath.add(new File(codeBaseRoot + "codi" + PATH_SEPARATOR + "default" + PATH_SEPARATOR));
-		
+        sourcePath.add(new File(getCodeBaseRoot() + getProjectPathOfTenant(getCodiId())));
 
 		cl.setCodebase(sourcePath.get(0).getAbsolutePath());
 		cl.setSourcePath(sourcePath.toArray(new File[sourcePath.size()]));
 
 		return cl;
 	}  
+
+    public static String getCodiId(){
+        return "codi";
+    }
+
+    public static String getProjectPathOfTenant(String projectId){
+        String tenantId = TenantContext.getThreadLocalInstance().getTenantId();
+
+        tenantId = (tenantId == null ? "default" : tenantId);
+
+        return projectId + File.separator + tenantId + File.separator;
+    }
 
 	public static void refreshClassLoader(String resourceName){
 
@@ -547,23 +374,6 @@ public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		/*
-		String sourceCodeBase = null;
-
-		if(TransactionContext.getThreadLocalInstance()!=null && TransactionContext.getThreadLocalInstance().getRequest()!=null){
-			HttpSession session = TransactionContext.getThreadLocalInstance().getRequest().getSession();
-			if(session!=null){
-				sourceCodeBase = (String) session.getAttribute("sourceCodeBase");
-			}
-		}
-
-		//TODO: looks sourceCodeBase is not required
-		CodiClassLoader cl = CodiClassLoader.createClassLoader(sourceCodeBase);
-
-		Thread.currentThread().setContextClassLoader(cl);
-		codiClassLoader = cl;
-		 */
 	}
 
 	public static void initClassLoader(){

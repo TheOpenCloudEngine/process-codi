@@ -5,6 +5,7 @@ import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.Face;
 import org.metaworks.annotation.Hidden;
 import org.oce.garuda.multitenancy.TenantContext;
+import org.uengine.codi.mw3.CodiClassLoader;
 
 @Face(ejsPath="dwr/metaworks/genericfaces/Tab.ejs")
 public class AddProcessMapPanel {
@@ -29,7 +30,7 @@ public class AddProcessMapPanel {
 		processDefinitions.getMetaworksContext().setWhen("appendProcessMap");
 
 		processDefinitions.setFolder(true);
-		processDefinitions.setAlias("/codi/" + TenantContext.getThreadLocalInstance().getTenantId());
+		processDefinitions.setAlias(CodiClassLoader.getProjectPathOfTenant(CodiClassLoader.getCodiId()));
 		processDefinitions.setName("/");
 		processDefinitions.setuEngineAlias("");
 		processDefinitions.session = session;
