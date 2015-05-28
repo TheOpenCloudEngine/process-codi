@@ -35,12 +35,12 @@
           destroy-method="close">
 
         <!-- MySQL Data Source -->
-        <property name="driverClassName" value="${codi.jdbc.driverClassName}"/>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url"
-                  value="${codi.jdbc.url}"/>
-        <property name="username" value="${codi.jdbc.username}"/>
-        <property name="password" value="${codi.jdbc.password}"/>
-        <property name="validationQuery" value="${codi.jdbc.validationQuery}"/>
+                  value="jdbc:mysql://127.0.0.1:3306/uengine?useUnicode=true&amp;characterEncoding=UTF8&amp;useOldAliasMetadataBehavior=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+        <property name="validationQuery" value="SELECT 1"/>
     </bean>
 
 	<!-- ============================================================= -->
@@ -92,9 +92,6 @@
     <task:executor id="codiExecutor" pool-size="1"/>
     <task:scheduler id="codiScheduler" pool-size="2"/>
 
-
-	<!-- Variable Part -->
-	<bean id="AllAppList" class="org.uengine.codi.mw3.model.AllAppList"/>
 
 	<!-- ============================================================= -->
 	<!-- Process Codi Services -->

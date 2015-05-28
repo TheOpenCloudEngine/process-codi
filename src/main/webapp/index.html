@@ -212,21 +212,21 @@
 				}
 				
 		 		mw3.setWhen(mw3.WHEN_VIEW);
-		 		mw3.template_error = function(e, actualFace) {
-					if(e.lineNumber){
-						if(e.lineText)
-							var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.lineText+": "+e.message;
-						else
-							var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.message;
-					}else
-						var message = "["+actualFace+"] "+e.message;
-				
-					var logger = mw3.getAutowiredObject('org.uengine.codi.platform.Console');
-					if(logger) logger.__getFaceHelper().addLog( message );
-					else
-						alert(message);
-					
-		 		};
+//		 		mw3.template_error = function(e, actualFace) {
+//					if(e.lineNumber){
+//						if(e.lineText)
+//							var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.lineText+": "+e.message;
+//						else
+//							var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.message;
+//					}else
+//						var message = "["+actualFace+"] "+e.message;
+//
+//					var logger = mw3.getAutowiredObject('org.uengine.codi.platform.Console');
+//					if(logger) logger.__getFaceHelper().addLog( message );
+//					else
+//						alert(message);
+//
+//		 		};
 		 		
 		 		Metaworks3.prototype.startLoading = function(objId){
                     var divId = mw3._getObjectDivId(objId);
