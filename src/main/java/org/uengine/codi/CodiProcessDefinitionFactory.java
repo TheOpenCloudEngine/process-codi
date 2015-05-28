@@ -2,6 +2,7 @@ package org.uengine.codi;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.uengine.codi.mw3.CodiClassLoader;
+import org.uengine.codi.mw3.resource.ResourceManager;
 import org.uengine.kernel.GlobalContext;
 import org.uengine.kernel.ProcessDefinition;
 import org.uengine.kernel.ProcessDefinitionFactory;
@@ -41,8 +42,8 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 		
 		InputStream is = null;
 		try {
-			is = CodiClassLoader.getMyClassLoader().getResourceAsStream(location);
-			
+			is = getResourceInputStream(location);
+
 			if(is==null)
 				throw new Exception("No definition found where location = '" + location + "'");
 			
@@ -68,6 +69,19 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 		}
 	}
 
+	private InputStream getResourceInputStream(String location) {
+
+		InputStream is;
+		//is = CodiClassLoader.getMyClassLoader().getResourceAsStream(location);
+
+		try {
+			is = ResourceManager.getTenantResourceAsStream("codi", location);
+		} catch (Exception e) {
+			return null;
+		}
+
+		return is;
+	}
 
 
 	@Override

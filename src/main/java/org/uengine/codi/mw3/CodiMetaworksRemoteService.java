@@ -11,8 +11,10 @@ import org.metaworks.dao.ConnectionFactory;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.dwr.TransactionalDwrServlet;
+import org.oce.garuda.multitenancy.TenantContext;
 import org.springframework.web.context.WebApplicationContext;
 //import org.uengine.codi.platform.SecurityContext;
+import org.uengine.codi.mw3.model.Session;
 import org.uengine.processmanager.ProcessManagerBean;
 import org.uengine.processmanager.ProcessManagerRemote;
 
@@ -143,7 +145,8 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 			throws Throwable {
 		
 		Class serviceClass = Thread.currentThread().getContextClassLoader().loadClass(objectTypeName);
-		
+
+		awareTenant(autowiredFields);
 
 		ProcessManagerRemote processManager = null;
 
@@ -199,6 +202,17 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 		
 	}
 
+	private void awareTenant(Map<String, Object> autowiredFields) {
+		if(autowiredFields.containsKey("session")){
+
+			if(autowiredFields.get("session") instanceof Session) {
+				Session session = (Session) autowiredFields.get("session");
+
+				if(session.getCompany()!=null)
+					new TenantContext(session.getCompany().getComCode());
+			}
+		}
+	}
 
 
 	private ProcessManagerRemote getDirtyProcessManager(

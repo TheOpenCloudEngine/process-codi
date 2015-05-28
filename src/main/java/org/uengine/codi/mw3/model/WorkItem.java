@@ -31,7 +31,6 @@ import org.uengine.kernel.RoleMapping;
 import org.uengine.persistence.dao.UniqueKeyGenerator;
 import org.uengine.processmanager.ProcessManagerBean;
 import org.uengine.processmanager.ProcessManagerRemote;
-import org.uengine.search.solr.SolrData;
 import org.uengine.webservices.worklist.DefaultWorkList;
 
 import java.io.Serializable;
@@ -941,6 +940,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
                 String instId = null;
 
+
                 if (getActivityAppAlias() != null) {
                     instId = processManager.initializeProcess(getActivityAppAlias());
 
@@ -951,20 +951,22 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
                         StringBuffer generatedTitle = new StringBuffer();
 
                         int substringDelimiter = 0;
-                        for (ParameterValue pv : getParameters()) {
-                            connector = tokenizer.nextToken("$").substring(substringDelimiter);
-                            tokenizer.nextToken(">");
 
-                            generatedTitle.append(connector).append(pv.getValueObject());
-
-                            substringDelimiter = 1;
-                        }
-
-                        for (ParameterValue pv : getParameters()) {
-                            Serializable valueObject = (Serializable) pv.getValueObject();
-
-                            processManager.setProcessVariable(instId, "", pv.getVariableName(), valueObject);
-                        }
+                        //////// process variable initiation from textual context awareness - for now diabled.
+//                        for (ParameterValue pv : getParameters()) {
+//                            connector = tokenizer.nextToken("$").substring(substringDelimiter);
+//                            tokenizer.nextToken(">");
+//
+//                            generatedTitle.append(connector).append(pv.getValueObject());
+//
+//                            substringDelimiter = 1;
+//                        }
+//
+//                        for (ParameterValue pv : getParameters()) {
+//                            Serializable valueObject = (Serializable) pv.getValueObject();
+//
+//                            processManager.setProcessVariable(instId, "", pv.getVariableName(), valueObject);
+//                        }
 
                         this.setTitle(generatedTitle.append(tokenizer.nextElement()).toString());
                     }
@@ -1175,11 +1177,12 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         // this code here must be for transaction problem
         this.flushDatabaseMe();
 
-        SolrData SolrData = new SolrData();
-        Instance inst = new Instance();
-        inst.copyFrom(instanceRef);
-        SolrData.insertWorkItem(this, inst);
-
+        //TODO: this additional action should be moved to something like Event Listeners or Advices
+//        SolrData SolrData = new SolrData();
+//        Instance inst = new Instance();
+//        inst.copyFrom(instanceRef);
+//        SolrData.insertWorkItem(this, inst);
+//
         return instanceRef;
     }
 

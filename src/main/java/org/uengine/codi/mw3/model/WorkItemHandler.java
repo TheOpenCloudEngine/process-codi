@@ -7,6 +7,7 @@ import org.metaworks.annotation.Id;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
+import org.metaworks.model.MetaworksElement;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -123,8 +124,12 @@ public class WorkItemHandler implements ContextAware {
 						}else
 							processVariableValue = (Serializable) variableType.newInstance();
 					}
+
+					ProcessVariableValueList pvvl = new ProcessVariableValueList();
+					pvvl.setType(variableType.getName());
 					
-					pv.setValueObject(processVariableValue);
+					//pv.setValueObject(processVariableValue);
+					pv.setProcessVariableValueList(pvvl);
 				}
 				
 				releaseMapForITool();
@@ -373,10 +378,16 @@ public class WorkItemHandler implements ContextAware {
 			
 			String variableTypeName = parameters[i].getVariableType();
 			//Class variableType = Thread.currentThread().getContextClassLoader().loadClass(variableTypeName);
-			Serializable processVariableValue = null;
+			ProcessVariableValue processVariableValue = new ProcessVariableValue();
+			processVariableValue.setName(parameters[i].getVariableName());
 
-			processVariableValue = (Serializable) parameters[i].getValueObject();
-		
+			ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
+
+			for(MetaworksElement me : pvvl.getElements()){
+				processVariableValue.setValue(me.getValue());
+				processVariableValue.moveToAdd();
+			}
+
 //				if(variableType == String.class){
 //				}else if(Long.class.isAssignableFrom(variableType)){
 //					processVariableValue = parameters[i].getValueNumber();
@@ -400,12 +411,17 @@ public class WorkItemHandler implements ContextAware {
 		
 		if(parameters!=null){
 			for(int i=0; i<parameters.length; i++){				
-				Serializable processVariableValue = null;
-				processVariableValue = (Serializable) parameters[i].getValueObject();
-				
-				if(processVariableValue instanceof ITool){
-					((ITool)processVariableValue).afterComplete();
+
+				ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
+
+				for(MetaworksElement me : pvvl.getElements()){
+					Object processVariableValue = me.getValue();
+
+					if(processVariableValue instanceof ITool){
+						((ITool)processVariableValue).afterComplete();
+					}
 				}
+
 			}
 		}
 		
@@ -615,10 +631,18 @@ public class WorkItemHandler implements ContextAware {
 
 			String variableTypeName = parameters[i].getVariableType();
 			//Class variableType = Thread.currentThread().getContextClassLoader().loadClass(variableTypeName);
-			Serializable processVariableValue = null;
 
-			processVariableValue = (Serializable) parameters[i].getValueObject();
-		
+
+			ProcessVariableValue processVariableValue = new ProcessVariableValue();
+			processVariableValue.setName(variableTypeName);
+
+			ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
+
+			for(MetaworksElement me : pvvl.getElements()){
+				processVariableValue.setValue(me.getValue());
+				processVariableValue.moveToAdd();
+			}
+
 //				if(variableType == String.class){
 //				}else if(Long.class.isAssignableFrom(variableType)){
 //					processVariableValue = parameters[i].getValueNumber();
@@ -626,8 +650,12 @@ public class WorkItemHandler implements ContextAware {
 //					processVariableValue = parameters[i].getValueCalendar();
 //				}
 
-			
+			if(processVariableValue instanceof ITool){
+				((ITool)processVariableValue).beforeComplete();
+			}
+
 			rp.setProcessVariableChange(new KeyedParameter(pv.getVariableName(), processVariableValue));
+
 		}
 		
 		processManager.saveWorkitem(getInstanceId(), getTracingTag(), getTaskId().toString(), rp );

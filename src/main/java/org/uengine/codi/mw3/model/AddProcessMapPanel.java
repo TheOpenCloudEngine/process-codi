@@ -21,7 +21,7 @@ public class AddProcessMapPanel {
 	@AutowiredFromClient
 	public Session session;
 		
-	public void load() throws Exception{
+	public void load() throws Exception {
 		
 		ResourceFile processDefinitions = new ResourceFile();
 		

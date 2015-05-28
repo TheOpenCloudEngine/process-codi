@@ -21,16 +21,18 @@ public class ParameterValue implements ContextAware{
 		public void setArgument(String argument) {
 			this.argument = argument;
 		}
-		
-	Object valueObject;
+
+
+	ProcessVariableValueList processVariableValueList;
 		@Validator(availableUnder="metaworksContext.when == 'edit'")
-		public Object getValueObject() {
-			return valueObject;
+		public ProcessVariableValueList getProcessVariableValueList() {
+			return processVariableValueList;
 		}
-		public void setValueObject(Object valueObject) {
-			this.valueObject = valueObject;
+		public void setProcessVariableValueList(ProcessVariableValueList processVariableValueList) {
+			this.processVariableValueList = processVariableValueList;
 		}
-//		
+
+	//
 //	String valueString;
 //		public String getValueString() {
 //			return valueString;
