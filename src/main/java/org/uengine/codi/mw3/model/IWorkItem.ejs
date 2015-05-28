@@ -61,7 +61,7 @@
 			var desc = '';
         	
         
-			if('file' == type)
+			if('file' == type)  
 				desc = value.majorVer + '.' + value.minorVer;
 			else if('process' == type){
 				//title = mw3.localize('$MyTask') + ': ' + title;
@@ -95,14 +95,17 @@
 					<div class="notMePic">
 						<div class="notMePicPic" style="float:left"><%=fields.writer.here()%></div>
 						<div style="float:left; margin-left:10px">
-							<div><b><%=value.writer.name%></b></div>
-							<div style="color:#A2A2A2"></div>
+							<div><b>테스트</b></div>
+							<div style="color:#A2A2A2">test@test.com</div>
 						</div>
 					</div>		
 					<div  style="float:right;margin:11px;color:#A2A2A2"><%=fields.startDate.here({when: 'timeago'})%></div>								
 				</td>
 			</tr>
 			<tr>
+
+				
+
 				<td>
 					<div style="position:relative;">
 						<div class="<%=isMine?'view_box3':'view_box4'%>" style="position:relative">

@@ -1,29 +1,34 @@
-<% if(value){ %>
-<div class="depth1">
-    <div class="fist_menu">
-        <ul><li>
-                <a href="#">
-                    <span class="icon-feed"></span>
-                    <span style="padding:0px;margin:0px;width:auto"><%=fields.label.here()%></span>
-                </a>
-                <% if(!mw3.isHiddenMethod(methods.expand)){ %>
-                <span class="west_more_btn">
-                        <a href="javascript:<%=methods.expand.caller()%>">더보기</a>
-                    </span>
-                <% } %>
-                <% if(!mw3.isHiddenMethod(methods.collapse)){ %>
-                <span class="west_more_btn">
-                        <a href="javascript:<%=methods.collapse.caller()%>">접기</a>
-                    </span>
-                <% } %>
-            </li></ul>
-    </div>
-</div>
+<%
+	if(value){
+%>
+	<div class="depth1">
+		<span><%=fields.label.here()%></span>
+<%
+		if(!mw3.isHiddenMethod(methods.expand)){
+%>				
+		<span class="west_more_btn">
+			<a href="javascript:<%=methods.expand.caller()%>">더보기</a>
+		</span>
+<%
+		}
+%>		
+<%
+		if(!mw3.isHiddenMethod(methods.collapse)){
+%>	
+		<span class="west_more_btn">
+			<a href="javascript:<%=methods.collapse.caller()%>">접기</a>
+		</span>
+<%
+		}
+%>		
+	</div>
 
 	<div class="depth2 contact_list">
 		<%=fields.child.here()%>
-		<a style="cursor: pointer;float: left;margin: 12px 0 12px 4px;" onclick="<%=methods.popupAdd.caller()%>"><img  src="images/waveStyle/addUser2.png" /></a>
+		<a style="cursor: pointer;float: left;margin: 13px 0 12px 13px;" onclick="<%=methods.popupAdd.caller()%>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>		</a>
 		<div class="clear"></div>
 	</div>
 	
-<% 	} %>
+<%
+	}
+%>

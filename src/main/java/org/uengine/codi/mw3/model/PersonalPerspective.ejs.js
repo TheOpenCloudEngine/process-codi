@@ -11,7 +11,7 @@ var org_uengine_codi_mw3_model_PersonalPerspective = function(objectId, classNam
 };
 org_uengine_codi_mw3_model_PersonalPerspective.prototype.loaded = function(){
 	$('#navigator .depth1 a').click(function(){
-		$('#navigator .depth1 .fist_menu li').removeClass('selected_navi');
+		$('#navigator .depth1 .fist_menu li').removeClass('selected_navi'); 
 		$(this).parent().addClass('selected_navi');
 		$(".overlay_right").trigger('click');
 	});

@@ -14,7 +14,7 @@ var org_uengine_codi_mw3_model_InstanceTooltip = function(objectId, className){
     
     	$('.tooltip-top').tooltip({
 		    placement: 'top',
-		    viewport: {selector: 'body', padding: 2}
+		    viewport: {selector: 'body', padding: 2} 
     	});
    
 };

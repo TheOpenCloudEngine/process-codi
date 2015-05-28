@@ -159,13 +159,11 @@ public class ResourceFile implements ContextAware {
 			
 			return;
 		}	
+
+		File file = new File(CodiClassLoader.getCodeBaseRoot() + getAlias());
 		
-		String resourceBase = CodiClassLoader.getCodeBaseRoot();
-		
-		// TODO workspace.getProjects().get(0) ��� 遺�遺����  loop 瑜� �����ㅼ�� ���濡������멸��吏� 蹂댁�대��濡� ��댁�쇳��
-		File file = new File(resourceBase + getAlias());
-		
-		if(file.getName().startsWith("__") && !file.exists()){
+//		if(file.getName().startsWith("__") && !file.exists()){
+		if(!file.getName().contains(".") && !file.exists()){
 			file.mkdirs();
 		}
 		

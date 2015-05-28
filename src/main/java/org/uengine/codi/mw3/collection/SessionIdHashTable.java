@@ -14,7 +14,7 @@ public class SessionIdHashTable<K,V> extends Hashtable{
         Object obj = super.put(key, value);
 
         try {
-            Login.storeLoginStaticSessionInfo();
+//            Login.storeLoginStaticSessionInfo();
         } catch (Exception e) {
             e.printStackTrace();
         }

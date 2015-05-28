@@ -13,24 +13,24 @@ public class LoginStaticSessionListener implements ServletContextListener{
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        File theDir = new File(Login.CACHE_PATH);
-        if (!theDir.exists()) {
-            theDir.mkdirs();
-        }
-
-        try {
-            Login.recoverLoginStaticSessionInfo();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        File theDir = new File(Login.CACHE_PATH);
+//        if (!theDir.exists()) {
+//            theDir.mkdirs();
+//        }
+//
+//        try {
+//            Login.recoverLoginStaticSessionInfo();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        try {
-            Login.storeLoginStaticSessionInfo();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Login.storeLoginStaticSessionInfo();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }

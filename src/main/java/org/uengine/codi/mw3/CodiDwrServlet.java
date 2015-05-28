@@ -211,7 +211,16 @@ public class CodiDwrServlet extends TransactionalDwrServlet{
 		
 		HttpSession session = request.getSession();
 
-		
+        if(session!=null){
+            String projectId = (String) session.getAttribute("projectId");
+
+            CodiClassLoader clForSession = CodiClassLoader.createClassLoader(projectId);
+
+            Thread.currentThread().setContextClassLoader(clForSession);
+        }else{
+            System.out.println("HttpSession is null");
+        }
+
 		if("1".equals(StartCodi.USE_CAS)){
 			String logoutRequest = request.getParameter("logoutRequest");
 			if(logoutRequest != null){
