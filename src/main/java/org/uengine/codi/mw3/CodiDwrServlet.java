@@ -209,38 +209,37 @@ public class CodiDwrServlet extends TransactionalDwrServlet{
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		
-		HttpSession session = request.getSession();
+//		HttpSession session = request.getSession();
 
-        if(session!=null){
-            String projectId = (String) session.getAttribute("projectId");
+//        if(session!=null){
+//            String projectId = (String) session.getAttribute("projectId");
+//
+////            CodiClassLoader clForSession = CodiClassLoader.createClassLoader(projectId);
+////            Thread.currentThread().setContextClassLoader(clForSession);
+//        }else{
+//            System.out.println("HttpSession is null");
+//        }
 
-            CodiClassLoader clForSession = CodiClassLoader.createClassLoader(projectId);
-
-            Thread.currentThread().setContextClassLoader(clForSession);
-        }else{
-            System.out.println("HttpSession is null");
-        }
-
-		if("1".equals(StartCodi.USE_CAS)){
-			String logoutRequest = request.getParameter("logoutRequest");
-			if(logoutRequest != null){
-				System.out.println(logoutRequest);
-				Session codiSession = (Session)StartCodi.MANAGED_SESSIONS.get(logoutRequest);
-				if (codiSession != null) {
-					
-//					Employee emp = new Employee();
-//					emp.setEmpCode(loggeduserId);
-					try {
-//						codiSession.setEmployee(emp);
-						MetaworksRemoteService.pushTargetClientObjects(Login.getSessionIdWithUserId(codiSession.getUser().getUserId()), new Object[]{new Refresh( new StartCodi(codiSession, "logout") )});
-					}catch(Throwable e){
-						throw new RuntimeException(e);
-					}finally{
-						StartCodi.MANAGED_SESSIONS.remove(logoutRequest);
-					}
-				}
-			}
-		}
+//		if("1".equals(StartCodi.USE_CAS)){
+//			String logoutRequest = request.getParameter("logoutRequest");
+//			if(logoutRequest != null){
+//				System.out.println(logoutRequest);
+//				Session codiSession = (Session)StartCodi.MANAGED_SESSIONS.get(logoutRequest);
+//				if (codiSession != null) {
+//
+////					Employee emp = new Employee();
+////					emp.setEmpCode(loggeduserId);
+//					try {
+////						codiSession.setEmployee(emp);
+//						MetaworksRemoteService.pushTargetClientObjects(Login.getSessionIdWithUserId(codiSession.getUser().getUserId()), new Object[]{new Refresh( new StartCodi(codiSession, "logout") )});
+//					}catch(Throwable e){
+//						throw new RuntimeException(e);
+//					}finally{
+//						StartCodi.MANAGED_SESSIONS.remove(logoutRequest);
+//					}
+//				}
+//			}
+//		}
 		
 		// TODO Auto-generated method stub
 		super.doPost(request, response);

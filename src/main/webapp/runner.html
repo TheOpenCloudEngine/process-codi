@@ -105,7 +105,7 @@
 					var mainPage
 
 					$(document).ready(function() {
-						mw3.setBase("/mw3")
+//						mw3.setBase("/mw3")
 				 		mw3.setWhen(mw3.WHEN_EDIT);
 						
 						mw3.template_error = function(e, actualFace) {
@@ -126,7 +126,7 @@
 							fullClassName: request.getParameter("className"),
 							classOwner: request.getParameter("classOwner"),
 								
-							__className: 'org.uengine.codi.mw3.common.GatewayRunner'
+							__className: 'org.metaworks.GatewayRunner'
 						};
 										
 				 		mw3.locateObject(object, null, 'body').call('run');
