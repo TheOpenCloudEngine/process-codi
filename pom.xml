@@ -558,6 +558,7 @@
 							</goals>
 							<configuration>
 								<warSourceDirectory>src/main/webapp</warSourceDirectory>
+								<attachClasses>true</attachClasses>
 							</configuration>
 						</execution>
 					</executions>
