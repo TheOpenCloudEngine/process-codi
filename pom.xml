@@ -552,6 +552,7 @@
 								<goal>war</goal>
 							</goals>
 							<configuration>
+								<attachClasses>true</attachClasses>
 								<warSourceDirectory>src/main/webapp</warSourceDirectory>
 							</configuration>
 						</execution>
