@@ -554,7 +554,6 @@
 							<configuration>
 								<attachClasses>true</attachClasses>
 								<warSourceDirectory>src/main/webapp</warSourceDirectory>
-								<attachClasses>true</attachClasses>
 							</configuration>
 						</execution>
 					</executions>
