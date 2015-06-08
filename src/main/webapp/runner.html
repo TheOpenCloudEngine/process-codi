@@ -18,7 +18,7 @@
 
 <script type="text/javascript" src="scripts/phonegap/phonegap.js"></script>
 
-<script type="text/javascript" src="scripts/ejs/ejs_production.js"></script>
+<script type="text/javascript" src="dwr/metaworks/scripts/ejs/ejs.js"></script>
 <script type="text/javascript" src="scripts/ejs/ejs_debugger.js"></script>
 <script type="text/javascript" src="scripts/ejs/view.js"></script>
 
@@ -108,18 +108,6 @@
 //						mw3.setBase("/mw3")
 				 		mw3.setWhen(mw3.WHEN_EDIT);
 						
-						mw3.template_error = function(e, actualFace) {
-							if(e.lineNumber){
-								if(e.lineText)
-									var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.lineText+": "+e.message;
-								else
-									var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.message;
-							}else
-								var message = "["+actualFace+"] "+e.message;
-								
-							alert(message);	
-			 			}				
-
 						var request = new Request();
 
 						var object = {

@@ -106,7 +106,11 @@ public interface IWorkItem extends IDAO{
 		@Hidden
 		public String getExtFile();
 		public void setExtFile(String extFile);
-		
+
+		@Hidden
+		public String getExecScope();
+		public void setExecScope(String execScope);
+
 		@Hidden
 		@ORMapping(
 			databaseFields = { "title", "content" },

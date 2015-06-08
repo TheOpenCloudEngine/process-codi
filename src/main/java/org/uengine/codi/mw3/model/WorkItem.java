@@ -113,6 +113,15 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     private Logger logger = LoggerFactory.getLogger(WorkItem.class);
     private boolean changeFollower = false;
 
+    String execScope;
+        public String getExecScope() {
+            return execScope;
+        }
+        public void setExecScope(String execScope) {
+            this.execScope = execScope;
+        }
+
+
     public WorkItem() {
         this.getMetaworksContext().setWhen(WHEN_NEW);
         this.setUseBBB("1".equals(USE_BBB));
@@ -689,6 +698,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
             workItemHandler.setTaskId(getTaskId());
             workItemHandler.setTracingTag(tracingTag);
             workItemHandler.setRootInstId(this.getRootInstId());
+            workItemHandler.setExecutionScope(workItem.getExecScope());
 
             workItemHandler.setMetaworksContext(new MetaworksContext());
 

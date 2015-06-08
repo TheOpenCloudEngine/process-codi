@@ -214,7 +214,17 @@ public class WorkItemHandler implements ContextAware {
 		public void setTaskId(Long taskId) {
 			this.taskId = taskId;
 		}
-		
+
+	String executionScope;
+		@Hidden
+		public String getExecutionScope() {
+			return executionScope;
+		}
+		public void setExecutionScope(String executionScope) {
+			this.executionScope = executionScope;
+		}
+
+
 	Long rootInstId;
 		@Hidden
 		public Long getRootInstId() {
@@ -406,7 +416,7 @@ public class WorkItemHandler implements ContextAware {
 			rp.setProcessVariableChange(new KeyedParameter(pv.getVariableName(), processVariableValue));
 		}
 		
-		processManager.completeWorkitem(getInstanceId(), getTracingTag(), getTaskId().toString(), rp);
+		processManager.completeWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp);
 		
 		// 변경된 액티비티 들만 찾기
 		String[] executedTaskIds = executedActivityTaskIds(instance);
