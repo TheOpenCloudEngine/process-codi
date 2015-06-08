@@ -27,7 +27,6 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 	
 	
 	public CodiMetaworksRemoteService() throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException{
-		
 //		ClassLoader cl = new JavaSourceClassLoader(
 //				this.getClass().getClassLoader(), 
 //				new ResourceFinder(){

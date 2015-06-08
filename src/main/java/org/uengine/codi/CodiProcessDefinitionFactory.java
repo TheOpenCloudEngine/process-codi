@@ -1,5 +1,6 @@
 package org.uengine.codi;
 
+import com.thoughtworks.xstream.converters.ConversionException;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.uengine.codi.mw3.CodiClassLoader;
 import org.uengine.codi.mw3.resource.ResourceManager;
@@ -9,10 +10,7 @@ import org.uengine.kernel.ProcessDefinitionFactory;
 import org.uengine.processmanager.ProcessTransactionContext;
 import org.uengine.util.UEngineUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -61,8 +59,10 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 			
 				return bao.toString();
 			}
-		} catch (Exception e) {
-			throw new Exception("No such definition: " + location, e);
+		} catch(ConversionException conversion){
+			throw new Exception("Conversion Exception. Maybe difference in definition object structure: ", conversion);
+		} catch(IOException e) {
+			throw new Exception("No such definition or Some I/O Exception: " + location, e);
 		} finally{
 			if(is!=null)
 				is.close();

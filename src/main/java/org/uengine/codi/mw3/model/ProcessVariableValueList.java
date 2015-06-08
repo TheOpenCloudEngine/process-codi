@@ -7,6 +7,8 @@ import org.metaworks.annotation.Validator;
 import org.metaworks.model.MetaworksElement;
 import org.metaworks.model.MetaworksList;
 
+import java.io.Serializable;
+
 public class ProcessVariableValueList extends MetaworksList<Object>{
 
 
@@ -20,6 +22,16 @@ public class ProcessVariableValueList extends MetaworksList<Object>{
 		}
 
 
+	Serializable defaultValue;
+	@Hidden
+		public Serializable getDefaultValue() {
+			return defaultValue;
+		}
+		public void setDefaultValue(Serializable defaultValue) {
+			this.defaultValue = defaultValue;
+		}
+
+
 	@Override
 	public MetaworksElement createNewElement() {
 
@@ -27,10 +39,14 @@ public class ProcessVariableValueList extends MetaworksList<Object>{
 		e.setMetaworksContext(new MetaworksContext());
 		e.getMetaworksContext().setWhen("edit");
 
-		try {
-			e.setValue(Thread.currentThread().getContextClassLoader().loadClass(getType()).newInstance());
-		} catch (Exception e1) {
-			throw new RuntimeException(e1);
+		if(getDefaultValue()!=null) {
+			e.setValue(getDefaultValue());
+		} else {
+			try {
+				e.setValue(Thread.currentThread().getContextClassLoader().loadClass(getType()).newInstance());
+			} catch (Exception e1) {
+				throw new RuntimeException(e1);
+			}
 		}
 
 		return e;
