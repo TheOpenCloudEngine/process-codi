@@ -9,9 +9,25 @@
 <%
 }
 %>
+			
+			<div class="top_panel_location">Workspace</div>
 			<div class="top_panel_pic"><%=fields.loginUser.here({when: 'self_small'})%></div>
 		 	<div class="top_panel_object"><%=fields.notificationBadge.here()%></div>
 		 	<div class="top_panel_object"><%=fields.todoBadge.here()%></div>
+		 	<div class="top_panel_search">				
+				<ul>
+				    <li class="top_search">
+				    	<input placeholder="검색하세요" id="" class="top_search_input" value="">
+				    </li>
+				    
+				    <li class="top_search_right">
+				    	<a href="#">
+				    		<span class="glyphicon glyphicon-search" style="font-size:19px; color:#fff;margin-right:3px;line-height: 20px;"></span>
+				    	</a>
+				    </li>
+				    <li style="clear:left;"></li>
+				</ul>
+			</div>
 		 	
 		 	<div class="top_panel_app"><%=fields.topMenuPanel.here()%></div>
 		 	

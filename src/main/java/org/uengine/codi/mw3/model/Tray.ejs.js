@@ -68,12 +68,12 @@ org_uengine_codi_mw3_model_Tray.prototype.addTray = function(title, instId, noti
 		}*/
 			
 		var tray = mw3.getObject(this.objectId);
-		tray.targetItem = {
-				title: title,
-				instId: instId
-		};
-			
-		tray.addTrayItem();	
-	}
+		 tray.targetItem = {
+			 title: title,
+			 instId: instId
+		 };
+
+		 tray.addTrayItem();
+	 }
 	
 };
