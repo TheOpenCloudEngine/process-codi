@@ -24,90 +24,7 @@
 	            </div>
             </div>
 			
-			<!--
-			
-			
-			<div class="toolbar">
-			    <ul>
-			        
-			        <li id="wih_btn_item_Information">
-			        	<a href="#" onClick="<%=methods.monitor.caller()%>">
-			        		<span class="toolbarIcon icon-shuffle"></span>
-			        		<span><%=mw3.localize("$process")%></span>
-			        	</a>
-			        </li>
-			        <li id="wih_btn_item_GanttChart">
-			        	<a href="#" onClick="<%=methods.schedule.caller()%>">
-			        		<span class="toolbarIcon icon-info"></span>
-			        		<span style="color: black; "><%=mw3.localize("$Schedule")%></span>
-			        	</a>
-			        </li>
-			        <li id="wih_btn_sendMail" style="display: none; ">
-			        	<a href="#" onClick="sendMail()">
-			        		<span class="toolbarIcon icon-mail4"></span>
-			        		<span><%=mw3.localize("$Mail")%></span>
-			        	</a>
-			        </li>
 
-			        <li id="wih_btn_edit" style="display: none; ">
-			        	<a href="">
-			        		<span class="toolbarIcon icon-insert-template"></span>
-			        		<span><%=mw3.localize("$Edit")%></span>
-			        	</a>
-			        </li>
-			        <li id="wih_btn_delete" style="display: none; ">
-			        	<a href="#" onClick="deleteMail()">
-			        		<span class="toolbarIcon icon-close"></span>
-			        		<span><%=mw3.localize("$Deletemail")%></span>
-			        	</a>
-			        </li>
-			        <li id="wih_btn_item_delete" style="display: block; ">
-			        	<a href="#" onClick="<%=methods.remove.caller()%>">
-			        		<span class="toolbarIcon icon-remove2"></span>
-			        		<span><%=mw3.localize("$Delete")%></span>
-			        	</a>
-			        </li>
-			        <li id="wih_btn_toInstance" style="display: none; ">
-			        	<a href="#" onClick="getRecommandProcessList();">
-			        		<span class="toolbarIcon icon-shuffle"></span>
-			        		<span><%=mw3.localize("$processchange")%></span>
-			        	</a>
-			        </li>			       
-<%
-			if(value.secuopt == null || value.secuopt == '0'){
-%>						        
-			        <li id="wih_btn_sec">
-			        	<a href="#" onClick="<%=methods.toggleSecurityConversation.caller()%>">
-			        		<span class="toolbarIcon icon-lock2"></span>
-			        		<span><%=mw3.localize("$Privacy")%></span>
-			        	</a>
-			        </li>
-<%
-			}else{
-%>						        
-			        <li id="wih_btn_sec" class="toolbar_current">
-			        	<a href="#" onClick="<%=methods.toggleSecurityConversation.caller()%>">
-			        		<span class="toolbarIcon icon-lock"></span>
-			        		<span><%=mw3.localize("$MakeItPrivacy")%></span>
-			        	</a>
-			        </li>
-<%
-			}
-
-			var isCompleted = false;
-			var enableComplete = !mw3.isHiddenMethod(methods.complete);
-			
-			
-			
-			if(enableComplete)
-				isCompleted = !(value.status != 'Stopped' && value.status != 'Completed');
-%>						        
-			        <li id="wih_btn_complete" class="<%=isCompleted?'toolbar_current':''%>">
-			        	<a href="#" onClick="<%=enableComplete?methods.complete.caller():''%>">
-			        		<span class="<%=!enableComplete?'disable':''%> <%=isCompleted?'icon-checkmark-circle':'icon-checkmark'%> toolbarIcon"></span>
-			        		<span class="<%=!enableComplete?'disable':''%>"><%=mw3.localize("$Completing")%></span>
-			        	</a>
-			        </li>
 			        
 <%		
 		if( value.eventTriggers ){
@@ -124,9 +41,6 @@
             }
 		}
 %>
-			    </ul>
-			</div>
-			-->
 			
 <%		
 		}else{

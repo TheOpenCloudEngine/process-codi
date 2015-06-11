@@ -48,7 +48,8 @@ public class InstanceView {
 		
 	public void load(IInstance instance) throws Exception{
 
-		InstanceTooltip instanceTooltip = (InstanceTooltip) MetaworksRemoteService.getInstance().getBeanFactory().getBean(InstanceTooltip.class);
+//		InstanceTooltip instanceTooltip = (InstanceTooltip) MetaworksRemoteService.getInstance().getBeanFactory().getBean(InstanceTooltip.class);
+		InstanceTooltip instanceTooltip = new InstanceTooltip();
 
 		instanceTooltip.getMetaworksContext().setHow("action");		
 		instanceTooltip.load(instance);
