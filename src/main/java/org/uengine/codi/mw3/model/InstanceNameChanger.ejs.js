@@ -33,8 +33,9 @@ var org_uengine_codi_mw3_model_InstanceNameChanger = function(objectId, classNam
 				h.height(21).height(h[0].scrollHeight);//where 60 is minimum height of textarea
 		};  
 		
-		$('#instanceName_' + this.objectId).live("keyup keydown", autoSizing);
-	
+		//$('#instanceName_' + this.objectId).live("keyup keydown", autoSizing);
+		$('#instanceName_' + this.objectId).on("keyup keydown", autoSizing);
+
 		autoSizing();
 	}
 };
