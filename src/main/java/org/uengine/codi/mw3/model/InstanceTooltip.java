@@ -18,7 +18,6 @@ import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.bpmn.Event;
 import org.uengine.processmanager.ProcessManagerRemote;
 
-@Component
 public class InstanceTooltip implements ContextAware {
 
 	@AutowiredFromClient

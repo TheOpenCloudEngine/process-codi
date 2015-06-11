@@ -3,6 +3,8 @@ var org_uengine_codi_mw3_model_InstanceListener = function(objectId, className){
 	this.className = className;
 	this.object = mw3.objects[this.objectId];
 
+    debugger;
+
 	if(this.object){
 		var faceHelper = this;
 		
@@ -11,7 +13,7 @@ var org_uengine_codi_mw3_model_InstanceListener = function(objectId, className){
 		var value = this.object.applyItem;
 		
 		var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
-		var command = this.object.command;
+		var command = this.object.command;e
 		if((session.lastPerspecteType == 'allICanSee' || session.lastPerspecteType == 'all' || session.lastPerspecteType == 'inbox' || session.lastPerspecteType == 'following' || session.lastPerspecteType == 'request') && (session.keyword == null || typeof session.keyword == 'undefined' && session.searchKeyword == '')){
 			value.instanceViewThreadPanel = null;
 			
