@@ -126,11 +126,17 @@ public class WorkItemHandler implements ContextAware {
 						}
 					}
 
-					ProcessVariableValueList pvvl = new ProcessVariableValueList();
-					pvvl.setDefaultValue(processVariableValue);
-					
-					//pv.setValueObject(processVariableValue);
-					pv.setProcessVariableValueList(pvvl);
+					pv.setMultipleInput(pc.isMultipleInput());
+
+					if(pc.isMultipleInput()) {
+						ProcessVariableValueList pvvl = new ProcessVariableValueList();
+						pvvl.setDefaultValue(processVariableValue);
+
+						//pv.setValueObject(processVariableValue);
+						pv.setProcessVariableValueList(pvvl);
+					}else{
+						pv.setValue(processVariableValue);
+					}
 				}
 				
 				releaseMapForITool();
@@ -392,11 +398,15 @@ public class WorkItemHandler implements ContextAware {
 			ProcessVariableValue processVariableValue = new ProcessVariableValue();
 			processVariableValue.setName(parameters[i].getVariableName());
 
-			ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
+			if(parameters[i].isMultipleInput()) {
+				ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
 
-			for(MetaworksElement me : pvvl.getElements()){
-				processVariableValue.setValue(me.getValue());
-				processVariableValue.moveToAdd();
+				for (MetaworksElement me : pvvl.getElements()) {
+					processVariableValue.setValue(me.getValue());
+					processVariableValue.moveToAdd();
+				}
+			}else{
+				processVariableValue.setValue(parameters[i].getValue());
 			}
 
 //				if(variableType == String.class){

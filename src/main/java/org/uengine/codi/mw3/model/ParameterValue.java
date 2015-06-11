@@ -2,7 +2,10 @@ package org.uengine.codi.mw3.model;
 
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
+import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.Validator;
+
+import java.io.Serializable;
 
 public class ParameterValue implements ContextAware{
 
@@ -22,6 +25,13 @@ public class ParameterValue implements ContextAware{
 			this.argument = argument;
 		}
 
+	boolean isMultipleInput;
+		public boolean isMultipleInput() {
+			return isMultipleInput;
+		}
+		public void setMultipleInput(boolean isMultipleInput) {
+			this.isMultipleInput = isMultipleInput;
+		}
 
 	ProcessVariableValueList processVariableValueList;
 		@Validator(availableUnder="metaworksContext.when == 'edit'")
@@ -31,6 +41,16 @@ public class ParameterValue implements ContextAware{
 		public void setProcessVariableValueList(ProcessVariableValueList processVariableValueList) {
 			this.processVariableValueList = processVariableValueList;
 		}
+
+	Serializable value;
+		public Serializable getValue() {
+			return value;
+		}
+		public void setValue(Serializable value) {
+			this.value = value;
+		}
+
+
 
 	//
 //	String valueString;

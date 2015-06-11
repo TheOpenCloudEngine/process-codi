@@ -1,1 +1,12 @@
-<ul><%=fields.processVariableValueList.here()%></ul>
+<ul>
+
+    <%if(value.isMultipleInput){%>
+
+        <%=fields.processVariableValueList.here()%>
+    <%}else{%>
+
+        <%=fields.value.here()%>
+    <%}%>
+
+
+</ul>
