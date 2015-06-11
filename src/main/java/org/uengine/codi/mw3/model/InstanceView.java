@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.filter.AllSessionFilter;
 import org.uengine.processmanager.ProcessManagerRemote;
+import org.uengine.util.UEngineUtil;
 
 @Component
 public class InstanceView {
@@ -47,7 +48,8 @@ public class InstanceView {
 		
 	public void load(IInstance instance) throws Exception{
 
-		InstanceTooltip instanceTooltip = new InstanceTooltip();
+		InstanceTooltip instanceTooltip = (InstanceTooltip) MetaworksRemoteService.getInstance().getBeanFactory().getBean(InstanceTooltip.class);
+
 		instanceTooltip.getMetaworksContext().setHow("action");		
 		instanceTooltip.load(instance);
 		

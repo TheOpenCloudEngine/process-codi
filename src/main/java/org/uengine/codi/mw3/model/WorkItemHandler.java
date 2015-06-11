@@ -1,10 +1,7 @@
 package org.uengine.codi.mw3.model;
 
 import org.metaworks.*;
-import org.metaworks.annotation.AutowiredFromClient;
-import org.metaworks.annotation.Hidden;
-import org.metaworks.annotation.Id;
-import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.annotation.*;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.model.MetaworksElement;
@@ -672,7 +669,7 @@ public class WorkItemHandler implements ContextAware {
 
 		}
 		
-		processManager.saveWorkitem(getInstanceId(), getTracingTag(), getTaskId().toString(), rp );
+		processManager.saveWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp );
 //			processManager.applyChanges(); //you may call this. since you can ensure this service method is the service itself
 	}
 	

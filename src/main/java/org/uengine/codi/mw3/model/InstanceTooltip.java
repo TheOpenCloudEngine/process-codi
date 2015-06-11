@@ -13,10 +13,12 @@ import org.metaworks.annotation.Id;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.bpmn.Event;
 import org.uengine.processmanager.ProcessManagerRemote;
 
+@Component
 public class InstanceTooltip implements ContextAware {
 
 	@AutowiredFromClient
