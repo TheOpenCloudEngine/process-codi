@@ -5,8 +5,9 @@ var org_uengine_codi_mw3_model_Tray = function(objectId, className){
 	this.divId = '#objDiv_' + this.objectId;
 	
 	var thisWidth = $(this.divId).width()-650;
-	var trayObject = $(this.divId).find('div.#sm01');
-	
+	debugger;
+	//var trayObject = $(this.divId).find('div.#sm01');
+	var trayObject = $(this.divId).find('div#sm01');
 	
 	trayObject.width(thisWidth/trayObject.length);
 	
@@ -68,12 +69,12 @@ org_uengine_codi_mw3_model_Tray.prototype.addTray = function(title, instId, noti
 		}*/
 			
 		var tray = mw3.getObject(this.objectId);
-		tray.targetItem = {
-				title: title,
-				instId: instId
-		};
-			
-		tray.addTrayItem();	
-	}
+		 tray.targetItem = {
+			 title: title,
+			 instId: instId
+		 };
+
+		 tray.addTrayItem();
+	 }
 	
 };

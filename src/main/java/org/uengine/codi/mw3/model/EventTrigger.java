@@ -44,10 +44,10 @@ public class EventTrigger {
 		
 		//send message first
 		ProcessDefinition mainProcessDefinition = mainProcessInstance.getProcessDefinition();
-		EventMessagePayload eventMessagePayload = new EventMessagePayload();
-		eventMessagePayload.setEventName(eventName);
+//		EventMessagePayload eventMessagePayload = new EventMessagePayload();
+//		eventMessagePayload.setEventName(eventName);
 		//eventMessagePayload.setTriggerTracingTag(triggerActivityTracingTag);
-		mainProcessDefinition.fireMessage("event", mainProcessInstance, eventMessagePayload);
+		mainProcessDefinition.fireMessage("event", mainProcessInstance, getEventName());  ///eventMessagePayload);
 
 		processManager.applyChanges(); //apply explicitly so that the worklist can be updated.
 		

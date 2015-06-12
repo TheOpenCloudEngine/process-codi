@@ -33,26 +33,7 @@ public class TopMenuPanel {
 
     @ServiceMethod(target=ServiceMethodContext.TARGET_STICK)
     public Popup showApps() throws Exception{
-        ServletContext e = ServerContextFactory.get().getServletContext();
-        WebApplicationContext springAppContext = WebApplicationContextUtils.getWebApplicationContext(e);
-        Map beanMap = springAppContext.getBeansOfType(AbstractAllAppList.class);
-
-        AbstractAllAppList allAppList = null;
-
-        try {
-            for (Object key : beanMap.keySet()) {
-                allAppList = (AbstractAllAppList) beanMap.get(key);
-            }
-        } catch (Exception ex) {
-            return new Popup();
-        }
-
-        allAppList.session = session;
-        allAppList.load();
-
         Popup popup = new Popup();
-        popup.setPanel(allAppList);
-
         return popup;
     }
 }

@@ -130,7 +130,11 @@
 			}
 %>				
 									<span class="wih_title">
-										<%=title%>																				
+										<%if(value.status=='COMPLETED'){%>
+											<strike><%=title%></strike>
+										<%}else{%>
+											<%=title%>
+										<%}%>
 									</span>
 <%
 			// icon - maximize

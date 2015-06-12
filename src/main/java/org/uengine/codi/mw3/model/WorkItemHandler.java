@@ -1,10 +1,7 @@
 package org.uengine.codi.mw3.model;
 
 import org.metaworks.*;
-import org.metaworks.annotation.AutowiredFromClient;
-import org.metaworks.annotation.Hidden;
-import org.metaworks.annotation.Id;
-import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.annotation.*;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.model.MetaworksElement;
@@ -129,11 +126,17 @@ public class WorkItemHandler implements ContextAware {
 						}
 					}
 
-					ProcessVariableValueList pvvl = new ProcessVariableValueList();
-					pvvl.setDefaultValue(processVariableValue);
-					
-					//pv.setValueObject(processVariableValue);
-					pv.setProcessVariableValueList(pvvl);
+					pv.setMultipleInput(pc.isMultipleInput());
+
+					if(pc.isMultipleInput()) {
+						ProcessVariableValueList pvvl = new ProcessVariableValueList();
+						pvvl.setDefaultValue(processVariableValue);
+
+						//pv.setValueObject(processVariableValue);
+						pv.setProcessVariableValueList(pvvl);
+					}else{
+						pv.setValue(processVariableValue);
+					}
 				}
 				
 				releaseMapForITool();
@@ -395,11 +398,15 @@ public class WorkItemHandler implements ContextAware {
 			ProcessVariableValue processVariableValue = new ProcessVariableValue();
 			processVariableValue.setName(parameters[i].getVariableName());
 
-			ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
+			if(parameters[i].isMultipleInput()) {
+				ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
 
-			for(MetaworksElement me : pvvl.getElements()){
-				processVariableValue.setValue(me.getValue());
-				processVariableValue.moveToAdd();
+				for (MetaworksElement me : pvvl.getElements()) {
+					processVariableValue.setValue(me.getValue());
+					processVariableValue.moveToAdd();
+				}
+			}else{
+				processVariableValue.setValue(parameters[i].getValue());
 			}
 
 //				if(variableType == String.class){
@@ -672,7 +679,7 @@ public class WorkItemHandler implements ContextAware {
 
 		}
 		
-		processManager.saveWorkitem(getInstanceId(), getTracingTag(), getTaskId().toString(), rp );
+		processManager.saveWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp );
 //			processManager.applyChanges(); //you may call this. since you can ensure this service method is the service itself
 	}
 	

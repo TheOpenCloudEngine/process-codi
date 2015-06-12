@@ -738,7 +738,7 @@ position:absolute;
 .mw3_mainMenu {
 	height:27px;
 	margin: 0 auto;
-	width: 455px;
+	/*width: 455px;*/
 }
 #gnb_wrap {
 	float: center;
@@ -2623,7 +2623,6 @@ select.select[class] {
 	margin-bottom:15px;
 }
 .index_signup {
-	background:#1f1f1f;
 	height:54px;
 	padding:11px;
 }
@@ -2636,25 +2635,36 @@ select.select[class] {
 	color:#fff;
 }
 .index_signup .index_signup_inner input {
-	height:31px;
-	line-height:31px;
-	width:100%;
+	height:41px;
+	line-height:41px;
+	width:93%;
 	border:none;
 	padding-left:20px;
-	color:#666;
-	background:#fff !important;
+	color:#999;
+	background:#D5D5D5 !important;
 	border:none !important;
+	
+	border-radius: 25px;
+	-webkit-border-radius: 25px;
+	-moz-border-radius:25px;
+	-o-border-radius: 25px;
 }
 .index_signup .index_signup_inner .ebutton {
 	
 	cursor:pointer;
-	background:#2485e8;
-	padding:7px 20px;
-	;
+	background:#DE5C01;
+	padding:8px 20px;
 	color:#FFF;
 	font-weight:bold;
 	text-align:center;
-	display:inline-block
+	display:inline-block;
+	position:relative;
+	top:2px;
+	
+	border-radius: 25px;
+	-webkit-border-radius: 25px;
+	-moz-border-radius:25px;
+	-o-border-radius: 25px;
 }
 .index_content { text-align:left }
 .index_content .line1 {

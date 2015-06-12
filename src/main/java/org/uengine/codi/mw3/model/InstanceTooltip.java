@@ -13,6 +13,7 @@ import org.metaworks.annotation.Id;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.bpmn.Event;
 import org.uengine.processmanager.ProcessManagerRemote;
@@ -115,11 +116,10 @@ public class InstanceTooltip implements ContextAware {
 			EventTrigger[] eventTriggers = new EventTrigger[mls.size()];
 			if(mls!=null){
 				for(int i=0; i<mls.size(); i++){
-                    Event scopeAct = (Event)definition.getActivity((String)mls.get(i));
 					EventTrigger eventTrigger = new EventTrigger();
 					eventTrigger.setInstanceId(this.getInstanceId().toString());
-					eventTrigger.setDisplayName((String)mls.get(i));
-					eventTrigger.setEventName((String)mls.get(i));
+					eventTrigger.setDisplayName((String) mls.get(i));
+					eventTrigger.setEventName((String) mls.get(i));
 					eventTriggers[i] = eventTrigger;
 				}
 			}
@@ -195,19 +195,4 @@ public class InstanceTooltip implements ContextAware {
     public ModalWindow monitor() throws Exception{
         return null;
     }
-
-	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
-	public ModalWindow processMonitor() throws Exception{
-
-		ModalWindow modalWindow = new ModalWindow();
-
-		InstanceMonitorPanel instanceMonitorPanel = new InstanceMonitorPanel();
-		instanceMonitorPanel.load(this.getInstanceId(), processManager);
-
-		modalWindow.setPanel(instanceMonitorPanel);
-		modalWindow.setWidth(0);
-		modalWindow.setHeight(0);
-
-		return modalWindow;
-	}
 }

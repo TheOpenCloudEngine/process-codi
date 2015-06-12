@@ -34,6 +34,16 @@ body {
 .top_iconmenu span:hover {
 	color: #65777E
 }
+.top_panel_location {
+  text-align: center;
+  color: #818181;
+  position: absolute;
+  width: 150px;
+  line-height: 50px;
+  font-size: 18px;
+  left: 50%;
+  margin-left: -75px;
+}
 .top_panel_pic {
 	float: right;
 	margin-top: 9px;
@@ -1030,7 +1040,7 @@ block;
 /* //UI Object */
 
 .tbl_type .first_td {
-	width: 40px;
+	width: 50px;
 }
 .tbl_type #newInst {
 	width: 10px;
@@ -1303,4 +1313,6 @@ block;
 	border-radius:17px;
 }
 
-.btn-sm, .btn-xs{border-radius:0px !important;}
+.btn-sm, .btn-xs{
+	border-radius:0px !important;
+}

@@ -42,6 +42,8 @@ public class RoleMappingPanel implements ContextAware{
 		roleMappingDefinitions = new ArrayList<IRoleMappingDefinition>();
 		
 		org.uengine.kernel.ProcessDefinition definition = processManager.getProcessDefinition(defId);
+
+		if(definition.getRoles()!=null)
 		for(org.uengine.kernel.Role role : definition.getRoles()){
 			if( "Initiator".equalsIgnoreCase(role.getName()) ){
 				continue;
