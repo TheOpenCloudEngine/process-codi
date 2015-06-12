@@ -14,7 +14,7 @@ public class ProcessInstanceMonitorPanel {
 				ProcessInstanceNavigator processInstanceNavigator) {
 			this.processInstanceNavigator = processInstanceNavigator;
 		}
-		
+
 
 		
 	@AutowiredFromClient
@@ -31,7 +31,7 @@ public class ProcessInstanceMonitorPanel {
 	public void load(String instanceId)
 			throws Exception {
 		
-//
+
 //		processInstanceMonitor = new ProcessInstanceMonitor();
 //		processInstanceMonitor.setInstanceId(instanceId);
 //		processInstanceMonitor.session = session;

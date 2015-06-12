@@ -116,15 +116,11 @@ public class InstanceTooltip implements ContextAware {
 			if(mls!=null){
 				for(int i=0; i<mls.size(); i++){
                     Event scopeAct = (Event)definition.getActivity((String)mls.get(i));
-					if( scopeAct.getName() != null){
-						EventTrigger eventTrigger = new EventTrigger();
-						eventTrigger.setInstanceId(this.getInstanceId().toString());
-						eventTrigger.setDisplayName(scopeAct.getDescription() == null ? scopeAct.getName() : scopeAct.getDescription());
-						eventTrigger.setEventName(scopeAct.getName());
-						eventTriggers[i] = eventTrigger;
-					}else{
-						continue;
-					}
+					EventTrigger eventTrigger = new EventTrigger();
+					eventTrigger.setInstanceId(this.getInstanceId().toString());
+					eventTrigger.setDisplayName((String)mls.get(i));
+					eventTrigger.setEventName((String)mls.get(i));
+					eventTriggers[i] = eventTrigger;
 				}
 			}
 			
@@ -199,4 +195,19 @@ public class InstanceTooltip implements ContextAware {
     public ModalWindow monitor() throws Exception{
         return null;
     }
+
+	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
+	public ModalWindow processMonitor() throws Exception{
+
+		ModalWindow modalWindow = new ModalWindow();
+
+		InstanceMonitorPanel instanceMonitorPanel = new InstanceMonitorPanel();
+		instanceMonitorPanel.load(this.getInstanceId(), processManager);
+
+		modalWindow.setPanel(instanceMonitorPanel);
+		modalWindow.setWidth(0);
+		modalWindow.setHeight(0);
+
+		return modalWindow;
+	}
 }
