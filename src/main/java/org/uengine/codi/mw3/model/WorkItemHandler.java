@@ -55,6 +55,7 @@ public class WorkItemHandler implements ContextAware {
 					ParameterValue pv = parameters[i];
 					pv.setVariableName(pc.getVariable().getName());
 					pv.setArgument(pc.getArgument().getText(session!=null && session.getEmployee()!=null ? session.getEmployee().getLocale() : null));
+					pv.setDirection(pc.getDirection());
 										
 					String when = this.getMetaworksContext().getWhen();
 					
@@ -435,6 +436,7 @@ public class WorkItemHandler implements ContextAware {
 
 				ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
 
+				if(pvvl!=null && pvvl.getElements()!=null)
 				for(MetaworksElement me : pvvl.getElements()){
 					Object processVariableValue = me.getValue();
 
