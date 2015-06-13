@@ -1,11 +1,12 @@
 package org.uengine.codi.mw3.admin;
 
+import org.metaworks.annotation.Hidden;
 import org.uengine.codi.mw3.model.*;
 
 public class TopPanel {
 
 	public TopPanel(){
-		
+
 	}
 	
 	public TopPanel(Session session) {
@@ -57,7 +58,16 @@ public class TopPanel {
 		public void setPageType(String pageType) {
 			this.pageType = pageType;
 		}
-	
+
+	String topCenterTitle;
+		@Hidden
+		public String getTopCenterTitle() {
+			return topCenterTitle==null?"Workspace":topCenterTitle;
+		}
+		public void setTopCenterTitle(String topCenterTitle) {
+			this.topCenterTitle = topCenterTitle;
+		}
+
 	Session session;
 		public Session getSession() {
 			return session;
