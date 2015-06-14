@@ -6,6 +6,7 @@ import org.metaworks.ServiceMethodContext;
 import org.metaworks.ToEvent;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.ServiceMethod;
+import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.marketplace.AppMapping;
 
 import java.util.ArrayList;
