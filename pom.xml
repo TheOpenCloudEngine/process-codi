@@ -96,7 +96,7 @@
 
 		<dependency>
 			<groupId>org.uengine</groupId>
-			<artifactId>uengine-core</artifactId>
+			<artifactId>uengine-bpmn-modeler</artifactId>
 			<version>4.0-SNAPSHOT</version>
 
 			<exclusions>
