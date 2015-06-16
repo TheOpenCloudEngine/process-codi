@@ -738,7 +738,7 @@ position:absolute;
 .mw3_mainMenu {
 	height:27px;
 	margin: 0 auto;
-	width: 455px;
+	/*width: 455px;*/
 }
 #gnb_wrap {
 	float: center;
