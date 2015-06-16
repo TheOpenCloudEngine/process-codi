@@ -17,6 +17,15 @@ public class ParameterValue implements ContextAware{
 			this.variableName = variableName;
 		}
 
+	String direction;
+		public String getDirection() {
+			return direction;
+		}
+		public void setDirection(String direction) {
+			this.direction = direction;
+		}
+
+
 	String argument;
 		public String getArgument() {
 			return argument;

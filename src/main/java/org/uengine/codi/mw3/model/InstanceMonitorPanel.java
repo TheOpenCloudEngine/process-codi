@@ -1,15 +1,11 @@
 package org.uengine.codi.mw3.model;
 
 import org.metaworks.MetaworksContext;
-import org.uengine.kernel.*;
 import org.uengine.kernel.ProcessDefinition;
-import org.uengine.kernel.Role;
+import org.uengine.kernel.ProcessInstance;
 import org.uengine.modeling.modeler.ProcessCanvas;
 import org.uengine.modeling.modeler.ProcessModeler;
 import org.uengine.processmanager.ProcessManagerRemote;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by soo on 2015. 6. 12..
