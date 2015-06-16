@@ -738,7 +738,7 @@ position:absolute;
 .mw3_mainMenu {
 	height:27px;
 	margin: 0 auto;
-	/*width: 455px;*/
+	width: 455px;
 }
 #gnb_wrap {
 	float: center;
@@ -2634,6 +2634,30 @@ select.select[class] {
 
 	color:#fff;
 }
+
+.index_signup .index_signup_inner input {
+	height:31px;
+	line-height:31px;
+	width:100%;
+	border:none;
+	padding-left:20px;
+	color:#666;
+	background:#fff !important;
+	border:none !important;
+}
+.index_signup .index_signup_inner .ebutton {
+	
+	cursor:pointer;
+	background:#2485e8;
+	padding:7px 20px;
+	;
+	color:#FFF;
+	font-weight:bold;
+	text-align:center;
+	display:inline-block
+}
+
+/*
 .index_signup .index_signup_inner input {
 	height:41px;
 	line-height:41px;
@@ -2666,6 +2690,8 @@ select.select[class] {
 	-moz-border-radius:25px;
 	-o-border-radius: 25px;
 }
+
+*/
 .index_content { text-align:left }
 .index_content .line1 {
 	background:#f3f3f3;
@@ -2682,14 +2708,17 @@ select.select[class] {
 	text-align:center
 }
 .row .col-md-7 {
-	line-height:25px;
 	padding:60px 70px;
-	font-size:15px;
+	font-size:21px;
+	color:#5A5A5A;
+	font-weight:normal;
+	letter-spacing:-1px;
 }
 .row .col-md-7 h1 {
 	background:none;
 	font-size:24px;
 	padding-left:0px;
+	color:#000;
 }
 .middle_top_hr {
 	height:2px;
