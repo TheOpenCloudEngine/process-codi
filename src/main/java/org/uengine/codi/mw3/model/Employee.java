@@ -118,8 +118,8 @@ public class Employee extends EmployeeWithCRUD {
 
     @Override
     @Range(
-            values={"ko"},
-            options={"Korean"}
+            values={"ko", "en"},
+            options={"Korean", "English"}
     )
     public String getLocale(){
         return super.getLocale();
@@ -395,8 +395,8 @@ public class Employee extends EmployeeWithCRUD {
         this.setApproved(true);
         this.setMailNoti(this.isMailNoti());
 
-        // 한국어 만 지원하므로 강제 셋팅
-        this.setLocale("ko");
+        // 프로필 수정이 안되서 일단 강제로 영어로 적용되게끔
+//        this.setLocale("en");
 
         // TODO: 부서 딕셔너리 처리 필
         if (getImageFile() != null && getImageFile().getFileTransfer() != null && getImageFile().getFileTransfer().getFilename() != null && !"".equals(getImageFile().getFileTransfer().getFilename())) {
