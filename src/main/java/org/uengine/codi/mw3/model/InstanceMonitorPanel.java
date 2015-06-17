@@ -1,6 +1,7 @@
 package org.uengine.codi.mw3.model;
 
 import org.metaworks.MetaworksContext;
+import org.metaworks.annotation.Face;
 import org.uengine.kernel.ProcessDefinition;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.modeling.modeler.ProcessCanvas;
@@ -10,6 +11,7 @@ import org.uengine.processmanager.ProcessManagerRemote;
 /**
  * Created by soo on 2015. 6. 12..
  */
+@Face(ejsPath = "dwr/metaworks/genericfaces/CleanObjectFace.ejs")
 public class InstanceMonitorPanel {
 
     ProcessModeler processModeler;
@@ -25,7 +27,7 @@ public class InstanceMonitorPanel {
         processModeler.setPalette(null);
 
         ((ProcessCanvas) processModeler.getCanvas()).setMetaworksContext(new MetaworksContext());
-        ((ProcessCanvas) processModeler.getCanvas()).getMetaworksContext().setWhen(MetaworksContext.WHEN_VIEW);
+        ((ProcessCanvas) processModeler.getCanvas()).getMetaworksContext().setWhen("monitor");
         setProcessModeler(processModeler);
     }
 
@@ -34,7 +36,8 @@ public class InstanceMonitorPanel {
         ProcessInstance processInstance = processManager.getProcessInstance(String.valueOf(instanceId));
         ProcessDefinition processDefinition = processInstance.getProcessDefinition();
 
-        getProcessModeler().setModel(processDefinition);
+
+        getProcessModeler().setModelForMonitor(processDefinition, processManager.getProcessInstance(String.valueOf(instanceId)));
 
         ProcessModeler pm = getProcessModeler();
         return pm;
