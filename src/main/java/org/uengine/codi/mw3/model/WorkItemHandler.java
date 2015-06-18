@@ -53,6 +53,11 @@ public class WorkItemHandler implements ContextAware {
 					parameters[i] = new ParameterValue();
 					
 					ParameterValue pv = parameters[i];
+
+					//TODO: why this occurs?
+					if(pc.getVariable()==null)
+						continue;
+
 					pv.setVariableName(pc.getVariable().getName());
 					pv.setArgument(pc.getArgument().getText(session!=null && session.getEmployee()!=null ? session.getEmployee().getLocale() : null));
 					pv.setDirection(pc.getDirection());
