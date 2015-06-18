@@ -39,7 +39,7 @@
 					if(session && session.employee && session.employee.approved && !session.employee.guest && newActivityFlag){
 %>
 					<!-- 앱 -->
-					<a class="<%= value.type=='etc'?'comment_btn_on':'comment_btn_off' %>" onclick="<%=methods.newActivity.caller()%>"><span class="glyphicon glyphicon-th" style="width:18px;"></span><span id="method_<%=objectId%>_newActivity">앱<div class="comment_select"></div></span></a>
+					<a class="<%= value.type=='etc'?'comment_btn_on':'comment_btn_off' %>" onclick="<%=methods.newActivity.caller()%>"><span class="glyphicon glyphicon-th" style="width:18px;"></span><span id="method_<%=objectId%>_newActivity"><%=mw3.localize("$workitem.newActivity")%><div class="comment_select"></div></span></a>
 					
 <%
 					}	
