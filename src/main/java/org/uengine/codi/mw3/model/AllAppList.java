@@ -18,6 +18,9 @@ public class AllAppList {
     @AutowiredFromClient
     public Session session;
 
+    @AutowiredFromClient
+    public TopPanel topPanel;
+
     ArrayList<AppMapping> myAppsList;
     public ArrayList<AppMapping> getMyAppsList() {
         return myAppsList;
@@ -30,10 +33,10 @@ public class AllAppList {
 
     }
 
-    @ServiceMethod(target= ServiceMethodContext.TARGET_APPEND)
     public Object[] goSNS() throws Exception {
         SNS sns = new SNS(session);
-        return new Object[]{new Refresh(sns), new Refresh(sns.loadTopCenterPanel(session)),
+        topPanel.setTopCenterTitle("$AppList.SNS");
+        return new Object[]{new Refresh(sns), new Refresh(topPanel),
                 new ToEvent(ServiceMethodContext.TARGET_SELF, EventContext.EVENT_CLOSE)};
     }
 }
