@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by ho.lim on 2015-05-20.
  */
-public abstract class AbstractAllAppList {
+public class AllAppList {
     @AutowiredFromClient
     public Session session;
 
@@ -26,7 +26,9 @@ public abstract class AbstractAllAppList {
         this.myAppsList = myAppsList;
     }
 
-    public abstract void load() throws Exception;
+    public void load() throws Exception{
+
+    }
 
     @ServiceMethod(target= ServiceMethodContext.TARGET_APPEND)
     public Object[] goSNS() throws Exception {
