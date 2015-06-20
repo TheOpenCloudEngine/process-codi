@@ -33,6 +33,7 @@ public class AllAppList {
 
     }
 
+    @ServiceMethod(target= ServiceMethodContext.TARGET_APPEND)
     public Object[] goSNS() throws Exception {
         SNS sns = new SNS(session);
         topPanel.setTopCenterTitle("$AppList.SNS");
