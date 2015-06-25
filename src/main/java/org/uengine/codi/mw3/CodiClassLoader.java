@@ -18,6 +18,7 @@ import java.util.*;
 public class CodiClassLoader extends AbstractJavaSourceClassLoader {
 
 	public final static String DEFAULT_NAME = "default";
+	public final static String PATH_SEPARATOR = "/";
 
 	String						codebase;
 
