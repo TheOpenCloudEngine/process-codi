@@ -15,4 +15,15 @@ public class MetaworksSpringBeanFactory {
         }
         return t;
     }
+
+    public static <T> T getNewBean(Class<T> clazz)throws IllegalAccessException, InstantiationException {
+        T t = MetaworksRemoteService.getInstance().getBeanFactory().getBean(clazz);
+
+        if(t == null){
+            t = clazz.newInstance();
+        }else{
+            t = (T) t.getClass().newInstance();
+        }
+        return t;
+    }
 }
