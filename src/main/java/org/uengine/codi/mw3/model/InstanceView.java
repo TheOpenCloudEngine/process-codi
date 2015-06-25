@@ -49,7 +49,7 @@ public class InstanceView {
 		
 	public void load(IInstance instance) throws Exception{
 
-		InstanceTooltip instanceTooltip = MetaworksSpringBeanFactory.getBean(InstanceTooltip.class);
+		InstanceTooltip instanceTooltip = MetaworksSpringBeanFactory.getNewBean(InstanceTooltip.class);
 
 		instanceTooltip.getMetaworksContext().setHow("action");		
 		instanceTooltip.load(instance);
