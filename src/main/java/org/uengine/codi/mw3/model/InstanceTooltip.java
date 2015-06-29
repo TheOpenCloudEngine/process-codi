@@ -118,8 +118,8 @@ public class InstanceTooltip implements ContextAware {
 				for(int i=0; i<mls.size(); i++){
 					EventTrigger eventTrigger = new EventTrigger();
 					eventTrigger.setInstanceId(this.getInstanceId().toString());
-					eventTrigger.setDisplayName((String) mls.get(i));
-					eventTrigger.setEventName((String) mls.get(i));
+					eventTrigger.setDisplayName(definition.getActivity(mls.get(i).toString()).getName());
+					eventTrigger.setEventName(definition.getActivity(mls.get(i).toString()).getName());
 					eventTriggers[i] = eventTrigger;
 				}
 			}
