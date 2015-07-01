@@ -14,7 +14,7 @@ import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.uengine.kernel.ProcessInstance;
+import org.uengine.kernel.*;
 import org.uengine.kernel.bpmn.Event;
 import org.uengine.processmanager.ProcessManagerRemote;
 
@@ -110,21 +110,29 @@ public class InstanceTooltip implements ContextAware {
 	public void eventTriggerCheck() throws Exception{
 		if( Instance.INSTNACE_STATUS_RUNNING.equals(this.getStatus()) ){
 			ProcessInstance processInstance = processManager.getProcessInstance(this.getInstanceId().toString());
-			Vector mls = processInstance.getMessageListeners("event");
-	
 			org.uengine.kernel.ProcessDefinition definition = processInstance.getProcessDefinition();
+			String currentTracingTag = processInstance.getCurrentRunningActivity().getActivity().getTracingTag();
+			Vector mls = processInstance.getMessageListeners("event");
+
 			EventTrigger[] eventTriggers = new EventTrigger[mls.size()];
 			if(mls!=null){
-				for(int i=0; i<mls.size(); i++){
-					EventTrigger eventTrigger = new EventTrigger();
-					eventTrigger.setInstanceId(this.getInstanceId().toString());
-					eventTrigger.setDisplayName(definition.getActivity(mls.get(i).toString()).getName());
-					eventTrigger.setEventName(definition.getActivity(mls.get(i).toString()).getName());
-					eventTriggers[i] = eventTrigger;
+				for(int i = 0; i < mls.size(); i++){
+					// mls.get(i) == tracing tag라 가정한다면 currentTracingTag와 비교하여
+					// currentTracingTag와 event의 TracingTag 의 attachedToRef를 비교하여
+					// 즉, 이벤트가 붙어있는 휴먼의 TracingTag가 attachedToRef이므로...
+					// 그때서야 event를 등록한다.
+					String attachedToRefTracingTag = ((Event) definition.getActivity(mls.get(i).toString())).getAttachedToRef();
+					if(currentTracingTag.equals(attachedToRefTracingTag)) {
+						EventTrigger eventTrigger = new EventTrigger();
+						eventTrigger.setInstanceId(this.getInstanceId().toString());
+						eventTrigger.setDisplayName(definition.getActivity(mls.get(i).toString()).getName());
+						eventTrigger.setEventName(definition.getActivity(mls.get(i).toString()).getName());
+						eventTriggers[i] = eventTrigger;
+
+						this.setEventTriggers(eventTriggers);
+					}
 				}
 			}
-			
-			this.setEventTriggers(eventTriggers);
 		}
 		this.setLoaded(true);
 	}
