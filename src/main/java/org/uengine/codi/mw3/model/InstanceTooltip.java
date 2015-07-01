@@ -1,22 +1,18 @@
 package org.uengine.codi.mw3.model;
 
-import java.util.Date;
-import java.util.Vector;
-
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
 import org.metaworks.ServiceMethodContext;
-import org.metaworks.annotation.AutowiredFromClient;
-import org.metaworks.annotation.Available;
-import org.metaworks.annotation.Face;
-import org.metaworks.annotation.Id;
-import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.annotation.*;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.uengine.kernel.*;
+import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.bpmn.Event;
+import org.uengine.kernel.bpmn.TimerEvent;
 import org.uengine.processmanager.ProcessManagerRemote;
+
+import java.util.Date;
+import java.util.Vector;
 
 public class InstanceTooltip implements ContextAware {
 
@@ -115,14 +111,17 @@ public class InstanceTooltip implements ContextAware {
 			Vector mls = processInstance.getMessageListeners("event");
 
 			EventTrigger[] eventTriggers = new EventTrigger[mls.size()];
-			if(mls!=null){
+			if(mls != null){
 				for(int i = 0; i < mls.size(); i++){
 					// mls.get(i) == tracing tag라 가정한다면 currentTracingTag와 비교하여
 					// currentTracingTag와 event의 TracingTag 의 attachedToRef를 비교하여
 					// 즉, 이벤트가 붙어있는 휴먼의 TracingTag가 attachedToRef이므로...
 					// 그때서야 event를 등록한다.
+
 					String attachedToRefTracingTag = ((Event) definition.getActivity(mls.get(i).toString())).getAttachedToRef();
-					if(currentTracingTag.equals(attachedToRefTracingTag)) {
+					if( (currentTracingTag.equals(attachedToRefTracingTag)) &&
+							(!("Timer".equals(definition.getActivity(mls.get(i).toString()).getName()))) ) {
+
 						EventTrigger eventTrigger = new EventTrigger();
 						eventTrigger.setInstanceId(this.getInstanceId().toString());
 						eventTrigger.setDisplayName(definition.getActivity(mls.get(i).toString()).getName());
@@ -130,6 +129,20 @@ public class InstanceTooltip implements ContextAware {
 						eventTriggers[i] = eventTrigger;
 
 						this.setEventTriggers(eventTriggers);
+
+					// 단, TimerEvent는 trigger 대신 quartz를 호출.
+					} else if( (currentTracingTag.equals(attachedToRefTracingTag)) &&
+							("Timer".equals(definition.getActivity(mls.get(i).toString()).getName())) ) {
+
+						// find mls.get(i).
+						// mls.get(i) is Event's tracingTag
+						// and run to TimeEvent onMessage
+						TimerEvent timerEvent = (TimerEvent) definition.getActivity(mls.get(i).toString());
+						timerEvent.onMessage(processInstance, definition.getActivity(mls.get(i).toString()).getName());
+
+					// etc..
+					} else {
+
 					}
 				}
 			}

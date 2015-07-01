@@ -2,13 +2,11 @@ package org.uengine.codi.mw3.model;
 
 import org.metaworks.annotation.ServiceMethod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.uengine.kernel.EventMessagePayload;
 import org.uengine.kernel.ProcessDefinition;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.processmanager.ProcessManagerRemote;
 
 public class EventTrigger {
-	
 	String eventName;
 		
 		public String getEventName() {
@@ -47,9 +45,9 @@ public class EventTrigger {
 //		EventMessagePayload eventMessagePayload = new EventMessagePayload();
 //		eventMessagePayload.setEventName(eventName);
 		//eventMessagePayload.setTriggerTracingTag(triggerActivityTracingTag);
-		mainProcessDefinition.fireMessage("event", mainProcessInstance, getEventName());  ///eventMessagePayload);
 
-		processManager.applyChanges(); //apply explicitly so that the worklist can be updated.
+        mainProcessDefinition.fireMessage("event", mainProcessInstance, getEventName());  ///eventMessagePayload);
+        processManager.applyChanges(); //apply explicitly so that the worklist can be updated.
 		
 		//refreshes the instanceview so that the next workitem can be show up
 		Instance instance = new Instance();
