@@ -37,7 +37,7 @@ public class InstanceMonitorPanel {
         ProcessDefinition processDefinition = processInstance.getProcessDefinition();
 
 
-        getProcessModeler().setModelForMonitor(processDefinition, processManager.getProcessInstance(String.valueOf(instanceId)));
+        getProcessModeler().setModelForMonitor(processDefinition, processInstance);
 
         ProcessModeler pm = getProcessModeler();
         return pm;

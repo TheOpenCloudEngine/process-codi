@@ -75,6 +75,7 @@ public class ProjectTitle implements ContextAware {
         wfNode.setAuthorId(session.getUser().getUserId());
         wfNode.setCompanyId(session.getCompany().getComCode());
         wfNode.setStartDate(new Date());
+        wfNode.setSecuopt("0");
         wfNode.createMe();
 
         TopicMapping tm = new TopicMapping();
