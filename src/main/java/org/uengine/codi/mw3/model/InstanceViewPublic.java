@@ -12,8 +12,7 @@ import org.uengine.kernel.ProcessInstance;
 import org.uengine.processmanager.ProcessManagerRemote;
 
 @Component
-@Face(options={"hideNewBtn", "hideTitle", "hideViewBox", "hideLabels", "hideEditBtn"},
-       values={"true", "true", "true", "true", "true"})
+@Face(options={"hideNewBtn", "hideTitle", "hideViewBox", "hideLabels", "hideEditBtn"}, values={"true", "true", "true", "true", "true"})
 public class InstanceViewPublic {
 
 	public InstanceViewPublic(){				

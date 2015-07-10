@@ -519,3 +519,15 @@ USE `uengine` ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+
+------ too short and not fit to the referencing field bpm_rolemapping.roleName
+
+alter table bpm_roledef modify rolename varchar(255);
+alter table bpm_roledef modify roledefid varchar(300);
+
+
+
+------

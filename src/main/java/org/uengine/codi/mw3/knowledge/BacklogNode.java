@@ -3,8 +3,7 @@ package org.uengine.codi.mw3.knowledge;
 import org.metaworks.ToAppend;
 import org.metaworks.annotation.Face;
 
-@Face(ejsPath="dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode.ejs",
-      ejsPathMappingByContext={"{how: 'backlog', face: 'dwr/metaworks/genericfaces/FormFace.ejs'}"})
+@Face(ejsPath="dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode.ejs", ejsPathMappingByContext={"{how: 'backlog', face: 'dwr/metaworks/genericfaces/FormFace.ejs'}"})
 public class BacklogNode extends KnowlegeNode {
 	
 	@Override

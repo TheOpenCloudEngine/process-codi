@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by soo on 2015. 6. 18..
  */
-@Face(ejsPath = "dwr/metaworks/genericfaces/FormFace.ejs", options = {"fieldOrder"}, values = {"topicTitle"})
+@Face(ejsPath="dwr/metaworks/genericfaces/FormFace.ejs", options={"fieldOrder"}, values={"topicTitle"})
 public class ProjectTitle implements ContextAware {
 
     MetaworksContext metaworksContext;
@@ -52,9 +52,9 @@ public class ProjectTitle implements ContextAware {
     @AutowiredFromClient
     transient public Session session;
 
-    @Face(displayName = "$Create")
-    @Available(when = {MetaworksContext.WHEN_NEW})
-    @ServiceMethod(callByContent = true, target = ServiceMethodContext.TARGET_APPEND)
+    @Face(displayName="$Create")
+	@Available(when={MetaworksContext.WHEN_NEW})
+	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_APPEND)
     public Object[] save() throws Exception {
         this.saveMe();
 

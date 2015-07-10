@@ -9,8 +9,7 @@ import org.metaworks.annotation.Face;
 import org.metaworks.annotation.Hidden;
 import org.uengine.codi.mw3.model.NewInstancePanel;
 
-@Face(ejsPath="dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode.ejs",
-	  ejsPathMappingByContext={"{how: 'plan', face: 'dwr/metaworks/genericfaces/FormFace.ejs'}"})
+@Face(ejsPath="dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode.ejs", ejsPathMappingByContext={"{how: 'plan', face: 'dwr/metaworks/genericfaces/FormFace.ejs'}"})
 public class PlanNode extends KnowlegeNode {
 
 	@Override

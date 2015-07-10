@@ -97,7 +97,7 @@ public class TodoBadgeInstanceList implements ContextAware{
 		return this;
 		
 	}
-	@ServiceMethod(callByContent = true, except = { "instances" })
+	@ServiceMethod(callByContent=true, except={"instances"})
 	public void more() throws Exception {
 		load(this.getNavigation());
 	}

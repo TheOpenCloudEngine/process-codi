@@ -746,7 +746,7 @@ public class WorkItemHandler implements ContextAware {
 		}
 		
 	}
-	@ServiceMethod(payload={"taskId", "replyTitle", "replyFieldName", "rootInstId", "instanceId"}, when= MetaworksContext.WHEN_EDIT , target= ServiceMethodContext.TARGET_APPEND)
+	@ServiceMethod(payload={"taskId", "replyTitle", "replyFieldName", "rootInstId", "instanceId"}, when=MetaworksContext.WHEN_EDIT, target=ServiceMethodContext.TARGET_APPEND)
 	public ReplyOverlayCommentWorkItem comment() throws Exception{
 		
 		OverlayCommentOption overlayCommentOption = new OverlayCommentOption();

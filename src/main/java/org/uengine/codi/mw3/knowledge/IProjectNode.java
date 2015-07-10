@@ -14,5 +14,5 @@ public interface IProjectNode extends ITopicNode {
 	public IProjectNode findById() throws Exception;
 	
 	@ServiceMethod(payload={"id", "name", "projectAlias"})
-	public Object[] goIDE() throws Exception;
+	Object[] goIDE() throws Exception;
 }

@@ -12,14 +12,7 @@ import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.IDAO;
 
 @Table(name="bpm_procdef")
-@Face(
-		ejsPathMappingByContext=
-			{
-				"{when: 'newInstance', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IProcessDefinition_newInstance.ejs'}",
-//				"{when: 'newInstance', face: 'genericFaces/ObjectFace.ejs'}",
-			}		
-
-	)
+@Face(ejsPathMappingByContext={"{when: 'newInstance', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IProcessDefinition_newInstance.ejs'}"})
 public interface IProcessDefinition extends IDAO{
 
 	@ServiceMethod(callByContent=true, except="childs")

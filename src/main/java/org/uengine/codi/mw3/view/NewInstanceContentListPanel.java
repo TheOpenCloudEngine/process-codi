@@ -5,7 +5,7 @@ import org.uengine.codi.mw3.model.NewInstancePanel;
 
 public class NewInstanceContentListPanel extends ContentListPanel {
 
-	@Order(value=2)
+	@Order(2)
 	@Override
 	public Object getContent() {
 		return content;

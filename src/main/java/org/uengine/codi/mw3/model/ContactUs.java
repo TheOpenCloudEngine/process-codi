@@ -11,8 +11,7 @@ import org.uengine.codi.mw3.admin.WebEditor;
 import org.uengine.kernel.GlobalContext;
 import org.uengine.webservices.emailserver.impl.EMailServerSoapBindingImpl;
 
-@Face(ejsPath="dwr/metaworks/genericfaces/FormFace.ejs",
-options={"fieldOrder"}, values={"title,contents"})
+@Face(ejsPath="dwr/metaworks/genericfaces/FormFace.ejs", options={"fieldOrder"}, values={"title,contents"})
 public class ContactUs implements ContextAware{
 	@AutowiredFromClient
 	public Session session;

@@ -40,11 +40,7 @@ import org.uengine.webservices.worklist.DefaultWorkList;
 
 
 
-@Face(
-	ejsPathMappingByContext={
-		"{where: 'oce_dashboard', face: 'dwr/metaworks/org/uengine/oce/ScheduleCalendar_dashboard.ejs'}",
-	}
-)
+@Face(ejsPathMappingByContext={"{where: 'oce_dashboard', face: 'dwr/metaworks/org/uengine/oce/ScheduleCalendar_dashboard.ejs'}"})
 public class ScheduleCalendar implements ContextAware {
 	@AutowiredFromClient
 	public Session session;

@@ -89,7 +89,7 @@ public class StartCodi {
 		this.setKey(key);
 	}
 	
-	@ServiceMethod(payload={"key","lastVisitPage", "lastVisitValue", "ssoService"}, target=ServiceMethodContext.TARGET_APPEND)
+	@ServiceMethod(payload={"key", "lastVisitPage", "lastVisitValue", "ssoService"}, target=ServiceMethodContext.TARGET_APPEND)
 	public Object load() throws Exception{
 		
 		HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession();		

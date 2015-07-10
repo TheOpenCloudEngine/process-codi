@@ -2,9 +2,7 @@ package org.uengine.codi.mw3.model;
 
 import org.metaworks.annotation.Face;
 
-@Face(ejsPath="genericfaces/MobileWindow.ejs",
-	  options={"hideLabels"}, 
-       values={"true"})
+@Face(ejsPath="genericfaces/MobileWindow.ejs", options={"hideLabels"}, values={"true"})
 public class MobileWindow {
 	
 	public MobileWindow(){

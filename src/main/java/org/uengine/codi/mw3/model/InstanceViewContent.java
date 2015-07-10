@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@Face(ejsPath="dwr/metaworks/genericfaces/Window.ejs",
-	  displayName="InstanceViewContent",
-	  options={"hideLabels", "maximize", "hideTitleBar"}, 
-	  values={"true", "true", "true"})
+@Face(ejsPath="dwr/metaworks/genericfaces/Window.ejs", displayName="InstanceViewContent", options={"hideLabels", "maximize", "hideTitleBar"}, values={"true", "true", "true"})
 public class InstanceViewContent extends ContentWindow {
 	
 	public Session session;

@@ -469,23 +469,23 @@ public class Login implements ContextAware {
         return new SignUp();
     }
 
-    @ServiceMethod(payload = {"userId"}, target = ServiceMethodContext.TARGET_SELF)
+    @ServiceMethod(payload={"userId"}, target=ServiceMethodContext.TARGET_SELF)
     public void goLogin() throws Exception {
         this.getMetaworksContext().setHow("login");
     }
 
-    @ServiceMethod(payload = {"email"}, target = ServiceMethodContext.TARGET_SELF)
+    @ServiceMethod(payload={"email"}, target=ServiceMethodContext.TARGET_SELF)
     public void goSignUp() throws Exception {
         this.setStatus("signup");
         this.getMetaworksContext().setHow("signup");
     }
 
-    @ServiceMethod(callByContent = true, payload = {"email"}, validate = true, target = ServiceMethodContext.TARGET_STICK)
+    @ServiceMethod(callByContent=true, payload={"email"}, validate=true, target=ServiceMethodContext.TARGET_STICK)
     public Object signUpForMain() throws Exception {
         return signUp();
     }
 
-    @ServiceMethod(callByContent = true, payload = {"email"}, validate = true, target = ServiceMethodContext.TARGET_SELF)
+    @ServiceMethod(callByContent=true, payload={"email"}, validate=true, target=ServiceMethodContext.TARGET_SELF)
     public Object signUp() throws Exception {
         SignUp signUp = new SignUp();
         IEmployee employee = signUp.signUp(getEmail(), false);
@@ -500,7 +500,7 @@ public class Login implements ContextAware {
         return this;
     }
 
-    @ServiceMethod(callByContent = true, payload = {"email"}, validate = true, target = ServiceMethodContext.TARGET_STICK)
+    @ServiceMethod(callByContent=true, payload={"email"}, validate=true, target=ServiceMethodContext.TARGET_STICK)
     public Object firstSignUp() throws Exception {
         SignUp signUp = new SignUp();
         IEmployee employee = signUp.signUp(getEmail(), true);
@@ -515,7 +515,7 @@ public class Login implements ContextAware {
         return this;
     }
 
-    @ServiceMethod(payload = {"userId"}, target = ServiceMethodContext.TARGET_NONE)
+    @ServiceMethod(payload={"userId"}, target=ServiceMethodContext.TARGET_NONE)
     public boolean checkAuthSocial() {
         if (this.getEmail() == null || this.getEmail().length() == 0)
             return false;
@@ -534,7 +534,7 @@ public class Login implements ContextAware {
         return employeeRef != null;
     }
 
-    @ServiceMethod(payload = {"userId", "facebookSSO"}, target = ServiceMethodContext.TARGET_NONE)
+    @ServiceMethod(payload={"userId", "facebookSSO"}, target=ServiceMethodContext.TARGET_NONE)
     public Session makeSession() throws Exception {
         return loginService();
     }
@@ -743,34 +743,14 @@ public class Login implements ContextAware {
         return new Object[]{new Refresh(session), new Refresh(locale), new Refresh(mainPanel, false, true)};
     }
 
-  /*
-    @ServiceMethod(callByContent=true)
-	public MainPanel loginSocialCoding() throws Exception {
-		IUser loginUser = new User();
-
-		loginUser.setName(getName());
-		loginUser.setUserId(getEmail());
-
-		Session session = new Session();
-		session.setUser(loginUser);
-		session.setDefId(getDefId());
-
-		storeIntoServerSession(session);
-
-		MainPanel mainPanel = new MainPanel(new Main(session));
-
-		return mainPanel;
-		//return new MainPanel(new Knowledge(session));
-	}
-	 */
-
-    @ServiceMethod(payload = {"email"}, target = ServiceMethodContext.TARGET_SELF)
+  
+    @ServiceMethod(payload={"email"}, target=ServiceMethodContext.TARGET_SELF)
     public void goForgotPassword() {
         this.setStatus("forgotpassword");
         this.getMetaworksContext().setHow("forgotpassword");
     }
 
-    @ServiceMethod(callByContent = true, payload = {"email"}, validate = true)
+    @ServiceMethod(callByContent=true, payload={"email"}, validate=true)
     public void forgotPassword() throws Exception {
 
         Employee employee = new Employee();

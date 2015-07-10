@@ -5,10 +5,7 @@ import org.metaworks.annotation.Face;
 import org.uengine.codi.mw3.model.IUser;
 import org.uengine.codi.mw3.model.Session;
 
-@Face(ejsPath="genericfaces/Window.ejs", 
-      displayName="Knowledge", 
-      options={"hideLabels"}, 
-      values={"true"})
+@Face(ejsPath="genericfaces/Window.ejs", displayName="Knowledge", options={"hideLabels"}, values={"true"})
 public class WfWindow {
 	
 	public WfWindow(){
