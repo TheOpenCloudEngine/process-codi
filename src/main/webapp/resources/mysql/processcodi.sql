@@ -520,14 +520,6 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+INSERT INTO `comtable` (`COMCODE`, `COMNAME`) VALUES ('1', 'uEngine');
 
-
-
------- too short and not fit to the referencing field bpm_rolemapping.roleName
-
-alter table bpm_roledef modify rolename varchar(255);
-alter table bpm_roledef modify roledefid varchar(300);
-
-
-
-------
+INSERT INTO `emptable` (`empcode`, `EMPNAME`, `PASSWORD`, `ISADMIN`, `EMAIL`,`GLOBALCOM`, `ISDELETED`, `LOCALE`, `approved`, `guest`) VALUES ('1', 'Tester', 'test', '1', 'test@uengine.org', '1', '0', 'ko', '1', '0');
