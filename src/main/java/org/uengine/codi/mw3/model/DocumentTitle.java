@@ -26,8 +26,7 @@ import org.uengine.codi.mw3.knowledge.TopicPanel;
 
 
 
-@Face(ejsPath="dwr/metaworks/genericfaces/FormFace.ejs",
-			options={"fieldOrder"}, values={"name,description,documentSecuopt,logoFile"})
+@Face(ejsPath="dwr/metaworks/genericfaces/FormFace.ejs", options={"fieldOrder"}, values={"name,description,documentSecuopt,logoFile"})
 public class DocumentTitle implements ContextAware{
 	
 	@AutowiredFromClient

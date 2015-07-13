@@ -29,17 +29,7 @@ import org.uengine.codi.mw3.model.Popup;
 import org.uengine.codi.mw3.model.Session;
 
 @Table(name="bpm_knol")
-@Face(
-		ejsPathMappingByContext=
-	{
-		"{how: 'bullet', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode.ejs'}",
-		"{how: 'uml', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode_uml.ejs'}",
-		"{how: 'table', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode_table.ejs'}",
-		"{how: 'mindmap', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode_mindmap.ejs'}",
-		"{how: 'quiz', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode_quiz.ejs'}",
-
-		//"{how: 'pt', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IWfNode_uml.ejs'}",
-	})
+@Face(ejsPathMappingByContext={"{how: 'bullet', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode.ejs'}", "{how: 'uml', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode_uml.ejs'}", "{how: 'table', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode_table.ejs'}", "{how: 'mindmap', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode_mindmap.ejs'}", "{how: 'quiz', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/IWfNode_quiz.ejs'}"})
 public interface IWfNode extends IDAO {
 
 	@Id
@@ -260,25 +250,25 @@ public interface IWfNode extends IDAO {
 	 *******************************************/
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, target=TARGET_SELF)
-	public void load() throws Exception;
+	void load() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, target="popup")
 	@Test(scenario="first", starter=true, instruction="트리 구조의 지식을 작성합니다. 엔터키를 누르면 다음라인, 탭키를 누르면 들여쓰기, 두번 엔터는 내어쓰기 입니다. <p> * 우측 클릭을 하셔서 '프로세스 발행'을 하면 메모한 내용을 기반으로 작업지시도 가능합니다.<br> 좋아하시는 키워드를 입력해보세요...", next="autowiredObject.org.uengine.codi.mw3.knowledge.MashupGoogleImage.putImage()")
-	public Object[] add() throws Exception;
+	Object[] add() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, target="popup", inContextMenu=true)
 	@Face(displayName="$MakeAsTemplate")
-	public Object[] makeAsTemplate() throws Exception;
+	Object[] makeAsTemplate() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, target="popup")
-	public Object[] outdent() throws Exception;
+	Object[] outdent() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, target="popup")
-	public Object[] indent() throws Exception;
+	Object[] indent() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(inContextMenu=true, keyBinding="Ctrl+Down")
@@ -287,11 +277,11 @@ public interface IWfNode extends IDAO {
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, target="popup")
-	public Object[] move() throws Exception;
+	Object[] move() throws Exception;
 
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, target=ServiceMethodContext.TARGET_NONE)
-	public void save() throws Exception;
+	void save() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(callByContent=true)
@@ -299,12 +289,12 @@ public interface IWfNode extends IDAO {
 	
 	@Available(when={MetaworksContext.WHEN_VIEW})
 	@ServiceMethod(callByContent=true, except="childNode", mouseBinding="drop", target=ServiceMethodContext.TARGET_APPEND)
-	public Object[] drop() throws Exception;
+	Object[] drop() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, inContextMenu=true, keyBinding="Ctrl+Right")
 	@Face(displayName="$NewProcessInstance")
-	public Object newProcessInstance() throws Exception;
+	Object newProcessInstance() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(inContextMenu=true, keyBinding="Ctrl+D")
@@ -320,20 +310,20 @@ public interface IWfNode extends IDAO {
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, target="popup")
 	@Face(displayName="$Remove")
-	public Object[] remove() throws Exception;
+	Object[] remove() throws Exception;
 	
 	@Hidden
 	@Face(displayName="$Remove")
 	@ServiceMethod(callByContent=true, except={"childNode", "focus"}, target="popup", inContextMenu=true, keyBinding="Shift+Del")
-	public Object[] removeNode() throws Exception;
+	Object[] removeNode() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode"})
-	public void expand() throws Exception;	
+	void expand() throws Exception;	
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode"})
-	public void collapse() throws Exception;	
+	void collapse() throws Exception;	
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, inContextMenu=true, target="popup")
@@ -347,7 +337,7 @@ public interface IWfNode extends IDAO {
 	
 	@Available(when={MetaworksContext.WHEN_VIEW})
 	@ServiceMethod(callByContent=true, except="childNode", mouseBinding="drag-enableDefault")
-	public Session drag() throws Exception;
+	Session drag() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(inContextMenu=true, target="popup")
@@ -371,15 +361,15 @@ public interface IWfNode extends IDAO {
 	@Hidden
 	@Face(displayName="공개토픽으로 지정")
 	@ServiceMethod(except={"childNode", "focus"}, inContextMenu=true)
-	public Object[] topic() throws Exception;
+	Object[] topic() throws Exception;
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode"}, target=ServiceMethodContext.TARGET_POPUP)
-	public Popup modify();
+	Popup modify();
 
 	@Available(when={MetaworksContext.WHEN_EDIT})
 	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_APPEND)
-	public Object[] apply() throws Exception;
+	Object[] apply() throws Exception;
 
 
 	/*******************************************

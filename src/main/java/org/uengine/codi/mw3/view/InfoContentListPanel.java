@@ -6,13 +6,13 @@ import org.uengine.codi.mw3.model.PerspectiveInfo;
 
 public class InfoContentListPanel extends NewInstanceContentListPanel {
 
-	@Order(value=3)
+	@Order(3)
 	@Override
 	public Object getContent() {
 		return content;
 	}
 	
-	@Order(value=2)
+	@Order(2)
 	@Override
 	public NewInstancePanel getNewInstancePanel() {
 		return newInstancePanel;

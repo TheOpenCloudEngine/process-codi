@@ -10,7 +10,11 @@ import org.metaworks.dao.TransactionContext;
 //@Aspect
 public class CodiTenantAwareAdvice {
 
-  @Before("execution(* org.uengine.codi.mw3.CodiMetaworksRemoteService.callMetaworksService(..))")
+  /**
+	 * 
+	 * @param joinPoint
+	 */
+	@Before("execution(* org.uengine.codi.mw3.CodiMetaworksRemoteService.callMetaworksService(..))")
    public void before(JoinPoint joinPoint ) throws java.rmi.RemoteException {
 
       Object[] args = joinPoint.getArgs();

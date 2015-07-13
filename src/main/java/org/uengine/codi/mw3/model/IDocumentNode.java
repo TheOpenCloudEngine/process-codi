@@ -101,20 +101,20 @@ public interface IDocumentNode extends IDAO {
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode"})
-	public void expand() throws Exception;	
+	void expand() throws Exception;	
 	
 	@Hidden
 	@ServiceMethod(callByContent=true, except={"childNode"})
-	public void collapse() throws Exception;	
+	void collapse() throws Exception;	
 	
 	@ServiceMethod(callByContent=true, except={"childNode"}, target=TARGET_SELF)
-	public IDocumentNode loadDocumentList() throws Exception;
+	IDocumentNode loadDocumentList() throws Exception;
 	
 	@ServiceMethod(callByContent=true)
 	public Object[] loadExplorerDocument() throws Exception;
 	
 	@ServiceMethod(callByContent=true, except={"childNode"}, target=TARGET_SELF)
-	public ArrayList<DocumentNode> loadChildren() throws Exception;
+	ArrayList<DocumentNode> loadChildren() throws Exception;
 	
 	@ServiceMethod(callByContent=true)
 	public Object[] loadDocument() throws Exception;

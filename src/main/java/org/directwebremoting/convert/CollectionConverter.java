@@ -58,9 +58,12 @@ public class CollectionConverter extends AbstractConverter
         this.converterManager = converterManager;
     }
 
-    /* (non-Javadoc)
-     * @see org.directwebremoting.Converter#convertInbound(java.lang.Class, org.directwebremoting.InboundVariable, org.directwebremoting.InboundContext)
-     */
+    /**
+	 * (non-Javadoc)
+	 * @see org.directwebremoting.Converter#convertInbound(java.lang.Class, org.directwebremoting.InboundVariable, org.directwebremoting.InboundContext)
+	 * @param paramType
+	 * @param data
+	 */
     @SuppressWarnings("unchecked")
     public Object convertInbound(Class<?> paramType, InboundVariable data) throws ConversionException
     {
@@ -209,9 +212,12 @@ public class CollectionConverter extends AbstractConverter
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.directwebremoting.Converter#convertOutbound(java.lang.Object, org.directwebremoting.OutboundContext)
-     */
+    /**
+	 * (non-Javadoc)
+	 * @see org.directwebremoting.Converter#convertOutbound(java.lang.Object, org.directwebremoting.OutboundContext)
+	 * @param data
+	 * @param outctx
+	 */
     @SuppressWarnings("unchecked")
     public OutboundVariable convertOutbound(Object data, OutboundContext outctx) throws ConversionException
     {

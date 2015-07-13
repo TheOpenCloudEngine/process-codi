@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@Face(ejsPath = "genericfaces/Window.ejs", displayName = "ProcessDesigner Window", options = { "hideLabels" }, values = { "true" })
+@Face(ejsPath="genericfaces/Window.ejs", displayName="ProcessDesigner Window", options={"hideLabels"}, values={"true"})
 public class ProcessDesignerWindow extends ContentWindow {
 	
 

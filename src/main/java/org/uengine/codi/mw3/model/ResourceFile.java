@@ -29,14 +29,7 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-@Face(
-		ejsPathMappingByContext=
-			{
-				"{when: 'newInstance', face: 'dwr/metaworks/org/uengine/codi/mw3/model/ResourceFile_newInstance.ejs'}",
-				"{when: 'appendProcessMap', face: 'dwr/metaworks/org/uengine/codi/mw3/model/ResourceFile_newInstance.ejs'}",				
-			}		
-
-	)
+@Face(ejsPathMappingByContext={"{when: 'newInstance', face: 'dwr/metaworks/org/uengine/codi/mw3/model/ResourceFile_newInstance.ejs'}", "{when: 'appendProcessMap', face: 'dwr/metaworks/org/uengine/codi/mw3/model/ResourceFile_newInstance.ejs'}"})
 @XStreamAlias("resource")
 public class ResourceFile implements ContextAware {
 	

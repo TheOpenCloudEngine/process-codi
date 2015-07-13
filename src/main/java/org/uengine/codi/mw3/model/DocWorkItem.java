@@ -10,15 +10,8 @@ import org.metaworks.annotation.Table;
 import org.metaworks.website.MetaworksFile;
 import org.uengine.util.UEngineUtil;
 
-@Table(name = "bpm_worklist")
-@Face(
-		ejsPath="dwr/metaworks/org/uengine/codi/mw3/model/DocWorkItem.ejs",
-		ejsPathMappingByContext=
-	{
-		"{when: 'new', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IWorkItem_edit.ejs'}",
-		"{when: 'edit', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IWorkItem_edit.ejs'}",
-	}		
-)
+@Table(name="bpm_worklist")
+@Face(ejsPath="dwr/metaworks/org/uengine/codi/mw3/model/DocWorkItem.ejs", ejsPathMappingByContext={"{when: 'new', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IWorkItem_edit.ejs'}", "{when: 'edit', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IWorkItem_edit.ejs'}"})
 public class DocWorkItem extends GenericWorkItem {
 	
 	

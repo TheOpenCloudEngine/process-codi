@@ -1411,7 +1411,9 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
         if (!securityPush) {
             HashMap<String, String> companyUsers = Login.getSessionIdWithCompany(session.getEmployee().getGlobalCom());
-            pushUserMap.putAll(companyUsers);    // 다른 테넌트의 follower 가 있을수도 있으니 추가를 해줌
+
+            if(companyUsers!=null)
+                pushUserMap.putAll(companyUsers);    // 다른 테넌트의 follower 가 있을수도 있으니 추가를 해줌
         }
         return pushUserMap;
     }

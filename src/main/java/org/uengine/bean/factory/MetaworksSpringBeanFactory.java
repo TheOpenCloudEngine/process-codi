@@ -15,7 +15,7 @@ public class MetaworksSpringBeanFactory {
         try {
             t = MetaworksRemoteService.getInstance().getBeanFactory().getBean(clazz);
         } catch (NoSuchBeanDefinitionException e) {
-            System.out.printf("No qualifying bean of type [%s] is defined", clazz.toString());
+            //System.out.printf("No qualifying bean of type [%s] is defined", clazz.toString());
             t = clazz.newInstance();
         }
 
@@ -27,7 +27,7 @@ public class MetaworksSpringBeanFactory {
         try {
             t = MetaworksRemoteService.getInstance().getBeanFactory().getBean(clazz);
         } catch (NoSuchBeanDefinitionException e) {
-            System.out.printf("No qualifying bean of type [%s] is defined", clazz.toString());
+            //System.out.printf("No qualifying bean of type [%s] is defined", clazz.toString());
         }
 
         if(t == null){

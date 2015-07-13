@@ -46,10 +46,7 @@ import org.uengine.codi.mw3.model.TopicInfo;
 import org.uengine.codi.mw3.model.TopicPerspective;
 import org.uengine.processmanager.ProcessManagerRemote;
 
-@Face(ejsPath="dwr/metaworks/genericfaces/FormFace.ejs",
-	  ejsPathMappingByContext=	{
-				"{how: 'html', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/TopicTitle.ejs'}"
-}, options={"fieldOrder"}, values={"topicTitle,topicSecuopt,url,logoFile"})
+@Face(ejsPath="dwr/metaworks/genericfaces/FormFace.ejs", ejsPathMappingByContext={"{how: 'html', face: 'dwr/metaworks/org/uengine/codi/mw3/knowledge/TopicTitle.ejs'}"}, options={"fieldOrder"}, values={"topicTitle,topicSecuopt,url,logoFile"})
 public class TopicTitle  implements ContextAware{
 	public TopicTitle(){
 		setMetaworksContext(new MetaworksContext());

@@ -107,45 +107,49 @@ public class InstanceTooltip implements ContextAware {
 		if( Instance.INSTNACE_STATUS_RUNNING.equals(this.getStatus()) ){
 			ProcessInstance processInstance = processManager.getProcessInstance(this.getInstanceId().toString());
 			org.uengine.kernel.ProcessDefinition definition = processInstance.getProcessDefinition();
-			String currentTracingTag = processInstance.getCurrentRunningActivity().getActivity().getTracingTag();
-			Vector mls = processInstance.getMessageListeners("event");
 
-			EventTrigger[] eventTriggers = new EventTrigger[mls.size()];
-			if(mls != null){
-				for(int i = 0; i < mls.size(); i++){
-					// mls.get(i) == tracing tag라 가정한다면 currentTracingTag와 비교하여
-					// currentTracingTag와 event의 TracingTag 의 attachedToRef를 비교하여
-					// 즉, 이벤트가 붙어있는 휴먼의 TracingTag가 attachedToRef이므로...
-					// 그때서야 event를 등록한다.
+			if(processInstance.getCurrentRunningActivity()!=null){
+				String currentTracingTag = processInstance.getCurrentRunningActivity().getActivity().getTracingTag();
+				Vector mls = processInstance.getMessageListeners("event");
 
-					String attachedToRefTracingTag = ((Event) definition.getActivity(mls.get(i).toString())).getAttachedToRef();
-					if( (currentTracingTag.equals(attachedToRefTracingTag)) &&
-							(!("Timer".equals(definition.getActivity(mls.get(i).toString()).getName()))) ) {
+				EventTrigger[] eventTriggers = new EventTrigger[mls.size()];
+				if(mls != null){
+					for(int i = 0; i < mls.size(); i++){
+						// mls.get(i) == tracing tag라 가정한다면 currentTracingTag와 비교하여
+						// currentTracingTag와 event의 TracingTag 의 attachedToRef를 비교하여
+						// 즉, 이벤트가 붙어있는 휴먼의 TracingTag가 attachedToRef이므로...
+						// 그때서야 event를 등록한다.
 
-						EventTrigger eventTrigger = new EventTrigger();
-						eventTrigger.setInstanceId(this.getInstanceId().toString());
-						eventTrigger.setDisplayName(definition.getActivity(mls.get(i).toString()).getName());
-						eventTrigger.setEventName(definition.getActivity(mls.get(i).toString()).getName());
-						eventTriggers[i] = eventTrigger;
+						String attachedToRefTracingTag = ((Event) definition.getActivity(mls.get(i).toString())).getAttachedToRef();
+						if( (currentTracingTag.equals(attachedToRefTracingTag)) &&
+								(!("Timer".equals(definition.getActivity(mls.get(i).toString()).getName()))) ) {
 
-						this.setEventTriggers(eventTriggers);
+							EventTrigger eventTrigger = new EventTrigger();
+							eventTrigger.setInstanceId(this.getInstanceId().toString());
+							eventTrigger.setDisplayName(definition.getActivity(mls.get(i).toString()).getName());
+							eventTrigger.setEventName(definition.getActivity(mls.get(i).toString()).getName());
+							eventTriggers[i] = eventTrigger;
 
-					// 단, TimerEvent는 trigger 대신 quartz를 호출.
-					} else if( (currentTracingTag.equals(attachedToRefTracingTag)) &&
-							("Timer".equals(definition.getActivity(mls.get(i).toString()).getName())) ) {
+							this.setEventTriggers(eventTriggers);
 
-						// find mls.get(i).
-						// mls.get(i) is Event's tracingTag
-						// and run to TimeEvent onMessage
-						TimerEvent timerEvent = (TimerEvent) definition.getActivity(mls.get(i).toString());
-						timerEvent.onMessage(processInstance, definition.getActivity(mls.get(i).toString()).getName());
+							// 단, TimerEvent는 trigger 대신 quartz를 호출.
+						} else if( (currentTracingTag.equals(attachedToRefTracingTag)) &&
+								("Timer".equals(definition.getActivity(mls.get(i).toString()).getName())) ) {
 
-					// etc..
-					} else {
+							// find mls.get(i).
+							// mls.get(i) is Event's tracingTag
+							// and run to TimeEvent onMessage
+							TimerEvent timerEvent = (TimerEvent) definition.getActivity(mls.get(i).toString());
+							timerEvent.onMessage(processInstance, definition.getActivity(mls.get(i).toString()).getName());
 
+							// etc..
+						} else {
+
+						}
 					}
 				}
 			}
+
 		}
 		this.setLoaded(true);
 	}

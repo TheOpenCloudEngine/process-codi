@@ -14,14 +14,8 @@ import org.metaworks.annotation.ValidatorSet;
 import org.metaworks.dao.IDAO;
 import org.metaworks.website.MetaworksFile;
 
-@Table(name = "COMTABLE")
-@Face(displayName="$Company", 
-	  ejsPath="dwr/metaworks/genericfaces/FormFace.ejs",
-	  ejsPathMappingByContext=
-			{
-				"{when: 'logo', face: 'dwr/metaworks/org/uengine/codi/mw3/model/ICompany.ejs'}",
-			},		
-	  options={"fieldOrder"}, values={"logo,repMail,repMlPwd"})
+@Table(name="COMTABLE")
+@Face(displayName="$Company", ejsPath="dwr/metaworks/genericfaces/FormFace.ejs", ejsPathMappingByContext={"{when: 'logo', face: 'dwr/metaworks/org/uengine/codi/mw3/model/ICompany.ejs'}"}, options={"fieldOrder"}, values={"logo,repMail,repMlPwd"})
 public interface ICompany extends IDAO {
 	@Id
 	@Hidden

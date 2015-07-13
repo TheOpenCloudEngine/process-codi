@@ -68,8 +68,8 @@ public interface IRole extends IDAO {
 
 	// service method
 	// 역활 부분에서 리스트 이름이 가려 졌는데 payload에 descr을 추가한다.
-	@ServiceMethod(target="self", payload={"roleCode", "selected" ,"descr"})
-	public void drillDown() throws Exception;
+	@ServiceMethod(target="self", payload={"roleCode", "selected", "descr"})
+	void drillDown() throws Exception;
 
 	@Face(displayName="$role.Subscribe")
 	@ServiceMethod(target=ServiceMethodContext.TARGET_POPUP, needToConfirm=true)
@@ -85,7 +85,7 @@ public interface IRole extends IDAO {
 
 	@Face(displayName="$Save")
 	@ServiceMethod(callByContent=true, except={"employeeList"}, target=ServiceMethodContext.TARGET_APPEND, validate=true)
-	public Object[] saveMe() throws Exception;
+	Object[] saveMe() throws Exception;
 	
 	@ServiceMethod(callByContent=true, mouseBinding="drop", target=ServiceMethodContext.TARGET_APPEND)
 	public Object[] drop() throws Exception;
