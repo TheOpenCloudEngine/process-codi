@@ -738,7 +738,7 @@ position:absolute;
 .mw3_mainMenu {
 	height:27px;
 	margin: 0 auto;
-	/*width: 455px;*/
+	width: 455px;
 }
 #gnb_wrap {
 	float: center;
@@ -1440,9 +1440,9 @@ margin-right:15px;
 .tabs-min .ui-tabs-nav .ui-state-default { /* background: transparent; 
     border: none; */ }
 .tabs-min .ui-tabs-nav .ui-state-active { /* background: transparent url(../../images/waveStyle/uiTabsArrow.png) no-repeat bottom center; 
-    border: none; */ }
+    border: none; */ background: #02A3D9 !important;}
 .tabs-min .ui-tabs-nav .ui-state-default a { color: #c0c0c0; }
-.tabs-min .ui-tabs-nav .ui-state-active a { color: #363636; }
+.tabs-min .ui-tabs-nav .ui-state-active a { color: #fff; }
 .mp_wrap {
 	position: relative;
 	width: 100%;
@@ -1640,7 +1640,7 @@ margin-right:15px;
 .sp_center {
 	background-color:#FFF;
 	overflow:hidden;
-	/*position: absolute;*/
+	position: absolute;
 	min-width: 0px;
 	min-height: 0px;
 	max-width: 10000px;
@@ -2649,7 +2649,7 @@ select.select[class] {
 	
 	cursor:pointer;
 	background:#2485e8;
-	padding:7px 20px;
+	padding:4px 20px;
 	;
 	color:#FFF;
 	font-weight:bold;
@@ -2771,7 +2771,7 @@ select.select[class] {
 #signup_popup .popup_logo_codi {
 	height:75px;
 	border-bottom:1px solid #dddddd;
-	background:url(../../images/signIn/codi_logo3.png) center no-repeat #f6f6f6
+	background:url(../../images/signIn/codi_logo.png) center no-repeat #f6f6f6
 }
 #signup_popup .popup_step {
 	height:75px;

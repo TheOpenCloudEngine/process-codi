@@ -1,4 +1,10 @@
 
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 100%;
+	background: #ffffff;
+}
 /* ------------------------------- 3. Slider Styles ------------------------------- */
 
 #fwslider {
@@ -91,18 +97,16 @@
 }
 
 #fwslider .slide_content_wrap { /* Slider Text Content Container Style */
-    max-width:1280px;
+    max-width:900px;
     margin:8% auto;
 }
 
 
 #fwslider .title {  /* Slider Title Style */
-	margin-left:2%;
 	text-transform: capitalize;
 	opacity: 100;
-	color: #000;
+	color: #fff;
 	font-size: 3.1em;
-	float: left;
 	font-style: normal;
 	font-weight: 900;
 	-webkit-text-stroke: 0px;
@@ -110,38 +114,37 @@
 	-webkit-border-radius:4px;
 	-moz-border-radius:4px;
 	-o-border-radius:4px;
+	text-align: center;
 }
 
 #fwslider .description { /* Slider Description Style */
-	margin-left:2%;
     opacity: 80;
     color:#333;
     font-size:18px;
     padding:10px;
     padding-bottom:4%;
     clear:both;
-    float:left;
-	max-width:40%;
     font-style: normal;
     font-weight: 400;
 	border-radius:4px;
 	-webkit-border-radius:4px;
 	-moz-border-radius:4px;
 	-o-border-radius:4px;
+	text-align:center;
 }
 
 #fwslider .front_login {
 	position:relative;
-	margin-left:2%;
-	max-width:38%;
-    line-height:24px;}
+    line-height:24px;
+    max-width: 500px;
+  margin: 0 auto;}
 
 
 /* ------------------------------- 4. Media Query Max Width 1300, Min Width 720 ------------------------------- */
 @media only screen and (min-width:720px) and (max-width: 1300px) {
 
-    #fwslider .slide_content_wrap { margin-left:50px; margin-top:5%;}
-    #fwslider .title { font-size:26px; }
+    #fwslider .slide_content_wrap { text-align:center; width:500px}
+    #fwslider .title { font-size:39px; }
     #fwslider .description {  font-size:12px;}
 
 }
@@ -149,8 +152,9 @@
 /* ------------------------------- 5. Media Query Max Width 719 ------------------------------- */
 
 @media only screen and (max-width:719px) {
-
-    #fwslider .slide_content_wrap { display:none; }
+	#fwslider .slide_content_wrap { width:300px}
+	#fwslider .title { display:none}
+    #fwslider .slide_content_wrap .description{ display:none; }
     #fwslider .timers { display:none; }
     #fwslider .slide_content {cursor: pointer;}
 

@@ -16,6 +16,12 @@ var org_uengine_codi_mw3_model_PerspectivePanel = function(objectId, className){
 		$(this.divId).parent().css({"width":"100%"});
 	};
 	$(this.divId).parent().hover(function(){$(this).css({"overflow":"auto","margin-right":"0px"});},function(){$(this).css({"overflow":"hidden"});});
+	
+	$(this.divId).find('.contact_panel').hover(function(){
+		$(this).height('300')
+	},function(){
+		$(this).height('130')
+	});
 	//$(this.divId).parent().parent().parent().parent().parent().append('<div class=\"hide_left_btn\" onclick=\""></div>')
 	
 };

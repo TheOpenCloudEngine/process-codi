@@ -159,14 +159,14 @@ if(value){
 				    
 			   		<% if(!isDashboard){%>
 					    <li>
-					   		<table><td style="border:none;vertical-align:top;padding-right:5px"><%value.lastCmntUser['size']='small';%><%=fields.lastCmntUser.here()%></td>
+					   		<table><td width="38" style="border:none;vertical-align:top;padding-right:5px"><%value.lastCmntUser['size']='small';%><%=fields.lastCmntUser.here()%></td>
 					  		<td colspan=2 style="border:none; padding-right:10px;"><font color=204070><%=value.lastCmntUser.name%></font>&nbsp;&nbsp; <font color="gray" class="inctanceReply" style="word-break: break-word;"><%=lastCmnt%></font></td></table>
 					 	</li>
-			   		<%}%>
+			   		<%}%> 
 
 			   		<%if(value.lastCmnt2 && value.lastCmnt2 != null){%>
 					    <li>
-					   		<table><td  style="border:none;vertical-align:top;padding-right:5px"><%value.lastCmnt2User['size']='small';%><%=fields.lastCmnt2User.here()%></td>
+					   		<table><td width="38" style="border:none;vertical-align:top;padding-right:5px"><%value.lastCmnt2User['size']='small';%><%=fields.lastCmnt2User.here()%></td>
 					  		<td colspan=2 style="border:none; padding-right:10px;"><font color=204070><%=value.lastCmnt2User.name%></font>&nbsp;&nbsp; <font color="gray" class="inctanceReply" style="word-break: break-word;"><%=lastCmnt2%></font></td></table>
 					 	</li>
 			   		<%}%>

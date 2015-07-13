@@ -13,7 +13,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-
+		
+		 		
 		<!-- jquery -->
 		<script type="text/javascript" src="scripts/jquery/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="scripts/jquery/jquery-ui-1.8.23.custom.min.js"></script> 
@@ -91,6 +92,12 @@
 		<link rel="stylesheet" type="text/css" href="style/themes/droppable_layout.css" />
 		<link rel="stylesheet" type="text/css" href="style/themes/flatStyle/flat_theme.css" />
 		<!--<link rel="stylesheet" type="text/css" href="style/themes/waveStyle/wave_theme.css" />-->
+		
+		<!-- front page -->
+		<link rel="stylesheet" type="text/css" href="style/themes/flatStyle/front_style.css" />
+ 		<link rel="stylesheet" type="text/css" href="style/themes/flatStyle/fwslider.css" />
+ 		<script type='text/javascript' src='scripts/waveStyle/css3-mediaqueries.js'></script>
+ 		
 		
 		<!-- smart tab -->
 		<link rel="stylesheet" type="text/css" href="style/smartTab.css">				
@@ -212,21 +219,21 @@
 				}
 				
 		 		mw3.setWhen(mw3.WHEN_VIEW);
-//		 		mw3.template_error = function(e, actualFace) {
-//					if(e.lineNumber){
-//						if(e.lineText)
-//							var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.lineText+": "+e.message;
-//						else
-//							var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.message;
-//					}else
-//						var message = "["+actualFace+"] "+e.message;
-//
-//					var logger = mw3.getAutowiredObject('org.uengine.codi.platform.Console');
-//					if(logger) logger.__getFaceHelper().addLog( message );
-//					else
-//						alert(message);
-//
-//		 		};
+		 		mw3.template_error = function(e, actualFace) {
+					if(e.lineNumber){
+						if(e.lineText)
+							var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.lineText+": "+e.message;
+						else
+							var message = "["+actualFace+"] at line "+e.lineNumber+": "+e.message;
+					}else
+						var message = "["+actualFace+"] "+e.message;
+				
+					var logger = mw3.getAutowiredObject('org.uengine.codi.platform.Console');
+					if(logger) logger.__getFaceHelper().addLog( message );
+					else
+						alert(message);
+					
+		 		};
 		 		
 		 		Metaworks3.prototype.startLoading = function(objId){
                     var divId = mw3._getObjectDivId(objId);

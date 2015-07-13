@@ -27,13 +27,18 @@ nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%;}
 /*end reset*/
-ap{
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 100%;
+	background: #ffffff;
+}
+.wrap{
 	margin:0 auto;
 	width:80%;
 }
 /* start header */
 .header_bg{
-	background: #2B2E33;
+	background: #447283;
 }
 .header{
 	padding: 0.3%;
@@ -232,10 +237,12 @@ ap{
 .images_1_of_3 {
 	width: 22.333%;
 	background:#fff;
-	border-radius: 10px;
+	/*
+	border-radius: 10px;	
 	-webkit-border-radius: 10px;
 	-moz-border-radius:10px;
 	-o-border-radius: 10px;
+	*/
 	padding:3% 1%
 }
 .images_1_of_3 img{
@@ -245,26 +252,31 @@ ap{
 	-o-border-radius: 50%;
 }
 .images_1_of_3  h3{
-	color: #000000;
+	color: #777777;
 	text-transform: uppercase;
 	margin-top: 0.8em;
 	margin-bottom: 0.4em;
-	font-size: 1.3em;
+	font-size: 1.2em;
 	font-weight: 900;
 	font-family: 'Source Sans Pro', sans-serif;
 	line-height: 1.8em;
-	-webkit-text-stroke: 1px;
-	letter-spacing: 1px;
+	letter-spacing: 0px;
 	-webkit-transition: 0.9s;
 	-moz-transition: 0.9s;
 	-o-transition: 0.9s;
 	transition: 0.9s;
 }
+
+.images_1_of_3 .glyphicon {
+	font-size:5em;
+	color:#777777;
+	
+}
 .images_1_of_3  h3:hover{
 	color: #febd17;
 }
 .images_1_of_3  p  {
-	color: #000000;
+	color: #777777;
 	line-height: 1.8em;
 	font-family: 'Source Sans Pro', sans-serif;
 	font-size: 1em;
@@ -1245,10 +1257,10 @@ p.para{
 		width:95%;
 	}
 	#fwslider .title {
-		margin-left: 8%;
+		/*margin-left: 8%;*/
 	}
 	#fwslider .description {
-		margin-left: 8%;
+		/*margin-left: 8%;*/
 	}
 	.image_grid {
 		width: 21.333%;
