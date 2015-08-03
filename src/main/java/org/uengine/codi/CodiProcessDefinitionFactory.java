@@ -57,7 +57,7 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 				
 				UEngineUtil.copyStream(is, bao);
 			
-				return bao.toString();
+				return bao.toString("UTF-8");
 			}
 		} catch(ConversionException conversion){
 			throw new Exception("Conversion Exception. Maybe difference in definition object structure: ", conversion);
