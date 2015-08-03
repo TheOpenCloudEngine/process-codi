@@ -17,9 +17,11 @@ import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.widget.ModalPanel;
 import org.metaworks.widget.ModalWindow;
+import org.uengine.codi.Memcached;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.StartCodi;
 import org.uengine.codi.util.CodiHttpClient;
+import org.uengine.kernel.GlobalContext;
 import org.uengine.sso.BaseAuthenticate;
 import org.uengine.sso.CasAuthenticate;
 
@@ -297,11 +299,15 @@ public class Session implements ContextAware{
 		
 	// when need HttpSession
 	public void fillUserInfoToHttpSession(){
-		HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession(); 
-		httpSession.setAttribute("loggedUserId", getEmployee().getEmpCode());
-		httpSession.setAttribute("tenantId", getEmployee().getGlobalCom());
-		httpSession.setAttribute("projectId", null);
-		
+		if("true".equals(GlobalContext.getPropertyString("forCloud"))){
+			Memcached.getMemcachedClient().set("loggedUserId", Memcached.Expiration_time, getEmployee().getEmpCode());
+			Memcached.getMemcachedClient().set("tenantId", Memcached.Expiration_time, getEmployee().getGlobalCom());
+		}else {
+			HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession();
+			httpSession.setAttribute("loggedUserId", getEmployee().getEmpCode());
+			httpSession.setAttribute("tenantId", getEmployee().getGlobalCom());
+			httpSession.setAttribute("projectId", null);
+		}
 		/*
 		httpSession.setAttribute("loggedUserPw", session.getEmployee().getPassword());
 		httpSession.setAttribute("loggedUserFullName", getEmployee().getEmpName());
