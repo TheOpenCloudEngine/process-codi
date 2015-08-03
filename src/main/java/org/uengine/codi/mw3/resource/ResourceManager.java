@@ -59,7 +59,7 @@ public class ResourceManager {
 	}
 
 	public static InputStream getAppResourceAsStream(String appKey, String alias) throws FileNotFoundException{
-		return getResourceAsStream(appKey, TenantContext.getThreadLocalInstance().getTenantId(), alias);
+		return getResourceAsStream(appKey, null, alias);
 	}
 	
 	public static InputStream getTenantResourceAsStream(String appKey, String alias) throws Exception{

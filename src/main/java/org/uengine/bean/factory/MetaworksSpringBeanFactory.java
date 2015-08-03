@@ -13,7 +13,7 @@ public class MetaworksSpringBeanFactory {
         T t = null;
 
         try {
-            t = MetaworksRemoteService.getInstance().getBeanFactory().getBean(clazz);
+            t = MetaworksRemoteService.getInstance().getBeanFactory().getAutowireCapableBeanFactory().getBean(clazz);
         } catch (NoSuchBeanDefinitionException e) {
             //System.out.printf("No qualifying bean of type [%s] is defined", clazz.toString());
             t = clazz.newInstance();
