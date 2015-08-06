@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metaworks.MetaworksException;
+import org.metaworks.ServiceMethodContext;
 import org.metaworks.WebObjectType;
 import org.metaworks.dao.ConnectionFactory;
 import org.metaworks.dao.TransactionContext;
@@ -201,18 +202,24 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 		
 	}
 
+
+	static String[] autowirableSessionKeys={"session", ServiceMethodContext.WIRE_PARAM_CLS + Session.class.getName()};
+
 	private void awareTenant(Map<String, Object> autowiredFields) {
-		if(autowiredFields.containsKey("session")){
 
-			if(autowiredFields.get("session") instanceof Session) {
-				Session session = (Session) autowiredFields.get("session");
+		for (String autowirableSessionKey : autowirableSessionKeys) {
+			if (autowiredFields.get(autowirableSessionKey) instanceof Session) {
+				Session session = (Session) autowiredFields.get(autowirableSessionKey);
 
-				if(session.getCompany()!=null)
+				if (session.getCompany() != null) {
 					new TenantContext(session.getCompany().getComCode());
+
+					break;
+				}
 			}
+
 		}
 	}
-
 
 	private ProcessManagerRemote getDirtyProcessManager(
 			ProcessManagerRemote processManager) {

@@ -43,13 +43,14 @@ public class ResourceManager {
 		String codebase = GlobalContext.getPropertyString("codebase", "codebase");
 		String basePath = null;
 
-		basePath = codebase + File.separatorChar + appKey;
 		if(tenantId!=null){
 			basePath = basePath  + 	File.separatorChar + tenantId;
 		}else{
 			basePath = basePath  + 	File.separatorChar + "default";
 		}
-		
+
+		basePath = codebase + File.separatorChar + appKey;
+
 		String absPath = basePath;
 		
 		if(alias!=null)
