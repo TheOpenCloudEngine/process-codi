@@ -9,10 +9,7 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.metaworks.dao.DAOFactory;
-import org.metaworks.dao.Database;
-import org.metaworks.dao.KeyGeneratorDAO;
-import org.metaworks.dao.TransactionContext;
+import org.metaworks.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.uengine.codi.mw3.model.Follower;
 import org.uengine.codi.mw3.model.IDept;
@@ -172,7 +169,7 @@ public class TopicMapping extends Database<ITopicMapping> implements ITopicMappi
 		sql.append("  FROM bpm_topicmapping tm,  emptable e");
 		sql.append(" WHERE tm.userId = e.empcode and tm.assigntype = 0");
 		sql.append("   AND tm.topicid = ?topicId");
-		
+
 		IFollower follower = (IFollower) Database.sql(IFollower.class, sql.toString());
 		follower.set("topicId", this.getTopicId());
 		follower.select();	

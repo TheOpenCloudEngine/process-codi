@@ -1,5 +1,6 @@
 package org.uengine.codi.mw3.model;
 
+import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.Available;
 import org.metaworks.annotation.ServiceMethod;
 
@@ -23,12 +24,11 @@ public class MoreViewPerspective extends Perspective {
 	public MoreViewPerspective(){
 		super();
 	}
-	
+
 	@Available(condition="(typeof enableMore != 'undefined' && enableMore) && (typeof more != 'undefined' && more)")
 	@ServiceMethod(callByContent=true, except="child")
 	public void collapse() throws Exception {
 		this.setMore(false);
-		
 		this.loadChildren();
 	}
 
@@ -36,7 +36,6 @@ public class MoreViewPerspective extends Perspective {
 	@ServiceMethod(callByContent=true, except="child")
 	public void expand() throws Exception {
 		this.setMore(true);
-		
 		this.loadChildren();
 	}
 }
