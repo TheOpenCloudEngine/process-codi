@@ -13,6 +13,7 @@ import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.dwr.TransactionalDwrServlet;
 import org.oce.garuda.multitenancy.TenantContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 //import org.uengine.codi.platform.SecurityContext;
 import org.uengine.codi.mw3.model.Session;
@@ -226,7 +227,7 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 		//2. try the case that the one of inner classes issued the processmanager
 		if(TransactionContext.getThreadLocalInstance().getSharedContext("processManagerBeanUsed") != null){
 			if(TransactionalDwrServlet.useSpring){
-				WebApplicationContext springAppContext = getBeanFactory();
+				ApplicationContext springAppContext = getBeanFactory();
 				
 				Map beanMap = springAppContext.getBeansOfType(ProcessManagerRemote.class);
 				Set keys = beanMap.keySet();			
@@ -288,7 +289,7 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 
 
 	@Override
-	public WebApplicationContext getBeanFactory() {
+	public ApplicationContext getBeanFactory() {
 		// TODO Auto-generated method stub
 //		if(codiClassLoader!=null)
 //			Thread.currentThread().setContextClassLoader(codiClassLoader);
