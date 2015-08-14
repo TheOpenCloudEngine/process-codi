@@ -42,7 +42,7 @@ public class PortraitServlet extends HttpServlet {
 		
 		String portraitName = pathInfo.substring(1);		
 		
-		String fileSystemPath = GlobalContext.getPropertyString("filesystem.path",".");
+		String fileSystemPath = GlobalContext.FILE_SYSTEM_DIR;
 		String portraitPath = fileSystemPath + "/portrait";
 		
 		// 사진 폴더 생성

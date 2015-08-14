@@ -70,7 +70,7 @@ public class PreviewServlet extends HttpServlet {
 		String stringTaskId = previewName.substring(0, pos);
 		Long taskId = Long.parseLong(stringTaskId);
 
-		String fileSystemPath = GlobalContext.getPropertyString("filesystem.path",".");
+		String fileSystemPath = GlobalContext.FILE_SYSTEM_DIR;
 		String previewPath = fileSystemPath + "/preview";
 		
 		String pathSequence = String.valueOf(taskId / 1000);
