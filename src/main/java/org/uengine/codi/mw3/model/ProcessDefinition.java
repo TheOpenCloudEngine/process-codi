@@ -299,18 +299,18 @@ public class ProcessDefinition extends Database<IProcessDefinition> implements I
 		return null;
 	}
 	
-	@ServiceMethod(target=ServiceMethodContext.TARGET_POPUP)
-	public Popup contextMenu(){
-		Popup contextMenuPopup = new Popup();
-		contextMenuPopup.setName("");
-		
-		ProcessDefinitionContextMenu contextMenu = new ProcessDefinitionContextMenu();
-		contextMenu.setDefId(getDefId().toString());
-		
-		contextMenuPopup.setPanel(contextMenu);
-		
-		return contextMenuPopup;
-	}
+//	@ServiceMethod(target=ServiceMethodContext.TARGET_POPUP)
+//	public Popup contextMenu(){
+//		Popup contextMenuPopup = new Popup();
+//		contextMenuPopup.setName("");
+//
+//		ProcessDefinitionContextMenu contextMenu = new ProcessDefinitionContextMenu();
+//		contextMenu.setDefId(getDefId().toString());
+//
+//		contextMenuPopup.setPanel(contextMenu);
+//
+//		return contextMenuPopup;
+//	}
 
 
 	

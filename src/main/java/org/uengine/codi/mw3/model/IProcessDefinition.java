@@ -25,8 +25,8 @@ public interface IProcessDefinition extends IDAO{
 	public ContentWindow design() throws Exception;
 	
 
-	@ServiceMethod(target=ServiceMethodContext.TARGET_POPUP)
-	public Popup contextMenu();
+//	@ServiceMethod(target=ServiceMethodContext.TARGET_POPUP)
+//	public Popup contextMenu();
 	
 	public IProcessDefinition findAll() throws Exception;
 
