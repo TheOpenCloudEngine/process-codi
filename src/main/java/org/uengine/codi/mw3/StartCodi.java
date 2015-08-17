@@ -12,7 +12,7 @@ import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.TransactionContext;
 import org.oce.garuda.multitenancy.TenantContext;
-import org.uengine.codi.Memcached;
+import org.uengine.codi.mw3.cache.Memcached;
 import org.uengine.codi.mw3.model.Company;
 import org.uengine.codi.mw3.model.Employee;
 import org.uengine.codi.mw3.model.ICompany;

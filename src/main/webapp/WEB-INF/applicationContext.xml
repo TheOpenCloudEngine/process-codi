@@ -84,6 +84,14 @@
 		<property name="connectionFactory" ref="springConnectionFactoryForMetaworks" />
 	</bean>
 
+	<!--<bean id="memcachedClient" class="net.spy.memcached.spring.MemcachedClientFactoryBean">-->
+		<!--<property name="servers" value="54.64.101.198:11211"/>-->
+		<!--<property name="opTimeout" value="259200"/>-->
+		<!--<property name="transcoder">-->
+			<!--<bean class="net.spy.memcached.transcoders.SerializingTranscoder"/>-->
+		<!--</property>-->
+	<!--</bean>-->
+
 
     <!-- ============================================================= -->
     <!-- Process Codi Schedule Job and Task Executor -->

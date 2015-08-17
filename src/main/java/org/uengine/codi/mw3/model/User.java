@@ -22,7 +22,7 @@ import org.metaworks.dao.TransactionContext;
 import org.metaworks.website.MetaworksFile;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.uengine.codi.Memcached;
+import org.uengine.codi.mw3.cache.Memcached;
 import org.uengine.kernel.GlobalContext;
 import org.uengine.processmanager.ProcessManagerRemote;
 

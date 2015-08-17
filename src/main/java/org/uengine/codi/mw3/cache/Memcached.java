@@ -1,4 +1,4 @@
-package org.uengine.codi;
+package org.uengine.codi.mw3.cache;
 
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.spring.MemcachedClientFactoryBean;

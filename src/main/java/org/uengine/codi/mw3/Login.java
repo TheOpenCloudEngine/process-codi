@@ -10,7 +10,7 @@ import org.metaworks.annotation.Face;
 import org.metaworks.common.MetaworksUtil;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.widget.ModalWindow;
-import org.uengine.codi.Memcached;
+import org.uengine.codi.mw3.cache.Memcached;
 import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.collection.SessionIdHashTable;
 import org.uengine.codi.mw3.common.MainPanel;
@@ -987,10 +987,22 @@ public class Login implements ContextAware {
         String sessionId = wctx.getScriptSession().getId();
 
         if("true".equals(GlobalContext.getPropertyString("forCloud"))) {
-            Hashtable<String, HashMap<String, String>> sessionIdForCompanyMapping = new Hashtable<>();
-            Hashtable<String, HashMap<String, String>> sessionIdForDeptMapping = new Hashtable<>();
-            Hashtable<String, String> sessionIdForEmployeeMapping = new Hashtable<>();
-            Hashtable<String, String> userIdDeviceMapping = new Hashtable<>();
+            Hashtable<String, HashMap<String, String>> sessionIdForCompanyMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForCompanyMapping");
+            if(sessionIdForCompanyMapping == null){
+                sessionIdForCompanyMapping = new Hashtable<>();
+            }
+            Hashtable<String, HashMap<String, String>> sessionIdForDeptMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForDeptMapping");
+            if(sessionIdForDeptMapping == null){
+                sessionIdForDeptMapping = new Hashtable<>();
+            }
+            Hashtable<String, String> sessionIdForEmployeeMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("SessionIdForEmployeeMapping");
+            if(sessionIdForEmployeeMapping == null){
+                sessionIdForEmployeeMapping = new Hashtable<>();
+            }
+            Hashtable<String, String> userIdDeviceMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("userIdDeviceMapping");
+            if(userIdDeviceMapping == null){
+                userIdDeviceMapping = new Hashtable<>();
+            }
 
             sessionIdForEmployeeMapping.put(userId, sessionId); //stores session id to find out with user Id
             Memcached.getMemcachedClient().set("SessionIdForEmployeeMapping", Memcached.Expiration_time, sessionIdForEmployeeMapping);

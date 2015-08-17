@@ -5,7 +5,7 @@ var org_uengine_codi_mw3_model_Session = function(objectId, className){
 	
 	var session = mw3.objects[objectId];
 
-	/*
+
 	var jobId = setInterval(function(){
 		if(!mw3.objects[session.__objectId]){
 			clearInterval(jobId);
@@ -20,7 +20,7 @@ var org_uengine_codi_mw3_model_Session = function(objectId, className){
 	}, 10000);
 
 	this.jobId = jobId;
-	*/
+
 };
 
 org_uengine_codi_mw3_model_Session.prototype = {
