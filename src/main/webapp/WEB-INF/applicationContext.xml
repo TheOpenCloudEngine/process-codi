@@ -84,6 +84,13 @@
 		<property name="connectionFactory" ref="springConnectionFactoryForMetaworks" />
 	</bean>
 
+	<!-- ============================================================= -->
+	<!-- Speciy Upload file method -->
+	<!-- ============================================================= -->
+	<bean id="docWorkItem" class="org.uengine.codi.mw3.model.GoogleDriveAttachmentWorkItem" scope="prototype"/>
+<!--
+	<bean id="docWorkItem" class="org.uengine.codi.mw3.model.LocalAttachmentWorkItem" scope="prototype"/>
+-->
 
     <!-- ============================================================= -->
     <!-- Process Codi Schedule Job and Task Executor -->

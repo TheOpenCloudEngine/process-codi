@@ -22,19 +22,16 @@ public class MetaworksSpringBeanFactory {
         return t;
     }
 
-    public static <T> T getNewBean(Class<T> clazz)throws IllegalAccessException, InstantiationException {
-        T t = null;
+    public static Object getBeanByName(String name){
+        Object obj = null;
+
         try {
-            t = MetaworksRemoteService.getInstance().getBeanFactory().getBean(clazz);
+            obj =  MetaworksRemoteService.getInstance().getBeanFactory().getAutowireCapableBeanFactory().getBean(name);
         } catch (NoSuchBeanDefinitionException e) {
-            //System.out.printf("No qualifying bean of type [%s] is defined", clazz.toString());
+            System.out.printf("No qualifying bean of name [%s] is defined", name);
         }
 
-        if(t == null){
-            t = clazz.newInstance();
-        }else{
-            t = (T) t.getClass().newInstance();
-        }
-        return t;
+        return obj;
     }
+
 }
