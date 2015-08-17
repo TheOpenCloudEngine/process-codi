@@ -2,27 +2,44 @@ package org.uengine.codi;
 
 import com.thoughtworks.xstream.converters.ConversionException;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.CodiClassLoader;
-import org.uengine.codi.mw3.resource.ResourceManager;
-import org.uengine.kernel.GlobalContext;
 import org.uengine.kernel.ProcessDefinition;
 import org.uengine.kernel.ProcessDefinitionFactory;
+import org.uengine.modeling.resource.DefaultResource;
 import org.uengine.processmanager.ProcessTransactionContext;
+import org.uengine.processmanager.SimulatorTransactionContext;
 import org.uengine.util.UEngineUtil;
 
 import java.io.*;
 import java.util.Calendar;
 import java.util.Map;
 
+@Component
 public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 	
 	public final static String unstructuredProcessDefinitionLocation = "Unstructured.process";
+
+	public CodiProcessDefinitionFactory() {
+		super(new SimulatorTransactionContext());  //since CodiProcessDefinitionFactory don't use any db connection, so it's ok.
+	}
 
 	public CodiProcessDefinitionFactory(ProcessTransactionContext tc) {
 		super(tc);
 	}
 
-	
+
+	@Autowired
+	org.uengine.modeling.resource.ResourceManager resourceManager;
+		public org.uengine.modeling.resource.ResourceManager getResourceManager() {
+			return resourceManager;
+		}
+		public void setResourceManager(org.uengine.modeling.resource.ResourceManager resourceManager) {
+			this.resourceManager = resourceManager;
+		}
+
+
 	@Override
 	protected Object getDefinitionSourceImpl(String location,
 			boolean fromCompilationVersion, boolean shouldBeObjectResult)
@@ -37,51 +54,26 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 
 			return obj;
 		}
-		
-		InputStream is = null;
-		try {
-			is = getResourceInputStream(location);
 
-			if(is==null)
+
+		try {
+			DefaultResource processResource = new DefaultResource();
+
+			processResource.setPath("codi/" + location);
+
+			Object object = resourceManager.getStorage().getObject(processResource);
+
+
+			if(object==null)
 				throw new Exception("No definition found where location = '" + location + "'");
 			
-			if(shouldBeObjectResult){
-				ProcessDefinition obj = (ProcessDefinition) GlobalContext.deserialize(is, Object.class);
-				
-				obj.setModifiedDate(Calendar.getInstance());
-				obj.setAlias(location);
-				
-				return obj;
-			}else{
-				ByteArrayOutputStream bao = new ByteArrayOutputStream();
-				
-				UEngineUtil.copyStream(is, bao);
-			
-				return bao.toString();
-			}
-		} catch(ConversionException conversion){
-			throw new Exception("Conversion Exception. Maybe difference in definition object structure: ", conversion);
-		} catch(IOException e) {
+			return object;
+
+		} catch(Exception e) {
 			throw new Exception("No such definition or Some I/O Exception: " + location, e);
-		} finally{
-			if(is!=null)
-				is.close();
 		}
 	}
 
-	private InputStream getResourceInputStream(String location) {
-
-		InputStream is;
-		//is = CodiClassLoader.getMyClassLoader().getResourceAsStream(location);
-
-		try {
-			is = ResourceManager.getTenantResourceAsStream("codi", location);
-		} catch (Exception e) {
-			return null;
-		}
-
-		return is;
-	}
 
 
 	@Override
@@ -100,69 +92,71 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 			int version, String name, String description, boolean isAdhoc,
 			Object definition, String folder, boolean overwrite, Map options)
 			throws Exception {
-		
-
-		
-		//ignores the version, belongingPdid, overwrite
-		// how to handle the adhoc?
-		// just delegates the version control functionalities to SVN kit
-		// in case of processdefinitions, it should be very hard to merge together 
-		
-		boolean isOtherResourceType = options != null
-				&& options.containsKey("objectType");
-		String objectType = "process";
-		
-		if (isOtherResourceType)
-			objectType = (String) options.get("objectType");
-
-		String alias = (String)options.get("alias");
-		
-		if(alias.indexOf('.') == -1)
-			alias = (UEngineUtil.isNotEmpty(folder) ? folder + "/" : "") + (String) options.get("alias")  + "." + objectType;
-	
-		
-		String sourceCodeBase = CodiClassLoader.getMyClassLoader().getCodebase();
-		
-		String defFileName;
 
 
-//		String alias = (UEngineUtil.isNotEmpty(folder) ? folder + "/" : "") + name;
-		
-//		if(UEngineUtil.isNotEmpty(pdvid))
-//			defFileName = sourceCodeBase + pdvid;
-//		else{
-			
-			defFileName = sourceCodeBase + alias;
+		throw new Exception("Dont' use this method.");
+
+//
+//		//ignores the version, belongingPdid, overwrite
+//		// how to handle the adhoc?
+//		// just delegates the version control functionalities to SVN kit
+//		// in case of processdefinitions, it should be very hard to merge together
+//
+//		boolean isOtherResourceType = options != null
+//				&& options.containsKey("objectType");
+//		String objectType = "process";
+//
+//		if (isOtherResourceType)
+//			objectType = (String) options.get("objectType");
+//
+//		String alias = (String)options.get("alias");
+//
+//		if(alias.indexOf('.') == -1)
+//			alias = (UEngineUtil.isNotEmpty(folder) ? folder + "/" : "") + (String) options.get("alias")  + "." + objectType;
+//
+//
+//		String sourceCodeBase = CodiClassLoader.getMyClassLoader().getCodebase();
+//
+//		String defFileName;
+//
+//
+////		String alias = (UEngineUtil.isNotEmpty(folder) ? folder + "/" : "") + name;
+//
+////		if(UEngineUtil.isNotEmpty(pdvid))
+////			defFileName = sourceCodeBase + pdvid;
+////		else{
+//
+//			defFileName = sourceCodeBase + alias;
+////		}
+//
+//		new File(defFileName).getParentFile().mkdirs();
+//
+//
+//		FileOutputStream fos = null;
+//		try {
+//			File classDefFile = new File(defFileName);
+//
+//			fos = new FileOutputStream(classDefFile);
+//
+//
+//			String definitionInString = (String)definition;
+//
+//			ByteArrayInputStream bai = new ByteArrayInputStream(definitionInString.getBytes(GlobalContext.ENCODING));
+//			UEngineUtil.copyStream(bai, fos);
+//
+//			//GlobalContext.serialize(this, fos, Object.class);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			throw e;//e.printStackTrace();
+//		} finally{
+//
+//			if(fos!=null)
+//				fos.close();
 //		}
-
-		new File(defFileName).getParentFile().mkdirs();
-		
-		
-		FileOutputStream fos = null;
-		try {
-			File classDefFile = new File(defFileName);
-
-			fos = new FileOutputStream(classDefFile);
-
-			
-			String definitionInString = (String)definition;
-			
-			ByteArrayInputStream bai = new ByteArrayInputStream(definitionInString.getBytes(GlobalContext.ENCODING));
-			UEngineUtil.copyStream(bai, fos);
-			
-			//GlobalContext.serialize(this, fos, Object.class);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			throw e;//e.printStackTrace();
-		} finally{
-		
-			if(fos!=null)
-				fos.close();
-		}
-
-		removeFromCache(alias);
-		
-		return new String[]{alias, defFileName};
+//
+//		removeFromCache(alias);
+//
+//		return new String[]{alias, defFileName};
 		
 	}
 

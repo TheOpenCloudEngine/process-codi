@@ -6,12 +6,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metaworks.MetaworksException;
+import org.metaworks.ServiceMethodContext;
 import org.metaworks.WebObjectType;
 import org.metaworks.dao.ConnectionFactory;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.dwr.TransactionalDwrServlet;
 import org.oce.garuda.multitenancy.TenantContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 //import org.uengine.codi.platform.SecurityContext;
 import org.uengine.codi.mw3.model.Session;
@@ -201,25 +203,31 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 		
 	}
 
+
+	static String[] autowirableSessionKeys={"session", ServiceMethodContext.WIRE_PARAM_CLS + Session.class.getName()};
+
 	private void awareTenant(Map<String, Object> autowiredFields) {
-		if(autowiredFields.containsKey("session")){
 
-			if(autowiredFields.get("session") instanceof Session) {
-				Session session = (Session) autowiredFields.get("session");
+		for (String autowirableSessionKey : autowirableSessionKeys) {
+			if (autowiredFields.get(autowirableSessionKey) instanceof Session) {
+				Session session = (Session) autowiredFields.get(autowirableSessionKey);
 
-				if(session.getCompany()!=null)
+				if (session.getCompany() != null) {
 					new TenantContext(session.getCompany().getComCode());
+
+					break;
+				}
 			}
+
 		}
 	}
-
 
 	private ProcessManagerRemote getDirtyProcessManager(
 			ProcessManagerRemote processManager) {
 		//2. try the case that the one of inner classes issued the processmanager
 		if(TransactionContext.getThreadLocalInstance().getSharedContext("processManagerBeanUsed") != null){
 			if(TransactionalDwrServlet.useSpring){
-				WebApplicationContext springAppContext = getBeanFactory();
+				ApplicationContext springAppContext = getBeanFactory();
 				
 				Map beanMap = springAppContext.getBeansOfType(ProcessManagerRemote.class);
 				Set keys = beanMap.keySet();			
@@ -281,7 +289,7 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 
 
 	@Override
-	public WebApplicationContext getBeanFactory() {
+	public ApplicationContext getBeanFactory() {
 		// TODO Auto-generated method stub
 //		if(codiClassLoader!=null)
 //			Thread.currentThread().setContextClassLoader(codiClassLoader);

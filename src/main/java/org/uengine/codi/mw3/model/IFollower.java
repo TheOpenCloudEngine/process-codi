@@ -44,20 +44,10 @@ public interface IFollower extends IDAO {
 	@Hidden
 	public String getResName();
 	public void setResName(String resName);
-	
-	@Available(condition={"assigntype == " + Role.ASSIGNTYPE_USER})
-	@NonSavable
-	@ORMapping(
-			databaseFields = { "endpoint", "resname" },
-			objectFields = { "userId", "name" })	
+
 	public IUser getUser();
 	public void setUser(IUser user);
-	
-	@Available(condition={"assigntype == " + Role.ASSIGNTYPE_DEPT})
-	@NonSavable
-	@ORMapping(
-			databaseFields = { "endpoint", "resname" },
-			objectFields = { "partCode", "partName" })	
+
 	public IDept getDept();
 	public void setDept(IDept dept);
 

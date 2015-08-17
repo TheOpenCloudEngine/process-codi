@@ -6,6 +6,7 @@ import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.Validator;
 import org.metaworks.model.MetaworksElement;
 import org.metaworks.model.MetaworksList;
+import org.uengine.kernel.GlobalContext;
 
 import java.io.Serializable;
 
@@ -39,8 +40,18 @@ public class ProcessVariableValueList extends MetaworksList<Object>{
 		e.setMetaworksContext(new MetaworksContext());
 		e.getMetaworksContext().setWhen("edit");
 
+
+
 		if(getDefaultValue()!=null) {
-			e.setValue(getDefaultValue());
+
+			Object newVal = null;
+			try {
+				newVal = GlobalContext.deserialize(GlobalContext.serialize(getDefaultValue(), String.class));
+				e.setValue(newVal);
+			} catch (Exception e1) {
+				throw new RuntimeException("couldn't clone default value", e1);
+			}
+
 		} else {
 			try {
 				e.setValue(Thread.currentThread().getContextClassLoader().loadClass(getType()).newInstance());

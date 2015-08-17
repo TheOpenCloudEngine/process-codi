@@ -33,7 +33,6 @@ import org.uengine.codi.mw3.model.NewInstanceWindow;
 import org.uengine.codi.mw3.model.Popup;
 import org.uengine.codi.mw3.model.ProcessDefinition;
 import org.uengine.codi.mw3.model.Session;
-import org.uengine.codi.mw3.model.UnstructuredProcessInstanceStarter;
 import org.uengine.codi.mw3.model.WorkItem;
 import org.uengine.kernel.GlobalContext;
 import org.uengine.processmanager.ProcessManagerRemote;
@@ -1426,33 +1425,35 @@ public class WfNode extends Database<IWfNode> implements IWfNode {
 			
 			return new Object[]{new Refresh(this)};
 		}else if(clipboard instanceof IUser){
-			System.out.println("drop : clipboard instanceof IUser");
-			IUser user = (IUser) clipboard;
-			
-			//UnstructuredProcessInstanceStarter instanceStarter = new UnstructuredProcessInstanceStarter();
-			//instanceStarter.processManager = processManager;
-			instanceStarter.session = session;
-			instanceStarter.setTitle("[TODO] " + getName());
-			
-			instanceStarter.setFriend(user);
-			Object[] instanceViewAndInstanceList = instanceStarter.start();
-			
-			InstanceView instanceView = ((InstanceViewContent)instanceViewAndInstanceList[0]).instanceView;
-			Long instId = new Long(instanceView.getInstanceId());
-			
-			setLinkedInstId(instId);
+//			System.out.println("drop : clipboard instanceof IUser");
+//			IUser user = (IUser) clipboard;
+//
+//			//UnstructuredProcessInstanceStarter instanceStarter = new UnstructuredProcessInstanceStarter();
+//			//instanceStarter.processManager = processManager;
+//			instanceStarter.session = session;
+//			instanceStarter.setTitle("[TODO] " + getName());
+//
+//			instanceStarter.setFriend(user);
+//			Object[] instanceViewAndInstanceList = instanceStarter.start();
+//
+//			InstanceView instanceView = ((InstanceViewContent)instanceViewAndInstanceList[0]).instanceView;
+//			Long instId = new Long(instanceView.getInstanceId());
+//
+//			setLinkedInstId(instId);
+//
+//
+//			Instance instanceRef = new Instance();
+//			instanceRef.setInstId(instId);
+//			instanceRef.databaseMe().setStatus(Instance.INSTNACE_STATUS_RUNNING);
+//
+//			save();
+//
+//			Employee theUser = new Employee();
+//			theUser.setEmpCode(user.getUserId());
+//
+//			return new Object[]{new Refresh(this), new ModalWindow(instanceView.schedule().getPanel(), 400, 300, theUser.databaseMe().getEmpName() + "님에게 과제를 부여합니다.")};
 
-			
-			Instance instanceRef = new Instance();
-			instanceRef.setInstId(instId);
-			instanceRef.databaseMe().setStatus(Instance.INSTNACE_STATUS_RUNNING);
-
-			save();
-			
-			Employee theUser = new Employee();
-			theUser.setEmpCode(user.getUserId());
-			
-			return new Object[]{new Refresh(this), new ModalWindow(instanceView.schedule().getPanel(), 400, 300, theUser.databaseMe().getEmpName() + "님에게 과제를 부여합니다.")};
+			return null;
 		}else if(clipboard instanceof InstanceDrag){
 			System.out.println("drop : clipboard instanceof InstanceDrag");
 			InstanceDrag instanceInClipboard = (InstanceDrag) clipboard;
@@ -1484,10 +1485,7 @@ public class WfNode extends Database<IWfNode> implements IWfNode {
 		session.setClipboard(this);
 		return session;
 	}
-	
-	@Autowired
-	transient public UnstructuredProcessInstanceStarter instanceStarter;
-	
+
 	
 	@Override
 	public Popup visualizationType() {

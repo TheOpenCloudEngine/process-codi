@@ -66,7 +66,7 @@ public interface IUser extends IDAO{
 	
 	@Available(condition="(typeof deleted == 'undefined' || !deleted) && (typeof self == 'undefined' || !self)")
 	@ServiceMethod(callByContent=true, target=TARGET_SELF)
-	public UnstructuredProcessInstanceStarter chat() throws Exception;
+	public void chat() throws Exception;
 	
 	@Available(condition="(typeof deleted == 'undefined' || !deleted) && (typeof self == 'undefined' || !self) && (typeof friend == 'undefined' || !friend)")
 	@ServiceMethod(callByContent=true, target=TARGET_APPEND)

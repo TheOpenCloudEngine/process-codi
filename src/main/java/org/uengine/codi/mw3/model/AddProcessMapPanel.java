@@ -1,75 +1,28 @@
 package org.uengine.codi.mw3.model;
 
-import org.metaworks.MetaworksContext;
-import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.Face;
-import org.metaworks.annotation.Hidden;
-import org.oce.garuda.multitenancy.TenantContext;
-import org.uengine.codi.mw3.CodiClassLoader;
+import org.metaworks.widget.Label;
 
-@Face(ejsPath="dwr/metaworks/genericfaces/Tab.ejs")
-public class AddProcessMapPanel {
+/**
+ * Created by jangjinyoung on 15. 8. 14..
+ */
 
-	ResourceFile processDefinitions;
-		@Face(displayName="$FileResource")
-		public ResourceFile getProcessDefinitions() {
-			return processDefinitions;
-		}
-		public void setProcessDefinitions(ResourceFile processDefinitions) {
-			this.processDefinitions = processDefinitions;
-		}
+@Face(ejsPath="dwr/metaworks/genericfaces/CleanObjectFace.ejs")
+public class AddProcessMapPanel{
 
-	@AutowiredFromClient
-	public Session session;
-		
-	public void load() throws Exception {
-		
-		ResourceFile processDefinitions = new ResourceFile();
-		
-		processDefinitions.setMetaworksContext(new MetaworksContext());	
-		processDefinitions.getMetaworksContext().setWhen("appendProcessMap");
+    Label bpmsNotSupportedLabel;
 
-		processDefinitions.setFolder(true);
-		processDefinitions.setAlias(CodiClassLoader.getProjectPathOfTenant(CodiClassLoader.getCodiId()));
-		processDefinitions.setName("/");
-		processDefinitions.setuEngineAlias("");
-		processDefinitions.session = session;
-		processDefinitions.drillDown();
-		
-		this.setProcessDefinitions(processDefinitions);
-		
-		// TODO: 작업해야함
-		
-//		MetadataProperty metadataTree = new MetadataProperty();
-//		metadataTree.setMetaworksContext(new MetaworksContext());
-//		metadataTree.getMetaworksContext().setHow("appendProcessMap");
-//		metadataTree.getMetaworksContext().setWhen(MetaworksContext.WHEN_VIEW);
-//		
-//		metadataTree.setName("process");
-//		metadataTree.setId("process");
-//		metadataTree.setType("folder");
-//		metadataTree.setChild(new ArrayList<MetadataProperty>());
-//		
-//
-//		// load metadata
-//		String sourceCodeBase = CodiClassLoader.mySourceCodeBase();
-//		String metadataFileName = "uengine.metadata";
-//		String metadataFilePath = sourceCodeBase + File.separatorChar + metadataFileName;
-//		MetadataXML metadataXML = new MetadataXML();
-//		metadataXML = metadataXML.loadWithPath(metadataFilePath);
-//
-//		if( metadataXML != null ){
-//			for(MetadataProperty metadataProperty : metadataXML.getProperties()){
-//				if(MetadataProperty.PROCESS_PROP.equals(metadataProperty.getType())){
-//					metadataProperty.setMetaworksContext(new MetaworksContext());
-//					metadataProperty.getMetaworksContext().setHow("appendProcessMap");
-//					
-//					metadataTree.getChild().add(metadataProperty);
-//				}
-//			}
-//		}
-//		
-//		this.setMetadataTree(metadataTree);
-	}
-	
+        public Label getBpmsNotSupportedLabel() {
+            return bpmsNotSupportedLabel;
+        }
+
+        public void setBpmsNotSupportedLabel(Label bpmsNotSupportedLabel) {
+            this.bpmsNotSupportedLabel = bpmsNotSupportedLabel;
+        }
+
+    public AddProcessMapPanel() {
+        setBpmsNotSupportedLabel(new Label("<center><h1>This version of Codi doesn't support BPMS functionality</h1> Please check out the product information at uengine.org.</center>"));
+    }
+
+    public void load(){}
 }
