@@ -1,11 +1,11 @@
-var org_uengine_codi_mw3_model_GoogleDriveAttachmentWorkItem = function(objectId, className) {
+var org_uengine_codi_mw3_model_GoogleDriveAttachmentWorkItem_edit = function(objectId, className) {
     this.objectId = objectId;
     this.className = className;
 
     this.handleClientLoad();
 }
 
-org_uengine_codi_mw3_model_GoogleDriveAttachmentWorkItem.prototype = {
+org_uengine_codi_mw3_model_GoogleDriveAttachmentWorkItem_edit.prototype = {
 
     CLIENT_ID : '595090371317-ta38nu8jcdluqch5cfafne9iood01589.apps.googleusercontent.com',
 
@@ -112,6 +112,8 @@ org_uengine_codi_mw3_model_GoogleDriveAttachmentWorkItem.prototype = {
                 callback = function (file) {
                     debugger;
                     mw3.objects[this.objectId].title = file.title;
+                    mw3.objects[this.objectId].ext1 = file.alternateLink;
+                    mw3.objects[this.objectId].type = 'googleDoc';
                     mw3.objects[this.objectId].extFile = file.title;
                     mw3.objects[this.objectId].content = file.webContentLink;
                     //mw3.objects[this.objectId].content = file.alternateLink;

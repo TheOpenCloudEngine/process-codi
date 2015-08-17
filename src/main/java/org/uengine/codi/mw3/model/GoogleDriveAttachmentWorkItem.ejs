@@ -1,47 +1,60 @@
 <%
 if(value){
+    debugger;
+    var isMine = false;
+
+//    if(session && session.user && session.user.userId == value.writer.userId)
+//        isMine = true;
+
 %>
-<div class="view_box2 workitem_edit" style="<%= (mw3.how == 'sns' && value.taskId > -2 ? 'background:#fff; margin:0px;padding-bottom:5px;' : '')%>" >
 
-    <%=include("dwr/metaworks/org/uengine/codi/mw3/model/IWorkItem_title.ejs")%>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tbody>
+    <tr>
+        <td width="65" valign="top">
+            <div class="notMePic">
+                <div class="notMePicPic" style="float:left"></div>
+                <div style="float:left; margin-left:10px">
+                    <div><b>테스트</b></div>
+                    <div style="color:#A2A2A2">test@test.com</div>
+                </div>
+            </div>
+            <div  style="float:right;margin:11px;color:#A2A2A2"><%=fields.startDate.here({when: 'timeago'})%></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="position:relative;">
+                <div class="<%=isMine?'view_box3':'view_box4'%>" style="position:relative">
 
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="position:relative; z-index:98">
-        <tr>
-            <td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px">
-                <div style="text-align:center"><%=mw3.localize('$Title')%></span>
-            </td>
-            <td style=" padding:10px 10px 0px 0px;" colspan="2">
-                <input id="post_<%=objectId%>" class=" wih_comment_input <%=value.type%>" value="<%=value.title ? value.title:''%>" style="width:99%;-webkit-border-radius:3px; border:1px solid #ccc">
-            </td>
+                    <div class="cont" style="padding:0px 10px; margin:0px; overflow:auto">
+                        <div class="formcontexttitle">
+                            <span style="position:relative; height:38px; float:left; margin-right:10px;">
+							<span class="icon-attachment" style="color: #7f8c8d; font-size: 20px;width:20px;"></span>
+	                        </span>
+                            <span class="wih_title">
+								<%=value.title%>
+							</span>
+                            <div style="margin-top:5px;">
+                                <span style="float:left;font-size: 14px;line-height: 23px" class="icon-download3"></span>
+                                <a href="<%=value.content%>" style="cursor: pointer; float: left;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;-o-text-overow: ellipsis;max-width: 150px; color:#0452F2">
+                                    <span style=" line-height:1.8em; margin-left:5px; margin-right:10px;" title="<%=value.title%>"><%=value.title%></span>
+                                </a>
+                                <div style="clear:both"></div>
+                            </div>
+                            <iframe src="<%=value.ext1%>"></iframe>
+                            <div class="clear"></div>
+                        </div>
 
-        </tr>
-        <tr>
-            <td width="50" height="30" style=" padding:10px 15px 0px 10px;">
+                    </div>
+                </div>
+                <div class="clear"></div>
 
-            </td>
-            <td style=" padding:10px 15px 0px 0px;">
-                <span class="btn btn-default btn-file">
-                    <input type="file" id="filePicker_<%=objectId%>" style="display: none; " />
-                </span>
-                <input type="button" id="authorizeButton_<%=objectId%>" style="display: none" value="Authorize" />
-            </td>
-            <td style=" padding:10px 0px 0px 0px;">
-                <button id="addFile_<%=objectId%>" type="button" class="btn btn-warning btn-sm "  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>
-            </td>
-        </tr>
-        <%
-        if(value.dueDate){
-        %>
-        <tr>
-            <td colspan="3">
-                <span class="workdueDate"><a href="#"><span class="badge"><span class="icon-alarm2"></span><span style="display:inline-block; margin-left:5px;"> <%=fields.dueDate.here({when:'view'})%></span></span></a></span>
-            </td>
-        </tr>
-        <%
-        }
-        %>
-    </table>
-</div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 <%
 }
