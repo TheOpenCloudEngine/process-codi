@@ -6,6 +6,7 @@ import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.AutowiredToClient;
 import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.uengine.codi.mw3.calendar.ScheduleCalendar;
 
@@ -82,8 +83,8 @@ public class ProcessMapList implements ContextAware {
 	
 	@ServiceMethod(target=ServiceMethodContext.TARGET_POPUP, callByContent=true)
 	public ModalWindow append() throws Exception {
-		AddProcessMapPanel addProcessMapPanel = new AddProcessMapPanel();
-		addProcessMapPanel.session = session;
+		AddProcessMapPanel addProcessMapPanel = MetaworksRemoteService.getComponent(AddProcessMapPanel.class);
+
 		addProcessMapPanel.load();
 
 		ModalWindow modalWindow = new ModalWindow(addProcessMapPanel, 800, 600, "프로세스 맵 등록");

@@ -258,15 +258,7 @@ public class User extends Database<IUser> implements IUser {
 	}
 	
 	@Override
-	public UnstructuredProcessInstanceStarter chat() throws Exception{
-		this.getMetaworksContext().setWhen("chat");
-		
-		UnstructuredProcessInstanceStarter instanceStarter = new UnstructuredProcessInstanceStarter();
-		
-		instanceStarter.getMetaworksContext().setWhen("chat");
-		instanceStarter.setFriend(this);
-		
-		return instanceStarter;
+	public void chat() throws Exception{
 	}
 
 	public void addContact() throws Exception {
