@@ -13,12 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.directwebremoting.io.FileTransfer;
-import org.metaworks.ContextAware;
-import org.metaworks.EventContext;
-import org.metaworks.MetaworksContext;
-import org.metaworks.Refresh;
-import org.metaworks.ServiceMethodContext;
-import org.metaworks.ToEvent;
+import org.metaworks.*;
 import org.metaworks.annotation.Face;
 import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.Id;
@@ -355,5 +350,8 @@ public abstract class AbstractMetaworksFile implements ContextAware, Serializabl
 		}
 		
 	}
+
+	@ServiceMethod(callByContent = true, eventBinding = "selectFile", target = ServiceMethodContext.TARGET_SELF)
+	public abstract void validate() throws MetaworksException;
 
 }

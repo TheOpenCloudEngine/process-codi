@@ -34,7 +34,9 @@ public class DocWorkItem extends GenericWorkItem {
 	
 	@Override
 	public Object[] add() throws Exception{
-		
+
+		getFile().validate();
+
 		Object[] returnObj = null;
 		
 		FileWorkItem fileWorkItem = new FileWorkItem();

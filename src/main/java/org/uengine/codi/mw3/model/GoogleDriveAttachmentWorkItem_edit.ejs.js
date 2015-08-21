@@ -9,7 +9,9 @@ org_uengine_codi_mw3_model_GoogleDriveAttachmentWorkItem_edit.prototype = {
 
     CLIENT_ID : '595090371317-ta38nu8jcdluqch5cfafne9iood01589.apps.googleusercontent.com',
 
-    SCOPES : 'https://www.googleapis.com/auth/drive',
+    SCOPES : ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/drive.install','profile'],
+
+    APP_ID : '595090371317',
 
     /**
      * Called when the client library is loaded to start the auth flow.
@@ -116,9 +118,15 @@ org_uengine_codi_mw3_model_GoogleDriveAttachmentWorkItem_edit.prototype = {
                     mw3.objects[this.objectId].type = 'googleDoc';
                     mw3.objects[this.objectId].extFile = file.title;
                     mw3.objects[this.objectId].content = file.webContentLink;
-                    //mw3.objects[this.objectId].content = file.alternateLink;
 
                     mw3.call(this.objectId, 'add');
+
+                    gapi.load('drive-share', function(){
+                        s = new gapi.drive.share.ShareClient(this.APP_ID);
+                        s.setItemIds([file.id]);
+                        s.showSettingsDialog();
+                    }.bind(this));
+
                     console.log(file)
                 }.bind(this);
             }
