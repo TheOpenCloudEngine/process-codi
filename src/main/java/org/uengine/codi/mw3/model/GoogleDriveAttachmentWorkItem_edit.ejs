@@ -20,9 +20,21 @@ if(value){
 
             </td>
             <td style=" padding:10px 15px 0px 0px;">
-                <span class="btn btn-default btn-file">
-                    <input type="file" id="filePicker_<%=objectId%>" style="display: none; " />
-                </span>
+                <div id="upload_<%=objectId%>" class="image-upload" style="display : none;">
+                    <label for="filePicker_<%=objectId%>" style="padding-top: 5px;">
+                        <a class="btn btn-mini btn-primary">
+                            <img src="images/flatStyle/google-drive-icon.png" alt="" height="20px;"/>Google Drive
+                        </a>
+                    </label>
+                    <input type="file" id="filePicker_<%=objectId%>"
+                           style="display: inline-block;filter:alpha(opacity=0); opacity:0; -moz-opacity:0; width : 10px;"
+                           onchange="document.getElementById('fileName_<%=objectId%>').textContent = this.value;"/>
+                    <span id="fileName_<%=objectId%>">선택된 파일 없음</span>
+                </div>
+                <a id="authorizeButton_<%=objectId%>" class="btn btn-mini btn-primary"
+                   style="display: none; width: 120px;">
+                    <img src="images/flatStyle/google-drive-icon.png" alt="" height="20px;"/>Authorize
+                </a>
                 <input type="button" id="authorizeButton_<%=objectId%>" style="display: none" value="Authorize" />
             </td>
             <td style=" padding:10px 0px 0px 0px;">

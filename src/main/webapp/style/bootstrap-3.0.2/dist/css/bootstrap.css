@@ -7058,7 +7058,7 @@ td.hidden-lg {
 }
 
 @media (min-width: 1200px) {
-  .hidden-lg, 
+  .hidden-lg,
   tr.hidden-lg,
   th.hidden-lg,
   td.hidden-lg {
@@ -7090,4 +7090,10 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+}
+
+.icon-google-drive{
+  background-image: url('images/flatStyle/google-drive-16-000000.png');
+  background-repeat: no-repeat;
+  display: block;  /* may not need this, but I've found I do */
 }

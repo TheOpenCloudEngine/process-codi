@@ -854,7 +854,14 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     }
 
     public IWorkItem newDocument() throws Exception {
-        WorkItem wi = (WorkItem) MetaworksSpringBeanFactory.getBeanByName("docWorkItem");
+        WorkItem wi = new DocWorkItem();
+        formatWorkItem(wi);
+        return wi;
+    }
+
+    @Override
+    public IWorkItem newGoogleDocument() throws Exception {
+        WorkItem wi = new GoogleDriveAttachmentWorkItem();
         formatWorkItem(wi);
         return wi;
     }

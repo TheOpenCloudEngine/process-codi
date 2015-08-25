@@ -87,10 +87,6 @@
 	<!-- ============================================================= -->
 	<!-- Speciy Upload file method -->
 	<!-- ============================================================= -->
-<!--
-	<bean id="docWorkItem" class="org.uengine.codi.mw3.model.GoogleDriveAttachmentWorkItem" scope="prototype"/>
--->
-	<bean id="docWorkItem" class="org.uengine.codi.mw3.model.DocWorkItem" scope="prototype"/>
 
     <!-- ============================================================= -->
     <!-- Process Codi Schedule Job and Task Executor -->

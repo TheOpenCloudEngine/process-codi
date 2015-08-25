@@ -20,7 +20,6 @@ import org.metaworks.annotation.Table;
 public class GoogleDriveAttachmentWorkItem extends WorkItem{
     public GoogleDriveAttachmentWorkItem(){
         setType(WorkItem.WORKITEM_TYPE_GOOGLEDOC);
-        setPreview(new GoogleDocPreview());
     }
 
     @Override

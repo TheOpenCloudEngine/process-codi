@@ -6,25 +6,25 @@
 	<%=include("dwr/metaworks/org/uengine/codi/mw3/model/IWorkItem_title.ejs")%>
 
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="position:relative; z-index:98">
-<%		
+<%
 		if(value.type == "comment"){
 %>
 		<tr>
 			<td width="67">
 				<div style="margin-left:16px; width:51px"><%=fields.writer.here({when:'view'})%></div>
 			</td>
-			<td style=" padding:10px 0 10px 10px;">			
-				<div id="commandDiv_<%=objectId%>"> 
+			<td style=" padding:10px 0 10px 10px;">
+				<div id="commandDiv_<%=objectId%>">
 					<textarea class="wih_comment_input post_<%=objectId%>" class="<%=value.type%>" _placeholder="<%=mw3.localize('$WhatYouThinkNow')%>" id="post_<%=objectId%>" value="<%=value.title ? value.title : ''%>" tabindex=1 rows="1"><%=value.title ? value.title : ''%></textarea>
 					<div id="commandRecommendDiv_<%=objectId%>"></div>
 					<div id="commandFollowerDiv_<%=objectId%>"></div>
-				</div>				
-			</td>			
-			<td width=50 align="center" style="padding-right:15px;">
-				<button type="button" class="btn btn-warning btn-sm btn-block" style="width:46px;" onClick="mw3.getFaceHelper('<%=objectId%>').sendComment()"  id="method_<%=objectId%>_add" ><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>		
-							
+				</div>
 			</td>
-		</tr> 
+			<td width=50 align="center" style="padding-right:15px;">
+				<button type="button" class="btn btn-warning btn-sm btn-block" style="width:46px;" onClick="mw3.getFaceHelper('<%=objectId%>').sendComment()"  id="method_<%=objectId%>_add" ><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>
+
+			</td>
+		</tr>
 <%
 			if(value.dueDate){
 %>
@@ -35,19 +35,19 @@
 		</tr>
 <%
 			}
-			
+
 		}else if(value.type == "src"){
 %>
 
 		<tr>
-			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px"> 
+			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px">
 				<div style="text-align:center"><%=mw3.localize('$Title')%></span>
 			</td>
-						
-			<td style=" padding:10px 10px 0px 0px;"> 
+
+			<td style=" padding:10px 10px 0px 0px;">
 				<input id="post_<%=objectId%>" class="wih_comment_input <%=value.type%>" value="<%=value.title ? value.title : ''%>" style="width:99%;-webkit-border-radius:3px;  border:1px solid #ccc">
-			</td>			
-			
+			</td>
+
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -57,7 +57,7 @@
 					</div>
 				</div>
 			</td>
-		</tr>				
+		</tr>
 		<tr>
 			<td height="30" colspan="2" style="padding-left:15px;">
 <%
@@ -66,22 +66,22 @@
 				<span class="workdueDate" style="margin-left:0px;"><a href="#"><span class="badge"><span class="icon-alarm2"></span><span style="display:inline-block; margin-left:5px;"> <%=fields.dueDate.here({when:'view'})%></span></span></a></span>
 <%
 			}
-%>		
-				<button type="button" class="btn btn-warning btn-sm "  onClick="<%=methods.add.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>		
+%>
+				<button type="button" class="btn btn-warning btn-sm "  onClick="<%=methods.add.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>
 				<button type="button" class="btn btn-success btn-sm "  onClick="<%=methods.compile.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize("$Compile")%></button>
 			</td>
 		</tr>
-<%		
+<%
 		}else if(value.type == "memo"){
 %>
 
 		<tr>
-			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px"> 
+			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px">
 				<div style="text-align:center"><%=mw3.localize('$Title')%></span>
-			</td>			
-			<td style=" padding:10px 10px 0px 0px;"> 
+			</td>
+			<td style=" padding:10px 10px 0px 0px;">
 				<input id="post_<%=objectId%>" class="wih_comment_input <%=value.type%>" value="<%=value.title ? value.title : ''%>"  style="width:99%;-webkit-border-radius:3px;  border:1px solid #ccc">
-			</td>			
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -89,7 +89,7 @@
 						<%=fields.memo.here({when:'edit'})%>
 				</div>
 			</td>
-		</tr>				
+		</tr>
 		<tr>
 			<td height="30" colspan="2" style="padding-left:15px; ">
 <%
@@ -98,38 +98,38 @@
 				<span class="workdueDate" style="margin-left:0px;"><a href="#"><span class="badge"><span class="icon-alarm2"></span><span style="display:inline-block; margin-left:5px;"> <%=fields.dueDate.here({when:'view'})%></span></span></a></span>
 <%
 			}
-%>			
-				<button type="button" class="btn btn-warning btn-sm "  onClick="<%=methods.add.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>		
+%>
+				<button type="button" class="btn btn-warning btn-sm "  onClick="<%=methods.add.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>
 			</td>
 		</tr>
-<%		
+<%
 		}else if(value.type == "file" || value.type == 'document'){
 %>
 		<tr>
-			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px"> 
+			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;padding-top:10px">
 				<div style="text-align:center"><%=mw3.localize('$Title')%></span>
-			</td>			
-			<td style=" padding:10px 10px 0px 0px;" colspan="2"> 
+			</td>
+			<td style=" padding:10px 10px 0px 0px;" colspan="2">
 				<input id="post_<%=objectId%>" class=" wih_comment_input <%=value.type%>" value="<%=value.title ? value.title:''%>" style="width:99%;-webkit-border-radius:3px; border:1px solid #ccc">
-			</td>			
-			
-		</tr>			
+			</td>
+
+		</tr>
 		<tr>
 			<td width="50" height="30" style=" padding:10px 15px 0px 10px;">
-				
+
 			</td>
 			<td style=" padding:10px 15px 0px 0px;">
 				<%if (value.taskId != null){%>
-					<span style="float:left; margin-right:15px;">					
-						<%=fields.versionUpOption.here()%>					
+					<span style="float:left; margin-right:15px;">
+						<%=fields.versionUpOption.here()%>
 					</span>
 				<%}%>
 				<span style="float:left; margin-top:4px;">
 					<%=fields.file.here()%>
 				</span>
 			</td>
-			<td style=" padding:10px 0px 0px 0px;">				
-				<button type="button" class="btn btn-warning btn-sm "  onClick="<%=methods.add.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>		
+			<td style=" padding:10px 0px 0px 0px;">
+				<button type="button" class="btn btn-warning btn-sm "  onClick="<%=methods.add.caller()%>"  style="float:right;margin-right:15px;"><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>
 			</td>
 		</tr>
 <%
@@ -142,16 +142,16 @@
 		</tr>
 <%
 			}
-			
+
 		}else if(value.type == "remoteConf"){
 %>
 		<tr>
-			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;"> 
+			<td width="67" height="25" style="color:#8D98AF; padding-left:10px;">
 				<div style="text-align:center"><%=mw3.localize('$Title')%></span>
-			</td>			
-			<td style=" padding:10px 0;"> 
+			</td>
+			<td style=" padding:10px 0;">
 				<input id="post_<%=objectId%>" class=" wih_comment_input <%=value.type%>" value="<%=value.title ? value.title:''%>" style="width:99%;-webkit-border-radius:3px; border:1px solid #ccc">
-			</td>			
+			</td>
 			<td width=50 align="center" style="padding-right:15px;">
 				<button type="button" class="btn btn-warning btn-sm btn-block" style="width:46px;" onClick="<%=methods.add.caller()%>"  id="method_<%=objectId%>_add" ><%=mw3.localize((mw3.when == 'new')?'$Post':'$Edit')%></button>
 			</td>
@@ -160,7 +160,7 @@
 			<td colspan="3">
 				<div id="commandFollowerDiv_<%=objectId%>"></div>
 			</td>
-		</tr>	
+		</tr>
 		<tr>
 			<td width="110" height="25" style="color:#8D98AF; padding-left:10px;">
 				<div style="text-align:center">회의 시간 설정:</span></div>
@@ -169,7 +169,7 @@
 				<%=fields.remoteConferenceDate.here()%>
 			</td>
 		</tr>
-			
+
 <%
 			if(value.dueDate){
 %>
@@ -177,9 +177,9 @@
 			<td colspan="3">
 				<span class="workdueDate"><a href="#"><span class="badge"><span class="icon-alarm2"></span><span style="display:inline-block; margin-left:5px;"> <%=fields.dueDate.here({when:'view'})%></span></span></a></span>
 			</td>
-		</tr>	
+		</tr>
 <%
-			}	
+			}
 		}
 %>
 	</table>

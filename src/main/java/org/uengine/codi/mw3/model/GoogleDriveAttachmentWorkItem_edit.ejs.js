@@ -36,13 +36,15 @@ org_uengine_codi_mw3_model_GoogleDriveAttachmentWorkItem_edit.prototype = {
      */
     handleAuthResult : function(authResult) {
         var authButton = document.getElementById('authorizeButton_' + this.objectId);
-        var filePicker = document.getElementById('filePicker_' + this.objectId);
+        //var filePicker = document.getElementById('filePicker_' + this.objectId);
+        var upload = document.getElementById('upload_' + this.objectId);
         var addFile = document.getElementById('addFile_' + this.objectId)
         authButton.style.display = 'none';
-        filePicker.style.display = 'none';
+        upload.style.display = 'none';
+        //filePicker.style.display = 'none';
         if (authResult && !authResult.error) {
             // Access token has been successfully retrieved, requests can be sent to the API.
-            filePicker.style.display = 'block';
+            upload.style.display = 'block';
             addFile.onclick = this.uploadFile.bind(this);
             //filePicker.onchange = this.uploadFile.bind(this);
         } else {
