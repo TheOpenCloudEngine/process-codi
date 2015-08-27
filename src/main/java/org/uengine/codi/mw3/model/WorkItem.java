@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.uengine.bean.factory.MetaworksSpringBeanFactory;
 import org.uengine.codi.CodiProcessDefinitionFactory;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.admin.WebEditor;
@@ -133,7 +132,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
         StringBuffer sql = new StringBuffer();
 
-        sql.append("select *");
+        sql.append("select *") ;
         sql.append("  from bpm_worklist");
         sql.append(" where rootInstId=?instId");
         sql.append("   and isdeleted!=?isDeleted");

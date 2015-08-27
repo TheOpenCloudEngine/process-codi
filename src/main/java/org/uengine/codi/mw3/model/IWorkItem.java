@@ -56,6 +56,7 @@ public interface IWorkItem extends IDAO{
 		public final static String WORKITEM_TYPE_FILE		 = "file";
 		public final static String WORKITEM_TYPE_SRC		 = "src";
 		public final static String WORKITEM_TYPE_DOCUMENT = "document";
+		public final static String WORKITEM_TYPE_GOOGLEDOC = "googleDoc";
 		
 		public final static String WORKITEM_TYPE_REMOTECONF	 = "remoteConf";
 		public final static String WORKITEM_TYPE_DOCUMENTLIST = "documentList";
@@ -140,22 +141,23 @@ public interface IWorkItem extends IDAO{
 		public DocumentDrag getDocumentDrag();
 		public void setDocumentDrag(DocumentDrag documentDrag);
 		*/
-		
+
 		@Hidden
 		@Range(
-				options={"WorkItem","document", "Comment",	"Image",	"Movie",	"Source Code", 	"File", "Schedule", "Postings", "ovryCmnt"}, 
-				values ={"wih", "document",	 "comment",	"img",		"mov",		"src", 			"file", "schedule" , "postings", "ovryCmnt"}
+				options={"WorkItem","document", "googleDoc", "Comment",	"Image",	"Movie",	"Source Code", 	"File", "Schedule", "Postings", "ovryCmnt"},
+				values ={"wih", "document",	"googleDoc", "comment",	"img",		"mov",		"src", 			"file", "schedule" , "postings", "ovryCmnt"}
 		)
 		@Default(value="process")
 		@TypeSelector(
-				values = 		{ 
-						"wih",			
+				values = 		{
+						"wih",
 						"document",
+						"googleDoc",
 						"comment",
-						"img",		
-						"mov", 				
+						"img",
+						"mov",
 						"src",
-						"file", 
+						"file",
 						"schedule",
 						"postings",
 						"generic",
@@ -165,11 +167,12 @@ public interface IWorkItem extends IDAO{
 						"replyCmnt",
 						"remoteConf",
 						"process"
-					}, 
-				classes = 		{ 
-						WorkItem.class,  	
+				},
+				classes = 		{
+						WorkItem.class,
 						DocWorkItem.class,
-						CommentWorkItem.class,					
+						GoogleDriveAttachmentWorkItem.class,
+						CommentWorkItem.class,
 						ImageWorkItem.class,
 						MovieWorkItem.class,
 						SourceCodeWorkItem.class,
@@ -183,7 +186,7 @@ public interface IWorkItem extends IDAO{
 						ReplyOverlayCommentWorkItem.class,
 						RemoteConferenceWorkItem.class,
 						ProcessWorkItem.class
-					} 
+				}
 		)
 		public String getType();
 		public void setType(String type);
