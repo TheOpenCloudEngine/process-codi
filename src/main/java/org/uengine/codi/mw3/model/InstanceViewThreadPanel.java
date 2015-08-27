@@ -139,7 +139,12 @@ public class InstanceViewThreadPanel implements ContextAware {
 		writer.copyFrom(session.getUser());
 		writer.setMetaworksContext(new MetaworksContext());
 
-		IWorkItem newItem = WorkItemFactory.newInstance(session.getLastPerspecteType());
+		IWorkItem newItem = null;
+		if("document".equals(session.getLastPerspecteType())|| "UnlabeledDocument".equals(session.getLastPerspecteType())){
+			newItem = new DocWorkItem();
+		}else{
+			newItem = new CommentWorkItem();
+		}
 		
 		newItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
 		newItem.getMetaworksContext().setWhere(MetaworksContext.WHERE_EVER);

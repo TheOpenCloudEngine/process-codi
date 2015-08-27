@@ -20,7 +20,6 @@ import org.metaworks.example.ide.SourceCode;
 import org.metaworks.website.MetaworksFile;
 import org.metaworks.widget.IFrame;
 import org.metaworks.widget.ModalWindow;
-import org.uengine.bean.factory.MetaworksSpringBeanFactory;
 import org.uengine.codi.mw3.admin.WebEditor;
 @Table(name = "bpm_worklist")
 @Face(
@@ -57,7 +56,6 @@ public interface IWorkItem extends IDAO{
 		public final static String WORKITEM_TYPE_FILE		 = "file";
 		public final static String WORKITEM_TYPE_SRC		 = "src";
 		public final static String WORKITEM_TYPE_DOCUMENT = "document";
-		public final static String WORKITEM_TYPE_GOOGLEDOC = "googleDoc";
 		
 		public final static String WORKITEM_TYPE_REMOTECONF	 = "remoteConf";
 		public final static String WORKITEM_TYPE_DOCUMENTLIST = "documentList";
@@ -145,20 +143,19 @@ public interface IWorkItem extends IDAO{
 		
 		@Hidden
 		@Range(
-				options={"WorkItem","document", "googleDoc", "Comment",	"Image",	"Movie",	"Source Code", 	"File", "Schedule", "Postings", "ovryCmnt"},
-				values ={"wih", "document",	"googleDoc", "comment",	"img",		"mov",		"src", 			"file", "schedule" , "postings", "ovryCmnt"}
+				options={"WorkItem","document", "Comment",	"Image",	"Movie",	"Source Code", 	"File", "Schedule", "Postings", "ovryCmnt"}, 
+				values ={"wih", "document",	 "comment",	"img",		"mov",		"src", 			"file", "schedule" , "postings", "ovryCmnt"}
 		)
 		@Default(value="process")
 		@TypeSelector(
 				values = 		{ 
-						"wih",
+						"wih",			
 						"document",
-						"googleDoc",
 						"comment",
 						"img",		
 						"mov", 				
 						"src",
-						"file",
+						"file", 
 						"schedule",
 						"postings",
 						"generic",
@@ -172,8 +169,7 @@ public interface IWorkItem extends IDAO{
 				classes = 		{ 
 						WorkItem.class,  	
 						DocWorkItem.class,
-						GoogleDriveAttachmentWorkItem.class,
-						CommentWorkItem.class,
+						CommentWorkItem.class,					
 						ImageWorkItem.class,
 						MovieWorkItem.class,
 						SourceCodeWorkItem.class,
