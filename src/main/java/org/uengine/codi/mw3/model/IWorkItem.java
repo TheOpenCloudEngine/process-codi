@@ -404,6 +404,9 @@ public interface IWorkItem extends IDAO{
 		
 		@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF)
 		public IWorkItem newDocument() throws Exception;
+
+		@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF)
+		public IWorkItem newGoogleDocument() throws Exception;
 		
 		@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF)
 		public IWorkItem newMemo() throws Exception;

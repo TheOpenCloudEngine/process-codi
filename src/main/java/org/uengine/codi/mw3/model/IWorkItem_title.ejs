@@ -1,0 +1,113 @@
+<%
+if(mw3.when == 'new'){
+    var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
+
+    var deviceLayout = {
+        hideButton : mw3.how == 'sns' && mw3.where == 'oce',
+        newActivityFlag : session && session.ux != 'phone' && !(value.instId == null && value.dueDate != null),
+        workItemIsVisiable : function(type){
+            if(type == "memo" || type == "remoteConf"){
+                return session && session.ux != 'phone' && session.ux != 'pad'
+                        && ((session && session.employee.preferUX != 'sns') || session.ux == 'oce');
+            }else if(type == "src"){
+                return session && session.ux != 'phone'
+                        && ((session && session.employee.preferUX != 'sns') || session.ux == 'oce');
+            }
+            else if(type == "etc"){
+                return this.newActivityFlag && session.employee && session.employee.approved && !session.employee.guest
+                        && ((session && session.employee.preferUX != 'sns') || session.ux == 'oce');
+            }else{
+                return true;
+            }
+        }
+    }
+
+    var workItemTitles = [
+        {
+            type: "comment",
+            btn_class: "comment_btn_on",
+            icon_class: "icon-bubble",
+            comment_class: "comment_select",
+            click_handler: methods.newComment.caller.bind(methods.newComment),
+            getText: function () {
+                return "<span>" + mw3.localize('$Write') + "</span>";
+            }
+        },
+        {
+            type : "document",
+            btn_class : "comment_btn_on",
+            icon_class : "icon-attachment",
+            comment_class : "comment_select",
+            click_handler: methods.newDocument.caller.bind(methods.newDocument),
+            getText : function(){
+                return "<span id='method_" + objectId + "_newFile'>" + mw3.localize("$File") + "</span>";
+            }
+        },
+        {
+            type : "googleDoc",
+            btn_class : "comment_btn_on",
+            icon_class : "icon-google-drive",
+            comment_class : "comment_select",
+            click_handler: methods.newGoogleDocument.caller.bind(methods.newGoogleDocument),
+            getText : function(){
+                return "<span id='method_" + objectId + "_newGoogleFile'>" + mw3.localize("$GoogleDrive") + "</span>";
+            }
+        },
+        {
+            type : "memo",
+            btn_class : "comment_btn_on",
+            icon_class : "icon-newspaper",
+            comment_class : "comment_select",
+            click_handler: methods.newMemo.caller.bind(methods.newMemo),
+            getText : function(){
+                return "<span id='method_" + objectId + "_newMemo'>" + mw3.localize("$Memo") + "</span>";
+            }
+        },
+        {
+            type : "remoteConf",
+            btn_class : "comment_btn_on",
+            icon_class : "icon-screen",
+            comment_class : "comment_select",
+            click_handler: methods.newRemoteConference.caller.bind(methods.newRemoteConference),
+            getText : function(){
+                return "<span id='method_" + objectId + "_newRemoteConference'>" + mw3.localize("$RemoteConference") + "</span>";
+            }
+        },
+        {
+            type : "src",
+            btn_class : "comment_btn_on",
+            icon_class : "icon-code",
+            comment_class : "comment_select",
+            click_handler: methods.newSourceCode.caller.bind(methods.newSourceCode),
+            getText : function(){
+                return "<span id='method_" + objectId + "_newSourceCode'>" + mw3.localize("$SourceCode") + "</span>";
+            }
+        },
+        {
+            type : "etc",
+            btn_class : "comment_btn_on",
+            icon_class : "glyphicon glyphicon-th",
+            comment_class : "comment_select",
+            click_handler: methods.newActivity.caller.bind(methods.newActivity),
+            getText : function(){
+                return "<span id='method_" + objectId + "_newActivity'>" + mw3.localize("$workitem.newActivity") + "</span>";
+            }
+        }
+    ];
+    debugger;
+%>
+<div id="wih_button" style="<%=deviceLayout.hideButton ? "display:none;" : ""%>">
+    <% for(var index in workItemTitles){
+        if(!deviceLayout.workItemIsVisiable(workItemTitles[index].type)){
+            continue;
+        }
+    %>
+    <a class="<%=workItemTitles[index].btn_class%>" onclick="<%=workItemTitles[index].click_handler()%>">
+        <span class="<%=workItemTitles[index].icon_class%>"></span>
+        <%=workItemTitles[index].getText()%>
+        <div class="<%=workItemTitles[index].comment_class%>"></div></a>
+    <% } %>
+</div>
+<%
+}
+%>

@@ -53,7 +53,8 @@ var org_metaworks_website_AbstractMetaworksFile = function(objectId, className){
 			}catch(e){
 				
 			}
-		}	
+		}
+
 	}
 }
 
@@ -122,12 +123,17 @@ org_metaworks_website_AbstractMetaworksFile.prototype.reset = function(){
 		
 		var object = mw3.objects[event.data.objectId];
 		var faceHelper = mw3.getFaceHelper(event.data.objectId);
-		
+
+		debugger;
+
 		if(object.auto)
 			object.upload();
-		else
+		else{
+			//$('#objDiv_' + event.data.objectId).trigger("selectFile");
+
 			faceHelper.setFilename(faceHelper.extraFilename(this.value));
-			
+		}
+
 	});		
 }
 

@@ -160,7 +160,17 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 		
 	}
 
-	
+	public void deployDefinition(String path, Object definition){
+
+		DefaultResource defaultResource = new DefaultResource();
+		defaultResource.setPath("codi/" + path);
+
+		try {
+			getResourceManager().getStorage().save(defaultResource, definition);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 	
 

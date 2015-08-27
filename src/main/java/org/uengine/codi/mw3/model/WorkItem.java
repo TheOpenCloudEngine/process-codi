@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.uengine.bean.factory.MetaworksSpringBeanFactory;
 import org.uengine.codi.CodiProcessDefinitionFactory;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.admin.WebEditor;
@@ -853,9 +854,15 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     }
 
     public IWorkItem newDocument() throws Exception {
-        DocWorkItem wi = new DocWorkItem();
+        WorkItem wi = new DocWorkItem();
         formatWorkItem(wi);
+        return wi;
+    }
 
+    @Override
+    public IWorkItem newGoogleDocument() throws Exception {
+        WorkItem wi = new GoogleDriveAttachmentWorkItem();
+        formatWorkItem(wi);
         return wi;
     }
 
