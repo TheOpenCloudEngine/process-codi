@@ -1241,7 +1241,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         return workItem;
     }
 
-    public Object[] makeReturn(boolean existedInstance, Instance instanceRef) throws Exception {
+    public Object[] makeReturn(boolean existedInstance, IInstance instanceRef) throws Exception {
         pushToClient(existedInstance,instanceRef);
 
         Object[] returnObjects = getAddReturnObject(instanceRef, existedInstance);
@@ -1263,7 +1263,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
      *  ==== returnObjects 생성 ====
      *  새로 쓴 글을 제외하고는 workItem 만 컨트롤을 한다.
      */
-    protected Object[] getAddReturnObject(Instance instance, boolean existedInstance) throws Exception {
+    protected Object[] getAddReturnObject(IInstance instance, boolean existedInstance) throws Exception {
         Object[] returnObjects = null;
 
         // 추가
@@ -1310,10 +1310,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         return returnObjects;
     }
 
-    protected void pushToClient(boolean existedInstance, Instance instanceRef) throws Exception {
-        instanceRef.session = session;
-        instanceRef.instanceViewContent = instanceViewContent;
-
+    protected void pushToClient(boolean existedInstance, IInstance instanceRef) throws Exception {
         //Topic Noti Users를 가져오기.
         HashMap<String, String> pushUserMap = getTopicNotiUser(instanceRef);
 
@@ -1404,7 +1401,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
      *  === instance push 부분 ===
      *  위쪽에서 topic notiuser를 구하였지만 noti를 보내는 사람을 구하는 로직은 다를수 있으니 다시한번 구한다.
      */
-    protected HashMap<String, String> getTopicNotiUser(Instance instance) throws Exception {
+    protected HashMap<String, String> getTopicNotiUser(IInstance instance) throws Exception {
         // Topic 공개/비공개 체크
         boolean securityPush = validateTopicSecurity(instance);
 
@@ -1427,7 +1424,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     /*
         Instance의 Topic이 공개/비공개인지 확인.
      */
-    protected boolean validateTopicSecurity(Instance instance){
+    protected boolean validateTopicSecurity(IInstance instance){
         boolean validateSecurity = false;
 
         if (instance.getTopicId() == null)
@@ -1455,13 +1452,13 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     public Object[] add() throws Exception {
         boolean existedInstance = this.getInstId() == null ? false: true;
 
+        IInstance instanceRef = this.save();
         Instance instance = new Instance();
-        instance.session = session;
-        instance.instanceViewContent = instanceViewContent;
-        instance.copyFrom(this.save());
+
+        instance.copyFrom(instanceRef);
         instance.flushDatabaseMe();
 
-        return makeReturn(existedInstance, instance);
+        return makeReturn(existedInstance, instanceRef);
     }
 
     public Object remove() throws Exception {
