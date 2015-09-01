@@ -1263,8 +1263,13 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
      *  ==== returnObjects 생성 ====
      *  새로 쓴 글을 제외하고는 workItem 만 컨트롤을 한다.
      */
-    protected Object[] getAddReturnObject(IInstance instance, boolean existedInstance) throws Exception {
+    protected Object[] getAddReturnObject(IInstance instanceRef, boolean existedInstance) throws Exception {
         Object[] returnObjects = null;
+
+        Instance instance = new Instance();
+        instance.copyFrom(instanceRef);
+        instance.session = session;
+        instance.instanceViewContent = instanceViewContent;
 
         // 추가
         if(WHEN_NEW.equals(getMetaworksContext().getWhen())){
