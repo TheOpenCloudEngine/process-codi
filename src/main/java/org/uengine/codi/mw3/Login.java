@@ -10,11 +10,10 @@ import org.metaworks.annotation.Face;
 import org.metaworks.common.MetaworksUtil;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.widget.ModalWindow;
+import org.uengine.codi.mw3.cache.Memcached;
 import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.collection.SessionIdHashTable;
 import org.uengine.codi.mw3.common.MainPanel;
-import org.uengine.codi.mw3.email.factory.EmailSenderFactory;
-import org.uengine.codi.mw3.email.sender.IEmailSender;
 import org.uengine.codi.mw3.email.type.EmailSenderType;
 import org.uengine.codi.mw3.email.util.EmailSenderUtil;
 import org.uengine.codi.mw3.model.Application;
@@ -40,10 +39,11 @@ public class Login implements ContextAware {
     protected static Hashtable<String, HashMap<String, String>> SessionIdForCompanyMapping = new SessionIdHashTable<String, HashMap<String, String>>();
     protected static Hashtable<String, HashMap<String, String>> SessionIdForDeptMapping = new SessionIdHashTable<String, HashMap<String, String>>();
     protected static Hashtable<String, String> SessionIdForEmployeeMapping = new SessionIdHashTable<String, String>();
-
     protected static Hashtable<String, String> userIdDeviceMapping = new SessionIdHashTable<String, String>();
+
     @AutowiredFromClient
     public Locale localeManager;
+
     MetaworksContext metaworksContext;
     String status;
     String email;
@@ -68,15 +68,30 @@ public class Login implements ContextAware {
     }
 
     public static String getSessionIdWithUserId(String userId) {
-        return SessionIdForEmployeeMapping.get(userId.toUpperCase());
+        if("true".equals(GlobalContext.getPropertyString("forCloud"))){
+            Hashtable<String, String> sessionIdForEmployeeMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("SessionIdForEmployeeMapping");
+            return sessionIdForEmployeeMapping.get(userId.toUpperCase());
+        }else {
+            return SessionIdForEmployeeMapping.get(userId.toUpperCase());
+        }
     }
 
     public static HashMap<String, String> getSessionIdWithDept(String deptId) {
+        HashMap<String, String> mapping = null;
         deptId = deptId.toUpperCase();
-        if (SessionIdForDeptMapping.containsKey(deptId)) {
-            HashMap<String, String> mapping = SessionIdForDeptMapping.get(deptId);
-            //System.out.println(.);
 
+        if("true".equals(GlobalContext.getPropertyString("forCloud"))) {
+            Hashtable<String, HashMap<String, String>> sessionIdForDeptMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForDeptMapping");
+            if (sessionIdForDeptMapping.containsKey(deptId)) {
+                mapping = sessionIdForDeptMapping.get(deptId);
+            }
+        }else{
+            if (SessionIdForDeptMapping.containsKey(deptId)) {
+                mapping = SessionIdForDeptMapping.get(deptId);
+            }
+        }
+
+        if (mapping != null) {
             Iterator<String> iterator = mapping.keySet().iterator();
 
             return (HashMap<String, String>) mapping.clone();
@@ -86,11 +101,21 @@ public class Login implements ContextAware {
     }
 
     public static HashMap<String, String> getSessionIdWithCompany(String companyId) {
+        HashMap<String, String> mapping = null;
         companyId = companyId.toUpperCase();
-        if (SessionIdForCompanyMapping.containsKey(companyId)) {
-            HashMap<String, String> mapping = SessionIdForCompanyMapping.get(companyId);
-            //System.out.println(.);
 
+        if("true".equals(GlobalContext.getPropertyString("forCloud"))) {
+            Hashtable<String, HashMap<String, String>> sessionIdForCompanyMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForCompanyMapping");
+            if (sessionIdForCompanyMapping.containsKey(companyId)) {
+                mapping = sessionIdForCompanyMapping.get(companyId);
+            }
+        }else{
+            if (SessionIdForCompanyMapping.containsKey(companyId)) {
+                mapping = SessionIdForCompanyMapping.get(companyId);
+            }
+        }
+
+        if (mapping != null) {
             Iterator<String> iterator = mapping.keySet().iterator();
 
             return (HashMap<String, String>) mapping.clone();
@@ -100,7 +125,12 @@ public class Login implements ContextAware {
     }
 
     public static String getDeviceWithUserId(String userId) {
-        return userIdDeviceMapping.get(userId.toUpperCase());
+        if("true".equals(GlobalContext.getPropertyString("forCloud"))) {
+            Hashtable<String, String> userIdDeviceMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("userIdDeviceMapping");
+            return userIdDeviceMapping.get(userId.toUpperCase());
+        }else{
+            return userIdDeviceMapping.get(userId.toUpperCase());
+        }
     }
 
     /*
@@ -108,10 +138,22 @@ public class Login implements ContextAware {
      */
     public static void storeLoginStaticSessionInfo() throws Exception {
         HashMap<String, Hashtable> sessionMap = new HashMap<>();
-        sessionMap.put("SessionIdForCompanyMapping", SessionIdForCompanyMapping);
-        sessionMap.put("SessionIdForDeptMapping", SessionIdForDeptMapping);
-        sessionMap.put("SessionIdForEmployeeMapping", SessionIdForEmployeeMapping);
-        sessionMap.put("userIdDeviceMapping", userIdDeviceMapping);
+        if("true".equals(GlobalContext.getPropertyString("forCloud"))) {
+            Hashtable<String, HashMap<String, String>> sessionIdForCompanyMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForCompanyMapping");
+            Hashtable<String, HashMap<String, String>> sessionIdForDeptMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForDeptMapping");
+            Hashtable<String, String> sessionIdForEmployeeMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("SessionIdForEmployeeMapping");
+            Hashtable<String, String> userIdDeviceMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("userIdDeviceMapping");
+
+            sessionMap.put("SessionIdForCompanyMapping", sessionIdForCompanyMapping);
+            sessionMap.put("SessionIdForDeptMapping", sessionIdForDeptMapping);
+            sessionMap.put("SessionIdForEmployeeMapping", sessionIdForEmployeeMapping);
+            sessionMap.put("userIdDeviceMapping", userIdDeviceMapping);
+        }else{
+            sessionMap.put("SessionIdForCompanyMapping", SessionIdForCompanyMapping);
+            sessionMap.put("SessionIdForDeptMapping", SessionIdForDeptMapping);
+            sessionMap.put("SessionIdForEmployeeMapping", SessionIdForEmployeeMapping);
+            sessionMap.put("userIdDeviceMapping", userIdDeviceMapping);
+        }
 
         XStream stream = new XStream();
         stream.alias("root", HashMap.class);
@@ -161,10 +203,17 @@ public class Login implements ContextAware {
 
         HashMap<String, Hashtable> sessionMap = (HashMap<String, Hashtable>) stream.fromXML(xml);
 
-        SessionIdForCompanyMapping = sessionMap.get("SessionIdForCompanyMapping");
-        SessionIdForDeptMapping = sessionMap.get("SessionIdForDeptMapping");
-        SessionIdForEmployeeMapping = sessionMap.get("SessionIdForEmployeeMapping");
-        userIdDeviceMapping = sessionMap.get("userIdDeviceMapping");
+        if("true".equals(GlobalContext.getPropertyString("forCloud"))) {
+            Memcached.getMemcachedClient().set("SessionIdForCompanyMapping", Memcached.Expiration_time, sessionMap.get("SessionIdForCompanyMapping"));
+            Memcached.getMemcachedClient().set("SessionIdForDeptMapping", Memcached.Expiration_time, sessionMap.get("SessionIdForDeptMapping"));
+            Memcached.getMemcachedClient().set("SessionIdForEmployeeMapping", Memcached.Expiration_time, sessionMap.get("SessionIdForEmployeeMapping"));
+            Memcached.getMemcachedClient().set("userIdDeviceMapping", Memcached.Expiration_time, sessionMap.get("userIdDeviceMapping"));
+        }else{
+            SessionIdForCompanyMapping = sessionMap.get("SessionIdForCompanyMapping");
+            SessionIdForDeptMapping = sessionMap.get("SessionIdForDeptMapping");
+            SessionIdForEmployeeMapping = sessionMap.get("SessionIdForEmployeeMapping");
+            userIdDeviceMapping = sessionMap.get("userIdDeviceMapping");
+        }
 
         loginSessionFile.delete();
     }
@@ -802,43 +851,89 @@ public class Login implements ContextAware {
         String userId = session.getUser().getUserId().toUpperCase();
         //		String userId = session.getEmployee().getEmpCode().toUpperCase();
 
-        if (SessionIdForEmployeeMapping.containsKey(userId)) {
-            String sessionId = SessionIdForEmployeeMapping.get(userId);
+        if("true".equals(GlobalContext.getPropertyString("forCloud"))) {
+            Hashtable<String, HashMap<String, String>> sessionIdForCompanyMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForCompanyMapping");
+            Hashtable<String, HashMap<String, String>> sessionIdForDeptMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForDeptMapping");
+            Hashtable<String, String> sessionIdForEmployeeMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("SessionIdForEmployeeMapping");
 
-            WebContext wctx = WebContextFactory.get();
+            if ((sessionIdForEmployeeMapping != null) && (sessionIdForEmployeeMapping.containsKey(userId))) {
+                String sessionId = sessionIdForEmployeeMapping.get(userId);
 
-            if (sessionId.equals(wctx.getScriptSession().getId())) {
-                SessionIdForEmployeeMapping.remove(userId);
+                WebContext wctx = WebContextFactory.get();
 
-                if (session.getEmployee() != null) {
-                    String partCode = session.getEmployee().getPartCode();
-                    String globalCom = session.getEmployee().getGlobalCom();
+                if (sessionId.equals(wctx.getScriptSession().getId())) {
+                    sessionIdForEmployeeMapping.remove(userId);
 
-                    if (partCode != null && partCode.length() > 0) {
-                        partCode = partCode.toUpperCase();
-                        HashMap<String, String> mapping = null;
+                    if (session.getEmployee() != null) {
+                        String partCode = session.getEmployee().getPartCode();
+                        String globalCom = session.getEmployee().getGlobalCom();
 
-                        if (SessionIdForDeptMapping.containsKey(partCode)) {
-                            mapping = SessionIdForDeptMapping.get(partCode);
-                            mapping.remove(userId);
-                            SessionIdForDeptMapping.put(partCode, mapping);
+                        if (partCode != null && partCode.length() > 0) {
+                            partCode = partCode.toUpperCase();
+                            HashMap<String, String> mapping = null;
+
+                            if (sessionIdForDeptMapping.containsKey(partCode)) {
+                                mapping = sessionIdForDeptMapping.get(partCode);
+                                mapping.remove(userId);
+                                sessionIdForDeptMapping.put(partCode, mapping);
+                                Memcached.getMemcachedClient().set("SessionIdForDeptMapping", Memcached.Expiration_time, sessionIdForDeptMapping);
+
+                            }
+                        }
+
+                        if (globalCom != null && globalCom.length() > 0) {
+                            globalCom = globalCom.toUpperCase();
+                            HashMap<String, String> mapping = null;
+
+                            if (sessionIdForCompanyMapping.containsKey(globalCom)) {
+                                mapping = sessionIdForCompanyMapping.get(globalCom);
+                                mapping.remove(userId);
+                                sessionIdForCompanyMapping.put(globalCom, mapping);
+                                Memcached.getMemcachedClient().set("SessionIdForCompanyMapping", Memcached.Expiration_time, sessionIdForCompanyMapping);
+
+                            }
                         }
                     }
+                }
+            }
+        }else{
+            if (SessionIdForEmployeeMapping.containsKey(userId)) {
+                String sessionId = SessionIdForEmployeeMapping.get(userId);
 
-                    if (globalCom != null && globalCom.length() > 0) {
-                        globalCom = globalCom.toUpperCase();
-                        HashMap<String, String> mapping = null;
+                WebContext wctx = WebContextFactory.get();
 
-                        if (SessionIdForCompanyMapping.containsKey(globalCom)) {
-                            mapping = SessionIdForCompanyMapping.get(globalCom);
-                            mapping.remove(userId);
-                            SessionIdForCompanyMapping.put(globalCom, mapping);
+                if (sessionId.equals(wctx.getScriptSession().getId())) {
+                    SessionIdForEmployeeMapping.remove(userId);
+
+                    if (session.getEmployee() != null) {
+                        String partCode = session.getEmployee().getPartCode();
+                        String globalCom = session.getEmployee().getGlobalCom();
+
+                        if (partCode != null && partCode.length() > 0) {
+                            partCode = partCode.toUpperCase();
+                            HashMap<String, String> mapping = null;
+
+                            if (SessionIdForDeptMapping.containsKey(partCode)) {
+                                mapping = SessionIdForDeptMapping.get(partCode);
+                                mapping.remove(userId);
+                                SessionIdForDeptMapping.put(partCode, mapping);
+                            }
+                        }
+
+                        if (globalCom != null && globalCom.length() > 0) {
+                            globalCom = globalCom.toUpperCase();
+                            HashMap<String, String> mapping = null;
+
+                            if (SessionIdForCompanyMapping.containsKey(globalCom)) {
+                                mapping = SessionIdForCompanyMapping.get(globalCom);
+                                mapping.remove(userId);
+                                SessionIdForCompanyMapping.put(globalCom, mapping);
+                            }
                         }
                     }
                 }
             }
         }
-
 
     }
 
@@ -854,10 +949,15 @@ public class Login implements ContextAware {
         if (session.getEmployee() != null)
             tenantId = session.getEmployee().getGlobalCom();
 
-        //setting the userId into session attribute;
-        HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession();
-        httpSession.setAttribute("userId", userId);
-        httpSession.setAttribute("tenantId", tenantId);
+        if("true".equals(GlobalContext.getPropertyString("forCloud"))){
+            Memcached.getMemcachedClient().set("userId", Memcached.Expiration_time, userId);
+            Memcached.getMemcachedClient().set("tenantId", Memcached.Expiration_time, tenantId);
+        }else {
+            //setting the userId into session attribute;
+            HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession();
+            httpSession.setAttribute("userId", userId);
+            httpSession.setAttribute("tenantId", tenantId);
+        }
 
 		/*
 		httpSession.setAttribute("tenantId", tenantId);
@@ -886,50 +986,121 @@ public class Login implements ContextAware {
         WebContext wctx = WebContextFactory.get();
         String sessionId = wctx.getScriptSession().getId();
 
-        SessionIdForEmployeeMapping.put(userId, sessionId); //stores session id to find out with user Id
-
-        if (session.getEmployee() != null && session.getEmployee().isApproved()) {
-            String partCode = session.getEmployee().getPartCode();
-            String globalCom = session.getEmployee().getGlobalCom();
-
-            if (partCode != null && partCode.length() > 0) {
-                partCode = partCode.toUpperCase();
-                HashMap<String, String> mapping = null;
-
-                if (SessionIdForDeptMapping.containsKey(partCode))
-                    mapping = SessionIdForDeptMapping.get(partCode);
-                else
-                    mapping = new HashMap<String, String>();
-
-                mapping.put(userId, sessionId);
-                SessionIdForDeptMapping.put(partCode, mapping);
-
+        if("true".equals(GlobalContext.getPropertyString("forCloud"))) {
+            Hashtable<String, HashMap<String, String>> sessionIdForCompanyMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForCompanyMapping");
+            if(sessionIdForCompanyMapping == null){
+                sessionIdForCompanyMapping = new Hashtable<>();
+            }
+            Hashtable<String, HashMap<String, String>> sessionIdForDeptMapping = (Hashtable<String, HashMap<String, String>>) Memcached.getMemcachedClient().get("SessionIdForDeptMapping");
+            if(sessionIdForDeptMapping == null){
+                sessionIdForDeptMapping = new Hashtable<>();
+            }
+            Hashtable<String, String> sessionIdForEmployeeMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("SessionIdForEmployeeMapping");
+            if(sessionIdForEmployeeMapping == null){
+                sessionIdForEmployeeMapping = new Hashtable<>();
+            }
+            Hashtable<String, String> userIdDeviceMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("userIdDeviceMapping");
+            if(userIdDeviceMapping == null){
+                userIdDeviceMapping = new Hashtable<>();
             }
 
-            if (globalCom != null && globalCom.length() > 0) {
-                globalCom = globalCom.toUpperCase();
-                HashMap<String, String> mapping = null;
+            sessionIdForEmployeeMapping.put(userId, sessionId); //stores session id to find out with user Id
+            Memcached.getMemcachedClient().set("SessionIdForEmployeeMapping", Memcached.Expiration_time, sessionIdForEmployeeMapping);
 
-                if (SessionIdForCompanyMapping.containsKey(globalCom))
-                    mapping = SessionIdForCompanyMapping.get(globalCom);
-                else
-                    mapping = new HashMap<String, String>();
+            if (session.getEmployee() != null && session.getEmployee().isApproved()) {
+                String partCode = session.getEmployee().getPartCode();
+                String globalCom = session.getEmployee().getGlobalCom();
 
-                //System.out.println("LOGIN : " + sessionId);
-                mapping.put(userId, sessionId);
-                SessionIdForCompanyMapping.put(globalCom, mapping);
+                if (partCode != null && partCode.length() > 0) {
+                    partCode = partCode.toUpperCase();
+                    HashMap<String, String> mapping = null;
 
+                    if (sessionIdForDeptMapping.containsKey(partCode))
+                        mapping = sessionIdForDeptMapping.get(partCode);
+                    else
+                        mapping = new HashMap<String, String>();
+
+                    mapping.put(userId, sessionId);
+                    sessionIdForDeptMapping.put(partCode, mapping);
+                    Memcached.getMemcachedClient().set("SessionIdForDeptMapping", Memcached.Expiration_time, sessionIdForDeptMapping);
+
+                }
+
+                if (globalCom != null && globalCom.length() > 0) {
+                    globalCom = globalCom.toUpperCase();
+                    HashMap<String, String> mapping = null;
+
+                    if (sessionIdForCompanyMapping.containsKey(globalCom))
+                        mapping = sessionIdForCompanyMapping.get(globalCom);
+                    else
+                        mapping = new HashMap<String, String>();
+
+                    mapping.put(userId, sessionId);
+                    sessionIdForCompanyMapping.put(globalCom, mapping);
+                    Memcached.getMemcachedClient().set("SessionIdForCompanyMapping", Memcached.Expiration_time, sessionIdForCompanyMapping);
+
+                }
             }
+
+            String device = "desktop";
+            if (Main.isPad()) {
+                device = "pad";
+            } else if (Main.isPhone()) {
+                device = "phone";
+            }
+
+            userIdDeviceMapping.put(userId.toUpperCase(), device); //stores session id to find out with user Id
+            Memcached.getMemcachedClient().set("userIdDeviceMapping", Memcached.Expiration_time, userIdDeviceMapping);
+
+        }else{
+            SessionIdForEmployeeMapping.put(userId, sessionId); //stores session id to find out with user Id
+
+            if (session.getEmployee() != null && session.getEmployee().isApproved()) {
+                String partCode = session.getEmployee().getPartCode();
+                String globalCom = session.getEmployee().getGlobalCom();
+
+                if (partCode != null && partCode.length() > 0) {
+                    partCode = partCode.toUpperCase();
+                    HashMap<String, String> mapping = null;
+
+                    if (SessionIdForDeptMapping.containsKey(partCode))
+                        mapping = SessionIdForDeptMapping.get(partCode);
+                    else
+                        mapping = new HashMap<String, String>();
+
+                    mapping.put(userId, sessionId);
+                    SessionIdForDeptMapping.put(partCode, mapping);
+
+                }
+
+                if (globalCom != null && globalCom.length() > 0) {
+                    globalCom = globalCom.toUpperCase();
+                    HashMap<String, String> mapping = null;
+
+                    if (SessionIdForCompanyMapping.containsKey(globalCom))
+                        mapping = SessionIdForCompanyMapping.get(globalCom);
+                    else
+                        mapping = new HashMap<String, String>();
+
+                    //System.out.println("LOGIN : " + sessionId);
+                    mapping.put(userId, sessionId);
+                    SessionIdForCompanyMapping.put(globalCom, mapping);
+
+                }
+            }
+
+            String device = "desktop";
+            if (Main.isPad()) {
+                device = "pad";
+            } else if (Main.isPhone()) {
+                device = "phone";
+            }
+
+            userIdDeviceMapping.put(userId.toUpperCase(), device); //stores session id to find out with user Id
+
         }
 
-        String device = "desktop";
-        if (Main.isPad()) {
-            device = "pad";
-        } else if (Main.isPhone()) {
-            device = "phone";
-        }
 
-        userIdDeviceMapping.put(userId.toUpperCase(), device); //stores session id to find out with user Id
     }
 
     protected void goTadpoleLogin(String email, String pw) {

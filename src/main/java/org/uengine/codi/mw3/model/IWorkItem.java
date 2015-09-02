@@ -20,7 +20,6 @@ import org.metaworks.example.ide.SourceCode;
 import org.metaworks.website.MetaworksFile;
 import org.metaworks.widget.IFrame;
 import org.metaworks.widget.ModalWindow;
-import org.uengine.bean.factory.MetaworksSpringBeanFactory;
 import org.uengine.codi.mw3.admin.WebEditor;
 @Table(name = "bpm_worklist")
 @Face(
@@ -142,7 +141,7 @@ public interface IWorkItem extends IDAO{
 		public DocumentDrag getDocumentDrag();
 		public void setDocumentDrag(DocumentDrag documentDrag);
 		*/
-		
+
 		@Hidden
 		@Range(
 				options={"WorkItem","document", "googleDoc", "Comment",	"Image",	"Movie",	"Source Code", 	"File", "Schedule", "Postings", "ovryCmnt"},
@@ -150,13 +149,13 @@ public interface IWorkItem extends IDAO{
 		)
 		@Default(value="process")
 		@TypeSelector(
-				values = 		{ 
+				values = 		{
 						"wih",
 						"document",
 						"googleDoc",
 						"comment",
-						"img",		
-						"mov", 				
+						"img",
+						"mov",
 						"src",
 						"file",
 						"schedule",
@@ -168,9 +167,9 @@ public interface IWorkItem extends IDAO{
 						"replyCmnt",
 						"remoteConf",
 						"process"
-					}, 
-				classes = 		{ 
-						WorkItem.class,  	
+				},
+				classes = 		{
+						WorkItem.class,
 						DocWorkItem.class,
 						GoogleDriveAttachmentWorkItem.class,
 						CommentWorkItem.class,
@@ -187,7 +186,7 @@ public interface IWorkItem extends IDAO{
 						ReplyOverlayCommentWorkItem.class,
 						RemoteConferenceWorkItem.class,
 						ProcessWorkItem.class
-					} 
+				}
 		)
 		public String getType();
 		public void setType(String type);

@@ -1,6 +1,10 @@
 package org.uengine.codi.mw3.admin;
 
+import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.Hidden;
+import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.dwr.MetaworksRemoteService;
+import org.metaworks.widget.ModalWindow;
 import org.uengine.codi.mw3.model.*;
 
 public class TopPanel {
@@ -116,4 +120,14 @@ public class TopPanel {
 		this.topMenuPanel = topMenuPanel;
 	}
 
+	@ServiceMethod(target=ServiceMethodContext.TARGET_STICK)
+	public Popup showApps() throws Exception{
+		AllAppList allAppList = MetaworksRemoteService.getComponent(AllAppList.class);
+		allAppList.session = session;
+
+		Popup popup = new Popup();
+		popup.setPanel(allAppList);
+
+		return popup;
+	}
 }
