@@ -57,7 +57,7 @@
 			if('system' == type)
 				type = 'comment';
 
-			var title = value.title.replace('\n','<br>');
+			var title = value.title ? value.title.replace('\n','<br>') : 'untitled';
 			var desc = '';
         	
         
