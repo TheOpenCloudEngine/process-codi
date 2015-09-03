@@ -12,7 +12,6 @@ import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.TransactionContext;
 import org.oce.garuda.multitenancy.TenantContext;
-import org.uengine.codi.mw3.cache.Memcached;
 import org.uengine.codi.mw3.model.Company;
 import org.uengine.codi.mw3.model.Employee;
 import org.uengine.codi.mw3.model.ICompany;
@@ -90,7 +89,7 @@ public class StartCodi {
 		this.setKey(key);
 	}
 	
-	@ServiceMethod(payload={"key", "lastVisitPage", "lastVisitValue", "ssoService"}, target=ServiceMethodContext.TARGET_APPEND)
+	@ServiceMethod(payload={"key","lastVisitPage", "lastVisitValue", "ssoService"}, target=ServiceMethodContext.TARGET_APPEND)
 	public Object load() throws Exception{
 		
 		HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession();		
@@ -180,12 +179,8 @@ public class StartCodi {
 //				}
 //			}
 		}else{
-			String loggedUserId = null;
-			if("true".equals(GlobalContext.getPropertyString("forCloud"))){
-				loggedUserId = (String) Memcached.getMemcachedClient().get("loggedUserId");
-			}else {
-				loggedUserId = (String) httpSession.getAttribute("loggedUserId");
-			}
+			String loggedUserId = (String)httpSession.getAttribute("loggedUserId");
+
 			if(loggedUserId != null)
 				return login();	
 			
@@ -263,13 +258,7 @@ public class StartCodi {
 	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_APPEND)
 	public Object[] login() throws Exception {
 		HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession();		
-		String loggedUserId = null;
-
-		if("true".equals(GlobalContext.getPropertyString("forCloud"))){
-			loggedUserId = (String) Memcached.getMemcachedClient().get("loggedUserId");
-		}else{
-			loggedUserId = (String)httpSession.getAttribute("loggedUserId");
-		}
+		String loggedUserId = (String)httpSession.getAttribute("loggedUserId");
 
 		Employee emp = new Employee();
 		emp.setEmpCode(loggedUserId);
@@ -283,13 +272,9 @@ public class StartCodi {
 		login.lastVisitValue = this.getLastVisitValue();
 		
 		System.out.println("ssoService == " + getSsoService());
-		if(ssoService != null && ssoService.endsWith("callbackAuthorize")) {
-			if("true".equals(GlobalContext.getPropertyString("forCloud"))){
-				login.setSsoService(ssoService + "?ticket=" + (String) Memcached.getMemcachedClient().get("SSO-ST"));
-			}else{
-				login.setSsoService(ssoService + "?ticket=" + (String) httpSession.getAttribute("SSO-ST"));
-			}
-		}
+		if(ssoService != null && ssoService.endsWith("callbackAuthorize"))
+			   login.setSsoService(ssoService+"?ticket=" + (String)httpSession.getAttribute("SSO-ST") );
+		
 		try{
 			return login.login(session);
 		}catch(Exception e){
