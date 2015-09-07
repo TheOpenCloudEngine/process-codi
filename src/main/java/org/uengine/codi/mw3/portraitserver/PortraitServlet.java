@@ -3,6 +3,7 @@ package org.uengine.codi.mw3.portraitserver;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
@@ -11,8 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.metaworks.dwr.MetaworksRemoteService;
+import org.oce.garuda.multitenancy.TenantContext;
 import org.uengine.codi.common.ImageUtils;
+import org.uengine.codi.mw3.model.CodiResourceType;
+import org.uengine.codi.mw3.model.PortraitImageFile;
 import org.uengine.kernel.GlobalContext;
+import org.uengine.modeling.resource.DefaultResource;
+import org.uengine.modeling.resource.IResource;
+import org.uengine.modeling.resource.ResourceManager;
 
 /**
  * Servlet implementation class UserImagesServlet
@@ -33,101 +41,34 @@ public class PortraitServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		TenantContext tenantContext = TenantContext.getThreadLocalInstance();
+		if(tenantContext.getTenantId() == null){
+			tenantContext = new TenantContext((String)request.getSession().getAttribute("tenantId"));
+		}
+
 		String pathInfo = request.getPathInfo();
 		if(pathInfo == null)
 			return;
-		
-		// because pathInfo is started with a "/" character
-		boolean exists = false;
-		
-		String portraitName = pathInfo.substring(1);		
-		
-		String fileSystemPath = GlobalContext.FILE_SYSTEM_DIR;
-		String portraitPath = fileSystemPath + "/portrait";
-		
-		// 사진 폴더 생성
-		File portraitDirectory = new File(portraitPath);		
-		if(!portraitDirectory.exists() || !portraitDirectory.isDirectory())
-			portraitDirectory.mkdirs();
 
+		String portraitName = pathInfo.substring(1);
 
-		int pos = portraitName.lastIndexOf(".");
-		if(pos > -1 && ".thumnail".equals(portraitName.substring(pos))){
-			String empCode = portraitName.substring(0, pos);
-			String thumnailName = portraitPath + File.separatorChar + empCode + ".thumnail.jpg";
-			String srcName = portraitPath + File.separatorChar + empCode + ".jpg";
-			//String unknownName = portraitPath + File.separatorChar + "unknown_user.gif";
-			String unknownName = this.getServletContext().getRealPath("/") +  "images" + File.separatorChar +"portrait" + File.separatorChar +"unknown_user.gif";
-			if( empCode.startsWith("dept_")){
-				unknownName = this.getServletContext().getRealPath("/") +  "images" + File.separatorChar +"portrait" + File.separatorChar +"group.png";
-			}
-			// 쎔네일 파일 존재 확인
-			File thumnailFile = new File(thumnailName);
-			if(thumnailFile.exists() && thumnailFile.isFile()){
-				exists = true;
-			}else{
-				File srcFile = new File(srcName);
-				
-				if(srcFile.exists() && srcFile.isFile() && srcFile.length() > 0){
-					try{
-						ImageUtils.createThumbnail(srcFile.getAbsolutePath(),thumnailFile.getAbsolutePath(), "jpg", 104, 104);
-						exists = true;
-					}catch(Exception e){
-						e.printStackTrace();
-					}
-				}
-			}
-			
-			OutputStream out = null;
-			try{
-				out = response.getOutputStream();
-				
-				if(exists){
-					BufferedImage bi = ImageIO.read(new File(thumnailName));
-					response.setContentType("image/jpg");
-					ImageIO.write(bi, "jpg", out);
-				}else{
-					File unknownFile = new File(unknownName);
-					if(unknownFile.exists() && unknownFile.isFile()){
-						BufferedImage bi = ImageIO.read(unknownFile);
-						if( empCode.startsWith("dept_")){
-							response.setContentType("image/png");
-							ImageIO.write(bi, "png", out);					
-						}else{
-							response.setContentType("image/gif");
-							ImageIO.write(bi, "gif", out);					
-						}
-					}				
-				}
-			}finally{
-				if(out != null){
-					out.close();
-					out = null;
-				}
-			}
-		}else{			
-			String srcName = portraitPath + File.separatorChar + pathInfo + ".jpg";
-			
-			System.out.println("원본 이미지 요청 : " + srcName);
-			
-			File srcFile = new File(srcName);
-			
-			if(srcFile.exists() && srcFile.isFile()){
-				OutputStream out = null;
-				try{
-					out = response.getOutputStream();
-				
-					BufferedImage bi = ImageIO.read(srcFile);
-					response.setContentType("image/jpg");
-					ImageIO.write(bi, "jpg", out);
-				}finally{
-					if(out != null){
-						out.close();
-						out = null;
-					}
-				}
-			}
-			
+		ResourceManager resourceManager = MetaworksRemoteService.getComponent(ResourceManager.class);
+
+		IResource imageResource = null;
+		try {
+			imageResource = DefaultResource.createResource(CodiResourceType.PORTRAIT + File.separator
+					+ portraitName + "." + PortraitImageFile.IMAGE_EXTENTION);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
+		try(InputStream is = resourceManager.getStorage().getInputStream(imageResource)){
+			BufferedImage bi = ImageIO.read(is);
+			response.setContentType("image/jpg");
+			ImageIO.write(bi, PortraitImageFile.IMAGE_EXTENTION, response.getOutputStream());
+		}catch(Exception e){
+			writeDefaultImage(response, portraitName);
 		}
 	}
 
@@ -138,4 +79,23 @@ public class PortraitServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 
+	private void writeDefaultImage(HttpServletResponse response, String portraitName) throws IOException {
+		String imageName = null;
+
+		if(portraitName.startsWith("dept_")){
+			imageName = "group.png";
+		}else{
+			imageName = "unknown_user.gif";
+		}
+
+		File file = new File(this.getServletContext().getRealPath("/") +  "images" + File.separatorChar +"portrait"
+				+ File.separatorChar + imageName);
+
+		if(file.exists() && file.isFile()){
+			BufferedImage bi = ImageIO.read(file);
+			String imageExt = imageName.substring(imageName.lastIndexOf(".")+1);
+			response.setContentType("image/" + imageExt);
+			ImageIO.write(bi, imageExt, response.getOutputStream());
+		}
+	}
 }
