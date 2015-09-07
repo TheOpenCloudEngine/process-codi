@@ -168,9 +168,9 @@ org_uengine_codi_mw3_model_IWorkItem_edit.prototype = {
 					
 					//may problematic. TODO: 'toAppend.target' should point to the newly acquired object with the __objectId exists.
 					var newCommentObjectId = toAppend.targetObjectId + 1;
-					
+
 					mw3.onLoadFaceHelperScript();
-		
+
 					newComment = mw3.objects[newCommentObjectId];
 					newComment.metaworksContext.when = 'new';
 		

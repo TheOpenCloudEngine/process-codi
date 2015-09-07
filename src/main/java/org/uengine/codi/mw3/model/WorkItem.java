@@ -3,6 +3,7 @@ package org.uengine.codi.mw3.model;
 import org.metaworks.*;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.Hidden;
+import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.annotation.Test;
 import org.metaworks.dao.Database;
 import org.metaworks.dao.MetaworksDAO;
@@ -81,6 +82,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     SourceCode sourceCode;
     Date startDate;
     boolean contentLoaded;
+    boolean childWorkItemLoaded;
     Date endDate;
     Date dueDate;
     Date saveDate;
@@ -121,6 +123,22 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
             this.execScope = execScope;
         }
 
+    IWorkItem newItem;
+    public IWorkItem getNewItem() {
+        return newItem;
+    }
+    public void setNewItem(IWorkItem newItem) {
+        this.newItem = newItem;
+    }
+
+    List<IWorkItem> childWorkItemList;
+    public List<IWorkItem> getChildWorkItemList() {
+        return childWorkItemList;
+    }
+
+    public void setChildWorkItemList(List<IWorkItem> childWorkItemList) {
+        this.childWorkItemList = childWorkItemList;
+    }
 
     public WorkItem() {
         this.getMetaworksContext().setWhen(WHEN_NEW);
@@ -147,6 +165,23 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         //IUser user = new User();
         //user.setEndpoint(login.getEmpCode());
         //workitem.setWriter(user);
+
+        workitem.select();
+
+        return workitem;
+    }
+
+    protected static IWorkItem findChildWorkItems(Long taskId) throws Exception {
+        StringBuffer sql = new StringBuffer();
+
+        sql.append("select *") ;
+        sql.append("  from bpm_worklist");
+        sql.append(" where prtTskId=?taskId");
+        sql.append("   and type not in ('ovryCmnt') ");
+
+        IWorkItem workitem = (IWorkItem) Database.sql(IWorkItem.class, sql.toString());
+
+        workitem.set("taskId", taskId);
 
         workitem.select();
 
@@ -225,6 +260,34 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         return workitem;
     }
 
+    protected static IWorkItem findReply(String instanceId) throws Exception {
+
+        StringBuffer sql = new StringBuffer();
+
+        sql.append("select *");
+        sql.append("  from bpm_worklist");
+        sql.append(" where rootInstId=?instId");
+        sql.append("   and isdeleted!=?isDeleted");
+        sql.append("   and type not in ('ovryCmnt') ");
+        sql.append("   and prtTskId is not null");
+        sql.append(" order by taskId");
+
+        IWorkItem workitem = (IWorkItem) Database.sql(IWorkItem.class, sql.toString());
+
+        workitem.set("instId", instanceId);
+        workitem.set("isDeleted", 1);
+
+
+        //TODO: this expression should be work later instead of above.
+        //IUser user = new User();
+        //user.setEndpoint(login.getEmpCode());
+        //workitem.setWriter(user);
+
+        workitem.select();
+
+        return workitem;
+    }
+
     protected static IWorkItem findParentWorkItem(String taskId) throws Exception {
 
         StringBuffer sql = new StringBuffer();
@@ -257,6 +320,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         sql.append(" where rootInstId=?instId");
         sql.append("   and isdeleted!=?isDeleted");
         sql.append("   and (type  not in ('ovryCmnt' , 'replyCmnt') or type is null)");
+        sql.append("   and prtTskId is null");
         sql.append(" order by taskId desc");
         sql.append(" limit " + (count + 1));
         sql.append(") worklist order by taskId ");
@@ -479,6 +543,14 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
     public void setContentLoaded(boolean contentLoaded) {
         this.contentLoaded = contentLoaded;
+    }
+
+    public boolean isChildWorkItemLoaded() {
+        return childWorkItemLoaded;
+    }
+
+    public void setChildWorkItemLoaded(boolean childWorkItemLoaded) {
+        this.childWorkItemLoaded = childWorkItemLoaded;
     }
 
     public Date getEndDate() {
@@ -751,6 +823,17 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
     public void loadContents() throws Exception {
         throw new Exception("not defined loadContents method");
+    }
+
+    public void loadChildWorkItems() throws Exception {
+        setChildWorkItemLoaded(true);
+        IWorkItem result = WorkItem.findChildWorkItems(this.getTaskId());
+        List temp = new ArrayList<IWorkItem>();
+        while(result.next()){
+            temp.add(result);
+        }
+
+        setChildWorkItemList(temp);
     }
 
     public ModalWindow workItemPopup() throws Exception {
@@ -1295,11 +1378,17 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
                 InstanceViewThreadPanel instanceViewThreadPanel = new InstanceViewThreadPanel();
                 instanceViewThreadPanel.setInstanceId(this.getInstId().toString());
 
-                CommentWorkItem commentWorkItem = new CommentWorkItem();
-                commentWorkItem.setInstId(this.getInstId());
-                commentWorkItem.setWriter(session.getUser());
-                commentWorkItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
-                returnObjects = new Object[]{new ToAppend(instanceViewThreadPanel, this), new Refresh(commentWorkItem)};
+                if(this.getPrtTskId() == null) {
+                    CommentWorkItem commentWorkItem = new CommentWorkItem();
+                    commentWorkItem.setInstId(this.getInstId());
+                    commentWorkItem.setWriter(session.getUser());
+                    commentWorkItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
+                    returnObjects = new Object[]{new ToAppend(instanceViewThreadPanel, this), new Refresh(commentWorkItem)};
+                }else{
+                    CommentWorkItem commentWorkItem = new CommentWorkItem();
+                    commentWorkItem.setTaskId(this.getPrtTskId());
+                    returnObjects = new Object[]{new Refresh(commentWorkItem)};
+                }
             }
 
             // 수정
@@ -1894,6 +1983,24 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         } else {
             return null;
         }
+    }
+
+    @ServiceMethod(callByContent = true)
+    public void reply(){
+        IWorkItem newItem = null;
+        if("document".equals(session.getLastPerspecteType())|| "UnlabeledDocument".equals(session.getLastPerspecteType())){
+            newItem = new DocWorkItem();
+        }else{
+            newItem = new CommentWorkItem();
+        }
+
+        newItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
+        newItem.getMetaworksContext().setWhere(MetaworksContext.WHERE_EVER);
+        newItem.setInstId(new Long(getInstId()));
+        newItem.setWriter(writer);
+        newItem.setPrtTskId(this.getTaskId());
+
+        setNewItem(newItem);
     }
 
 //	@AutowiredFromClient

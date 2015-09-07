@@ -79,7 +79,11 @@ var org_uengine_codi_mw3_model_IWorkItem = function(objectId, className){
 	else{
 		if(!this.object.more)
 			this.objectDiv.trigger('loaded.workitem_' + workItem.taskId);
-	}	
+	}
+
+	if(!workItem.childWorkItemLoaded){
+		mw3.call(this.objectId, 'loadChildWorkItems');
+	}
 };
 
 org_uengine_codi_mw3_model_IWorkItem.prototype = {

@@ -3,8 +3,6 @@ var org_uengine_codi_mw3_model_InstanceListener = function(objectId, className){
 	this.className = className;
 	this.object = mw3.objects[this.objectId];
 
-    debugger;
-
 	if(this.object){
 		var faceHelper = this;
 		

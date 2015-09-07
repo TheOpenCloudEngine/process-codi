@@ -132,6 +132,7 @@ public class InstanceViewThreadPanel implements ContextAware {
 			thread.moveToInsertRow();
 			thread.getImplementationObject().copyFrom(result);
 		}
+
 		thread.getMetaworksContext().setWhere(IWorkItem.WHERE_WORKLIST);
 		setThread(thread);
 		

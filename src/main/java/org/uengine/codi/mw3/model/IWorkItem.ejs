@@ -14,7 +14,7 @@
 		
 		
 		var status_icon;
-		
+
 		if(value.status=='COMPLETED'){
 			status_icon	= "icon-checkmark"		
 		}else if(value.status=='SUSPENDED'){
@@ -99,7 +99,8 @@
 							<div style="color:#A2A2A2">test@test.com</div>
 						</div>
 					</div>		
-					<div  style="float:right;margin:11px;color:#A2A2A2"><%=fields.startDate.here({when: 'timeago'})%></div>								
+					<div  style="float:right;margin:11px;color:#A2A2A2"><%=fields.startDate.here({when: 'timeago'})%></div>
+					<div  style="float:right;margin:20px;color:#A2A2A2"><%=methods.reply.here()%></div>
 				</td>
 			</tr>
 			<tr>
@@ -113,6 +114,7 @@
 							
 							<div class="cont" style="padding:0px 10px; margin:0px; overflow:auto">
 								<div class="formcontexttitle" style="<%=type == 'comment'?'font-weight:normal; border:none;':''%> <%=collapse?'border:none; margin-bottom:0px':''%>">
+
 <%
 			if('comment' != type){
 %>	
@@ -136,6 +138,8 @@
 											<%=title%>
 										<%}%>
 									</span>
+									<%=fields.childWorkItemList.here()%>
+									<%=fields.newItem.here()%>
 <%
 			// icon - maximize
 			if(maximize){
