@@ -221,18 +221,4 @@ public class InstanceTooltip implements ContextAware {
         return null;
     }
 
-	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
-	public ModalWindow processMonitor() throws Exception{
-
-		ModalWindow modalWindow = new ModalWindow();
-
-		InstanceMonitorPanel instanceMonitorPanel = new InstanceMonitorPanel();
-		instanceMonitorPanel.load(this.getInstanceId(), processManager);
-
-		modalWindow.setPanel(instanceMonitorPanel);
-		modalWindow.setWidth(0);
-		modalWindow.setHeight(0);
-
-		return modalWindow;
-	}
 }

@@ -81,6 +81,12 @@ public class WorkItemHandler implements ContextAware {
 						processVariableValue = pc.getVariable().createNewValue();
 					}
 
+					if(processVariableValue instanceof ContextAware){
+						ContextAware contextAware = (ContextAware) processVariableValue;
+						contextAware.setMetaworksContext(new MetaworksContext());
+						contextAware.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
+					}
+
 					pv.setMultipleInput(pc.isMultipleInput());
 
 					if(pc.isMultipleInput()) {
