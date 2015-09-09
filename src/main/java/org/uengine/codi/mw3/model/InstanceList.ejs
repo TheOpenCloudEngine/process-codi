@@ -11,10 +11,10 @@ if (value!=null){
 
 	<% if(session != null){ %>
 		<div class="<%=list_class%>">
-				<%=fields.instances.here()%>
+			<%=fields.instances.here()%>
 		</div>
 	<% } %>
-	
+
 <%
 	if(value.moreInstanceList==null){
 %>
@@ -23,7 +23,15 @@ if (value!=null){
 %>
 			<div id="moreWorkDiv">
 				<div class="morePointL"></div>
-				<a class="moreBtn5" href="#" onClick="<%=methods.more.caller()%>"><%=mw3.localize("$more")%></a>
+
+				<% if(value.instanceListType == 'instancelist') { %>
+					<a class="moreBtn5" href="#" onClick="<%=methods.more.caller()%>"><%=mw3.localize("$more")%></a>
+
+				<% } else { %>
+					<a class="moreBtn5" href="#" onClick="<%=methods.searchMore.caller()%>"><%=mw3.localize("$more")%>
+
+				<% } %>
+
 				<a class="moreBtn6" href="#"><img src="dwr/metaworks/images/circleloading.gif" /></a>
 				<div class="morePointR"></div>
 			</div>

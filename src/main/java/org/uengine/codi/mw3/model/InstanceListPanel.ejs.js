@@ -42,23 +42,46 @@ var org_uengine_codi_mw3_model_InstanceListPanel = function(objectId, className)
 //	})
 	
 	if(this.object){
-
 		var scrollDiv = $('#objDiv_' + this.objectId);
 		var instanceList = this.object.instanceList;
 		var prelastMore = lastMore;
-		scrollDiv.scroll(function(e) {
-			if( instanceList ){
-				var instanceListObjectId = instanceList.__objectId;
-				var instanceListObjectDivId = mw3._getObjectDivId(instanceListObjectId);
-				if(scrollDiv.scrollTop() > $('#' + instanceListObjectDivId).height() - scrollDiv.height()-100){
-					if( prelastMore != lastMore){
-						prelastMore = lastMore;
-    	                mw3.objects[lastMore].more();
+
+		if(this.object.id == 'instancelist') {
+			scrollDiv.scroll(function (e) {
+				if (instanceList) {
+					var instanceListObjectId = instanceList.__objectId;
+					var instanceListObjectDivId = mw3._getObjectDivId(instanceListObjectId);
+
+					if (scrollDiv.scrollTop() > $('#' + instanceListObjectDivId).height() - scrollDiv.height() - 100) {
+						if (prelastMore != lastMore) {
+							prelastMore = lastMore;
+							mw3.objects[lastMore].more();
+						}
 					}
-	            }
-			}
-		});
-		
+				}
+			});
+
+		// if searchInstanceList
+		}
+
+		if(this.object.id == 'searchInstancelist') {
+			console.log(this.object.id);
+			scrollDiv.scroll(function (e) {
+				if (instanceList) {
+					var instanceListObjectId = instanceList.__objectId;
+					var instanceListObjectDivId = mw3._getObjectDivId(instanceListObjectId);
+
+					if (scrollDiv.scrollTop() > $('#' + instanceListObjectDivId).height() - scrollDiv.height() - 100) {
+						if (prelastMore != lastMore) {
+							prelastMore = lastMore;
+							mw3.objects[lastMore].searchMore();
+						}
+					}
+				}
+			});
+
+		}
+
 		/*
 	 	$('#' + this.divId + ' .ui-layout-content').mCustomScrollbar({
 			callbacks:{

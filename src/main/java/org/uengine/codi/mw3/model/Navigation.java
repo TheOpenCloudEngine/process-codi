@@ -49,7 +49,15 @@ public class Navigation {
 		public void setKeyword(String keyword) {
 			this.keyword = keyword;
 		}
-	
+
+	String topSearchKeyword;
+	public String getTopSearchKeyword() {
+		return topSearchKeyword;
+	}
+	public void setTopSearchKeyword(String topSearchKeyword) {
+		this.topSearchKeyword = topSearchKeyword;
+	}
+
 	Employee employee;
 		public Employee getEmployee() {
 			return employee;
@@ -77,6 +85,7 @@ public class Navigation {
 			this.setPerspectiveType(session.getLastPerspecteType());
 			this.setPerspectiveValue(session.getLastSelectedItem());		
 			this.setKeyword(session.getSearchKeyword());
+			this.setTopSearchKeyword(session.getTopSearchKeyword());
 			this.setEmployee(employee);
 			this.setMedia(session.getUx());
 		}
