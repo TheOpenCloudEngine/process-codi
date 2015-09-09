@@ -65,7 +65,6 @@ var org_uengine_codi_mw3_model_InstanceListPanel = function(objectId, className)
 		}
 
 		if(this.object.id == 'searchInstancelist') {
-			console.log(this.object.id);
 			scrollDiv.scroll(function (e) {
 				if (instanceList) {
 					var instanceListObjectId = instanceList.__objectId;
