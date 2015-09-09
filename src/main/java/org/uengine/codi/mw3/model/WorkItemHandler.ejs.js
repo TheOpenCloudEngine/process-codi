@@ -4,7 +4,7 @@ var org_uengine_codi_mw3_model_WorkItemHandler = function(objectId, className){
 	
 	var object = mw3.objects[this.objectId];
 	
-	// 댓글달기 버튼  
+	// 댓글달기 버튼
 	//if( object && object.parameters){
      //   for(var i = 0; i < object.parameters.length; i++){
     //
@@ -50,11 +50,11 @@ org_uengine_codi_mw3_model_WorkItemHandler.prototype = {
 				/*
 				var replyObject = mw3.call(this.objectId, 'comment');
 				var html = mw3.locateObject(replyObject, replyObject.__className);
-				
+
 				var valiableObjectDivId = mw3._getObjectDivId(valiableObjectId);
 				var valiableObjectDiv = $('#' + valiableObjectDivId);
 				valiableObjectDiv.append(html);
 				*/
-			}				
+			}
 		}
 };

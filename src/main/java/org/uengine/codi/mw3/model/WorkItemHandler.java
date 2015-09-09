@@ -76,60 +76,15 @@ public class WorkItemHandler implements ContextAware {
 					
 					
 					Serializable processVariableValue = pc.getVariable().get(instance, "");
-					Class variableType = pc.getVariable().getType();
-					if( variableType == null && pc.getVariable().getTypeInputter() != null ){
-						variableType = Class.forName(pc.getVariable().getTypeInputter());
-					}
-//				
-//					if(variableType == String.class){
-//						parameters[i].setValueString((String) processVariableValue);
-////					}else if(Long.class.isAssignableFrom(variableType)){
-////						parameters[i].setValueNumber((Number) processVariableValue);
-////					}else if(Calendar.class.isAssignableFrom(variableType)){
-////						parameters[i].setValueCalendar((Calendar) processVariableValue);
-//					}else
 
 					if(processVariableValue==null) {
+						processVariableValue = pc.getVariable().createNewValue();
+					}
 
-						if (variableType == ComplexType.class) {
-							if (processVariableValue instanceof ComplexType) {
-								ComplexType complexType = (ComplexType) processVariableValue;
-								//complexType.setDesignerMode(false);
-								processVariableValue = (Serializable) complexType.getTypeClass().newInstance();
-
-								if (processVariableValue instanceof ContextAware) {
-									((ContextAware) processVariableValue).setMetaworksContext(mc);
-								}
-
-								if (processVariableValue instanceof NeedArrangementToSerialize) {
-									((NeedArrangementToSerialize) processVariableValue).afterDeserialization();
-								}
-
-								if (processVariableValue instanceof ITool) {
-									((ITool) processVariableValue).onLoad();
-								}
-							} else if (processVariableValue instanceof ITool) {
-								if (processVariableValue instanceof ContextAware) {
-									((ContextAware) processVariableValue).setMetaworksContext(mc);
-								}
-
-								// for completed ComplexType Object implements ITool
-								((ITool) processVariableValue).onLoad();
-							}
-
-						} else {
-
-							if (variableType == Boolean.class) {
-								processVariableValue = new Boolean(false);
-							} else if (variableType == Number.class) {
-								processVariableValue = new Integer(0);
-							} else if (variableType == String.class) {
-								if (processVariableValue == null) {
-									processVariableValue = new String();
-								}
-							} else
-								processVariableValue = (Serializable) variableType.newInstance();
-						}
+					if(processVariableValue instanceof ContextAware){
+						ContextAware contextAware = (ContextAware) processVariableValue;
+						contextAware.setMetaworksContext(new MetaworksContext());
+						contextAware.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
 					}
 
 					pv.setMultipleInput(pc.isMultipleInput());

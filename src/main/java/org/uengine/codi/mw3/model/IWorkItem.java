@@ -1,6 +1,7 @@
 package org.uengine.codi.mw3.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.Default;
@@ -111,6 +112,16 @@ public interface IWorkItem extends IDAO{
 		@Hidden
 		public String getExecScope();
 		public void setExecScope(String execScope);
+
+		@NonSavable
+		@NonLoadable
+		public IWorkItem getNewItem();
+		public void setNewItem(IWorkItem newItem);
+
+		@NonSavable
+		@NonLoadable
+		public List<IWorkItem> getChildWorkItemList();
+		public void setChildWorkItemList(List<IWorkItem> childWorkItemList);
 
 		@Hidden
 		@ORMapping(
@@ -354,6 +365,9 @@ public interface IWorkItem extends IDAO{
 		
 		@ServiceMethod(callByContent = true, target=ServiceMethodContext.TARGET_SELF)
 		public void loadContents() throws Exception;
+
+		@ServiceMethod(callByContent = true, target=ServiceMethodContext.TARGET_SELF)
+		public void loadChildWorkItems() throws Exception;
 		
 //		@ServiceMethod(callByContent=true)
 		public IWorkItem find() throws Exception;
@@ -369,6 +383,12 @@ public interface IWorkItem extends IDAO{
 		@Hidden		
 		public boolean isContentLoaded();
 		public void setContentLoaded(boolean contentLoaded);
+
+		@NonLoadable
+		@NonSavable
+		@Hidden
+		public boolean isChildWorkItemLoaded();
+		public void setChildWorkItemLoaded(boolean contentLoaded);
 		
 		public String getFolderName();
 		public void setFolderName(String folderName);

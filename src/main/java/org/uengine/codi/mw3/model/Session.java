@@ -1,6 +1,7 @@
 package org.uengine.codi.mw3.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 import javax.servlet.http.HttpSession;
@@ -14,11 +15,11 @@ import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.NonEditable;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.TransactionContext;
+import org.metaworks.widget.ModalPanel;
 import org.metaworks.widget.ModalWindow;
-import org.uengine.codi.mw3.cache.Memcached;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.StartCodi;
-import org.uengine.kernel.GlobalContext;
+import org.uengine.codi.util.CodiHttpClient;
 import org.uengine.sso.BaseAuthenticate;
 import org.uengine.sso.CasAuthenticate;
 
@@ -269,7 +270,7 @@ public class Session implements ContextAware{
 	}
 	
 		
-	@ServiceMethod(callByContent = true, target=ServiceMethodContext.TARGET_NONE)
+	@ServiceMethod(target=ServiceMethodContext.TARGET_NONE)
 	public Object heartbeat(){
 		Login.getSessionIdWithCompany("enkisoft");
 		
@@ -283,13 +284,7 @@ public class Session implements ContextAware{
 			
 			return messages;
 		}
-
-//		Hashtable<String, String> sessionIdForEmployeeMapping = (Hashtable<String, String>) Memcached.getMemcachedClient().get("SessionIdForEmployeeMapping");
-//		if(!sessionId.equals(sessionIdForEmployeeMapping.get(this.getUser().getUserId()))){
-//			sessionIdForEmployeeMapping.put(this.getUser().getUserId(), sessionId);
-//			Memcached.getMemcachedClient().set("SessionIdForEmployeeMapping", Memcached.Expiration_time, sessionIdForEmployeeMapping);
-//		}
-
+		
 		return null;
 	}
 	
@@ -311,15 +306,11 @@ public class Session implements ContextAware{
 		
 	// when need HttpSession
 	public void fillUserInfoToHttpSession(){
-		if("true".equals(GlobalContext.getPropertyString("forCloud"))){
-			Memcached.getMemcachedClient().set("loggedUserId", Memcached.Expiration_time, getEmployee().getEmpCode());
-			Memcached.getMemcachedClient().set("tenantId", Memcached.Expiration_time, getEmployee().getGlobalCom());
-		}else {
-			HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession();
-			httpSession.setAttribute("loggedUserId", getEmployee().getEmpCode());
-			httpSession.setAttribute("tenantId", getEmployee().getGlobalCom());
-			httpSession.setAttribute("projectId", null);
-		}
+		HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession(); 
+		httpSession.setAttribute("loggedUserId", getEmployee().getEmpCode());
+		httpSession.setAttribute("tenantId", getEmployee().getGlobalCom());
+		httpSession.setAttribute("projectId", null);
+		
 		/*
 		httpSession.setAttribute("loggedUserPw", session.getEmployee().getPassword());
 		httpSession.setAttribute("loggedUserFullName", getEmployee().getEmpName());

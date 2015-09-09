@@ -70,7 +70,7 @@ org_uengine_codi_mw3_model_OverlayCommentWorkItem.prototype = {
 			match : true
 		};
 		
-		mw3.locateObject(toAppend, toAppend.__className, 'body');
-		mw3.onLoadFaceHelperScript();
+		//mw3.locateObject(toAppend, toAppend.__className, 'body');
+		//mw3.onLoadFaceHelperScript();
 	}		
 }

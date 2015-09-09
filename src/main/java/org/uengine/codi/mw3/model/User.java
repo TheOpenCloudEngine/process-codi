@@ -22,8 +22,6 @@ import org.metaworks.dao.TransactionContext;
 import org.metaworks.website.MetaworksFile;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.uengine.codi.mw3.cache.Memcached;
-import org.uengine.kernel.GlobalContext;
 import org.uengine.processmanager.ProcessManagerRemote;
 
 public class User extends Database<IUser> implements IUser {
@@ -148,23 +146,16 @@ public class User extends Database<IUser> implements IUser {
 	}
 	
 	public static User fromHttpSession(){
+		HttpSession session = TransactionContext.getThreadLocalInstance().getRequest().getSession();
+		
 		User login = new User();
-
-		if("true".equals(GlobalContext.getPropertyString("forCloud"))) {
-			String userId = (String) Memcached.getMemcachedClient().get("userId");
-			if(userId != null){
-				login.setUserId(userId);
-			}
-		}else{
-			HttpSession session = TransactionContext.getThreadLocalInstance().getRequest().getSession();
-
-			if(session!=null){
-				login.setUserId((String) session.getAttribute("userId"));
-
-				return login;
-			}
+		
+		if(session!=null){
+			login.setUserId((String) session.getAttribute("userId"));
+			
+			return login;
 		}
-
+		
 		return null;
 	
 	}
@@ -268,6 +259,7 @@ public class User extends Database<IUser> implements IUser {
 	
 	@Override
 	public void chat() throws Exception{
+
 	}
 
 	public void addContact() throws Exception {
