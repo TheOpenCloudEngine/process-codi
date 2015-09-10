@@ -1987,7 +1987,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         }
     }
 
-    @ServiceMethod(callByContent = true)
+    @ServiceMethod(callByContent = true, inContextMenu = true)
     public void reply(){
         IWorkItem newItem = null;
         if("document".equals(session.getLastPerspecteType())|| "UnlabeledDocument".equals(session.getLastPerspecteType())){
