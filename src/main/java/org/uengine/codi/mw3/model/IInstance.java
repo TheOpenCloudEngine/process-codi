@@ -32,6 +32,7 @@ import org.uengine.codi.mw3.common.MainPanel;
 public interface IInstance extends IDAO{
 	
 	public final static String WHERE_INSTANCELIST = "instancelist";
+	public final static String WHERE_SEARCH_INSTANCELIST = "searchInstancelist";
 
 	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
 	public Object view() throws Exception;

@@ -204,7 +204,16 @@ public class Session implements ContextAware{
 		public void setSearchKeyword(String searchKeyword) {
 			this.searchKeyword = searchKeyword;
 		}
-	
+
+	String topSearchKeyword;
+		@Hidden
+		public String getTopSearchKeyword() {
+			return topSearchKeyword;
+		}
+		public void setTopSearchKeyword(String topSearchKeyword) {
+			this.topSearchKeyword = topSearchKeyword;
+		}
+
 	String accessToken;
 		@Hidden
 		public String getAccessToken() {
