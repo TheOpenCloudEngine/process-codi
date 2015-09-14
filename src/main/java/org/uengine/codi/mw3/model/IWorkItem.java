@@ -367,8 +367,8 @@ public interface IWorkItem extends IDAO{
 		public void loadContents() throws Exception;
 
 		@ServiceMethod(callByContent = true, target=ServiceMethodContext.TARGET_SELF)
-		public void loadChildWorkItems() throws Exception;
-		
+		public void loadChildInstanceViewPanel();
+
 //		@ServiceMethod(callByContent=true)
 		public IWorkItem find() throws Exception;
 		
@@ -387,9 +387,17 @@ public interface IWorkItem extends IDAO{
 		@NonLoadable
 		@NonSavable
 		@Hidden
-		public boolean isChildWorkItemLoaded();
-		public void setChildWorkItemLoaded(boolean contentLoaded);
-		
+		public boolean isChildLoaded();
+		public void setChildLoaded(boolean childLoaded);
+
+		@NonLoadable
+		@NonSavable
+		public InstanceViewThreadPanel getInstanceViewThreadPanel();
+		public void setInstanceViewThreadPanel(InstanceViewThreadPanel instanceViewThreadPanel);
+
+		public boolean isHasChild();
+		public void setHasChild(boolean hasChild);
+
 		public String getFolderName();
 		public void setFolderName(String folderName);
 		

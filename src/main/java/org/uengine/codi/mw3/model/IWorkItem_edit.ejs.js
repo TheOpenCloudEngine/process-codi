@@ -139,7 +139,7 @@ org_uengine_codi_mw3_model_IWorkItem_edit.prototype = {
 		if(!this.sending){			
 			this.sending = true;
 
-			if(value.type=='comment' && value.metaworksContext.when == 'new' && value.instId){
+			if(value.type=='comment' && value.metaworksContext.when == 'new' && value.instId && !value.prtTskId){
 				if(value.title && value.title.trim().length){
 					var newComment = JSON.parse(JSON.stringify(value));
 					newComment.metaworksContext = {};
@@ -150,13 +150,27 @@ org_uengine_codi_mw3_model_IWorkItem_edit.prototype = {
 					if( value && value.metaworksContext && value.metaworksContext.how != null){
 						newComment.metaworksContext.how = value.metaworksContext.how;
 					}
-					
-					var instanceViewThreadPanel = {
-						__className : 'org.uengine.codi.mw3.model.InstanceViewThreadPanel',
-						instanceId : value.instId
-					};
-					
-	
+
+					if(value.prtTskId){
+						var instId = value.instId;
+						var prtTskId = value.prtTskId;
+						instId = instId.toString();
+						prtTskId = prtTskId.toString();
+						var id = instId + prtTskId;
+
+						var instanceViewThreadPanel = {
+							__className : 'org.uengine.codi.mw3.model.InstanceViewThreadPanel',
+							instanceId : value.instId,
+							id : id
+						};
+					}else{
+						var instanceViewThreadPanel = {
+							__className : 'org.uengine.codi.mw3.model.InstanceViewThreadPanel',
+							instanceId : value.instId,
+							id : value.instId
+						};
+					}
+
 					var toAppend = mw3.locateObject(
 						{
 							__className	:'org.metaworks.ToAppend',

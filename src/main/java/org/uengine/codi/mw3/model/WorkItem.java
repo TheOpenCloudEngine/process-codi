@@ -82,7 +82,8 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     SourceCode sourceCode;
     Date startDate;
     boolean contentLoaded;
-    boolean childWorkItemLoaded;
+    boolean childLoaded;
+    boolean hasChild;
     Date endDate;
     Date dueDate;
     Date saveDate;
@@ -114,6 +115,8 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     boolean useBBB;
     private Logger logger = LoggerFactory.getLogger(WorkItem.class);
     private boolean changeFollower = false;
+    InstanceViewThreadPanel instanceViewThreadPanel;
+
 
     String execScope;
         public String getExecScope() {
@@ -146,46 +149,11 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     }
 
     protected static IWorkItem find(String instanceId) throws Exception {
-        //String sql = "select * from bpm_worklist where rootInstId=?instId and isdeleted!=?isDeleted order by taskId";
-
-        StringBuffer sql = new StringBuffer();
-
-        sql.append("select *") ;
-        sql.append("  from bpm_worklist");
-        sql.append(" where rootInstId=?instId");
-        sql.append("   and isdeleted!=?isDeleted");
-        sql.append(" order by taskId");
-
-        IWorkItem workitem = (IWorkItem) Database.sql(IWorkItem.class, sql.toString());
-
-        workitem.set("instId", instanceId);
-        workitem.set("isDeleted", 1);
-
-        //TODO: this expression should be work later instead of above.
-        //IUser user = new User();
-        //user.setEndpoint(login.getEmpCode());
-        //workitem.setWriter(user);
-
-        workitem.select();
-
-        return workitem;
+        return find (instanceId, null);
     }
 
-    protected static IWorkItem findChildWorkItems(Long taskId) throws Exception {
-        StringBuffer sql = new StringBuffer();
-
-        sql.append("select *") ;
-        sql.append("  from bpm_worklist");
-        sql.append(" where prtTskId=?taskId");
-        sql.append("   and type not in ('ovryCmnt') ");
-
-        IWorkItem workitem = (IWorkItem) Database.sql(IWorkItem.class, sql.toString());
-
-        workitem.set("taskId", taskId);
-
-        workitem.select();
-
-        return workitem;
+    protected static IWorkItem find(String instanceId, String parentTaskId) throws Exception {
+        return find(instanceId, parentTaskId, InstanceViewThreadPanel.LIST_CNT);
     }
 
     protected static IWorkItem findCommentByTaskId(String taskId) throws Exception {
@@ -309,9 +277,10 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     }
 
     protected static IWorkItem find(String instanceId, int count) throws Exception {
+        return find(instanceId, null, count);
+    }
 
-        //String sql = "select * from bpm_worklist where rootInstId=?instId and isdeleted!=?isDeleted order by taskId";
-
+    protected static IWorkItem find(String instanceId, String parentTaskId, int count) throws Exception {
         StringBuffer sql = new StringBuffer();
 
         sql.append("select * from (");
@@ -320,13 +289,20 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         sql.append(" where rootInstId=?instId");
         sql.append("   and isdeleted!=?isDeleted");
         sql.append("   and (type  not in ('ovryCmnt' , 'replyCmnt') or type is null)");
-        sql.append("   and prtTskId is null");
+        if(parentTaskId != null){
+            sql.append("   and prtTskId=?parentTaskId");
+        }else {
+            sql.append("   and prtTskId is null");
+        }
         sql.append(" order by taskId desc");
         sql.append(" limit " + (count + 1));
         sql.append(") worklist order by taskId ");
 
         IWorkItem workitem = (IWorkItem) Database.sql(IWorkItem.class, sql.toString());
 
+        if(parentTaskId != null) {
+            workitem.set("parentTaskId", parentTaskId);
+        }
         workitem.set("instId", instanceId);
         workitem.set("isDeleted", 1);
 
@@ -545,12 +521,20 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         this.contentLoaded = contentLoaded;
     }
 
-    public boolean isChildWorkItemLoaded() {
-        return childWorkItemLoaded;
+    public boolean isChildLoaded() {
+        return childLoaded;
     }
 
-    public void setChildWorkItemLoaded(boolean childWorkItemLoaded) {
-        this.childWorkItemLoaded = childWorkItemLoaded;
+    public void setChildLoaded(boolean childLoaded) {
+        this.childLoaded = childLoaded;
+    }
+
+    public boolean isHasChild() {
+        return hasChild;
+    }
+
+    public void setHasChild(boolean hasChild) {
+        this.hasChild = hasChild;
     }
 
     public Date getEndDate() {
@@ -737,6 +721,14 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         this.parameters = parameters;
     }
 
+    public InstanceViewThreadPanel getInstanceViewThreadPanel() {
+        return instanceViewThreadPanel;
+    }
+
+    public void setInstanceViewThreadPanel(InstanceViewThreadPanel instanceViewThreadPanel) {
+        this.instanceViewThreadPanel = instanceViewThreadPanel;
+    }
+
     public void like() throws Exception {
 
     }
@@ -825,15 +817,18 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         throw new Exception("not defined loadContents method");
     }
 
-    public void loadChildWorkItems() throws Exception {
-        setChildWorkItemLoaded(true);
-        IWorkItem result = WorkItem.findChildWorkItems(this.getTaskId());
-        List temp = new ArrayList<IWorkItem>();
-        while(result.next()){
-            temp.add(result);
-        }
+    public void loadChildInstanceViewPanel(){
+        this.setChildLoaded(true);
 
-        setChildWorkItemList(temp);
+        InstanceViewThreadPanel instanceViewThreadPanel = new InstanceViewThreadPanel();
+        instanceViewThreadPanel.setParentTaskId(this.getTaskId().toString());
+        instanceViewThreadPanel.session = session;
+        try {
+            instanceViewThreadPanel.load(this.getInstId().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.setInstanceViewThreadPanel(instanceViewThreadPanel);
     }
 
     public ModalWindow workItemPopup() throws Exception {
@@ -1325,7 +1320,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     }
 
     public Object[] makeReturn(boolean existedInstance, IInstance instanceRef) throws Exception {
-        pushToClient(existedInstance,instanceRef);
+        pushToClient(existedInstance, instanceRef);
 
         Object[] returnObjects = getAddReturnObject(instanceRef, existedInstance);
 
@@ -1381,19 +1376,18 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
             }else{
                 // 댓글
                 InstanceViewThreadPanel instanceViewThreadPanel = new InstanceViewThreadPanel();
-                instanceViewThreadPanel.setInstanceId(this.getInstId().toString());
-
-                if(this.getPrtTskId() == null) {
-                    CommentWorkItem commentWorkItem = new CommentWorkItem();
-                    commentWorkItem.setInstId(this.getInstId());
-                    commentWorkItem.setWriter(session.getUser());
-                    commentWorkItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
-                    returnObjects = new Object[]{new ToAppend(instanceViewThreadPanel, this), new Refresh(commentWorkItem)};
-                }else{
-                    CommentWorkItem commentWorkItem = new CommentWorkItem();
-                    commentWorkItem.setTaskId(this.getPrtTskId());
-                    returnObjects = new Object[]{new Refresh(commentWorkItem)};
+//                instanceViewThreadPanel.setInstanceId(this.getInstId().toString());
+                if(this.getPrtTskId() != null){
+                    instanceViewThreadPanel.setId(this.getInstId().toString() + this.getPrtTskId().toString());
+                }else {
+                    instanceViewThreadPanel.setId(this.getInstId().toString());
                 }
+
+                CommentWorkItem commentWorkItem = new CommentWorkItem();
+                commentWorkItem.setInstId(this.getInstId());
+                commentWorkItem.setWriter(session.getUser());
+                commentWorkItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
+                returnObjects = new Object[]{new ToAppend(instanceViewThreadPanel, this), new Refresh(commentWorkItem)};
             }
 
             // 수정
@@ -1551,6 +1545,18 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
         instance.copyFrom(instanceRef);
         instance.flushDatabaseMe();
+
+        //부모가 있는데 설명이 아닌 경우 hasChild 값을 true로 주기 위해서
+        if((this.getPrtTskId() != null) && (!"ovryCmnt".equals(this.getType()))){
+            WorkItem workItem = new WorkItem();
+            workItem.setTaskId(this.getPrtTskId());
+            workItem.copyFrom(workItem.databaseMe());
+            if(!workItem.isHasChild()) {
+                workItem.setHasChild(true);
+                workItem.syncToDatabaseMe();
+                workItem.flushDatabaseMe();
+            }
+        }
 
         return makeReturn(existedInstance, instanceRef);
     }
@@ -1988,21 +1994,30 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     }
 
     @ServiceMethod(callByContent = true)
-    public void reply(){
-        IWorkItem newItem = null;
-        if("document".equals(session.getLastPerspecteType())|| "UnlabeledDocument".equals(session.getLastPerspecteType())){
-            newItem = new DocWorkItem();
-        }else{
-            newItem = new CommentWorkItem();
-        }
+    public void reply() throws Exception {
+//        IWorkItem newItem = null;
+//        if("document".equals(session.getLastPerspecteType())|| "UnlabeledDocument".equals(session.getLastPerspecteType())){
+//            newItem = new DocWorkItem();
+//        }else{
+//            newItem = new CommentWorkItem();
+//        }
+//
+//        newItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
+//        newItem.getMetaworksContext().setWhere(MetaworksContext.WHERE_EVER);
+//        newItem.setInstId(new Long(getInstId()));
+//        newItem.setWriter(writer);
+//        newItem.setPrtTskId(this.getTaskId());
+//
+//        setNewItem(newItem);
 
-        newItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
-        newItem.getMetaworksContext().setWhere(MetaworksContext.WHERE_EVER);
-        newItem.setInstId(new Long(getInstId()));
-        newItem.setWriter(writer);
-        newItem.setPrtTskId(this.getTaskId());
+//        this.setHasChild(true);
 
-        setNewItem(newItem);
+        InstanceViewThreadPanel instanceViewThreadPanel = new InstanceViewThreadPanel();
+        instanceViewThreadPanel.session = this.session;
+        instanceViewThreadPanel.setParentTaskId(this.getTaskId().toString());
+        instanceViewThreadPanel.load(this.getInstId().toString());
+
+        this.setInstanceViewThreadPanel(instanceViewThreadPanel);
     }
 
 //	@AutowiredFromClient

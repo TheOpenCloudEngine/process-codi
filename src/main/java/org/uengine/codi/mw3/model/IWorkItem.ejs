@@ -61,15 +61,16 @@
 			var desc = '';
         	
         
-			if('file' == type)  
+			if('file' == type){
 				desc = value.majorVer + '.' + value.minorVer;
-			else if('process' == type){
+			}else if('process' == type){
 				//title = mw3.localize('$MyTask') + ': ' + title;
-				
+
 				desc = mw3.localize('$workitem.status.' + value.status.toLowerCase());
 				
-				if(!value.workItemHandler || !value.workItemHandler.taskId)
+				if(!value.workItemHandler || !value.workItemHandler.taskId){
 					collapse = true;
+				}
 			}
 						
 			
@@ -100,7 +101,9 @@
 						</div>
 					</div>		
 					<div  style="float:right;margin:11px;color:#A2A2A2"><%=fields.startDate.here({when: 'timeago'})%></div>
-					<div  style="float:right;margin:20px;color:#A2A2A2"><%=methods.reply.here()%></div>
+					<% if(!value.hasChild){ %>
+						<div  style="float:right;margin:20px;color:#A2A2A2"><%=methods.reply.here()%></div>
+					<% } %>
 				</td>
 			</tr>
 			<tr>
@@ -138,8 +141,7 @@
 											<%=title%>
 										<%}%>
 									</span>
-									<%=fields.childWorkItemList.here()%>
-									<%=fields.newItem.here()%>
+									<%=fields.instanceViewThreadPanel.here()%>
 <%
 			// icon - maximize
 			if(maximize){

@@ -81,9 +81,10 @@ var org_uengine_codi_mw3_model_IWorkItem = function(objectId, className){
 			this.objectDiv.trigger('loaded.workitem_' + workItem.taskId);
 	}
 
-	if(!workItem.childWorkItemLoaded){
-		mw3.call(this.objectId, 'loadChildWorkItems');
+	if(workItem.hasChild && !workItem.childLoaded){
+		mw3.call(this.objectId, 'loadChildInstanceViewPanel');
 	}
+
 };
 
 org_uengine_codi_mw3_model_IWorkItem.prototype = {
