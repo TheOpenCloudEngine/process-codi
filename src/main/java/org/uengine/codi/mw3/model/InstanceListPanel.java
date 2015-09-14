@@ -1,6 +1,7 @@
 package org.uengine.codi.mw3.model;
 
 import org.metaworks.annotation.AutowiredFromClient;
+import org.metaworks.annotation.Id;
 import org.uengine.codi.mw3.calendar.ScheduleCalendar;
 
 //@Face(
@@ -15,7 +16,16 @@ import org.uengine.codi.mw3.calendar.ScheduleCalendar;
 //
 //)
 public class InstanceListPanel {
-	
+
+	String id;
+	@Id
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	@AutowiredFromClient
 	public Session session;
 

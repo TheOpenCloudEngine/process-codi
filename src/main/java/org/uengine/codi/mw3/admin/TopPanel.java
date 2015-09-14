@@ -36,6 +36,8 @@ public class TopPanel {
 		}
 
 		setCompany(session.getCompany());
+
+		topSearchBox = new TopSearchBox();
 		
 	}
 	
@@ -116,6 +118,15 @@ public class TopPanel {
 	public TopMenuPanel getTopMenuPanel() {
 		return topMenuPanel;
 	}
+
+	TopSearchBox topSearchBox;
+	public TopSearchBox getTopSearchBox() {
+		return topSearchBox;
+	}
+	public void setTopSearchBox(TopSearchBox topSearchBox) {
+		this.topSearchBox = topSearchBox;
+	}
+
 	public void setTopMenuPanel(TopMenuPanel topMenuPanel) {
 		this.topMenuPanel = topMenuPanel;
 	}

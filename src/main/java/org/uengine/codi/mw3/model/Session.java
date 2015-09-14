@@ -10,10 +10,7 @@ import org.directwebremoting.WebContextFactory;
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
 import org.metaworks.ServiceMethodContext;
-import org.metaworks.annotation.Available;
-import org.metaworks.annotation.Hidden;
-import org.metaworks.annotation.NonEditable;
-import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.annotation.*;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.widget.ModalPanel;
 import org.metaworks.widget.ModalWindow;
@@ -23,7 +20,7 @@ import org.uengine.codi.util.CodiHttpClient;
 import org.uengine.sso.BaseAuthenticate;
 import org.uengine.sso.CasAuthenticate;
 
-	
+@AutowiredFromClient
 public class Session implements ContextAware{
 	
 	static Hashtable<String, ArrayList> messagesToUsers = new Hashtable<String, ArrayList>(); 
@@ -207,7 +204,16 @@ public class Session implements ContextAware{
 		public void setSearchKeyword(String searchKeyword) {
 			this.searchKeyword = searchKeyword;
 		}
-	
+
+	String topSearchKeyword;
+		@Hidden
+		public String getTopSearchKeyword() {
+			return topSearchKeyword;
+		}
+		public void setTopSearchKeyword(String topSearchKeyword) {
+			this.topSearchKeyword = topSearchKeyword;
+		}
+
 	String accessToken;
 		@Hidden
 		public String getAccessToken() {
