@@ -881,6 +881,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         wi.setWriter(getWriter());
         wi.setDueDate(this.getDueDate());
         wi.setMetaworksContext(this.getMetaworksContext());
+        wi.setPrtTskId(this.getPrtTskId());
     }
 
     public IWorkItem newSchedule() {
@@ -1390,11 +1391,11 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
                 commentWorkItem.setWriter(session.getUser());
                 commentWorkItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
 
-                if((this.getPrtTskId() != null) && !parentCommentWorkItem.isHasChild()){
-                    returnObjects = new Object[]{new Refresh(parentCommentWorkItem)};
-                }else {
+//                if((this.getPrtTskId() != null) && !parentCommentWorkItem.isHasChild()){
+//                    returnObjects = new Object[]{new Refresh(parentCommentWorkItem)};
+//                }else {
                     returnObjects = new Object[]{new ToAppend(instanceViewThreadPanel, this), new Refresh(commentWorkItem)};
-                }
+//                }
             }
 
             // 수정
