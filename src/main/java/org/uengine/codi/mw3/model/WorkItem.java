@@ -1,10 +1,8 @@
 package org.uengine.codi.mw3.model;
 
 import org.metaworks.*;
-import org.metaworks.annotation.AutowiredFromClient;
-import org.metaworks.annotation.Hidden;
-import org.metaworks.annotation.ServiceMethod;
-import org.metaworks.annotation.Test;
+import org.metaworks.annotation.*;
+import org.metaworks.annotation.Face;
 import org.metaworks.dao.Database;
 import org.metaworks.dao.MetaworksDAO;
 import org.metaworks.dwr.MetaworksRemoteService;
@@ -1376,9 +1374,13 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
             }else{
                 // 댓글
                 InstanceViewThreadPanel instanceViewThreadPanel = new InstanceViewThreadPanel();
+                CommentWorkItem parentCommentWorkItem = new CommentWorkItem();
+
 //                instanceViewThreadPanel.setInstanceId(this.getInstId().toString());
                 if(this.getPrtTskId() != null){
                     instanceViewThreadPanel.setId(this.getInstId().toString() + this.getPrtTskId().toString());
+                    parentCommentWorkItem.setTaskId(this.getPrtTskId());
+                    parentCommentWorkItem.copyFrom(parentCommentWorkItem.databaseMe());
                 }else {
                     instanceViewThreadPanel.setId(this.getInstId().toString());
                 }
@@ -1387,7 +1389,12 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
                 commentWorkItem.setInstId(this.getInstId());
                 commentWorkItem.setWriter(session.getUser());
                 commentWorkItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
-                returnObjects = new Object[]{new ToAppend(instanceViewThreadPanel, this), new Refresh(commentWorkItem)};
+
+                if((this.getPrtTskId() != null) && !parentCommentWorkItem.isHasChild()){
+                    returnObjects = new Object[]{new Refresh(parentCommentWorkItem)};
+                }else {
+                    returnObjects = new Object[]{new ToAppend(instanceViewThreadPanel, this), new Refresh(commentWorkItem)};
+                }
             }
 
             // 수정
@@ -1546,6 +1553,8 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         instance.copyFrom(instanceRef);
         instance.flushDatabaseMe();
 
+        Object[] returnObjects = makeReturn(existedInstance, instanceRef);
+
         //부모가 있는데 설명이 아닌 경우 hasChild 값을 true로 주기 위해서
         if((this.getPrtTskId() != null) && (!"ovryCmnt".equals(this.getType()))){
             WorkItem workItem = new WorkItem();
@@ -1558,7 +1567,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
             }
         }
 
-        return makeReturn(existedInstance, instanceRef);
+        return returnObjects;
     }
 
     public Object remove() throws Exception {
@@ -1854,6 +1863,9 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         sql.append("   and taskId<=?taskId");
         sql.append("   and (type  not in ('ovryCmnt' , 'replyCmnt') or type is null)");
         sql.append("   and isdeleted!=?isDeleted");
+        if(this.getPrtTskId() != null){
+            sql.append("   and prtTskId=?prtTskId");
+        }
         sql.append(" order by taskId desc limit 6) a order by taskId");
 //        sql.append(" order by taskId");
 
@@ -1861,6 +1873,9 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
         workitem.set("instId", this.getInstId());
         workitem.set("taskId", this.getTaskId());
+        if(this.getPrtTskId() != null){
+            workitem.set("prtTskId", this.getPrtTskId());
+        }
         workitem.set("isDeleted", 1);
         workitem.select();
 
@@ -1993,25 +2008,9 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         }
     }
 
-    @ServiceMethod(callByContent = true)
+    @ServiceMethod(callByContent = true, inContextMenu = true)
+    @Face(displayName="$Reply")
     public void reply() throws Exception {
-//        IWorkItem newItem = null;
-//        if("document".equals(session.getLastPerspecteType())|| "UnlabeledDocument".equals(session.getLastPerspecteType())){
-//            newItem = new DocWorkItem();
-//        }else{
-//            newItem = new CommentWorkItem();
-//        }
-//
-//        newItem.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
-//        newItem.getMetaworksContext().setWhere(MetaworksContext.WHERE_EVER);
-//        newItem.setInstId(new Long(getInstId()));
-//        newItem.setWriter(writer);
-//        newItem.setPrtTskId(this.getTaskId());
-//
-//        setNewItem(newItem);
-
-//        this.setHasChild(true);
-
         InstanceViewThreadPanel instanceViewThreadPanel = new InstanceViewThreadPanel();
         instanceViewThreadPanel.session = this.session;
         instanceViewThreadPanel.setParentTaskId(this.getTaskId().toString());

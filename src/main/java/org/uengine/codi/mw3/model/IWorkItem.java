@@ -449,7 +449,7 @@ public interface IWorkItem extends IDAO{
 		@Face(displayName="$Comment")
 		public OverlayCommentWorkItem comment() throws Exception;
 		
-		@ServiceMethod(payload={"instId", "taskId"}, target=ServiceMethodContext.TARGET_SELF)
+		@ServiceMethod(payload={"instId", "taskId", "prtTskId"}, target=ServiceMethodContext.TARGET_SELF)
 		public Object moreView() throws Exception;
 	
 		public IWorkItem loadMajorVersionFile(String id) throws Exception;

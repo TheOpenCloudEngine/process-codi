@@ -173,6 +173,7 @@ public class InstanceViewThreadPanel implements ContextAware {
 			if(more){
 				thread.setTaskId(result.getTaskId());
 				thread.setInstId(result.getInstId());
+				thread.setPrtTskId(result.getPrtTskId());
 				thread.setMore(true);
 			}else{
 				thread.getImplementationObject().copyFrom(result);

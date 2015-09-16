@@ -1,5 +1,5 @@
 <%
-	if(value){
+	if(value && (value.status || value.more)){
 		var type_icon;
 		
 		if(value.type=='file'){
@@ -67,24 +67,24 @@
 				//title = mw3.localize('$MyTask') + ': ' + title;
 
 				desc = mw3.localize('$workitem.status.' + value.status.toLowerCase());
-				
+
 				if(!value.workItemHandler || !value.workItemHandler.taskId){
 					collapse = true;
 				}
 			}
-						
-			
+
+
 			if('file' == type){
 				var fileMimeType = value.file.mimeType;
 				var isPreview = false;
-				
-				
+
+
 				if(fileMimeType.indexOf("msdownload") == -1 && ( fileMimeType.indexOf("ms")>=1   || fileMimeType.indexOf("officedocument")>=1 || fileMimeType.indexOf("pdf")>=1 || fileMimeType.indexOf("image")>-1) )
 					maximize = true;
 			}else if('process' == type){
 				maximize = true;
-			}			
-			
+			}
+
 			if(session && session.user && session.user.userId == value.writer.userId)
 				isMine = true;
 %>
@@ -99,41 +99,38 @@
 							<div><b>테스트</b></div>
 							<div style="color:#A2A2A2">test@test.com</div>
 						</div>
-					</div>		
+					</div>
 					<div  style="float:right;margin:11px;color:#A2A2A2"><%=fields.startDate.here({when: 'timeago'})%></div>
-					<% if(!value.hasChild){ %>
-						<div  style="float:right;margin:20px;color:#A2A2A2"><%=methods.reply.here()%></div>
-					<% } %>
 				</td>
 			</tr>
 			<tr>
 
-				
+
 
 				<td>
 					<div style="position:relative;">
 						<div class="<%=isMine?'view_box3':'view_box4'%>" style="position:relative">
-							
-							
+
+
 							<div class="cont" style="padding:0px 10px; margin:0px; overflow:auto">
 								<div class="formcontexttitle" style="<%=type == 'comment'?'font-weight:normal; border:none;':''%> <%=collapse?'border:none; margin-bottom:0px':''%>">
 
 <%
 			if('comment' != type){
-%>	
-										<span style="position:relative; height:38px; float:left; margin-right:10px;">										
+%>
+										<span style="position:relative; height:38px; float:left; margin-right:10px;">
 											<span class="<%=type_icon%>" style="color: #7f8c8d; font-size: 20px;width:20px;" ></span>
 <%
-				if('process' == type) {					
+				if('process' == type) {
 %>
-											<span class="<%=status_icon%>" style="position:absolute; top:0px; left:0px; color: #7f8c8d; font-size: 20px" ></span>										
+											<span class="<%=status_icon%>" style="position:absolute; top:0px; left:0px; color: #7f8c8d; font-size: 20px" ></span>
 <%
 				}
-%>	
+%>
 										</span>
 <%
 			}
-%>				
+%>
 									<span class="wih_title">
 										<%if(value.status=='COMPLETED'){%>
 											<strike><%=title%></strike>

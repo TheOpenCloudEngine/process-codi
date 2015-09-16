@@ -139,7 +139,7 @@ org_uengine_codi_mw3_model_IWorkItem_edit.prototype = {
 		if(!this.sending){			
 			this.sending = true;
 
-			if(value.type=='comment' && value.metaworksContext.when == 'new' && value.instId && !value.prtTskId){
+			if(value.type=='comment' && value.metaworksContext.when == 'new' && value.instId){
 				if(value.title && value.title.trim().length){
 					var newComment = JSON.parse(JSON.stringify(value));
 					newComment.metaworksContext = {};
