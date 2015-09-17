@@ -1,6 +1,7 @@
 package org.uengine.codi.mw3.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.Default;
@@ -111,6 +112,16 @@ public interface IWorkItem extends IDAO{
 		@Hidden
 		public String getExecScope();
 		public void setExecScope(String execScope);
+
+		@NonSavable
+		@NonLoadable
+		public IWorkItem getNewItem();
+		public void setNewItem(IWorkItem newItem);
+
+		@NonSavable
+		@NonLoadable
+		public List<IWorkItem> getChildWorkItemList();
+		public void setChildWorkItemList(List<IWorkItem> childWorkItemList);
 
 		@Hidden
 		@ORMapping(
@@ -354,7 +365,10 @@ public interface IWorkItem extends IDAO{
 		
 		@ServiceMethod(callByContent = true, target=ServiceMethodContext.TARGET_SELF)
 		public void loadContents() throws Exception;
-		
+
+		@ServiceMethod(callByContent = true, target=ServiceMethodContext.TARGET_SELF)
+		public void loadChildInstanceViewPanel();
+
 //		@ServiceMethod(callByContent=true)
 		public IWorkItem find() throws Exception;
 		
@@ -369,7 +383,21 @@ public interface IWorkItem extends IDAO{
 		@Hidden		
 		public boolean isContentLoaded();
 		public void setContentLoaded(boolean contentLoaded);
-		
+
+		@NonLoadable
+		@NonSavable
+		@Hidden
+		public boolean isChildLoaded();
+		public void setChildLoaded(boolean childLoaded);
+
+		@NonLoadable
+		@NonSavable
+		public InstanceViewThreadPanel getInstanceViewThreadPanel();
+		public void setInstanceViewThreadPanel(InstanceViewThreadPanel instanceViewThreadPanel);
+
+		public boolean isHasChild();
+		public void setHasChild(boolean hasChild);
+
 		public String getFolderName();
 		public void setFolderName(String folderName);
 		
@@ -421,7 +449,7 @@ public interface IWorkItem extends IDAO{
 		@Face(displayName="$Comment")
 		public OverlayCommentWorkItem comment() throws Exception;
 		
-		@ServiceMethod(payload={"instId", "taskId"}, target=ServiceMethodContext.TARGET_SELF)
+		@ServiceMethod(payload={"instId", "taskId", "prtTskId"}, target=ServiceMethodContext.TARGET_SELF)
 		public Object moreView() throws Exception;
 	
 		public IWorkItem loadMajorVersionFile(String id) throws Exception;

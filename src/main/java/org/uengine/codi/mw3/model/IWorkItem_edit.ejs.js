@@ -150,13 +150,27 @@ org_uengine_codi_mw3_model_IWorkItem_edit.prototype = {
 					if( value && value.metaworksContext && value.metaworksContext.how != null){
 						newComment.metaworksContext.how = value.metaworksContext.how;
 					}
-					
-					var instanceViewThreadPanel = {
-						__className : 'org.uengine.codi.mw3.model.InstanceViewThreadPanel',
-						instanceId : value.instId
-					};
-					
-	
+
+					if(value.prtTskId){
+						var instId = value.instId;
+						var prtTskId = value.prtTskId;
+						instId = instId.toString();
+						prtTskId = prtTskId.toString();
+						var id = instId + prtTskId;
+
+						var instanceViewThreadPanel = {
+							__className : 'org.uengine.codi.mw3.model.InstanceViewThreadPanel',
+							instanceId : value.instId,
+							id : id
+						};
+					}else{
+						var instanceViewThreadPanel = {
+							__className : 'org.uengine.codi.mw3.model.InstanceViewThreadPanel',
+							instanceId : value.instId,
+							id : value.instId
+						};
+					}
+
 					var toAppend = mw3.locateObject(
 						{
 							__className	:'org.metaworks.ToAppend',
@@ -168,9 +182,9 @@ org_uengine_codi_mw3_model_IWorkItem_edit.prototype = {
 					
 					//may problematic. TODO: 'toAppend.target' should point to the newly acquired object with the __objectId exists.
 					var newCommentObjectId = toAppend.targetObjectId + 1;
-					
+
 					mw3.onLoadFaceHelperScript();
-		
+
 					newComment = mw3.objects[newCommentObjectId];
 					newComment.metaworksContext.when = 'new';
 		

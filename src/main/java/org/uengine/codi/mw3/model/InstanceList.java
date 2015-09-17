@@ -10,6 +10,10 @@ import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.Id;
 import org.metaworks.annotation.ServiceMethod;
 import org.uengine.codi.mw3.Login;
+import org.uengine.solr.SolrServerManager;
+
+import java.util.List;
+import java.util.Map;
 
 
 @Face(
@@ -23,6 +27,7 @@ public class InstanceList implements ContextAware{
 
 	public final static int PAGE_CNT = 15;
 	public final static int PAGE_CNT_MOBILE = 5;
+	public final static int PAGE_CNT_SEARCH = 10;
 	public final static int PAGE_CNT_DASHBOARD = 3;
 	
 	public InstanceList(){
@@ -107,7 +112,15 @@ public class InstanceList implements ContextAware{
 		public void setWorkItem(IWorkItem workItem) {
 			this.workItem = workItem;
 		}
-//	@ServiceMethod(callByContent = true, except = { "instances",
+
+	String instanceListType;
+	public String getInstanceListType() {
+		return instanceListType;
+	}
+	public void setInstanceListType(String instanceListType) {
+		this.instanceListType = instanceListType;
+	}
+	//	@ServiceMethod(callByContent = true, except = { "instances",
 //			"moreInstanceList" })
 //	public void search() throws Exception {
 //		setPage(0);
@@ -116,7 +129,15 @@ public class InstanceList implements ContextAware{
 
 	@ServiceMethod(callByContent = true, except = { "instances" })
 	public void more() throws Exception {
-		load(this.getNavigation());
+		load(this.getNavigation(), null);
+	}
+
+	@ServiceMethod(callByContent = true, except = { "instances" })
+	public void searchMore() throws Exception {
+		TopSearchBox topSearchBox = new TopSearchBox();
+		List<String> idList = topSearchBox.moreSearch(this.getNavigation().getTopSearchKeyword(), String.valueOf(this.getPage() - 1), InstanceList.PAGE_CNT_SEARCH);
+
+		load(this.getNavigation(), idList);
 	}
 	
 	@ServiceMethod(callByContent = true, except = { "workitem" })
@@ -125,16 +146,50 @@ public class InstanceList implements ContextAware{
 	}
 	
 	public InstanceList load() throws Exception {
-		return load(this.getNavigation());
+		return load(this.getNavigation(), null);
+	}
+
+	public InstanceList load(List<String> ids) throws Exception {
+		return load(this.getNavigation(), ids);
 	}
 	
-	public InstanceList load(Navigation navigation) throws Exception {
-		int count =  ("phone".equals(navigation.getMedia())?InstanceList.PAGE_CNT_MOBILE:InstanceList.PAGE_CNT);
-		
-		IInstance instanceContents = Instance.load(navigation, getPage()-1, count);
-		instanceContents.setMetaworksContext(new MetaworksContext());
-		instanceContents.getMetaworksContext().setWhere(IInstance.WHERE_INSTANCELIST);
-		
+	public InstanceList load(Navigation navigation, List<String> ids) throws Exception {
+		IInstance instanceContents = null;
+		int count = 0;
+
+		if(ids == null) {
+			setInstanceListType(IInstance.WHERE_INSTANCELIST);
+			count =  ("phone".equals(navigation.getMedia())?InstanceList.PAGE_CNT_MOBILE:InstanceList.PAGE_CNT);
+
+			instanceContents = Instance.load(navigation, getPage() - 1, count);
+			instanceContents.setMetaworksContext(new MetaworksContext());
+			instanceContents.getMetaworksContext().setWhere(IInstance.WHERE_INSTANCELIST);
+
+			// setting moreInstanceList
+			if(instanceContents.size() >= count){
+				setMoreInstanceList(new InstanceList());
+				getMoreInstanceList().setNavigation(navigation);
+				getMoreInstanceList().setInstanceListType(IInstance.WHERE_INSTANCELIST);
+				getMoreInstanceList().setPage(getPage() + 1);
+			}
+
+		} else {
+			setInstanceListType(IInstance.WHERE_SEARCH_INSTANCELIST);
+			count = ("phone".equals(navigation.getMedia()) ? InstanceList.PAGE_CNT_MOBILE : InstanceList.PAGE_CNT_SEARCH);
+
+			instanceContents = Instance.load(ids);
+			instanceContents.setMetaworksContext(new MetaworksContext());
+			instanceContents.getMetaworksContext().setWhere(IInstance.WHERE_SEARCH_INSTANCELIST);
+
+			// setting moreInstanceList
+			if(instanceContents.size() >= count){
+				setMoreInstanceList(new InstanceList());
+				getMoreInstanceList().setNavigation(navigation);
+				getMoreInstanceList().setInstanceListType(IInstance.WHERE_SEARCH_INSTANCELIST);
+				getMoreInstanceList().setPage(getPage() + 1);
+			}
+		}
+
 		this.setInstances(instanceContents);
 		
 //		if("sns".equals(preferUX)){
@@ -147,12 +202,6 @@ public class InstanceList implements ContextAware{
 //			}
 //		}
 		
-			// setting moreInstanceList
-		if( instanceContents.size() >= count){
-			setMoreInstanceList(new InstanceList());
-			getMoreInstanceList().setNavigation(navigation);
-			getMoreInstanceList().setPage(getPage()+1);
-		}
 		return this;
 	}
 	

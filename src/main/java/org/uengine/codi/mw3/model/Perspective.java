@@ -11,6 +11,9 @@ import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.calendar.ScheduleCalendar;
 import org.uengine.kernel.GlobalContext;
 
+import java.util.List;
+import java.util.Map;
+
 public class Perspective {
 	
 	public final static String MODE_PERSONAL 	= "personal";
@@ -113,21 +116,24 @@ public class Perspective {
 
 		MetaworksRemoteService.pushTargetClientObjects(Login.getSessionIdWithUserId(session.getUser().getUserId()), new Object[]{new Refresh(todoBadge, true)});			
 	}
-	
+
 	public static InstanceListPanel loadInstanceList(Session session, String perspectiveMode, String perspectiveType) throws Exception {
-		return Perspective.loadInstanceList(session, perspectiveMode, perspectiveType, null);
+		return Perspective.loadInstanceList(session, perspectiveMode, perspectiveType, null, null);
 	}
-	
+
 	public static InstanceListPanel loadInstanceList(Session session, String perspectiveMode, String perspectiveType, String selectedItem) throws Exception {
-	
+		return Perspective.loadInstanceList(session, perspectiveMode, perspectiveType, selectedItem, null);
+	}
+
+	public static InstanceListPanel loadInstanceList(Session session, String perspectiveMode, String perspectiveType, String selectedItem, List<String> idList) throws Exception {
 		savePerspectiveToSession(session, perspectiveMode, perspectiveType, selectedItem);
 
 		InstanceListPanel instListPanel = new InstanceListPanel();
-		
+
 		String title = null;
 		if(MODE_PERSONAL.equals(perspectiveMode) && session.getEmployee().getEmpCode().equals(selectedItem)){
 			title = "$perspective." + perspectiveType;
-			
+
 			session.setWindowTitle(title);
 		}
 
@@ -137,16 +143,25 @@ public class Perspective {
 			scheduleCalendar.load();
 			
 			instListPanel.setScheduleCalendar(scheduleCalendar);
+
 		}else{
 			InstanceList instList = new InstanceList(session);
-			instList.load();
+
+			if(idList == null) {
+				instListPanel.setId(IInstance.WHERE_INSTANCELIST);
+				instList.load();
+
+			} else {
+				instListPanel.setId(IInstance.WHERE_SEARCH_INSTANCELIST);
+				instList.load(idList);
+			}
 
 			instListPanel.setInstanceList(instList);
 		}
 		
 		return instListPanel;
 	}
-	
+
 	public static Object[] loadInstanceListPanel(Session session, String perspectiveMode, String perspectiveType,
 			String selectedItem, String title) throws Exception {
 		
@@ -168,7 +183,7 @@ public class Perspective {
 		}
 		*/
 		
-		InstanceListPanel instListPanel = Perspective.loadInstanceList(session, perspectiveMode, perspectiveType, selectedItem); 
+		InstanceListPanel instListPanel = Perspective.loadInstanceList(session, perspectiveMode, perspectiveType, selectedItem, null);
 		
 		session.setWindowTitle(title);
 		
@@ -195,4 +210,5 @@ public class Perspective {
 
 	@AutowiredFromClient
 	public Session session;
+
 }

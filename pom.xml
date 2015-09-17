@@ -44,11 +44,23 @@
 			<name>Eclipse Repository</name>
 			<url>https://repo.eclipse.org/content/groups/eclipse/</url>
 		</repository>
+
 	</repositories>
 
 
 	<dependencies>
 
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-core</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>4.5.1</version>
+		</dependency>
 
 		<!--<dependency>-->
 			<!--<groupId>org.oce.garuda</groupId>-->

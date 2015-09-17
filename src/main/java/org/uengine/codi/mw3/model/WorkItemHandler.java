@@ -81,6 +81,16 @@ public class WorkItemHandler implements ContextAware {
 						processVariableValue = pc.getVariable().createNewValue();
 					}
 
+					if(processVariableValue instanceof ContextAware){
+						ContextAware contextAware = (ContextAware) processVariableValue;
+						contextAware.setMetaworksContext(new MetaworksContext());
+						contextAware.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
+					}
+
+					if(processVariableValue instanceof org.uengine.kernel.ITool){
+						((org.uengine.kernel.ITool) processVariableValue).onLoad();
+					}
+
 					pv.setMultipleInput(pc.isMultipleInput());
 
 					if(pc.isMultipleInput()) {
@@ -110,6 +120,7 @@ public class WorkItemHandler implements ContextAware {
 	}
 	
 	transient IWorkItem workItem;
+	@Hidden
 		public IWorkItem getWorkItem() {
 			return workItem;
 		}

@@ -1,11 +1,6 @@
 package org.uengine.codi.mw3.model;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.sql.RowSet;
 
@@ -64,6 +59,35 @@ public class Instance extends Database<IInstance> implements IInstance{
 
 	public Instance(){
 		
+	}
+
+	static public IInstance load(List<String> ids) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * ");
+		sql.append("  FROM bpm_procinst ");
+		sql.append(" WHERE instid in ( ");
+
+		for(int i = 0; i < ids.size(); i++) {
+			if(i == ids.size() - 1) {
+				sql.append(ids.get(i));
+
+			} else {
+				sql.append(ids.get(i) + ", ");
+			}
+		}
+
+		sql.append(" )");
+
+		IInstance instanceContents = null;
+		try {
+			instanceContents = (IInstance) sql(Instance.class, sql.toString());
+			instanceContents.select();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return instanceContents;
 	}
 	
 	static public IInstance load(Navigation navigation, int page, int count)
