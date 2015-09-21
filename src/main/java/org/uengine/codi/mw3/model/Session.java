@@ -269,8 +269,6 @@ public class Session implements ContextAware{
 		
 	@ServiceMethod(target=ServiceMethodContext.TARGET_NONE)
 	public Object heartbeat(){
-		Login.getSessionIdWithCompany("enkisoft");
-		
 		//nothing to do
 		String sessionId = WebContextFactory.get().getScriptSession().getId();
 		//System.out.println("heartbeat:" + sessionId);
