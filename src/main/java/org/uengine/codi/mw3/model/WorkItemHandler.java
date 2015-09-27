@@ -454,7 +454,7 @@ public class WorkItemHandler implements ContextAware {
 			 * 프로세스 완료시에 수정된 워크아이템만 부분 갱신되게 수정
 			 */
 			
-			InstanceTooltip instanceTooltip = new InstanceTooltip();
+			InstanceTooltip instanceTooltip = MetaworksRemoteService.getComponent(InstanceTooltip.class);
 			instanceTooltip.getMetaworksContext().setHow("action");		
 			instanceTooltip.load(inst);
 			
