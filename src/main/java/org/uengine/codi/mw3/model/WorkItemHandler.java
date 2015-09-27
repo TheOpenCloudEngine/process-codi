@@ -83,7 +83,10 @@ public class WorkItemHandler implements ContextAware {
 
 					if(processVariableValue instanceof ContextAware){
 						ContextAware contextAware = (ContextAware) processVariableValue;
-						contextAware.setMetaworksContext(new MetaworksContext());
+
+						if(contextAware.getMetaworksContext()==null)
+							contextAware.setMetaworksContext(new MetaworksContext());
+
 						contextAware.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
 					}
 
