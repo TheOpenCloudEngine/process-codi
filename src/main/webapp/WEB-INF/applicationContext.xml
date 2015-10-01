@@ -24,7 +24,6 @@
     </bean>
 
     <!--<context:component-scan base-package="org.uengine.codi.mw3;org.uengine.codi.scheduler"/>-->
-    <context:component-scan base-package="org.uengine"/>
     <context:annotation-config/>
     <aop:aspectj-autoproxy/>
 
