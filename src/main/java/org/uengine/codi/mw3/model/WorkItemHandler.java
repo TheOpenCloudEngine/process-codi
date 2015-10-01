@@ -46,68 +46,68 @@ public class WorkItemHandler implements ContextAware {
 			loadMapForITool((Map<String, Object>)makeMapForITool());
 			
 			//creates work item handler
-				parameters = new ParameterValue[humanActivity.getParameters().length];
-				for(int i=0; i<humanActivity.getParameters().length; i++){
-					ParameterContext pc = humanActivity.getParameters()[i];
-					
-					parameters[i] = new ParameterValue();
-					
-					ParameterValue pv = parameters[i];
+			parameters = new ParameterValue[humanActivity.getParameters().length];
+			for(int i=0; i<humanActivity.getParameters().length; i++){
+				ParameterContext pc = humanActivity.getParameters()[i];
 
-					//TODO: why this occurs?
-					if(pc.getVariable()==null)
-						continue;
+				parameters[i] = new ParameterValue();
 
-					pv.setVariableName(pc.getVariable().getName());
-					pv.setArgument(pc.getArgument().getText(session!=null && session.getEmployee()!=null ? session.getEmployee().getLocale() : null));
-					pv.setDirection(pc.getDirection());
-										
-					String when = this.getMetaworksContext().getWhen();
-					
-					MetaworksContext mc = new MetaworksContext();
-					
-					if(MetaworksContext.WHEN_EDIT.equals(when)){
-						if(ParameterContext.DIRECTION_IN.equals(pc.getDirection()))						
-							when = MetaworksContext.WHEN_VIEW;
-					}
-					
-					mc.setWhen(when);					
-					pv.setMetaworksContext(mc);
-					
-					
-					Serializable processVariableValue = pc.getVariable().get(instance, "");
+				ParameterValue pv = parameters[i];
 
-					if(processVariableValue==null) {
-						processVariableValue = pc.getVariable().createNewValue();
-					}
+				//TODO: why this occurs?
+				if(pc.getVariable()==null)
+					continue;
 
-					if(processVariableValue instanceof ContextAware){
-						ContextAware contextAware = (ContextAware) processVariableValue;
+				pv.setVariableName(pc.getVariable().getName());
+				pv.setArgument(pc.getArgument().getText(session!=null && session.getEmployee()!=null ? session.getEmployee().getLocale() : null));
+				pv.setDirection(pc.getDirection());
 
-						if(contextAware.getMetaworksContext()==null)
-							contextAware.setMetaworksContext(new MetaworksContext());
+				String when = this.getMetaworksContext().getWhen();
 
-						contextAware.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
-					}
+				MetaworksContext mc = new MetaworksContext();
 
-					if(processVariableValue instanceof org.uengine.kernel.ITool){
-						((org.uengine.kernel.ITool) processVariableValue).onLoad();
-					}
-
-					pv.setMultipleInput(pc.isMultipleInput());
-
-					if(pc.isMultipleInput()) {
-						ProcessVariableValueList pvvl = new ProcessVariableValueList();
-						pvvl.setDefaultValue(processVariableValue);
-
-						//pv.setValueObject(processVariableValue);
-						pv.setProcessVariableValueList(pvvl);
-					}else{
-						pv.setValue(processVariableValue);
-					}
+				if(MetaworksContext.WHEN_EDIT.equals(when)){
+					if(ParameterContext.DIRECTION_IN.equals(pc.getDirection()))
+						when = MetaworksContext.WHEN_VIEW;
 				}
-				
-				releaseMapForITool();
+
+				mc.setWhen(when);
+				pv.setMetaworksContext(mc);
+
+
+				Serializable processVariableValue = pc.getVariable().get(instance, "");
+
+				if(processVariableValue==null) {
+					processVariableValue = pc.getVariable().createNewValue();
+				}
+
+				if(processVariableValue instanceof ContextAware){
+					ContextAware contextAware = (ContextAware) processVariableValue;
+
+					if(contextAware.getMetaworksContext()==null)
+						contextAware.setMetaworksContext(new MetaworksContext());
+
+					contextAware.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
+				}
+
+				if(processVariableValue instanceof org.uengine.kernel.ITool){
+					((org.uengine.kernel.ITool) processVariableValue).onLoad();
+				}
+
+				pv.setMultipleInput(pc.isMultipleInput());
+
+				if(pc.isMultipleInput()) {
+					ProcessVariableValueList pvvl = new ProcessVariableValueList();
+					pvvl.setDefaultValue(processVariableValue);
+
+					//pv.setValueObject(processVariableValue);
+					pv.setProcessVariableValueList(pvvl);
+				}else{
+					pv.setValue(processVariableValue);
+				}
+			}
+
+			releaseMapForITool();
 		}
 		
 		setInstanceId(instanceId.toString());
