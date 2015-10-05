@@ -150,6 +150,7 @@ public class WorkItemHandler implements ContextAware {
 
 	ParameterValue[] parameters;
 		@Valid
+		@Available(where = "detail")
 		public ParameterValue[] getParameters() {
 			return parameters;
 		}
