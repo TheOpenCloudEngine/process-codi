@@ -2,49 +2,41 @@
 if (value!=null){
 	var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
 	var list_class = "";
-	
+
 	if(mw3.where  == 'dashboard'){
 		list_class = "time_line _noti_list";
 	}
-	
+
 %>
 
-	<% if(session != null){ %>
-		<div class="<%=list_class%>">
-			<%=fields.instances.here()%>
-		</div>
-	<% } %>
+<% if(session != null){ %>
+<div class="<%=list_class%>">
+	<%=fields.instances.here()%>
+</div>
+<% } %>
 
 <%
-	if(value.moreInstanceList==null){
+if(value.moreInstanceList==null){
 %>
 <%
-		if(mw3.where  != 'dashboard'){
+if(mw3.where  != 'dashboard'){
 %>
-			<div id="moreWorkDiv">
-				<div class="morePointL"></div>
-
-				<% if(value.instanceListType == 'instancelist') { %>
-					<a class="moreBtn5" href="#" onClick="<%=methods.more.caller()%>"><%=mw3.localize("$more")%></a>
-
-				<% } else { %>
-					<a class="moreBtn5" href="#" onClick="<%=methods.searchMore.caller()%>"><%=mw3.localize("$more")%>
-
-				<% } %>
-
-				<a class="moreBtn6" href="#"><img src="dwr/metaworks/images/circleloading.gif" /></a>
-				<div class="morePointR"></div>
-			</div>
+<div id="moreWorkDiv">
+	<div class="morePointL"></div>
+	<a class="moreBtn5" href="#" onClick="<%=methods.more.caller()%>"><%=mw3.localize("$more")%></a>
+	<a class="moreBtn6" href="#"><img src="dwr/metaworks/images/circleloading.gif" /></a>
+	<div class="morePointR"></div>
+</div>
 <%
-		}
+}
 %>
 
 
 <%
-	}
+}
 %>
 
-	<%=fields.moreInstanceList.here()%>
+<%=fields.moreInstanceList.here()%>
 
 <%
 }%>
