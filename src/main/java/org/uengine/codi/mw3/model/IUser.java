@@ -13,6 +13,8 @@ import org.metaworks.annotation.Name;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.IDAO;
 
+import javax.xml.ws.Service;
+
 @Face(ejsPath="dwr/metaworks/org/uengine/codi/mw3/model/IUser.ejs",
 	  ejsPathMappingByContext={"{how: '" + IUser.HOW_INFO + "', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IUserInfo.ejs'}"})
 public interface IUser extends IDAO{
@@ -102,7 +104,7 @@ public interface IUser extends IDAO{
 	public Session drag();
 
 	@Available(where={MW3_WHERE_ROLEUSER_PICKER_CALLER, MW3_WHERE_ROLEUSER_PICKER})
-	@ServiceMethod(mouseBinding="drop")
+	@ServiceMethod(mouseBinding = "drop", target= ServiceMethod.TARGET_SELF)
 	public void drop();
 	
 	@ServiceMethod(inContextMenu=true, needToConfirm=true, target="none")

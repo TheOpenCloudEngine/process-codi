@@ -46,61 +46,68 @@ public class WorkItemHandler implements ContextAware {
 			loadMapForITool((Map<String, Object>)makeMapForITool());
 			
 			//creates work item handler
-				parameters = new ParameterValue[humanActivity.getParameters().length];
-				for(int i=0; i<humanActivity.getParameters().length; i++){
-					ParameterContext pc = humanActivity.getParameters()[i];
-					
-					parameters[i] = new ParameterValue();
-					
-					ParameterValue pv = parameters[i];
+			parameters = new ParameterValue[humanActivity.getParameters().length];
+			for(int i=0; i<humanActivity.getParameters().length; i++){
+				ParameterContext pc = humanActivity.getParameters()[i];
 
-					//TODO: why this occurs?
-					if(pc.getVariable()==null)
-						continue;
+				parameters[i] = new ParameterValue();
 
-					pv.setVariableName(pc.getVariable().getName());
-					pv.setArgument(pc.getArgument().getText(session!=null && session.getEmployee()!=null ? session.getEmployee().getLocale() : null));
-					pv.setDirection(pc.getDirection());
-										
-					String when = this.getMetaworksContext().getWhen();
-					
-					MetaworksContext mc = new MetaworksContext();
-					
-					if(MetaworksContext.WHEN_EDIT.equals(when)){
-						if(ParameterContext.DIRECTION_IN.equals(pc.getDirection()))						
-							when = MetaworksContext.WHEN_VIEW;
-					}
-					
-					mc.setWhen(when);					
-					pv.setMetaworksContext(mc);
-					
-					
-					Serializable processVariableValue = pc.getVariable().get(instance, "");
+				ParameterValue pv = parameters[i];
 
-					if(processVariableValue==null) {
-						processVariableValue = pc.getVariable().createNewValue();
-					}
+				//TODO: why this occurs?
+				if(pc.getVariable()==null)
+					continue;
 
-					if(processVariableValue instanceof ContextAware){
-						ContextAware contextAware = (ContextAware) processVariableValue;
-						contextAware.setMetaworksContext(new MetaworksContext());
-						contextAware.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
-					}
+				pv.setVariableName(pc.getVariable().getName());
+				pv.setArgument(pc.getArgument().getText(session!=null && session.getEmployee()!=null ? session.getEmployee().getLocale() : null));
+				pv.setDirection(pc.getDirection());
 
-					pv.setMultipleInput(pc.isMultipleInput());
+				String when = this.getMetaworksContext().getWhen();
 
-					if(pc.isMultipleInput()) {
-						ProcessVariableValueList pvvl = new ProcessVariableValueList();
-						pvvl.setDefaultValue(processVariableValue);
+				MetaworksContext mc = new MetaworksContext();
 
-						//pv.setValueObject(processVariableValue);
-						pv.setProcessVariableValueList(pvvl);
-					}else{
-						pv.setValue(processVariableValue);
-					}
+				if(MetaworksContext.WHEN_EDIT.equals(when)){
+					if(ParameterContext.DIRECTION_IN.equals(pc.getDirection()))
+						when = MetaworksContext.WHEN_VIEW;
 				}
-				
-				releaseMapForITool();
+
+				mc.setWhen(when);
+				pv.setMetaworksContext(mc);
+
+
+				Serializable processVariableValue = pc.getVariable().get(instance, "");
+
+				if(processVariableValue==null) {
+					processVariableValue = pc.getVariable().createNewValue();
+				}
+
+				if(processVariableValue instanceof ContextAware){
+					ContextAware contextAware = (ContextAware) processVariableValue;
+
+					if(contextAware.getMetaworksContext()==null)
+						contextAware.setMetaworksContext(new MetaworksContext());
+
+					contextAware.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
+				}
+
+				if(processVariableValue instanceof org.uengine.kernel.ITool){
+					((org.uengine.kernel.ITool) processVariableValue).onLoad();
+				}
+
+				pv.setMultipleInput(pc.isMultipleInput());
+
+				if(pc.isMultipleInput()) {
+					ProcessVariableValueList pvvl = new ProcessVariableValueList();
+					pvvl.setDefaultValue(processVariableValue);
+
+					//pv.setValueObject(processVariableValue);
+					pv.setProcessVariableValueList(pvvl);
+				}else{
+					pv.setValue(processVariableValue);
+				}
+			}
+
+			releaseMapForITool();
 		}
 		
 		setInstanceId(instanceId.toString());
@@ -116,6 +123,7 @@ public class WorkItemHandler implements ContextAware {
 	}
 	
 	transient IWorkItem workItem;
+	@Hidden
 		public IWorkItem getWorkItem() {
 			return workItem;
 		}
@@ -142,6 +150,7 @@ public class WorkItemHandler implements ContextAware {
 
 	ParameterValue[] parameters;
 		@Valid
+		@Available(where = "detail")
 		public ParameterValue[] getParameters() {
 			return parameters;
 		}
@@ -449,7 +458,7 @@ public class WorkItemHandler implements ContextAware {
 			 * 프로세스 완료시에 수정된 워크아이템만 부분 갱신되게 수정
 			 */
 			
-			InstanceTooltip instanceTooltip = new InstanceTooltip();
+			InstanceTooltip instanceTooltip = MetaworksRemoteService.getComponent(InstanceTooltip.class);
 			instanceTooltip.getMetaworksContext().setHow("action");		
 			instanceTooltip.load(inst);
 			

@@ -390,8 +390,11 @@ public class User extends Database<IUser> implements IUser {
 			IUser user = (IUser) clipboard;
 			
 			try {
-				if(!user.getUserId().equals(getUserId()))
+				if(!user.getUserId().equals(getUserId())){
+					//copyFrom(user);
+					//setUserId(user.getUserId());
 					copyFrom(user);
+				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

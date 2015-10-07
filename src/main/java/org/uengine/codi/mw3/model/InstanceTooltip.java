@@ -8,10 +8,11 @@ import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.bpmn.Event;
-import org.uengine.kernel.bpmn.TimerEvent;
 import org.uengine.processmanager.ProcessManagerRemote;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 public class InstanceTooltip implements ContextAware {
@@ -74,14 +75,14 @@ public class InstanceTooltip implements ContextAware {
 			this.instanceDefId = instanceDefId;
 		}
 
-	EventTrigger[] eventTriggers;
-		public EventTrigger[] getEventTriggers() {
+	List<EventTrigger> eventTriggers;
+		public List<EventTrigger> getEventTriggers() {
 			return eventTriggers;
 		}
-		public void setEventTriggers(EventTrigger[] eventTriggers) {
+		public void setEventTriggers(List<EventTrigger> eventTriggers) {
 			this.eventTriggers = eventTriggers;
 		}
-		
+
 	boolean loaded;
 		public boolean isLoaded() {
 			return loaded;
@@ -100,10 +101,12 @@ public class InstanceTooltip implements ContextAware {
 		this.setSecuopt(instance.getSecuopt());
 		this.setDueDate(instance.getDueDate());
 		this.setInstanceDefId(instance.getDefVerId());
+
+		loadEventTriggers();
 	}
 	
 	@ServiceMethod(callByContent=true)
-	public void eventTriggerCheck() throws Exception{
+	public void loadEventTriggers() throws Exception{
 		if( Instance.INSTNACE_STATUS_RUNNING.equals(this.getStatus()) ){
 			ProcessInstance processInstance = processManager.getProcessInstance(this.getInstanceId().toString());
 			org.uengine.kernel.ProcessDefinition definition = processInstance.getProcessDefinition();
@@ -112,41 +115,25 @@ public class InstanceTooltip implements ContextAware {
 				String currentTracingTag = processInstance.getCurrentRunningActivity().getActivity().getTracingTag();
 				Vector mls = processInstance.getMessageListeners("event");
 
-				EventTrigger[] eventTriggers = new EventTrigger[mls.size()];
 				if(mls != null){
-					for(int i = 0; i < mls.size(); i++){
-						// mls.get(i) == tracing tag라 가정한다면 currentTracingTag와 비교하여
-						// currentTracingTag와 event의 TracingTag 의 attachedToRef를 비교하여
-						// 즉, 이벤트가 붙어있는 휴먼의 TracingTag가 attachedToRef이므로...
-						// 그때서야 event를 등록한다.
+					ArrayList<EventTrigger> eventTriggers = new ArrayList<EventTrigger>();
 
-						String attachedToRefTracingTag = ((Event) definition.getActivity(mls.get(i).toString())).getAttachedToRef();
-						if( (currentTracingTag.equals(attachedToRefTracingTag)) &&
-								(!("Timer".equals(definition.getActivity(mls.get(i).toString()).getName()))) ) {
+					for(int i = 0; i < mls.size(); i++){
+
+						Event event = (Event) definition.getActivity(mls.get(i).toString());
+						String attachedToRefTracingTag = event.getAttachedToRef();
+						if(attachedToRefTracingTag!=null) {
 
 							EventTrigger eventTrigger = new EventTrigger();
 							eventTrigger.setInstanceId(this.getInstanceId().toString());
-							eventTrigger.setDisplayName(definition.getActivity(mls.get(i).toString()).getName());
-							eventTrigger.setEventName(definition.getActivity(mls.get(i).toString()).getName());
-							eventTriggers[i] = eventTrigger;
+							eventTrigger.setDisplayName(event.getName());
+							eventTrigger.setEventName(mls.get(i).toString());
 
-							this.setEventTriggers(eventTriggers);
-
-							// 단, TimerEvent는 trigger 대신 quartz를 호출.
-						} else if( (currentTracingTag.equals(attachedToRefTracingTag)) &&
-								("Timer".equals(definition.getActivity(mls.get(i).toString()).getName())) ) {
-
-							// find mls.get(i).
-							// mls.get(i) is Event's tracingTag
-							// and run to TimeEvent onMessage
-							TimerEvent timerEvent = (TimerEvent) definition.getActivity(mls.get(i).toString());
-							timerEvent.onMessage(processInstance, definition.getActivity(mls.get(i).toString()).getName());
-
-							// etc..
-						} else {
-
+							eventTriggers.add(eventTrigger);
 						}
 					}
+
+					setEventTriggers(eventTriggers);
 				}
 			}
 

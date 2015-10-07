@@ -18,6 +18,9 @@ public class InstanceViewThreadPanel implements ContextAware {
 	
 	final static int LIST_CNT = 5;
 
+	@Autowired
+	public ProcessManagerRemote processManager;
+
 	@AutowiredFromClient
 	public Session session;
 	
@@ -64,8 +67,62 @@ public class InstanceViewThreadPanel implements ContextAware {
 		public void setMoreTitle(String moreTitle) {
 			this.moreTitle = moreTitle;
 		}
-	
-		
+
+	public String parentTaskId;
+
+	public String getParentTaskId() {
+		return parentTaskId;
+	}
+
+	public void setParentTaskId(String parentTaskId) {
+		this.parentTaskId = parentTaskId;
+	}
+
+	String instanceId;
+	public String getInstanceId() {
+		return instanceId;
+	}
+
+	public void setInstanceId(String instanceId) {
+		this.instanceId = instanceId;
+	}
+
+	String id;
+	@Id
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+//	ArrayList<IDAO> thread;
+//		public ArrayList<IDAO> getThread() {
+//			return thread;
+//		}
+//
+//		public void setThread(ArrayList<IDAO> thread) {
+//			this.thread = thread;
+//		}
+
+	IWorkItem thread;
+	public IWorkItem getThread() {
+		return thread;
+	}
+
+	public void setThread(IWorkItem thread) {
+		this.thread = thread;
+	}
+
+	boolean more;
+	public boolean isMore() {
+		return more;
+	}
+	public void setMore(boolean more) {
+		this.more = more;
+	}
+
 	protected InstanceViewThreadPanel(String instanceId) throws Exception{
 		this();
 		
@@ -98,16 +155,25 @@ public class InstanceViewThreadPanel implements ContextAware {
 //		getMetaworksContext().setHow(how);
 		
 		setInstanceId(instanceId);
+
+		if(this.getParentTaskId() != null){
+			setId(instanceId + this.getParentTaskId());
+		}else{
+			setId(instanceId);
+		}
+
+		IWorkItem result = WorkItem.find(instanceId, this.getParentTaskId(), LIST_CNT);
 		
 		IWorkItem thread = (IWorkItem)MetaworksDAO.createDAOImpl(IWorkItem.class);
-		IWorkItem result = WorkItem.find(instanceId, LIST_CNT);		
+
 		boolean more = result.size() > 5;
 		while(result.next()){
 			thread.moveToInsertRow();
-			
+
 			if(more){
 				thread.setTaskId(result.getTaskId());
 				thread.setInstId(result.getInstId());
+				thread.setPrtTskId(result.getPrtTskId());
 				thread.setMore(true);
 			}else{
 				thread.getImplementationObject().copyFrom(result);
@@ -135,7 +201,7 @@ public class InstanceViewThreadPanel implements ContextAware {
 
 		thread.getMetaworksContext().setWhere(IWorkItem.WHERE_WORKLIST);
 		setThread(thread);
-		
+
 		User writer = new User();
 		writer.copyFrom(session.getUser());
 		writer.setMetaworksContext(new MetaworksContext());
@@ -151,7 +217,9 @@ public class InstanceViewThreadPanel implements ContextAware {
 		newItem.getMetaworksContext().setWhere(MetaworksContext.WHERE_EVER);
 		newItem.setInstId(new Long(getInstanceId()));
 		newItem.setWriter(writer);
-		
+		if(this.getParentTaskId() != null) {
+			newItem.setPrtTskId(Long.valueOf(this.getParentTaskId()));
+		}
 		setNewItem(newItem);
 	}
 	
@@ -163,42 +231,6 @@ public class InstanceViewThreadPanel implements ContextAware {
 		load(instanceId);
 	}
 
-	String instanceId;
-		@Id
-		public String getInstanceId() {
-			return instanceId;
-		}
-	
-		public void setInstanceId(String instanceId) {
-			this.instanceId = instanceId;
-		}
-//
-//	ArrayList<IDAO> thread;
-//		public ArrayList<IDAO> getThread() {
-//			return thread;
-//		}
-//	
-//		public void setThread(ArrayList<IDAO> thread) {
-//			this.thread = thread;
-//		}
-	
-	IWorkItem thread;
-		public IWorkItem getThread() {
-			return thread;
-		}
-	
-		public void setThread(IWorkItem thread) {
-			this.thread = thread;
-		}
-		
-	boolean more;
-		public boolean isMore() {
-			return more;
-		}
-		public void setMore(boolean more) {
-			this.more = more;
-		}
-		
 	@ServiceMethod(callByContent=true, mouseBinding="drop", target=ServiceMethodContext.TARGET_POPUP)
 	public Object[] drop() throws Exception{
 		Object clipboard = session.getClipboard();
@@ -230,7 +262,4 @@ public class InstanceViewThreadPanel implements ContextAware {
 			return null;
 		}
 	}
-	
-	@Autowired
-	public ProcessManagerRemote processManager;	
 }

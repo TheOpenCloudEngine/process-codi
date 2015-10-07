@@ -20,6 +20,7 @@ import java.util.Map;
 public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 	
 	public final static String unstructuredProcessDefinitionLocation = "Unstructured.process";
+	public final static String codiProcessDefinitionFolder = "codi";
 
 	public CodiProcessDefinitionFactory() {
 		super(new SimulatorTransactionContext());  //since CodiProcessDefinitionFactory don't use any db connection, so it's ok.
@@ -163,7 +164,7 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 	public void deployDefinition(String path, Object definition){
 
 		DefaultResource defaultResource = new DefaultResource();
-		defaultResource.setPath("codi/" + path);
+		defaultResource.setPath(codiProcessDefinitionFolder +"/"+ path);
 
 		try {
 			getResourceManager().getStorage().save(defaultResource, definition);

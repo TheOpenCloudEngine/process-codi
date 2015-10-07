@@ -10,10 +10,7 @@ import org.directwebremoting.WebContextFactory;
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
 import org.metaworks.ServiceMethodContext;
-import org.metaworks.annotation.Available;
-import org.metaworks.annotation.Hidden;
-import org.metaworks.annotation.NonEditable;
-import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.annotation.*;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.widget.ModalPanel;
 import org.metaworks.widget.ModalWindow;
@@ -23,7 +20,7 @@ import org.uengine.codi.util.CodiHttpClient;
 import org.uengine.sso.BaseAuthenticate;
 import org.uengine.sso.CasAuthenticate;
 
-	
+@AutowiredFromClient
 public class Session implements ContextAware{
 	
 	static Hashtable<String, ArrayList> messagesToUsers = new Hashtable<String, ArrayList>(); 
@@ -272,8 +269,6 @@ public class Session implements ContextAware{
 		
 	@ServiceMethod(target=ServiceMethodContext.TARGET_NONE)
 	public Object heartbeat(){
-		Login.getSessionIdWithCompany("enkisoft");
-		
 		//nothing to do
 		String sessionId = WebContextFactory.get().getScriptSession().getId();
 		//System.out.println("heartbeat:" + sessionId);
