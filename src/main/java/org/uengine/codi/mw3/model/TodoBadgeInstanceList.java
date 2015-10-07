@@ -50,6 +50,14 @@ public class TodoBadgeInstanceList implements ContextAware{
 			this.navigation = navigation;
 		}
 
+	String instanceListType;
+		public String getInstanceListType() {
+			return instanceListType;
+		}
+		public void setInstanceListType(String instanceListType) {
+			this.instanceListType = instanceListType;
+		}
+
 	@AutowiredToClient
 	public Session session;
 	
@@ -97,6 +105,7 @@ public class TodoBadgeInstanceList implements ContextAware{
 		return this;
 		
 	}
+
 	@ServiceMethod(callByContent=true, except={"instances"})
 	public void more() throws Exception {
 		load(this.getNavigation());

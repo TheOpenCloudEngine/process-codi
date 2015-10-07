@@ -853,7 +853,10 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         } else if ("process".equals(this.getType())) {
             this.workItemHandler = null;
             detail();
+
+            workItemHandler.getMetaworksContext().setWhere("detail");
             result = workItemHandler;
+
         } else {
             throw new Exception("$CannotOpen");
         }

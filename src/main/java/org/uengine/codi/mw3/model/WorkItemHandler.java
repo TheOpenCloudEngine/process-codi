@@ -150,6 +150,7 @@ public class WorkItemHandler implements ContextAware {
 
 	ParameterValue[] parameters;
 		@Valid
+		@Available(where = "detail")
 		public ParameterValue[] getParameters() {
 			return parameters;
 		}
@@ -443,14 +444,14 @@ public class WorkItemHandler implements ContextAware {
 		this.sendPush(inst,newlyAddedWorkItems,workItemMe);
 		
 		//refreshes the instanceview so that the next workitem can be show up
-		if("oce".equals(session.getUx()) || "sns".equals(session.getEmployee().getPreferUX())){
+		if(true){
 			InstanceViewThreadPanel panel = new InstanceViewThreadPanel();
-			panel.getMetaworksContext().setHow("instanceList");
-			panel.getMetaworksContext().setWhere("sns");
-			panel.session = session;
+//			panel.getMetaworksContext().setHow("instanceList");
+//			panel.getMetaworksContext().setWhere("sns");
+			MetaworksRemoteService.autowire(panel);
 			panel.load(this.getRootInstId().toString());
 			
-			return new Object[]{panel, new Remover(new ModalWindow() , true )};
+			return new Object[]{new Remover(new ModalWindow(), true ) , panel};
 		}else{
 			/*
 			 * 2013/12/03 cjw

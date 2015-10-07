@@ -30,7 +30,6 @@ var org_uengine_codi_mw3_model_InstanceListPanel = function(objectId, className)
 			mw3.getFaceHelper(this.windowObjectId).setTitle(mw3.localize(title));
 	}
 
-	
 //	$("#project_Info").click(function(){
 //		if($(this).hasClass('current')){
 //			$('.projectInfo').slideUp(250);
@@ -40,47 +39,23 @@ var org_uengine_codi_mw3_model_InstanceListPanel = function(objectId, className)
 //			$(this).addClass('current').text("Project info. ���");
 //		}
 //	})
-	
+
 	if(this.object){
-		var scrollDiv = $('#objDiv_' + this.objectId);
-		var instanceList = this.object.instanceList;
-		var prelastMore = lastMore;
+		// instanceListPanelDiv
+		var instanceListPanelDiv = $('#objDiv_' + this.objectId);
 
-		if(this.object.id == 'instancelist') {
-			scrollDiv.scroll(function (e) {
-				if (instanceList) {
-					var instanceListObjectId = instanceList.__objectId;
-					var instanceListObjectDivId = mw3._getObjectDivId(instanceListObjectId);
-
-					if (scrollDiv.scrollTop() > $('#' + instanceListObjectDivId).height() - scrollDiv.height() - 100) {
-						if (prelastMore != lastMore) {
-							prelastMore = lastMore;
-							mw3.objects[lastMore].more();
-						}
-					}
-				}
-			});
-
-		// if searchInstanceList
-		}
-
-		if(this.object.id == 'searchInstancelist') {
-			scrollDiv.scroll(function (e) {
-				if (instanceList) {
-					var instanceListObjectId = instanceList.__objectId;
-					var instanceListObjectDivId = mw3._getObjectDivId(instanceListObjectId);
-
-					if (scrollDiv.scrollTop() > $('#' + instanceListObjectDivId).height() - scrollDiv.height() - 100) {
-						if (prelastMore != lastMore) {
-							prelastMore = lastMore;
-							mw3.objects[lastMore].searchMore();
-						}
-					}
-				}
-			});
-
-		}
-
+		instanceListPanelDiv.scroll(function (e) {
+			if (instanceListPanelDiv.scrollTop() > instanceListPanelDiv.find('[name="instanceList"]').height() - instanceListPanelDiv.height() - 50) {
+				// find instanceListObjectId
+				var instanceListObjectId = $('#objDiv_' + $(this).attr('objectid')).find('[name="instanceList"]').attr('objectid');
+				// find moreInstanceListSize
+				var moreInstanceListSize = $('#objDiv_' + $(this).attr('objectid')).find('[name="instanceList"]').find('[name="moreInstanceList"]').length;
+				// moreInstanceListSize is null object. because moreInstanceListSize - 2
+				// eq start 0, length start 1. then size - 2
+				var targetObjectId = $('#objDiv_' + $(this).attr('objectid')).find('[name="instanceList"]').find('[name="moreInstanceList"]').eq(moreInstanceListSize - 2).attr('objectid');
+				mw3.getObject(targetObjectId).more();
+			}
+		});
 		/*
 	 	$('#' + this.divId + ' .ui-layout-content').mCustomScrollbar({
 			callbacks:{

@@ -63,9 +63,10 @@ public class TodoBadge{
 		session.setLastPerspecteMode("personal");
 		session.setSearchKeyword(null);
 		
-		TodoBadgeInstanceList instList = new TodoBadgeInstanceList(session); 
+		TodoBadgeInstanceList instList = new TodoBadgeInstanceList(session);
 		instList.setMetaworksContext(new MetaworksContext());
 		instList.getMetaworksContext().setWhen("TodoBadge");
+		instList.setInstanceListType("instancelist");
 		instList.load();
 		
 		Popup popup = new Popup();
