@@ -121,7 +121,7 @@ public class InstanceFollower extends Follower {
 	@Override
 	public AddFollowerPanel makeFollowerPanel(Session session, Follower follower) throws Exception{
 		AddFollowerPanel addFollowerPanel = new AddFollowerPanel(session, this);
-		addFollowerPanel.loadDept(session, follower);
+//		addFollowerPanel.loadDept(session, follower);
 		return addFollowerPanel;
 	}
 	
