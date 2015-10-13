@@ -18,19 +18,19 @@ adfadfsafdasdfasdasf
 
 	
 	<span id="filebtnadd_<%=objectId%>">
-		<a id="wBtn" href="#" onclick="mw3.getFaceHelper(<%=objectId%>).add(event)"><span>파일첨부</span></a>
+		<a id="wBtn" href="#" onclick="mw3.getFaceHelper(<%=objectId%>).add(event)"><span><%=mw3.localize("$file.attach")%></span></a>
 	</span>	
 	<span id="filebtndel_<%=objectId%>" style="display:none">
-		<a id="wBtn" href="#" onclick="mw3.getFaceHelper(<%=objectId%>).del(event)"><span>파일삭제</span></a>
+		<a id="wBtn" href="#" onclick="mw3.getFaceHelper(<%=objectId%>).del(event)"><span><%=mw3.localize("$file.delete")%></span></a>
 	</span>
 
-	<span style="line-height:1.8em; margin-left:10px;" id="filename_<%=objectId%>">선택된 파일이 없습니다</span>
+	<span style="line-height:1.8em; margin-left:10px;" id="filename_<%=objectId%>"><%=mw3.localize("$file.notAttached")%></span>
 <%
 			}else{
 				if(value.uploadedPath){		
 %>
 	
-	<a id="wBtn" href="#" onclick="<%=methods.download.caller()%>"><span>다운로드</span></a>
+	<a id="wBtn" href="#" onclick="<%=methods.download.caller()%>"><span><%=mw3.localize("$file.download")%></span></a>
 <%		
 				}
 			

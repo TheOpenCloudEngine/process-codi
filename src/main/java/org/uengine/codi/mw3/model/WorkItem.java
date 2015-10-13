@@ -1299,7 +1299,13 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         workItem.processManager = processManager;
         workItem.session.setUser(writer);
 
-        String totalTitle = "\'" + session.getEmployee().getEmpName() + "\' 님이 ";
+        String totalTitle = null;
+
+        if(localeManager.getLanguage().equals("en")){
+            totalTitle = "\'" + session.getEmployee().getEmpName() + "\' ";
+        }else{
+            totalTitle = "\'" + session.getEmployee().getEmpName() + "\' 님이 ";
+        }
 
         Instance instance = new Instance();
         instance.setInstId(this.getInstId());

@@ -1390,7 +1390,8 @@ public class Instance extends Database<IInstance> implements IInstance{
 		workItem.session = session;
 		workItem.processManager = processManager;
 		workItem.setInstId(this.getInstId());
-		
+		workItem.localeManager = localeManager;
+
 		workItem.copyFrom(workItem.generateNotiWorkItem(title));
 		
 		// instance update flush

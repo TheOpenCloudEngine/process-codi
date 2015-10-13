@@ -43,7 +43,7 @@
                 	isCompleted = !(value.status != 'Stopped' && value.status != 'Completed');
                 %>
 
-	            <div data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="icon-rounded m-r-10 current tooltip-top <%=isCompleted?'toolbar_current':''%>"
+	            <div data-toggle="tooltip" data-placement="top" title="<%=isCompleted?mw3.localize('$Cancel'):mw3.localize('$Completing')%>" class="icon-rounded m-r-10 current tooltip-top <%=isCompleted?'toolbar_current':''%>"
 	            onClick="<%=enableComplete?methods.complete.caller():''%>">
 					<i class="glyphicon glyphicon-ok workitem_btn current"></i>
 	            </div>

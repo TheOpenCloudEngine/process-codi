@@ -15,7 +15,7 @@ if(mw3.when == 'filter'){
 		<table style="width: 100%;" border="1" cellspacing="0" >	
 			<tbody>
 				<tr>
-					<td width="70">별칭</td>
+					<td width="70"><%=mw3.localize("$Byname")%></td>
 					<td><%=value.defId%></td>
 				</tr>
 				<tr>
@@ -23,7 +23,7 @@ if(mw3.when == 'filter'){
 					<td><%=fields.name.here({when: 'edit'})%></td>
 				</tr>
 				<tr>
-					<td>아이콘</td>
+					<td><%=mw3.localize("$Icon")%></td>
 					<td><%=fields.iconFile.here()%></td>
 				</tr>
 				
@@ -49,9 +49,9 @@ if(mw3.when == 'filter'){
 <%
 		}else{
 %>
-			<li><a id="wBtn" href="#" onClick="<%=methods.remove.caller()%>"><span>삭제</span></a></li>
-			<li><a id="wBtn" href="#" onClick="<%=methods.close.caller()%>"><span>취소</span></a></li>			
-			<li><a id="wBtn" href="#" onClick="<%=methods.save.caller()%>"><span>저장 후 닫기</span></a></li>			
+			<li><a id="wBtn" href="#" onClick="<%=methods.remove.caller()%>"><span><%=mw3.localize("$Delete")%></span></a></li>
+			<li><a id="wBtn" href="#" onClick="<%=methods.close.caller()%>"><span><%=mw3.localize("$Cancel")%></span></a></li>
+			<li><a id="wBtn" href="#" onClick="<%=methods.save.caller()%>"><span><%=mw3.localize("$SaveAndClose")%></span></a></li>
 <%
 		}
 %>

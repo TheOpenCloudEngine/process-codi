@@ -222,7 +222,7 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		
 		Popup popup = new Popup(580, 600);
 		popup.setPanel(this);
-		popup.setName("프로세스 정보");
+		popup.setName("Process Information");
 		
 		if("run".equals(this.getMetaworksContext().getHow())){
 			popup.setHeight(210);

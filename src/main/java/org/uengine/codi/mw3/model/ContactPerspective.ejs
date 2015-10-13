@@ -7,7 +7,7 @@
 		if(!mw3.isHiddenMethod(methods.expand)){
 %>				
 		<span class="west_more_btn">
-			<a href="javascript:<%=methods.expand.caller()%>">더보기</a>
+			<a href="javascript:<%=methods.expand.caller()%>"><%=mw3.localize("$Expand")%></a>
 		</span>
 <%
 		}
@@ -16,7 +16,7 @@
 		if(!mw3.isHiddenMethod(methods.collapse)){
 %>	
 		<span class="west_more_btn">
-			<a href="javascript:<%=methods.collapse.caller()%>">접기</a>
+			<a href="javascript:<%=methods.collapse.caller()%>"><%=mw3.localize("$Collapse")%></a>
 		</span>
 <%
 		}

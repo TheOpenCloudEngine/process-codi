@@ -110,7 +110,7 @@ if(mw3.when == 'new'){
                 return "<span id='method_" + objectId + "_newActivity'>" + mw3.localize("$workitem.newActivity") + "</span>";
             },
             isVisiable : function(){
-                return this.newActivityFlag && session.employee && session.employee.approved && !session.employee.guest
+                return !this.newActivityFlag && session.employee && session.employee.approved && !session.employee.guest
                         && ((session && session.employee.preferUX != 'sns') || session.ux == 'oce');
             }
         }
