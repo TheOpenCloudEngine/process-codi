@@ -84,7 +84,21 @@ if(mw3.when == 'filter'){
 	}
 %>
     </a>
-    <a href="#"><%=value.name%></a>
+	<%
+		var chunks = value.name.match(/.{1,8}/g);
+		var formatedName = "";
+
+		if(chunks.length == 1){
+			formatedName = value.name;
+		}
+		if(chunks.length == 2){
+			formatedName = chunks[0] + "<br>" + chunks[1];
+		}else{
+			formatedName = chunks[0] + "<br>" + chunks[1] + "...";
+		}
+
+	  %>
+    <a href="#" title="<%=value.name%>" ><%=formatedName%></a>
 
 
 
