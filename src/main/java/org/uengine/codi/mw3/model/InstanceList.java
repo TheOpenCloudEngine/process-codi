@@ -10,6 +10,9 @@ import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.Id;
 import org.metaworks.annotation.ServiceMethod;
 import org.uengine.codi.mw3.Login;
+import org.uengine.kernel.GlobalContext;
+
+import java.util.ArrayList;
 
 
 @Face(
@@ -58,9 +61,16 @@ public class InstanceList implements ContextAware{
 	public IInstance getInstances() {
 		return instances;
 	}
-
 	public void setInstances(IInstance instances) {
 		this.instances = instances;
+	}
+
+	ArrayList<IInstance> arrayInstances;
+	public ArrayList<IInstance> getArrayInstances() {
+		return arrayInstances;
+	}
+	public void setArrayInstances(ArrayList<IInstance> arrayInstances) {
+		this.arrayInstances = arrayInstances;
 	}
 
 	InstanceList moreInstanceList;
@@ -131,11 +141,33 @@ public class InstanceList implements ContextAware{
 	public InstanceList load(Navigation navigation) throws Exception {
 		int count =  ("phone".equals(navigation.getMedia())?InstanceList.PAGE_CNT_MOBILE:InstanceList.PAGE_CNT);
 
-		IInstance instanceContents = Instance.load(navigation, getPage()-1, count);
-		instanceContents.setMetaworksContext(new MetaworksContext());
-		instanceContents.getMetaworksContext().setWhere(IInstance.WHERE_INSTANCELIST);
+		String usedSolr = GlobalContext.getPropertyString("solr.server.used");
 
-		this.setInstances(instanceContents);
+		// 솔라설정 셋팅을 설정했는가? 검색어를 입력했는가? 그렇다면 솔라를 사용
+		if("1".equals(usedSolr) && navigation.getKeyword() != null && !"".equals(navigation.getKeyword())) {
+			// codi search to sorl
+			ArrayList<IInstance> instanceContents = Instance.loadWithSolr(navigation, getPage() - 1, count);
+			this.setArrayInstances(instanceContents);
+
+			setMoreInstanceList(new InstanceList());
+			getMoreInstanceList().setNavigation(navigation);
+			getMoreInstanceList().setPage(getPage() + 1);
+
+		// 아니면 기존의 코디 디비를 사용
+		} else {
+			// codi search to db
+			IInstance instanceContents = Instance.load(navigation, getPage() - 1, count);
+			instanceContents.setMetaworksContext(new MetaworksContext());
+			instanceContents.getMetaworksContext().setWhere(IInstance.WHERE_INSTANCELIST);
+			this.setInstances(instanceContents);
+
+			// setting moreInstanceList
+			if( instanceContents.size() >= count){
+				setMoreInstanceList(new InstanceList());
+				getMoreInstanceList().setNavigation(navigation);
+				getMoreInstanceList().setPage(getPage() + 1);
+			}
+		}
 
 //		if("sns".equals(preferUX)){
 //			if("oce".equals(session.getUx())){
@@ -147,12 +179,6 @@ public class InstanceList implements ContextAware{
 //			}
 //		}
 
-		// setting moreInstanceList
-		if( instanceContents.size() >= count){
-			setMoreInstanceList(new InstanceList());
-			getMoreInstanceList().setNavigation(navigation);
-			getMoreInstanceList().setPage(getPage()+1);
-		}
 		return this;
 	}
 
@@ -170,7 +196,7 @@ public class InstanceList implements ContextAware{
 		}
 
 		instance.getMetaworksContext().setHow("document");
-		setInstances(instance);
+		//setInstances(instance);
 //		setWorkItem(workitem);
 		setMoreInstanceList(new InstanceList());
 		getMoreInstanceList().setNavigation(navigation);

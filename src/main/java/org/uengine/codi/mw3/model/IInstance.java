@@ -100,7 +100,6 @@ public interface IInstance extends IDAO{
 	
 	public boolean getIsSubProcess();
 	public void setIsSubProcess(boolean isSubProcess);
-	
 	public Long getRootInstId();
 	public void setRootInstId(Long instanceId);
 	
@@ -209,7 +208,7 @@ public interface IInstance extends IDAO{
 			)
 	public IUser getLastCmntUser();
 	public void setLastCmntUser(IUser lastCmntUser);
-	
+
 	@ORMapping(
 			objectFields = { "userId", "name"},
 			databaseFields = { "lastCmnt2Ep", "lastCmnt2Rsnm" } 
