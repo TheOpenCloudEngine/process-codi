@@ -43,7 +43,7 @@ public class TopSearchBox implements ContextAware {
         session.setTopSearchKeyword(this.getKeyword());
 
         SolrServerManager solrServerManager = new SolrServerManager();
-        List<String> idList = solrServerManager.searchWorkListIds(this.getKeyword(), null, InstanceList.PAGE_CNT);
+        //List<String> idList = solrServerManager.searchWorkListIds(this.getKeyword(), null, InstanceList.PAGE_CNT);
 
         TopSearchInstanceList topSearchInstanceList = new TopSearchInstanceList();
         //topSearchInstanceList = Perspective.loadInstanceList(session, session.getLastPerspecteMode(), session.getLastPerspecteType(), session.getLastSelectedItem());
@@ -55,10 +55,4 @@ public class TopSearchBox implements ContextAware {
         return popup;
     }
 
-    public List<String> moreSearch(String keyword, String page, int searchCount) throws Exception {
-        SolrServerManager solrServerManager = new SolrServerManager();
-        List<String> idList = solrServerManager.searchWorkListIds(keyword, page, searchCount);
-
-        return idList;
-    }
 }

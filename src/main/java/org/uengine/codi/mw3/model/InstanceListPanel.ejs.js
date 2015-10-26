@@ -67,7 +67,7 @@ var org_uengine_codi_mw3_model_InstanceListPanel = function(objectId, className)
 			}
 		});*/
 		
-		
+
 		$('#' + mw3._getObjectDivId(mw3.getChildObjectId(this.objectId, 'topicFollowers')) + " #searchbox").css("border-bottom","#9EBFC4 1px solid ");
 		$('#' + mw3._getObjectDivId(mw3.getChildObjectId(this.objectId, 'documentFollowers')) + " #searchbox").css("border-bottom","#9EBFC4 1px solid ");
 	}

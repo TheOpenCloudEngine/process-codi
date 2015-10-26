@@ -534,6 +534,13 @@
 			<version>2.2.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.sourceforge</groupId>
+			<artifactId>mpxj</artifactId>
+			<version>4.0.0.1</version>
+		</dependency>
+
+
 		<!--<dependency>-->
             <!--<groupId>org.uengine</groupId>-->
             <!--<artifactId>essenciaplugin</artifactId>-->
