@@ -20,7 +20,7 @@ import org.uengine.codi.util.CodiHttpClient;
 import org.uengine.sso.BaseAuthenticate;
 import org.uengine.sso.CasAuthenticate;
 
-
+@AutowiredFromClient
 public class Session implements ContextAware{
 	
 	static Hashtable<String, ArrayList> messagesToUsers = new Hashtable<String, ArrayList>(); 

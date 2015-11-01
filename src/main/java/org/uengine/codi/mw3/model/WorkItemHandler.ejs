@@ -11,7 +11,7 @@
 		if(mw3.when != 'view'){
 %>
 		<div id="btnline" style="padding:0 10px 30px 0">
-			<ul>	
+			<ul>
 <%if(!mw3.isHiddenMethod(methods.complete)){%>			<li><a id="wBtn" class="wBtn" href="#" onClick="<%=methods.complete.caller()%>"><span><%=mw3.localize('$Complete')%></span></a></li><%}%>
 <%if(!mw3.isHiddenMethod(methods.save)){%>				<li><a id="wBtn" class="wBtn" href="#" onClick="<%=methods.save.caller()%>"><span><%=mw3.localize('$Save')%></span></a></li><%}%>
 <%if(!mw3.isHiddenMethod(methods.cancel)){%>			<li><a id="wBtn" class="wBtn" href="#" onClick="<%=methods.cancel.caller()%>"><span><%=mw3.localize('$Cancel')%></span></a></li><%}%>
