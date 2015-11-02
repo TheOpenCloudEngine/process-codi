@@ -2766,12 +2766,12 @@ select.select[class] {
 #signup_popup .popup_logo_oce {
 	height:75px;
 	border-bottom:1px solid #dddddd;
-	background:url(../../images/signIn/doore.png) center no-repeat #f6f6f6
+	background:url(../../images/flatStyle/codi_logo.png) center no-repeat #f6f6f6
 }
 #signup_popup .popup_logo_codi {
 	height:75px;
 	border-bottom:1px solid #dddddd;
-	background:url(../../images/signIn/codi_logo.png) center no-repeat #f6f6f6
+	background:url(../../images/flatStyle/codi_logo.png) center no-repeat #f6f6f6
 }
 #signup_popup .popup_step {
 	height:75px;
@@ -3147,7 +3147,7 @@ legend {display:none;}
 .cb_lstcomment .cb_dsc_comment{overflow:hidden;clear:both;padding:0 0 10px 1px;color:#555;line-height:20px}
 .cb_lstcomment li li .cb_comment_area{margin-top:1px}
 
-.formcontexttitle { position:relative; padding:0px;  font-size:13px;  border-bottom:1px dotted #ccc;margin-top:2px; margin-bottom:5px; font-weight:bold;}
+.formcontexttitle { position:relative; padding:0px;  font-size:13px; margin-top:2px; margin-bottom:5px; font-weight:bold;}
 .formcontexttitle span{float:left; vertical-align: middle; line-height:34px; }
 .formcontexttitle .wih_title{word-break: break-word; float:none; color: #999;}
 .commentTailRight {position:absolute; top:5px; right:0px;}
