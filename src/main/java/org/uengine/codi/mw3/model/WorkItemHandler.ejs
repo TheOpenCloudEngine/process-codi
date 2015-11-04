@@ -8,7 +8,7 @@
 <%=fields.workItem.here({when:'view'})%>
 
 <%	
-		if(mw3.when != 'view'){
+		if(mw3.when != 'view' && mw3.where =='detail'){
 %>
 <div class="btn-group" role="group" align="right">
 	<%=methods.complete.here()%>

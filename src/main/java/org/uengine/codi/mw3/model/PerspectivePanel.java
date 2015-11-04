@@ -128,16 +128,16 @@ public class PerspectivePanel implements ContextAware {
         this.upcommingTodoPerspective = upcommingTodoPerspective;
     }
 
-    ProjectPerspective projectPerspective;
-
-    @Available(condition = "projectPerspective")
-    public ProjectPerspective getProjectPerspective() {
-        return projectPerspective;
-    }
-
-    public void setProjectPerspective(ProjectPerspective projectPerspective) {
-        this.projectPerspective = projectPerspective;
-    }
+//    ProjectPerspective projectPerspective;
+//
+//    @Available(condition = "projectPerspective")
+//    public ProjectPerspective getProjectPerspective() {
+//        return projectPerspective;
+//    }
+//
+//    public void setProjectPerspective(ProjectPerspective projectPerspective) {
+//        this.projectPerspective = projectPerspective;
+//    }
 
 
     @AutowiredFromClient
@@ -196,11 +196,11 @@ public class PerspectivePanel implements ContextAware {
                     if ("1".equals(Perspective.USE_COMMINGTODO)) {
                         upcommingTodoPerspective = new UpcommingTodoPerspective();
                     }
-                    if ("1".equals(Perspective.USE_PROJECT)) {
-                        projectPerspective = new ProjectPerspective();
-                        projectPerspective.session = session;
-                        projectPerspective.select();
-                    }
+//                    if ("1".equals(Perspective.USE_PROJECT)) {
+//                        projectPerspective = new ProjectPerspective();
+//                        projectPerspective.session = session;
+//                        projectPerspective.select();
+//                    }
 
 
                     //processStatusPerspective = new ProcessStatusPerspective();
