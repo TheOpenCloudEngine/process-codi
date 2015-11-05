@@ -65,6 +65,7 @@ public interface IProcessMap extends IDAO {
 	public Object[] remove() throws Exception;
 
 	@ServiceMethod(callByContent=true, when=WHEN_EDIT, target=ServiceMethodContext.TARGET_APPEND)
+	@Face(displayName = "$Run")
 	public Object[] save() throws Exception;
 	
 	@Available(when={WHEN_NEW})

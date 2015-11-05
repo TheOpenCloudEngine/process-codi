@@ -385,8 +385,10 @@ public class Employee extends EmployeeWithCRUD {
 
                 this.setGlobalCom(tenantId);
 
-                addBasicTopics();
-                addBasicProcess();
+                // Addition of Basic Topics and Processes
+               // ---------
+//                addBasicTopics();
+//                addBasicProcess();
             } else {
                 this.setGlobalCom(findCompany.getComCode());
             }

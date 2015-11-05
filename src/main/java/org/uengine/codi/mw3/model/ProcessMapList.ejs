@@ -10,13 +10,13 @@
 %>
 
 
-<div class="view_box4 intaglio" id="hiddenReply" style="display: block; margin-top:15px;">
+
 	<div class="guide">
 		<span class="tl"></span>
 		<span class="tr"></span>
 	</div>
 	<div class="cont" style="padding:10px;">
-		<p class="title" style="font-size: 14px;font-weight: bold;padding-left: 20px;">앱과 함께 시작</p>
+		<h3>&nbsp;&nbsp; 앱과 함께 시작</h3>
 	
 		<ul class="process_map2">		
 						
@@ -35,12 +35,8 @@
 		</ul>
 <%          
 			if(true){
-%>					
-		<div id="btnline" style="padding-top:8px;">
-			<ul>
-				<li><a id="wBtn" href="#" onClick="<%=methods.append.caller()%>"><span><%=mw3.localize("$add")%></span></a></li>
-			</ul>
-		</div>
+%>					<br><br>
+		<%=methods.addApp.here()%>
 <%
 			 }
 %>					
@@ -54,7 +50,7 @@
 		<span class="lb"></span>
 		<span class="rb"></span>
 	</div>
-</div>
+
 
 
 <%

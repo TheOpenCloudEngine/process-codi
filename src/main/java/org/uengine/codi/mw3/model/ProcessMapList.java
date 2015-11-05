@@ -82,7 +82,7 @@ public class ProcessMapList implements ContextAware {
 	}
 	
 	@ServiceMethod(target=ServiceMethodContext.TARGET_POPUP, callByContent=true)
-	public ModalWindow append() throws Exception {
+	public ModalWindow addApp() throws Exception {
 		AddProcessMapPanel addProcessMapPanel = MetaworksRemoteService.getComponent(AddProcessMapPanel.class);
 
 		addProcessMapPanel.load();
