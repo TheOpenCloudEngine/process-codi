@@ -38,7 +38,7 @@
 %>
 			<div class="user" <%if(mw3.where == 'addfollower'){%>style="float:left; width:auto !important;cursor: Default;"<%}%>>		
 				<div class="user_focus" style="background: url('<%=portrait%>'); background-size:cover;"  title="<%=friendAlias%>">	
-					<img id="user_picture_<%=objectId%>" src="<%=portrait%>" class="pic <%=(value.size=='small' ? ' small':'')%>">
+					<img id="user_picture_<%=objectId%>" src="<%=portrait%>" class="pic <%=(value.size=='small' ? ' small':'')%>" onclick="<%=methods.detail.caller()%>">
 <%	
 			var isOverlayName = true;
 			

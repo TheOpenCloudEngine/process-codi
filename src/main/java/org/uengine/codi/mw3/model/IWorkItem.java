@@ -405,7 +405,7 @@ public interface IWorkItem extends IDAO{
 		@Face(displayName="$Open")
 		@ServiceMethod(inContextMenu=true, when = WHEN_VIEW, callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
 		@Hidden
-		public ModalWindow workItemPopup() throws Exception;
+		public void workItemPopup() throws Exception;
 
 		public String getStatus();
 		public void setStatus(String status);

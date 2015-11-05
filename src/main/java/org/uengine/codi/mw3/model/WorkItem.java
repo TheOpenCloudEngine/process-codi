@@ -829,7 +829,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         this.setInstanceViewThreadPanel(instanceViewThreadPanel);
     }
 
-    public ModalWindow workItemPopup() throws Exception {
+    public void workItemPopup() throws Exception {
 
         Object result = null;
         ModalWindow modalWindow = new ModalWindow();
@@ -866,7 +866,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         modalWindow.setHeight(400);
         modalWindow.setTitle(title);
 
-        return modalWindow;//(result, 0, 0, getTitle());
+        MetaworksRemoteService.wrapReturn(modalWindow);
     }
 
     public String getType() {
