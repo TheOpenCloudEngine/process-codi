@@ -29,4 +29,5 @@ public class AllAppList {
         return new Object[]{new Refresh(sns), new Refresh(topPanel),
                 new ToEvent(ServiceMethodContext.TARGET_SELF, EventContext.EVENT_CLOSE)};
     }
+
 }
