@@ -19,6 +19,7 @@ import org.metaworks.dao.Database;
 import org.metaworks.dao.IDAO;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.website.MetaworksFile;
+import org.metaworks.widget.ModalWindow;
 import org.oce.garuda.multitenancy.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.uengine.codi.CodiProcessDefinitionFactory;
@@ -599,7 +600,7 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 					new OtherSessionFilter(notiUsers , session.getUser().getUserId()),
 					new Object[]{new Refresh(todoBadge, true)});
 			
-			return new Object[]{new ToEvent(ServiceMethodContext.TARGET_OPENER, EventContext.EVENT_CLOSE), new Refresh(instanceView)};
+			return new Object[]{new ToEvent(ServiceMethodContext.TARGET_OPENER, EventContext.EVENT_CLOSE), new Refresh(instanceView), new Remover(new ModalWindow())};
 		}
 	}
 	

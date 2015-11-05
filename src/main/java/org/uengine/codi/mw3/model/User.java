@@ -141,6 +141,7 @@ public class User extends Database<IUser> implements IUser {
 	public Object[] pickUp() throws Exception {
 		this.getMetaworksContext().setHow(HOW_PICKER);
 		this.getMetaworksContext().setWhere(WHERE_EVER);
+		this.getMetaworksContext().setWhen(WHEN_EDIT);
 		
 		return new Object[]{new ToOpener(this), new ToEvent(ServiceMethodContext.TARGET_OPENER, EventContext.EVENT_CHANGE), new ToEvent(ServiceMethodContext.TARGET_SELF, EventContext.EVENT_CLOSE)};
 	}
@@ -206,6 +207,12 @@ public class User extends Database<IUser> implements IUser {
 	
 	@Override
 	public Popup detail() throws Exception {
+
+		if(getMetaworksContext()!=null && MetaworksContext.WHEN_EDIT.equals(getMetaworksContext().getWhen())){
+			return popupPicker();
+
+		}
+
 		int with = 435;
 		int height = 279;
 		

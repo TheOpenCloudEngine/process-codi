@@ -163,14 +163,15 @@ a:hover,
 a:active { color: #333; }
 a:hover { color: #036; }
 
-dl { }
-input:focus { outline: none; }
 h1 {
 	font-size:13px;
 	font-weight: bold;
 	padding-left: 25px;
 	background: url('../../images/waveStyle/control_play_blue.png') 2px 0px no-repeat;
 }
+
+dl { }
+input:focus { outline: none; }
 
 ul,
 ol,
@@ -3187,7 +3188,7 @@ legend {display:none;}
 .form_table table{width:100%;border:0;}
 .form_table caption{padding:8px 0;font-weight:bold;text-align:left}
 .form_table th,
-.form_table td{padding:8px;border:0;}
+.form_table td{padding:0px;border:0;}
 .cke_editor td{padding:0px;}
 .form_table th{color:#333}
 .form_table td{color:#666}

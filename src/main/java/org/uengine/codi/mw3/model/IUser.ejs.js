@@ -4,8 +4,16 @@ var org_uengine_codi_mw3_model_IUser = function(objectId, className){
 	this.divId = mw3._getObjectDivId(this.objectId);
 	
 	var user = mw3.objects[objectId];
-	if(user == null)
-		return true;
+	if(user == null) {
+		user = {
+			__className: 'org.uengine.codi.mw3.model.User',
+			metaworksContext: {
+				when: 'edit'
+			}
+		};
+
+		mw3.setObject(objectId, user);
+	}else
 	
 	if(user.metaworksContext && user.metaworksContext.when=='contacts'){
 		var msg=$('#objDiv_' + objectId).find('.fontgray').text();

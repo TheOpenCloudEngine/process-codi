@@ -129,6 +129,7 @@ public interface IUser extends IDAO{
 	@Hidden(when=WHEN_VIEW)
 	@Available(how=HOW_PICKER)
 	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_STICK)
+	@Face(displayName = "Pick")
 	public Popup popupPicker() throws Exception;
 
 	@Available(condition="(typeof self != 'undefined' && self)")

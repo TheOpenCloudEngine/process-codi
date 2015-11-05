@@ -862,8 +862,8 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         }
         MetaworksFile file = this.getFile();
         modalWindow.setPanel(result);
-        modalWindow.setWidth(0);
-        modalWindow.setHeight(0);
+        modalWindow.setWidth(700);
+        modalWindow.setHeight(400);
         modalWindow.setTitle(title);
 
         return modalWindow;//(result, 0, 0, getTitle());
