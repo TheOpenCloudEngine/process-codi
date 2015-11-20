@@ -171,11 +171,11 @@
 
 								<!-- content -->
 <%
-			if(!ejsPath.endsWith('IWorkItem.ejs')){
+			if(!ejsPath.endsWith('IWorkItem.ejs'))try{
 %>					
 								<%=include(ejsPath)%>
 <%
-			}
+			}catch(e){}
 %>					
 							</div>
 						</div>

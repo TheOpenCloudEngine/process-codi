@@ -30,10 +30,10 @@ import org.uengine.codi.mw3.admin.WebEditor;
 	{
 		"{when: 'new', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IWorkItem_edit.ejs'}",
 		"{when: 'edit', face: 'dwr/metaworks/org/uengine/codi/mw3/model/IWorkItem_edit.ejs'}",
-	}		
+	}
 
 )
-public interface IWorkItem extends IDAO{
+		public interface IWorkItem extends IDAO{
 
 		public final static String WORKITEM_STATUS_FEED		= "FEED";
 		public final static String WORKITEM_STATUS_DRAFT	= "DRAFT";

@@ -7,9 +7,11 @@
 
 <%=fields.workItem.here({when:'view'})%>
 
+
 <%	
 		if(mw3.when != 'view' && mw3.where =='detail'){
 %>
+<hr>
 <div class="btn-group" role="group" align="right">
 	<%=methods.complete.here()%>
 	<%=methods.save.here()%>
