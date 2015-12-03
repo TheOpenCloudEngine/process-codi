@@ -35,7 +35,9 @@ public class WorkItemHandler implements ContextAware {
 		Long taskId = getTaskId();
 		String tracingTag = getTracingTag();
 		
-		instance = processManager.getProcessInstance(instanceId.toString());
+		ProcessInstance instance = processManager.getProcessInstance(instanceId.toString());
+
+		HumanActivity humanActivity = null;
 
 		if(humanActivity==null && instanceId!=null && tracingTag!=null){
 			humanActivity = (HumanActivity) instance.getProcessDefinition().getActivity(tracingTag);
@@ -43,7 +45,7 @@ public class WorkItemHandler implements ContextAware {
 		
 		if(humanActivity != null && humanActivity.getParameters()!=null){
 			// load map for ITool
-			loadMapForITool((Map<String, Object>)makeMapForITool());
+			loadMapForITool((Map<String, Object>)makeMapForITool(humanActivity));
 			
 			//creates work item handler
 			parameters = new ParameterValue[humanActivity.getParameters().length];
@@ -131,7 +133,7 @@ public class WorkItemHandler implements ContextAware {
 			this.workItem = workItem;
 		}
 
-	transient protected HumanActivity humanActivity;
+//	transient protected HumanActivity humanActivity;
 //	@NonLoadable
 //	@NonSavable
 //	@Hidden
@@ -142,7 +144,7 @@ public class WorkItemHandler implements ContextAware {
 //			this.humanActivity = humanActivity;
 //		}
 		
-	transient protected ProcessInstance instance;
+//	transient protected ProcessInstance instance;
 	
 	//// in old manners, we should carry all the following parameters by passing query string or json something:
 	
@@ -226,8 +228,9 @@ public class WorkItemHandler implements ContextAware {
 
 	@ServiceMethod(callByContent=true, when= MetaworksContext.WHEN_EDIT)
 	public Object[] cancel() throws Exception{
-		instance = processManager.getProcessInstance(instanceId);
+		ProcessInstance instance = processManager.getProcessInstance(instanceId);
 
+		HumanActivity humanActivity;
 		humanActivity = (HumanActivity) instance.getProcessDefinition().getActivity(tracingTag);
 
 //		WorkList worklist = instance.getWorkList();
@@ -249,14 +252,14 @@ public class WorkItemHandler implements ContextAware {
 		cancelledHistory.setWriter(session.getUser());
 		cancelledHistory.add();
 		
-		Instance instance = new Instance();
-		instance.setInstId(this.getRootInstId());
-		instance.copyFrom(instance.databaseMe());
+		Instance instanceDAO = new Instance();
+		instanceDAO.setInstId(this.getRootInstId());
+		instanceDAO.copyFrom(instanceDAO.databaseMe());
 		
 		instanceViewContent.session = session;
-		instanceViewContent.load(instance);
+		instanceViewContent.load(instanceDAO);
 		
-		this.sendPush(instance,null,cancelledHistory);
+		this.sendPush(instanceDAO,null,cancelledHistory);
 		
 		if("oce".equals(session.getUx())){
 			InstanceViewThreadPanel panel = new InstanceViewThreadPanel();
@@ -278,7 +281,9 @@ public class WorkItemHandler implements ContextAware {
 
 	@ServiceMethod(callByContent=true, when= MetaworksContext.WHEN_EDIT)
 	public Object[] skip() throws Exception{
-		instance = processManager.getProcessInstance(instanceId);
+		ProcessInstance instance = processManager.getProcessInstance(instanceId);
+
+		HumanActivity humanActivity;
 
 		humanActivity = (HumanActivity) instance.getProcessDefinition()
 					.getActivity(tracingTag);
@@ -310,14 +315,14 @@ public class WorkItemHandler implements ContextAware {
 		cancelledHistory.setWriter(session.getUser());
 		cancelledHistory.add();
 		
-		Instance instance = new Instance();
-		instance.setInstId(this.getRootInstId());
-		instance.copyFrom(instance.databaseMe());
+		Instance instanceDAO = new Instance();
+		instanceDAO.setInstId(this.getRootInstId());
+		instanceDAO.copyFrom(instanceDAO.databaseMe());
 		
 		instanceViewContent.session = session;
-		instanceViewContent.load(instance);
+		instanceViewContent.load(instanceDAO);
 		
-		this.sendPush(instance,null,cancelledHistory);
+		this.sendPush(instanceDAO,null,cancelledHistory);
 			
 		if("oce".equals(session.getUx())){
 			InstanceViewThreadPanel panel = new InstanceViewThreadPanel();
@@ -339,9 +344,9 @@ public class WorkItemHandler implements ContextAware {
 //	@Available(when={"NEW"})
 	public Object[] complete() throws RemoteException, ClassNotFoundException, Exception{
 						
-		instance = processManager.getProcessInstance(instanceId);
+		ProcessInstance instance = processManager.getProcessInstance(instanceId);
 		
-		humanActivity = null;
+		HumanActivity humanActivity = null;
 		if (instanceId != null && tracingTag != null) {
 			humanActivity = (HumanActivity) instance.getProcessDefinition()
 					.getActivity(tracingTag);
@@ -354,7 +359,7 @@ public class WorkItemHandler implements ContextAware {
 		}
 
 		// load map for ITool
-		loadMapForITool((Map<String, Object>)makeMapForITool());
+		loadMapForITool((Map<String, Object>)makeMapForITool(humanActivity));
 		
 		ResultPayload rp = new ResultPayload();
 		
@@ -433,7 +438,7 @@ public class WorkItemHandler implements ContextAware {
 		inst.setInstId(this.getRootInstId());
 		inst.copyFrom(inst.databaseMe());
 		
-		this.saveLastComent(inst);
+		this.saveLastComment(inst, humanActivity);
 		inst.flushDatabaseMe();
 		
 		ProcessWorkItem workItemMe = new ProcessWorkItem();
@@ -561,7 +566,7 @@ public class WorkItemHandler implements ContextAware {
 			
 	}
 	
-	private IInstance saveLastComent(Instance instanceRef) throws Exception{
+	private IInstance saveLastComment(Instance instanceRef, HumanActivity humanActivity) throws Exception{
 		String title = humanActivity.getDescription() != null ? humanActivity.getDescription() : null;
 		
 		IUser writer = new User();
@@ -656,9 +661,9 @@ public class WorkItemHandler implements ContextAware {
 	
 	@ServiceMethod(callByContent=true, when="compete")
 	public Object[]  accept() throws Exception{
-		instance = processManager.getProcessInstance(instanceId.toString());
+		ProcessInstance instance = processManager.getProcessInstance(instanceId.toString());
 		
-		humanActivity = (HumanActivity) instance.getProcessDefinition().getActivity(tracingTag);
+		HumanActivity humanActivity = (HumanActivity) instance.getProcessDefinition().getActivity(tracingTag);
 		
 		
 		RoleMapping roleMapping = RoleMapping.create();
@@ -743,7 +748,7 @@ public class WorkItemHandler implements ContextAware {
 			this.metaworksContext = metaworksContext;
 		}
 		
-	protected Map<String, Object> makeMapForITool()
+	protected Map<String, Object> makeMapForITool(HumanActivity humanActivity)
 			throws Exception {
 		Map<String, Object> mapForITool = new HashMap<String, Object>();
 
