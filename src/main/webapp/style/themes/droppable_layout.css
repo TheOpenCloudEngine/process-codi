@@ -173,16 +173,7 @@ h1 {
 dl { }
 input:focus { outline: none; }
 
-ul,
-ol,
-li,
-dl,
-dd,
-dt {
-	list-style-type: none;
-	margin: 0px;
-	padding: 0px;
-}
+
 
 nbd{border:none !important}
 npd{padding:0px !important}

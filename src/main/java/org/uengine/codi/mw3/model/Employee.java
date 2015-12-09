@@ -125,6 +125,21 @@ public class Employee extends EmployeeWithCRUD {
         return super.getLocale();
     }
 
+
+
+    String role;
+    @Range(
+            values={"pa", "pm", "dev", "po"},
+            options={"I'm a practice author ($100 / mo.)", "I'm a project manager ($50 / mo.)", "I'm a developer ($10 / mo.)", "I'm a product owner ($100 / mo.)"}
+    )
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
+
     @Override
     @Range(
             values={"tw", "sns", "outlook", "asana", "wave"},

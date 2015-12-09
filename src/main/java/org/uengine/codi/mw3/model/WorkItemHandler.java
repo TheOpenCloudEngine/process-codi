@@ -19,6 +19,7 @@ import org.uengine.processmanager.ProcessManagerRemote;
 import org.uengine.util.UEngineUtil;
 
 import javax.validation.Valid;
+import javax.xml.transform.Result;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -68,10 +69,13 @@ public class WorkItemHandler implements ContextAware {
 
 				MetaworksContext mc = new MetaworksContext();
 
-				if(MetaworksContext.WHEN_EDIT.equals(when)){
-					if(ParameterContext.DIRECTION_IN.equals(pc.getDirection()))
-						when = MetaworksContext.WHEN_VIEW;
-				}
+				when = MetaworksContext.WHEN_EDIT;
+
+//				if(MetaworksContext.WHEN_EDIT.equals(when)){
+				if(ParameterContext.DIRECTION_IN.equals(pc.getDirection()))
+					when = MetaworksContext.WHEN_VIEW;
+
+//				}
 
 				mc.setWhen(when);
 				pv.setMetaworksContext(mc);
@@ -89,7 +93,7 @@ public class WorkItemHandler implements ContextAware {
 					if(contextAware.getMetaworksContext()==null)
 						contextAware.setMetaworksContext(new MetaworksContext());
 
-					contextAware.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
+					contextAware.getMetaworksContext().setWhen(null);
 				}
 
 				if(processVariableValue instanceof org.uengine.kernel.ITool){
@@ -357,47 +361,11 @@ public class WorkItemHandler implements ContextAware {
 			throw new Exception("$NotPermittedToComplete");
 
 		}
-
 		// load map for ITool
 		loadMapForITool((Map<String, Object>)makeMapForITool(humanActivity));
-		
-		ResultPayload rp = new ResultPayload();
-		
-		if(parameters!=null)
-		for(int i=0; i<parameters.length; i++){
-			ParameterValue pv = parameters[i];
 
-			
-			String variableTypeName = parameters[i].getVariableType();
-			//Class variableType = Thread.currentThread().getContextClassLoader().loadClass(variableTypeName);
-			ProcessVariableValue processVariableValue = new ProcessVariableValue();
-			processVariableValue.setName(parameters[i].getVariableName());
+		ResultPayload rp = createResultPayload();
 
-			if(parameters[i].isMultipleInput()) {
-				ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
-
-				for (MetaworksElement me : pvvl.getElements()) {
-					processVariableValue.setValue(me.getValue());
-					processVariableValue.moveToAdd();
-				}
-			}else{
-				processVariableValue.setValue(parameters[i].getValue());
-			}
-
-//				if(variableType == String.class){
-//				}else if(Long.class.isAssignableFrom(variableType)){
-//					processVariableValue = parameters[i].getValueNumber();
-//				}else if(Calendar.class.isAssignableFrom(variableType)){
-//					processVariableValue = parameters[i].getValueCalendar();
-//				}
-
-			if(processVariableValue instanceof ITool){
-				((ITool)processVariableValue).beforeComplete();
-			}
-			
-			rp.setProcessVariableChange(new KeyedParameter(pv.getVariableName(), processVariableValue));
-		}
-		
 		processManager.completeWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp);
 		
 		// 변경된 액티비티 들만 찾기
@@ -619,46 +587,45 @@ public class WorkItemHandler implements ContextAware {
 			
 	@ServiceMethod(callByContent=true, when= MetaworksContext.WHEN_EDIT )
 	public void save() throws RemoteException, ClassNotFoundException, Exception{
-		
-		ResultPayload rp = new ResultPayload();
-		
-		if(parameters!=null)
-		for(int i=0; i<parameters.length; i++){
-			ParameterValue pv = parameters[i];
 
-			String variableTypeName = parameters[i].getVariableType();
-			//Class variableType = Thread.currentThread().getContextClassLoader().loadClass(variableTypeName);
+		ResultPayload rp = createResultPayload();
 
-
-			ProcessVariableValue processVariableValue = new ProcessVariableValue();
-			processVariableValue.setName(variableTypeName);
-
-			ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
-
-			for(MetaworksElement me : pvvl.getElements()){
-				processVariableValue.setValue(me.getValue());
-				processVariableValue.moveToAdd();
-			}
-
-//				if(variableType == String.class){
-//				}else if(Long.class.isAssignableFrom(variableType)){
-//					processVariableValue = parameters[i].getValueNumber();
-//				}else if(Calendar.class.isAssignableFrom(variableType)){
-//					processVariableValue = parameters[i].getValueCalendar();
-//				}
-
-			if(processVariableValue instanceof ITool){
-				((ITool)processVariableValue).beforeComplete();
-			}
-
-			rp.setProcessVariableChange(new KeyedParameter(pv.getVariableName(), processVariableValue));
-
-		}
-		
 		processManager.saveWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp );
-//			processManager.applyChanges(); //you may call this. since you can ensure this service method is the service itself
 	}
-	
+
+	private ResultPayload createResultPayload() throws Exception {
+		ResultPayload rp = new ResultPayload();
+
+		if(parameters!=null)
+			for(int i=0; i<parameters.length; i++){
+				ParameterValue pv = parameters[i];
+
+
+				String variableTypeName = parameters[i].getVariableType();
+				//Class variableType = Thread.currentThread().getContextClassLoader().loadClass(variableTypeName);
+				ProcessVariableValue processVariableValue = new ProcessVariableValue();
+				processVariableValue.setName(parameters[i].getVariableName());
+
+				if(parameters[i].isMultipleInput()) {
+					ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
+
+					for (MetaworksElement me : pvvl.getElements()) {
+						processVariableValue.setValue(me.getValue());
+						processVariableValue.moveToAdd();
+					}
+				}else{
+					processVariableValue.setValue(parameters[i].getValue());
+				}
+
+				if(processVariableValue instanceof ITool){
+					((ITool)processVariableValue).beforeComplete();
+				}
+
+				rp.setProcessVariableChange(new KeyedParameter(pv.getVariableName(), processVariableValue));
+			}
+		return rp;
+	}
+
 	@ServiceMethod(callByContent=true, when="compete")
 	public Object[]  accept() throws Exception{
 		ProcessInstance instance = processManager.getProcessInstance(instanceId.toString());

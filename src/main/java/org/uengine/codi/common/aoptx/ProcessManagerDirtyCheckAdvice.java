@@ -71,15 +71,20 @@ public class ProcessManagerDirtyCheckAdvice {
     	System.out.println("processManagerBeanChanged--------------------");
 
     }
-    
-    @After("execution(* org.uengine.processmanager.ProcessManagerBean.move*(..))")
-    public void afterMove() throws java.rmi.RemoteException {
-    	TransactionContext.getThreadLocalInstance().setSharedContext("processManagerBeanChanged", new Boolean(true));
-    	
-    	System.out.println("processManagerBeanChanged--------------------");
 
-    }
-    
+   @After("execution(* org.uengine.processmanager.ProcessManagerBean.move*(..))")
+   public void afterMove() throws java.rmi.RemoteException {
+    TransactionContext.getThreadLocalInstance().setSharedContext("processManagerBeanChanged", new Boolean(true));
+
+    System.out.println("processManagerBeanChanged--------------------");
+
+  }
+
+  @After("execution(* org.uengine.processmanager.ProcessManagerBean.save*(..))")
+  public void afterSave() throws java.rmi.RemoteException {
+   afterComplete();
+  }
+
     @After("execution(* org.uengine.processmanager.ProcessManagerBean.applyChanges(..))")
     public void afterApplyChanges() throws java.rmi.RemoteException {
     	//cancel the changes

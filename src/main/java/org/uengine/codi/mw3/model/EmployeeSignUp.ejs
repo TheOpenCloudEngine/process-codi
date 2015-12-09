@@ -74,8 +74,10 @@
 	        <%=fields.email.here({htmlAttrChild: {class:'textinput textinputreadonly', readonly: 'readonly', style: 'margin-bottom:15px'}})%>
 	        <label><%=mw3.localize(fields.empName.fieldDescriptor.displayName)%></label>
 	        <%=fields.empName.here({htmlAttrChild: {class:'textinput', placeholder: 'Enter your name', style: 'margin-bottom:15px'}})%>
-	        <label><%=mw3.localize(fields.password.fieldDescriptor.displayName)%></label>
-	        <%=fields.password.here({htmlAttrChild: {class:'textinput', placeholder: 'Enter your password', style: 'margin-bottom:15px'}})%>
+			<label><%=mw3.localize(fields.password.fieldDescriptor.displayName)%></label>
+			<%=fields.password.here({htmlAttrChild: {class:'textinput', placeholder: 'Enter your password', style: 'margin-bottom:15px'}})%>
+			<label>역할</label>
+			<%=fields.role.here()%>
 	<%
 			}else if('step2' == mw3.where){
 	%>
