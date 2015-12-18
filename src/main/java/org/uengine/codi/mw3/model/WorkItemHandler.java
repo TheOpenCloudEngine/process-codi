@@ -38,6 +38,9 @@ public class WorkItemHandler implements ContextAware {
 		
 		ProcessInstance instance = processManager.getProcessInstance(instanceId.toString());
 
+		if(getExecutionScope()!=null)
+			instance.setExecutionScope(getExecutionScope());
+
 		HumanActivity humanActivity = null;
 
 		if(humanActivity==null && instanceId!=null && tracingTag!=null){
