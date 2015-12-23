@@ -77,7 +77,7 @@
 	<bean id="MetaworksRemoteService" class="org.uengine.codi.mw3.CodiMetaworksRemoteService"
 		  scope="singleton">
 		<property name="connectionFactory" ref="springConnectionFactoryForMetaworks" />
-		<property name="SQLLowerCase" value="true"/>
+		<property name="lowerCaseSQL" value="true"/>
 	</bean>
 
 	<bean class="org.metaworks.dao.TransactionAdvice">

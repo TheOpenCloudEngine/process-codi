@@ -133,7 +133,7 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 //		Object mrsLocator = metaworksServiceLocatorClass.newInstance();
 //		MetaworksRemoteService mrs = (MetaworksRemoteService) mrsLocator.getClass().getMethod("getInstance", new Class[]{}).invoke(mrsLocator, null);
 		
-		setInstance(new MetaworksRemoteService());
+		setInstance(new MetaworksRemoteService()); //it is not setInstance(this). since this will delegate all the actions and properties to general MetaworksRemoteService. why?
 
 	}
 	
@@ -297,10 +297,13 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 		return instance.getBeanFactory();
 	}
 
+	@Override
+	public void setLowerCaseSQL(boolean lowerCaseSQL) {
+		instance.setLowerCaseSQL(lowerCaseSQL);
+	}
 
 
-
-//	@Autowired
+	//	@Autowired
 //	protected ProcessManagerRemote processManager;
 //	
 
