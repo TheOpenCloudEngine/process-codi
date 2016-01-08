@@ -312,7 +312,7 @@ public class Instance extends Database<IInstance> implements IInstance{
 
 		stmt.append(" instanceList.* FROM ")
 				//.append(" (SELECT distinct inst.*, task.startdate, knol.name as topicName ")
-				.append(" (SELECT distinct inst.instId, inst.name, inst.duedate, inst.startedDate, inst.secuopt, inst.defid, inst.status, inst.benefit, inst.effort, inst.penalty, inst.topicId, inst.isfileadded, inst.initep, instep.empname initrsnm, inst.currep, currep.empname currrsnm, inst.lastCmnt, inst.lastcmntep, lastcmntep.empname lastcmntrsnm, inst.lastCmnt2, inst.lastcmnt2ep, lastcmnt2ep.empname lastcmnt2rsnm, task.startdate, knol.name as topicName ")
+				.append(" (SELECT distinct inst.instId, inst.name, inst.duedate, inst.startedDate, inst.secuopt, inst.defid, inst.defverid, inst.status, inst.benefit, inst.effort, inst.penalty, inst.topicId, inst.isfileadded, inst.initep, instep.empname initrsnm, inst.currep, currep.empname currrsnm, inst.lastCmnt, inst.lastcmntep, lastcmntep.empname lastcmntrsnm, inst.lastCmnt2, inst.lastcmnt2ep, lastcmnt2ep.empname lastcmnt2rsnm, task.startdate, knol.name as topicName ")
 				.append("  FROM bpm_procinst inst LEFT JOIN bpm_knol knol ON inst.topicId = knol.id ")
 				.append("  LEFT JOIN emptable instep ON inst.initep = instep.empcode ")
 				.append("  LEFT JOIN emptable currep ON inst.currep = currep.empcode ")
