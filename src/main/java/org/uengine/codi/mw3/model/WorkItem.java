@@ -750,7 +750,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
             if (workItemHandler != null && workItemHandler.getTaskId() != null) {
                 workItemHandler = null;
             } else {
-                workItemHandler = new WorkItemHandler();
+                workItemHandler = MetaworksRemoteService.getComponent(WorkItemHandler.class);
             }
         }
 

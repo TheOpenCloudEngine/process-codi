@@ -18,7 +18,6 @@ public class RoleMappingPanel implements ContextAware{
 		public MetaworksContext getMetaworksContext() {
 			return metaworksContext;
 		}
-	
 		public void setMetaworksContext(MetaworksContext metaworksContext) {
 			this.metaworksContext = metaworksContext;
 		}

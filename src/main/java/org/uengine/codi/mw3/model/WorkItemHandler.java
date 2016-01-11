@@ -7,24 +7,23 @@ import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.model.MetaworksElement;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.uengine.codi.ITool;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.filter.AllSessionFilter;
 import org.uengine.codi.mw3.filter.OtherSessionFilter;
-import org.uengine.contexts.ComplexType;
 import org.uengine.kernel.*;
 import org.uengine.kernel.RoleMapping;
 import org.uengine.processmanager.ProcessManagerRemote;
-import org.uengine.util.UEngineUtil;
 
 import javax.validation.Valid;
-import javax.xml.transform.Result;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
 @Component
+@Scope("prototype")
 //@Face(ejsPath="faces/org/metaworks/widget/Window.ejs", options={"hideLabels"}, values={"true"}, displayName="업무 처리 화면")
 public class WorkItemHandler implements ContextAware {
 	
@@ -84,35 +83,61 @@ public class WorkItemHandler implements ContextAware {
 				pv.setMetaworksContext(mc);
 
 
-				Serializable processVariableValue = pc.getVariable().get(instance, "");
+				ProcessVariableValue processVariableValue = pc.getVariable().getMultiple(instance, "");
 
 				if(processVariableValue==null) {
-					processVariableValue = pc.getVariable().createNewValue();
+					processVariableValue = new ProcessVariableValue();
+
+					if(pc.getVariable().getDefaultValue()!=null){
+						processVariableValue.setValue(pc.getVariable().getDefaultValue());
+					}else {
+						processVariableValue.setValue(pc.getVariable().createNewValue());
+					}
 				}
 
-				if(processVariableValue instanceof ContextAware){
-					ContextAware contextAware = (ContextAware) processVariableValue;
+				processVariableValue.beforeFirst();
+				do{
 
-					if(contextAware.getMetaworksContext()==null)
-						contextAware.setMetaworksContext(new MetaworksContext());
+					Serializable value = processVariableValue.getValue();
 
-					contextAware.getMetaworksContext().setWhen(null);
-				}
+					if(value instanceof ContextAware){
+						ContextAware contextAware = (ContextAware) value;
 
-				if(processVariableValue instanceof org.uengine.kernel.ITool){
-					((org.uengine.kernel.ITool) processVariableValue).onLoad();
-				}
+						if(contextAware.getMetaworksContext()==null)
+							contextAware.setMetaworksContext(new MetaworksContext());
+
+						contextAware.getMetaworksContext().setWhen(when);
+					}
+
+					if(value instanceof org.uengine.kernel.ITool){
+						((org.uengine.kernel.ITool) value).onLoad();
+					}
+
+				}while(processVariableValue.next());
+
 
 				pv.setMultipleInput(pc.isMultipleInput());
 
+				processVariableValue.beforeFirst();
+
 				if(pc.isMultipleInput()) {
 					ProcessVariableValueList pvvl = new ProcessVariableValueList();
-					pvvl.setDefaultValue(processVariableValue);
+					pvvl.setDefaultValue(processVariableValue.getValue());
+
+					if(processVariableValue!=null && processVariableValue.size() > 0) {
+						pvvl.setElements(new ArrayList<MetaworksElement>());
+
+						do {
+							MetaworksElement element = new MetaworksElement();
+							element.setValue(processVariableValue.getValue());
+							pvvl.getElements().add(element);
+						} while (processVariableValue.next());
+					}
 
 					//pv.setValueObject(processVariableValue);
 					pv.setProcessVariableValueList(pvvl);
 				}else{
-					pv.setValue(processVariableValue);
+					pv.setValue(processVariableValue.getValue());
 				}
 			}
 
@@ -594,6 +619,11 @@ public class WorkItemHandler implements ContextAware {
 		ResultPayload rp = createResultPayload();
 
 		processManager.saveWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp );
+	}
+
+	@ServiceMethod(when= MetaworksContext.WHEN_EDIT, target=ServiceMethod.TARGET_POPUP )
+	public void delegate(){
+		//not implemented.
 	}
 
 	private ResultPayload createResultPayload() throws Exception {

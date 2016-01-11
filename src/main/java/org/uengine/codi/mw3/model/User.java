@@ -19,7 +19,9 @@ import org.metaworks.common.MetaworksUtil;
 import org.metaworks.dao.Database;
 import org.metaworks.dao.MetaworksDAO;
 import org.metaworks.dao.TransactionContext;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.website.MetaworksFile;
+import org.metaworks.widget.Label;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.uengine.processmanager.ProcessManagerRemote;
@@ -47,7 +49,7 @@ public class User extends Database<IUser> implements IUser {
 		public void setUserId(String userId) {
 			this.userId = userId;
 		}
-		
+
 	String network;
 		public String getNetwork() {
 			return network;
@@ -170,7 +172,7 @@ public class User extends Database<IUser> implements IUser {
 	}
 	
 	public void load() throws Exception {
-		boolean isSelf = this.getUserId().equals(session.getUser().getUserId());
+		boolean isSelf = (session!=null && session.getUser()!=null && this.getUserId()!=null && this.getUserId().equals(session.getUser().getUserId()));
 		boolean isFriend = false;
 		boolean isAnotherTenant = false;
 		
@@ -196,7 +198,7 @@ public class User extends Database<IUser> implements IUser {
 			if(!Employee.extractTenantName(this.getEmail()).equals(Employee.extractTenantName(session.getEmployee().getEmail())))
 				isAnotherTenant = true;
 		}else{				
-			if(!emp.getGlobalCom().equals(session.getEmployee().getGlobalCom()))
+			if(session!=null && session.getEmployee()!=null && !emp.getGlobalCom().equals(session.getEmployee().getGlobalCom()))
 				isAnotherTenant = true;
 		}
 		
@@ -208,8 +210,10 @@ public class User extends Database<IUser> implements IUser {
 	@Override
 	public Popup detail() throws Exception {
 
-		if(getMetaworksContext()!=null && MetaworksContext.WHEN_EDIT.equals(getMetaworksContext().getWhen())){
-			return popupPicker();
+		if(getMetaworksContext()!=null && MetaworksContext.WHEN_EDIT.equals(getMetaworksContext().getWhen()) || MetaworksContext.WHEN_NEW.equals(getMetaworksContext().getWhen())){
+			popupPicker();
+
+			return null;
 
 		}
 
@@ -260,6 +264,8 @@ public class User extends Database<IUser> implements IUser {
 		Popup popup = new Popup(with, height);
 		popup.setPanel(this);
 		popup.setAnimate(false);
+
+		MetaworksRemoteService.wrapReturn(popup);
 
 		return popup;
 	}
@@ -598,8 +604,8 @@ public class User extends Database<IUser> implements IUser {
 		return new Object[]{new ToEvent(ServiceMethodContext.TARGET_SELF, EventContext.EVENT_CLOSE)};
 	}
 	
-	public Popup popupPicker() throws Exception {
-		Popup popup = new Popup();
+	public void popupPicker() throws Exception {
+		ModalWindow popup = new ModalWindow();
 		
 		ContactPanel contactPanel = new ContactPanel();
 		contactPanel.session = session;
@@ -607,9 +613,10 @@ public class User extends Database<IUser> implements IUser {
 		contactPanel.load();
 
 		popup.setPanel(contactPanel);
-		popup.setName("AddFollowerPanel");
+		popup.setTitle("AddFollowerPanel");
+		//popup.setPanel(new Label("Test"));
 		
-		return popup;
+		MetaworksRemoteService.wrapReturn(popup);
 	}
 	
 	public Object[] popupProfile() throws Exception {

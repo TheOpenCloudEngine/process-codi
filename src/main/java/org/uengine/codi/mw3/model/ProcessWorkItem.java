@@ -10,7 +10,7 @@ public class ProcessWorkItem extends WorkItem{
 	public void loadContents() throws Exception {
 		setContentLoaded(true);
 		
-		this.detail();
+		//this.detail();
 	}
 
 }
