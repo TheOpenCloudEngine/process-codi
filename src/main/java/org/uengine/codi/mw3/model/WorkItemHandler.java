@@ -395,10 +395,6 @@ public class WorkItemHandler implements ContextAware {
 		ResultPayload rp = createResultPayload();
 
 		processManager.completeWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp);
-		
-		// 변경된 액티비티 들만 찾기
-		String[] executedTaskIds = executedActivityTaskIds(instance);
-        
 		processManager.applyChanges();
 		
 		if(parameters!=null){
@@ -419,15 +415,7 @@ public class WorkItemHandler implements ContextAware {
 		}
 		
 		releaseMapForITool();
-		
-		ArrayList<ProcessWorkItem> newlyAddedWorkItems = new ArrayList<ProcessWorkItem>();
-		
-		for(String taskId : executedTaskIds){
-			ProcessWorkItem newlyAppendedWorkItem = new ProcessWorkItem();
-			newlyAppendedWorkItem.setTaskId(new Long(taskId));
-			newlyAppendedWorkItem.copyFrom(newlyAppendedWorkItem.databaseMe());
-			newlyAddedWorkItems.add(newlyAppendedWorkItem);
-		}
+
 		
 		// TODO pushTargetClientObjects 를 하고 나면 copyOfInstance 가 변경이 되는 상황이 발생하여 새로운 객체를 생성하여줌
 		Instance inst = new Instance();
@@ -436,39 +424,14 @@ public class WorkItemHandler implements ContextAware {
 		
 		this.saveLastComment(inst, humanActivity);
 		inst.flushDatabaseMe();
-		
-		ProcessWorkItem workItemMe = new ProcessWorkItem();
-		workItemMe.setTaskId(this.getTaskId());
-		workItemMe.copyFrom(workItemMe.databaseMe());
-		workItemMe.setMetaworksContext(new MetaworksContext());
-		
-		this.sendPush(inst,newlyAddedWorkItems,workItemMe);
-		
-		//refreshes the instanceview so that the next workitem can be show up
-		if(true){
-			InstanceViewThreadPanel panel = new InstanceViewThreadPanel();
-//			panel.getMetaworksContext().setHow("instanceList");
-//			panel.getMetaworksContext().setWhere("sns");
-			MetaworksRemoteService.autowire(panel);
-			panel.load(this.getRootInstId().toString());
-			
-			return new Object[]{new Remover(new ModalWindow(), true ) , panel};
-		}else{
-			/*
-			 * 2013/12/03 cjw
-			 * 프로세스 완료시에 수정된 워크아이템만 부분 갱신되게 수정
-			 */
-			
-			InstanceTooltip instanceTooltip = MetaworksRemoteService.getComponent(InstanceTooltip.class);
-			instanceTooltip.getMetaworksContext().setHow("action");		
-			instanceTooltip.load(inst);
-			
-			InstanceViewThreadPanel instanceViewThreadPanel = new InstanceViewThreadPanel();
-			instanceViewThreadPanel.setInstanceId(this.getRootInstId().toString());
-			
-			return new Object[]{new ToAppend(instanceViewThreadPanel, newlyAddedWorkItems), new Refresh(workItemMe), new Refresh(instanceTooltip)};
 
-		}
+		//refreshes the instanceview so that the next workitem can be show up
+		InstanceViewThreadPanel panel = new InstanceViewThreadPanel();
+		MetaworksRemoteService.autowire(panel);
+		panel.load(this.getRootInstId().toString());
+
+		return new Object[]{new Remover(new ModalWindow(), true ), new Refresh(panel, true)};
+
 	}
 	
 	public void sendPush(Instance inst, ArrayList<ProcessWorkItem> newlyAddedWorkItems, IWorkItem workItemMe) throws Exception{

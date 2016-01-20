@@ -17,11 +17,13 @@ import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.dao.DAOUtil;
 import org.metaworks.dao.Database;
 import org.metaworks.dao.IDAO;
+import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.website.MetaworksFile;
 import org.metaworks.widget.ModalWindow;
 import org.oce.garuda.multitenancy.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.uengine.codi.CodiProcessDefinitionFactory;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.filter.AllSessionFilter;
@@ -32,6 +34,8 @@ import org.uengine.codi.mw3.knowledge.WfNode;
 import org.uengine.kernel.EJBProcessInstance;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.RoleMapping;
+import org.uengine.modeling.resource.Version;
+import org.uengine.modeling.resource.VersionManager;
 import org.uengine.processmanager.ProcessManagerBean;
 import org.uengine.processmanager.ProcessManagerRemote;
 
@@ -171,12 +175,15 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 	}
 	
 	public Object[] save() throws Exception {
-		this.saveMe();
-		
-		ProcessMapList processMapList = new ProcessMapList();
-		processMapList.load(session);
-		
-		if("run".equals(this.getMetaworksContext().getHow())){
+
+		if(!"simulator".equals(this.getMetaworksContext().getWhere())){
+			this.saveMe();
+
+			ProcessMapList processMapList = new ProcessMapList();
+			processMapList.load(session);
+		}
+
+		if("simulator".equals(this.getMetaworksContext().getWhere()) || "run".equals(this.getMetaworksContext().getHow())){
 			
 			return this.initiate(); //new Object[]{new Remover(new Popup()), new Refresh(processMapList)};
 		}else
@@ -275,9 +282,8 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		// 프로세스 케쉬 초기화
 		ProcessManagerBean pmb = (ProcessManagerBean)processManager;
 		CodiProcessDefinitionFactory.getInstance(pmb.getTransactionContext()).removeFromCache(this.getDefId());
-				
-		// process 초기화 (instId 생성)
-		String instId = processManager.initializeProcess(this.getDefId());
+
+		String instId = processManager.initializeProcess(VersionManager.getProductionResourcePath("codi", this.getDefId()));
 
 		RoleMapping rm = RoleMapping.create();
 		if(session.getUser() != null){
@@ -316,7 +322,12 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 				
 		// InstanceViewContent instanceView// = new InstanceViewContent();
 		// 프로세스 실행
-		String instId = processManager.initializeProcess(getDefId());
+		if(getMetaworksContext()!=null && "simulator".equals(getMetaworksContext().getWhere())){
+			TransactionContext.getThreadLocalInstance().setSharedContext("isDevelopmentTime", new Boolean(true));
+		}
+
+		String instId = processManager.initializeProcess(VersionManager.getProductionResourcePath("codi", this.getDefId()));
+
 		
 		String title = null;		
 		if(newInstancePanel!=null && newInstancePanel.getNewInstantiator().getTitle()!=null)
@@ -599,7 +610,11 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 			MetaworksRemoteService.pushClientObjectsFiltered(
 					new OtherSessionFilter(notiUsers , session.getUser().getUserId()),
 					new Object[]{new Refresh(todoBadge, true)});
-			
+
+			if("simulator".equals(this.getMetaworksContext().getWhere())){
+				return new Object[]{new ToEvent(ServiceMethodContext.TARGET_OPENER, EventContext.EVENT_CLOSE), new ModalWindow(new org.metaworks.widget.Label("<h4>Successfully initiated a simulation instance. <br>Please go to workspace to work with the practice instance.</h4>"), 500, 200, "Simulator")};
+			}
+
 			return new Object[]{new ToEvent(ServiceMethodContext.TARGET_OPENER, EventContext.EVENT_CLOSE), new Refresh(instanceView), new Remover(new ModalWindow())};
 		}
 	}
@@ -685,19 +700,34 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		
 		((Instance)instanceRef).flushDatabaseMe();
 	}
-	
-	public Popup startWithRoleMapping() throws Exception {
+
+	public Object startWithRoleMapping() throws Exception {
+		return _run();
+	}
+
+
+	public Object simulate() throws Exception {
+		getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
+		getMetaworksContext().setWhere("simulator");
+
+		return _run();
+	}
+
+	private Object _run() throws Exception {
 		getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
 		getMetaworksContext().setHow("run");
-		
+
 		this.setRoleMappingPanel(new RoleMappingPanel(processManager, this.getDefId(), session));
-		
+
 		Popup popup = new Popup(580, 270);
 		popup.setPanel(this);
 		popup.setName("담당자 지정");
-		
-		return popup;
+
+		MetaworksRemoteService.wrapReturn(popup);
+
+		return this;
 	}
+
 }
 
 

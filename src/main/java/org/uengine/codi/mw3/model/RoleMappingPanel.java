@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
+import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.Face;
 import org.metaworks.dao.MetaworksDAO;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.uengine.modeling.resource.Version;
+import org.uengine.modeling.resource.VersionManager;
 import org.uengine.processmanager.ProcessManagerRemote;
 
 
@@ -35,9 +39,24 @@ public class RoleMappingPanel implements ContextAware{
 		
 	public RoleMappingPanel(){}
 
+	@Autowired
+	public ProcessManagerRemote processManager;
 
-	public RoleMappingPanel(ProcessManagerRemote processManager, String defId, Session session) throws Exception{
-		
+	@AutowiredFromClient
+	public Session session;
+
+
+	public RoleMappingPanel(ProcessManagerRemote processManager, String defId, Session session) throws Exception {
+		this.processManager = processManager;
+		this.session = session;
+
+		load(defId);
+	}
+
+	public void load(String defId) throws Exception {
+
+		defId = VersionManager.getProductionResourcePath("codi", defId);
+
 		roleMappingDefinitions = new ArrayList<IRoleMappingDefinition>();
 		
 		org.uengine.kernel.ProcessDefinition definition = processManager.getProcessDefinition(defId);
@@ -132,7 +151,6 @@ public class RoleMappingPanel implements ContextAware{
 		}
 	}
 	
-	@Autowired
-	public ProcessManagerRemote processManager;
+
 }
 

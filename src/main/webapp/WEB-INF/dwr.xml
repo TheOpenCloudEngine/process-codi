@@ -19,10 +19,11 @@
     <create creator="spring" javascript="Metaworks" scope="page">
       <param name="beanName" value="MetaworksRemoteService"/>
     </create>
-  	
-	<convert converter="bean" match="org.metaworks.dwr.*"/>
+
+	  <convert converter="bean" match="org.metaworks.dwr.*"/>
 	<convert converter="metaworks" match="org.metaworks.example.*"/>
-	
+	  <convert converter="metaworks" match="org.metaworks.*"/>
+
 	<convert converter="metaworks" match="java.lang.Class"/>
 	  <convert converter="metaworks" match="java.lang.Object"/>
 	  <convert converter="metaworks" match="java.io.Serializable"/>

@@ -86,5 +86,5 @@ public interface IProcessMap extends IDAO {
 	public boolean confirmExist();
 	
 	@ServiceMethod(callByContent=true, when=WHEN_VIEW, target=ServiceMethodContext.TARGET_POPUP)
-	public Popup startWithRoleMapping() throws Exception;
+	public Object startWithRoleMapping() throws Exception;
 }
