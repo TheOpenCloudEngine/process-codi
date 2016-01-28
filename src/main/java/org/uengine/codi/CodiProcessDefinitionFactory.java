@@ -2,6 +2,7 @@ package org.uengine.codi;
 
 import com.thoughtworks.xstream.converters.ConversionException;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.metaworks.dao.TransactionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.CodiClassLoader;
@@ -62,8 +63,7 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 
 			processResource.setPath("codi/" + location);
 
-			Object object = resourceManager.getStorage().getObject(processResource);
-
+			Object object = resourceManager.getObject(processResource);
 
 			if(object==null)
 				throw new Exception("No definition found where location = '" + location + "'");
