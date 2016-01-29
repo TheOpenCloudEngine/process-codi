@@ -23,7 +23,6 @@ import org.uengine.codi.mw3.filter.AllSessionFilter;
 import org.uengine.processmanager.ProcessManagerRemote;
 import org.uengine.util.UEngineUtil;
 
-@Component
 public class InstanceView {
 
 	@Autowired
@@ -120,15 +119,19 @@ public class InstanceView {
 		*/
 		
 		//setInstanceViewThreadPanel(activityStream());
+
+		setInstanceViewDetail(createInstanceViewDetail());
 		
+		//setInstanceViewThreadPanel(new Loader(instanceViewThreadPanel, "load"));
+	}
+
+	public InstanceViewDetail createInstanceViewDetail() {
 		InstanceViewThreadPanel instanceViewThreadPanel = new InstanceViewThreadPanel();
 		instanceViewThreadPanel.setInstanceId(this.getInstanceId());
 		instanceViewThreadPanel.session = session;
 		instanceViewThreadPanel.load();
-		
-		setInstanceViewThreadPanel(instanceViewThreadPanel);
-		
-		//setInstanceViewThreadPanel(new Loader(instanceViewThreadPanel, "load"));
+
+		return (instanceViewThreadPanel);
 	}
 	
 	/*
@@ -358,13 +361,16 @@ public class InstanceView {
 //			this.thread = thread;
 //		}	
 
-	Object instanceViewThreadPanel;
-		public Object getInstanceViewThreadPanel() {
-			return instanceViewThreadPanel;
+	InstanceViewDetail instanceViewDetail;
+		public InstanceViewDetail getInstanceViewDetail() {
+			return instanceViewDetail;
 		}
-		public void setInstanceViewThreadPanel(Object instanceViewThreadPanel) {
-			this.instanceViewThreadPanel = instanceViewThreadPanel;
+		public void setInstanceViewDetail(InstanceViewDetail instanceViewDetail) {
+			this.instanceViewDetail = instanceViewDetail;
 		}
+
+
+
 	Object documentContentView;
 		public Object getDocumentContentView() {
 			return documentContentView;

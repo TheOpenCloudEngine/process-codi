@@ -3,6 +3,8 @@ package org.uengine.codi.mw3.model;
 import org.metaworks.annotation.Face;
 import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.Name;
+import org.metaworks.component.MetaWorksComponentCenter;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,13 +14,12 @@ public class InstanceViewContent extends ContentWindow {
 	
 	public Session session;
 
-	@Autowired
 	@Name
-	public InstanceView instanceView;			
+	public InstanceView instanceView;
 		public InstanceView getInstanceView() {
 			return instanceView;
 		}
-	
+
 		public void setInstanceView(InstanceView instanceView) {
 			this.instanceView = instanceView;
 		}
@@ -57,8 +58,8 @@ public class InstanceViewContent extends ContentWindow {
 	}
 	
 	public void load(IInstance instance) throws Exception{
-		if(instanceView == null)
-			instanceView = new InstanceView();
+		instanceView = MetaworksRemoteService.getComponent(InstanceView.class);
+
 		instanceView.session = session;
 		instanceView.setMetaworksContext(getMetaworksContext());
 		instanceView.load(instance);

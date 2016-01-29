@@ -14,7 +14,7 @@ import org.uengine.codi.mw3.knowledge.WfNode;
 import org.uengine.processmanager.ProcessManagerRemote;
 
 
-public class InstanceViewThreadPanel implements ContextAware {
+public class InstanceViewThreadPanel extends InstanceViewDetail implements ContextAware {
 	
 	final static int LIST_CNT = 5;
 
@@ -78,14 +78,14 @@ public class InstanceViewThreadPanel implements ContextAware {
 		this.parentTaskId = parentTaskId;
 	}
 
-	String instanceId;
-	public String getInstanceId() {
-		return instanceId;
-	}
-
-	public void setInstanceId(String instanceId) {
-		this.instanceId = instanceId;
-	}
+//	String instanceId;
+//	public String getInstanceId() {
+//		return instanceId;
+//	}
+//
+//	public void setInstanceId(String instanceId) {
+//		this.instanceId = instanceId;
+//	}
 
 	String id;
 	@Id
