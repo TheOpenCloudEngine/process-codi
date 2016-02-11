@@ -70,16 +70,22 @@ public class RoleMappingPanel implements ContextAware{
 			roleMappingDefinition.setRoleDefId(session.getEmployee().getGlobalCom() + "." + defId + "." + role.getName());
 			try{
 				roleMappingDefinition.copyFrom(roleMappingDefinition.findRoleMappingDefinition());
-				roleMappingDefinition.getMappedUser().setName(roleMappingDefinition.getMappedUserName());
-				roleMappingDefinition.getMappedUser().getMetaworksContext().setHow(IUser.HOW_PICKER);
-				
+				roleMappingDefinition.setRoleMappedUser(new RoleMappedUser());
+
+				IUser user = new User();
+				user.setName(roleMappingDefinition.getMappedUserName());
+				user.setUserId(roleMappingDefinition.getMappedUserId());
+				user.getMetaworksContext().setHow(IUser.HOW_PICKER);
+				roleMappingDefinition.getRoleMappedUser().getUsers().add(user);
+
 				roleMappingDefinitions.add(roleMappingDefinition);
 			}catch(Exception e){
-				IRoleMappingDefinition roleMappingDef = (IRoleMappingDefinition)MetaworksDAO.createDAOImpl(IRoleMappingDefinition.class);
+				RoleMappingDefinition roleMappingDef = new RoleMappingDefinition();
 				roleMappingDef.setRoleDefId(roleMappingDefinition.getRoleDefId());
 				roleMappingDef.setDefId(defId);
 				roleMappingDef.setRoleName(role.getName());
-				roleMappingDef.setMappedUser(session.getUser());
+				roleMappingDefinition.getRoleMappedUser().getUsers().add(session.getUser());
+
 				roleMappingDef.setComCode(session.getEmployee().getGlobalCom());
 				roleMappingDef.setRoleDefType(RoleMappingDefinition.ROLE_DEF_TYPE_USER);
 				roleMappingDef.getMetaworksContext().setHow(IUser.HOW_PICKER);
@@ -95,12 +101,14 @@ public class RoleMappingPanel implements ContextAware{
 			
 			if(roleMappingDefinition instanceof RoleMappingDefinition){
 				saveRoleMappingDef = (RoleMappingDefinition)roleMappingDefinition;
+				saveRoleMappingDef.setMappedUserId(((RoleMappingDefinition) roleMappingDefinition).getRoleMappedUser().getUsers().get(0).getUserId());
+//				saveRoleMappingDef.setMappedUserName(((RoleMappingDefinition) roleMappingDefinition).getRoleMappedUser().getUsers().get(0).getUserName());
 			}else{
 				saveRoleMappingDef = new RoleMappingDefinition();
 				saveRoleMappingDef.copyFrom(roleMappingDefinition);
 			}
 			
-			if(roleMappingDefinition.getMappedUser()!=null && roleMappingDefinition.getMappedUser().getUserId()!=null){
+			if(roleMappingDefinition.getMappedUserId()!=null){
 				if(roleMappingDefinition.getRoleDefId() == null){
 					saveRoleMappingDef.setRoleDefId(saveRoleMappingDef.getComCode() + "." + saveRoleMappingDef.getDefId() + "." + saveRoleMappingDef.getRoleName());
 					saveRoleMappingDef.createDatabaseMe();
@@ -134,8 +142,8 @@ public class RoleMappingPanel implements ContextAware{
 	public void putRoleMappings(ProcessManagerRemote processManager, String instId) throws Exception{
 		for(IRoleMappingDefinition roleMappingDefinition: roleMappingDefinitions){
 			if( RoleMappingDefinition.ROLE_DEF_TYPE_USER.equals(roleMappingDefinition.getRoleDefType() )){
-				if(roleMappingDefinition.getMappedUser()!=null && roleMappingDefinition.getMappedUser().getUserId()!=null){
-					processManager.putRoleMapping(instId, roleMappingDefinition.getRoleName(), roleMappingDefinition.getMappedUser().getUserId());
+				if(roleMappingDefinition.getMappedUserId()!=null){
+					processManager.putRoleMapping(instId, roleMappingDefinition.getRoleName(), roleMappingDefinition.getMappedUserId());
 				}
 			}else if( RoleMappingDefinition.ROLE_DEF_TYPE_ROLE.equals(roleMappingDefinition.getRoleDefType() )){
 				if(roleMappingDefinition.getMappedRoleCode()!=null ){
