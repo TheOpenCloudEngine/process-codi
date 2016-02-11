@@ -551,8 +551,8 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		*/
 		
 		
-		roleMappingPanel = new RoleMappingPanel(processManager, this.getDefId(), session);
 		roleMappingPanel.putRoleMappings(processManager, instId);
+
 		processManager.executeProcess(instId);
 		processManager.applyChanges();
 		//end

@@ -5,6 +5,8 @@ import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.dao.Database;
 import org.uengine.codi.mw3.knowledge.WfNode;
 
+import java.util.ArrayList;
+
 public class RoleMappingDefinition extends Database<IRoleMappingDefinition> implements IRoleMappingDefinition{
 	
 	public static final String ROLE_DEF_TYPE_ROLE = "role";  
@@ -34,14 +36,31 @@ public class RoleMappingDefinition extends Database<IRoleMappingDefinition> impl
 			this.defId = defId;
 		}
 
-	IUser mappedUser;
-		public IUser getMappedUser() {
-			return mappedUser;
+//	IUser mappedUser;
+//		public IUser getMappedUser() {
+//			return mappedUser;
+//		}
+//		public void setMappedUser(IUser mappedUser) {
+//			this.mappedUser = mappedUser;
+//		}
+
+	RoleMappedUser roleMappedUser;
+		public RoleMappedUser getRoleMappedUser() {
+			return roleMappedUser;
 		}
-		public void setMappedUser(IUser mappedUser) {
-			this.mappedUser = mappedUser;
+		public void setRoleMappedUser(RoleMappedUser roleMappedUser) {
+			this.roleMappedUser = roleMappedUser;
 		}
-	
+
+	String mappedUserId;
+		public String getMappedUserId() {
+			return mappedUserId;
+		}
+		public void setMappedUserId(String mappedUserId) {
+			this.mappedUserId = mappedUserId;
+		}
+
+
 	String mappedUserName;
 		public String getMappedUserName() {
 			return mappedUserName;
@@ -86,18 +105,22 @@ public class RoleMappingDefinition extends Database<IRoleMappingDefinition> impl
 			user.getMetaworksContext().setWhen(WHEN_EDIT);
 			user.getMetaworksContext().setHow("picker");
 			user.getMetaworksContext().setWhere(WHERE_EVER);
-			setMappedUser(user);
+			//setMappedUser(user);
+
+			setRoleMappedUser(new RoleMappedUser());
+			getRoleMappedUser().setUsers(new ArrayList<IUser>());
+			getRoleMappedUser().getUsers().add(user);
 		}	
 	
 	}
 	
 	public void removeUser(){
-		setMappedUser(new User());
+		setRoleMappedUser(new RoleMappedUser());
 	}
 	
-	public void refresh() {
-		System.out.println("refresh");
-	}
+//	public void refresh() {
+//		System.out.println("refresh");
+//	}
 	
 	public RoleMappingDefinition findRoleMappingDefinition() throws Exception{
 		StringBuffer sb = new StringBuffer();
@@ -113,6 +136,13 @@ public class RoleMappingDefinition extends Database<IRoleMappingDefinition> impl
 		if( roleMappingDefinition.next() ){
 			RoleMappingDefinition roleDef = new RoleMappingDefinition();
 			roleDef.copyFrom(roleMappingDefinition);
+			roleDef.setRoleMappedUser(new RoleMappedUser());
+
+			User user = new User();
+			user.setUserId(roleDef.getMappedUserId());
+			roleDef.getRoleMappedUser().getUsers().add(user);
+
+
 			return roleDef;
 		}else{
 			return null;

@@ -26,10 +26,13 @@ public interface IRoleMappingDefinition extends IDAO{
 	public void setComCode(String comCode);
 
 	
-	@ORMapping(databaseFields="mappedUserId", objectFields="userId")
-	public IUser getMappedUser();
-	public void setMappedUser(IUser mappedUser);
-	
+//	@ORMapping(databaseFields="mappedUserId", objectFields="userId")
+//	public IUser getMappedUser();
+//	public void setMappedUser(IUser mappedUser);
+
+	public String getMappedUserId();
+	public void setMappedUserId(String mappedUserId);
+
 	@NonSavable
 	public String getMappedUserName();
 	public void setMappedUserName(String mappedUserName);
@@ -47,6 +50,6 @@ public interface IRoleMappingDefinition extends IDAO{
 	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF)
 	public void removeUser();
 
-	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF, eventBinding=EventContext.EVENT_CHANGE)
-	public void refresh();
+//	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF, eventBinding=EventContext.EVENT_CHANGE)
+//	public void refresh();
 }
