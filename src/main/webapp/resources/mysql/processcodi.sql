@@ -523,6 +523,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 INSERT INTO `comtable` (`COMCODE`, `COMNAME`) VALUES ('1', 'uEngine');
 
 INSERT INTO `emptable` (`empcode`, `EMPNAME`, `PASSWORD`, `ISADMIN`, `EMAIL`,`GLOBALCOM`, `ISDELETED`, `LOCALE`, `approved`, `guest`) VALUES ('1', 'Tester', 'test', '1', 'test@uengine.org', '1', '0', 'ko', '1', '0');
+INSERT INTO `emptable` (`empcode`, `EMPNAME`, `PASSWORD`, `ISADMIN`, `EMAIL`,`GLOBALCOM`, `ISDELETED`, `LOCALE`, `approved`, `guest`) VALUES ('2', 'Member', 'member', '1', 'member@uengine.org', '1', '0', 'ko', '1', '0');
+
 
 
 alter table bpm_worklist add column hasChild int;
