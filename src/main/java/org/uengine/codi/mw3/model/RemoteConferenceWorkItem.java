@@ -93,7 +93,7 @@ public class RemoteConferenceWorkItem extends WorkItem{
 		System.out.println(modifyCal.getTime());
 		System.out.println(nowCal.getTime());
 		if(!modifyCal.after(nowCal)){
-			throw new Exception(localeManager.getString("$ResetMeetingTime"));
+			throw new Exception(("$ResetMeetingTime"));
 		}
 		
 		Object[] returnData =  super.add();
@@ -197,7 +197,7 @@ public class RemoteConferenceWorkItem extends WorkItem{
 		
 		if(meetingCal.after(nowCal)){
 			SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일 HH:mm ");
-			throw new Exception(format.format(meetingCal.getTime())+localeManager.getString("$JoinNotUntil"));
+			throw new Exception(format.format(meetingCal.getTime())+("$JoinNotUntil"));
 		}
 		
 		String meetingID = databaseMe().getExt1();

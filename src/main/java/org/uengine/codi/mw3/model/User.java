@@ -195,7 +195,8 @@ public class User extends Database<IUser> implements IUser {
 		}
 		
 		if(emp.getGlobalCom() == null){
-			if(!Employee.extractTenantName(this.getEmail()).equals(Employee.extractTenantName(session.getEmployee().getEmail())))
+			String tenantName = Employee.extractTenantName(this.getEmail());
+			if(tenantName!=null && !tenantName.equals(Employee.extractTenantName(session.getEmployee().getEmail())))
 				isAnotherTenant = true;
 		}else{				
 			if(session!=null && session.getEmployee()!=null && !emp.getGlobalCom().equals(session.getEmployee().getGlobalCom()))
@@ -250,16 +251,20 @@ public class User extends Database<IUser> implements IUser {
 		// TODO: User 가 로드되고 나서 나중에 로드 되게 수정해야함
 		Employee employee = new Employee();
 		employee.setEmpCode(getUserId());
-		setMood(employee.databaseMe().getMood());
-		setName(employee.databaseMe().getEmpName());
+
+		if(employee.databaseMe()!=null) {
+			setMood(employee.databaseMe().getMood());
+			setName(employee.databaseMe().getEmpName());
+
+			//선택된 유저의 business value를 보인다.
+			int myBV = getBV(getUserId());
+			setBusinessValue(myBV);
+
+			//선택된 유저가 해야 할 일의 개수를 보인다.
+			int todoCount = Instance.countTodo(getUserId(), employee.databaseMe().getPartCode());
+			setTodoCount(todoCount);
+		}
 		
-		//선택된 유저의 business value를 보인다.
-		int myBV = getBV(getUserId());
-		setBusinessValue(myBV);
-		
-		//선택된 유저가 해야 할 일의 개수를 보인다.
-		int todoCount = Instance.countTodo(getUserId(), employee.databaseMe().getPartCode());
-		setTodoCount(todoCount);
 
 		Popup popup = new Popup(with, height);
 		popup.setPanel(this);

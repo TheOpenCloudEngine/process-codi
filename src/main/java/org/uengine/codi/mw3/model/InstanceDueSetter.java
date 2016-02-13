@@ -205,8 +205,7 @@ public class InstanceDueSetter implements ContextAware{
 			workItem.session = session;
 			workItem.processManager = processManager;
 			workItem.setInstId(this.getInstId());
-			workItem.localeManager = localeManager;
-			
+
 			//납기일이 변한 경우 워크아이템 발행
 			workItem.copyFrom(workItem.generateNotiWorkItem(title));
 

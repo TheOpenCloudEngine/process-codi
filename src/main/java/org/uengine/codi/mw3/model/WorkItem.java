@@ -53,8 +53,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
     public ProcessManagerRemote processManager;
     @Autowired
     public InstanceViewContent instanceViewContent;
-    @AutowiredFromClient
-    public Locale localeManager;
+
     Long instId;
     Long rootInstId;
     IUser writer;
@@ -1301,20 +1300,13 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
         String totalTitle = null;
 
-        if(localeManager.getLanguage().equals("en")){
-            totalTitle = "\'" + session.getEmployee().getEmpName() + "\' ";
-        }else{
-            totalTitle = "\'" + session.getEmployee().getEmpName() + "\' 님이 ";
-        }
+        totalTitle = "\'" + session.getEmployee().getEmpName() + "\' ";
 
         Instance instance = new Instance();
         instance.setInstId(this.getInstId());
 
         if (act != null) {
-            String type = " " + localeManager.getString("$notiWorkItem.type." + this.getType());
-            String attachTitle = localeManager.getString("$notiWorkItem.act." + act);
-
-            title = type + " [ " + title + " ] " + attachTitle;
+            title = type + " [ " + title + " ] ";
         }
 
         totalTitle += title;

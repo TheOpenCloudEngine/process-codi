@@ -448,6 +448,8 @@ public class Employee extends EmployeeWithCRUD {
 
     public static String extractTenantName(String email) {
 
+        if(email==null) return null;
+
         String str = email.substring(email.indexOf("@") + 1);
 
         return str.substring(0, str.indexOf("."));
