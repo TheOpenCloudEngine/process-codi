@@ -170,7 +170,7 @@ public class Company extends Database<ICompany> implements ICompany {
 		sb.append("select * from comtable ");
 		
 		ICompany dao = null;
-		
+
 		try {
 			dao = sql(sb.toString());
 			dao.select();
