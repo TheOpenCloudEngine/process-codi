@@ -6,6 +6,7 @@ import org.metaworks.dao.TransactionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.uengine.codi.mw3.CodiClassLoader;
+import org.uengine.kernel.NoSuchProcessDefinitionException;
 import org.uengine.kernel.ProcessDefinition;
 import org.uengine.kernel.ProcessDefinitionFactory;
 import org.uengine.modeling.resource.DefaultResource;
@@ -71,7 +72,7 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 			return object;
 
 		} catch(Exception e) {
-			throw new Exception("No such definition or Some I/O Exception: " + location, e);
+			throw new NoSuchProcessDefinitionException("No such definition or Some I/O Exception: " + location, e);
 		}
 	}
 

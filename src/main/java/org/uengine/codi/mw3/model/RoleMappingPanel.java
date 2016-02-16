@@ -9,6 +9,7 @@ import org.metaworks.annotation.Face;
 import org.metaworks.dao.MetaworksDAO;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.uengine.kernel.NoSuchProcessDefinitionException;
 import org.uengine.modeling.resource.Version;
 import org.uengine.modeling.resource.VersionManager;
 import org.uengine.processmanager.ProcessManagerRemote;
@@ -57,8 +58,11 @@ public class RoleMappingPanel implements ContextAware{
 
 		defId = VersionManager.getProductionResourcePath("codi", defId);
 
+		if(defId == null)
+			throw new NoSuchProcessDefinitionException();
+
 		roleMappingDefinitions = new ArrayList<IRoleMappingDefinition>();
-		
+
 		org.uengine.kernel.ProcessDefinition definition = processManager.getProcessDefinition(defId);
 
 		if(definition.getRoles()!=null)

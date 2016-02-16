@@ -1,5 +1,6 @@
 package org.uengine.codi.mw3.model;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import org.metaworks.dao.IDAO;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.website.MetaworksFile;
+import org.metaworks.widget.Label;
 import org.metaworks.widget.ModalWindow;
 import org.oce.garuda.multitenancy.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ import org.uengine.codi.mw3.knowledge.KnowledgeTool;
 import org.uengine.codi.mw3.knowledge.TopicNode;
 import org.uengine.codi.mw3.knowledge.WfNode;
 import org.uengine.kernel.EJBProcessInstance;
+import org.uengine.kernel.NoSuchProcessDefinitionException;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.RoleMapping;
 import org.uengine.modeling.resource.Version;
@@ -225,8 +228,22 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 
 	public Popup modify() throws Exception {
 		getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
-		
-		this.setRoleMappingPanel(new RoleMappingPanel(processManager, this.getDefId(), session));
+
+		try {
+			this.setRoleMappingPanel(new RoleMappingPanel(processManager, this.getDefId(), session));
+		}catch (Exception noDefinition){
+
+			if(noDefinition instanceof NoSuchProcessDefinitionException || noDefinition instanceof RemoteException && ((RemoteException)noDefinition).getCause() instanceof NoSuchProcessDefinitionException){
+				deleteDatabaseMe();
+
+				Popup popup = new Popup(580, 600);
+				popup.setPanel(new Label("This App has been deleted or not available anymore."));
+				popup.setName("Removed Definition");
+
+				return popup;
+			}
+
+		}
 		
 		Popup popup = new Popup(580, 600);
 		popup.setPanel(this);
@@ -245,17 +262,8 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		popup.setName("프로세스 정보");
 		return new Remover(popup);
 	}
-		
-	public boolean confirmExist() {
-		try{
-			databaseMe();
-		}catch(Exception e){
-			return true;
-		}
-		
-		return false;
-	}
-	
+
+
 	public static IProcessMap loadList(Session session) throws Exception {
 		
 		DAOUtil daoUtil = new DAOUtil();
