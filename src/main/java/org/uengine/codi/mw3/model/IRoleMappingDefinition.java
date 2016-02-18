@@ -47,7 +47,7 @@ public interface IRoleMappingDefinition extends IDAO{
 	@ServiceMethod(callByContent=true, mouseBinding="drop", target=ServiceMethodContext.TARGET_SELF)
 	public void drop();
 	
-	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF)
+//	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF)
 	public void removeUser();
 
 //	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF, eventBinding=EventContext.EVENT_CHANGE)

@@ -2,14 +2,7 @@
 <center>
 	<span style="display:inline-block"><b><%=value.roleName%></b></span>
 	<span style="display:inline-block"><%=value.roleMappedUser.users ? "" : "<font color=gray size=-3>(" + mw3.localize("$NotSet") + ")</font>"%></span>
-	<div style="margin-top:10px; position:relative; width:66px">
-<%
-	if(value.roleMappedUser && value.roleMappedUser.users){
-%>
-		<span class="icon-cancel-circle delete_user" onClick="<%=methods.removeUser.caller()%>"></span>		
-<%
-	}
-%>
+	<div style="margin-top:10px; position:relative;">
 		<%=fields.roleMappedUser.here()%>
 	</div>
 	<div class="clear"></div>

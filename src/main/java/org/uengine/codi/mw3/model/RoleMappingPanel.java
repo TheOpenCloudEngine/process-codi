@@ -67,16 +67,6 @@ public class RoleMappingPanel implements ContextAware{
 			this.processView = processView;
 		}
 
-	ElementViewActionDelegate elementViewActionDelegate;
-	@AutowiredToClient
-		public ElementViewActionDelegate getElementViewActionDelegate() {
-			return elementViewActionDelegate;
-		}
-		public void setElementViewActionDelegate(ElementViewActionDelegate elementViewActionDelegate) {
-			this.elementViewActionDelegate = elementViewActionDelegate;
-		}
-
-
 
 	public void load(String defId) throws Exception {
 
@@ -101,9 +91,9 @@ public class RoleMappingPanel implements ContextAware{
 			((ProcessCanvas) processModeler.getCanvas()).getMetaworksContext().setWhen("monitor");
 			setProcessView(processModeler);
 
-			setElementViewActionDelegate(MetaworksRemoteService.getComponent(ElementViewActionDelegateForInstanceMonitoring.class));
-
 			getProcessView().setModel(definition);
+			getProcessView().setElementViewActionDelegate(MetaworksRemoteService.getComponent(ElementViewActionDelegateForInstanceMonitoring.class));
+
 
 		}
 
@@ -118,6 +108,7 @@ public class RoleMappingPanel implements ContextAware{
 			try{
 				roleMappingDefinition.copyFrom(roleMappingDefinition.findRoleMappingDefinition());
 				roleMappingDefinition.setRoleMappedUser(new RoleMappedUser());
+				roleMappingDefinition.setRoleName(role.getName());
 
 				IUser user = new User();
 				user.setName(roleMappingDefinition.getMappedUserName());
