@@ -163,12 +163,12 @@ public class SNS extends Application{
 			Layout eastLayout = new Layout();
 			eastLayout.setWest(createInstanceListWindow(session));
 			eastLayout.setCenter(contentWindow);
-			eastLayout.setOptions("togglerLength_open:0, spacing_open:0, spacing_closed:0, south__spacing_open:5, west__spacing_open:5, west__size:'40%'");
+			eastLayout.setOptions("togglerLength_open:0, spacing_open:0, spacing_closed:0, south__spacing_open:5, west__spacing_open:5, west__size:300");
 			eastLayout.setName("east");
 			eastLayout.setUseHideBar(false);
 			
 			Layout outerLayout = new Layout();
-			outerLayout.setOptions("togglerLength_open:0, spacing_open:0, spacing_closed:0, west__spacing_open:1, north__size:52, west__size: 168");
+			outerLayout.setOptions("togglerLength_open:0, spacing_open:0, spacing_closed:0, west__spacing_open:1, north__size:52, west__size: 100");
 			
 			outerLayout.setWest(westLayout);
 			outerLayout.setCenter(eastLayout);		

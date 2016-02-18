@@ -727,11 +727,9 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 
 		this.setRoleMappingPanel(new RoleMappingPanel(processManager, this.getDefId(), session));
 
-		Popup popup = new Popup(580, 270);
-		popup.setPanel(this);
-		popup.setName("담당자 지정");
+		ModalWindow modalWindow = new ModalWindow(this, 1000, 700, "$ProcessDetail");
 
-		MetaworksRemoteService.wrapReturn(popup);
+		MetaworksRemoteService.wrapReturn(modalWindow);
 
 		return this;
 	}

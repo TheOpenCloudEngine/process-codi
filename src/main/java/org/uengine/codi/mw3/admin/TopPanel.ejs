@@ -7,17 +7,17 @@
 			<div class="top_panel_mobile_menu"><span class="icon-menu2"></span></div>
 		<!--	<div class="top_panel_mobile_friend"><span class="icon-user"></span></div> -->
 <%
-}
+		}
 %>
 			
-			<div class="top_panel_location"><%=value.topCenterTitle%></div>
+			<div class="top_panel_location" onclick="<%=methods.showApps.caller()%>"><%=value.topCenterTitle%> <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div>
 			<div class="top_panel_apps">
 				<span class="glyphicon glyphicon-th app_icon" style="color: #fff;" onClick="<%=methods.showApps.caller()%>" title="Apps">
 				</span></div>
 			<div class="top_panel_pic"><%=fields.loginUser.here({when: 'self_small'})%></div>
 		 	<div class="top_panel_object"><%=fields.notificationBadge.here()%></div>
 		 	<div class="top_panel_object"><%=fields.todoBadge.here()%></div>
-		 	<div class="top_panel_search"><%=fields.topSearchBox.here()%></div>
+		 	<!--<div class="top_panel_search"><%=fields.topSearchBox.here()%></div>-->
 		 	<div class="top_panel_app"><%=fields.topMenuPanel.here()%></div>
 		 	
 		 	<%=fields.topCenterPanel.here()%>

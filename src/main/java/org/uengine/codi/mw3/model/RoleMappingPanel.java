@@ -5,14 +5,19 @@ import java.util.ArrayList;
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
 import org.metaworks.annotation.AutowiredFromClient;
+import org.metaworks.annotation.AutowiredToClient;
 import org.metaworks.annotation.Face;
 import org.metaworks.dao.MetaworksDAO;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.uengine.kernel.NoSuchProcessDefinitionException;
+import org.uengine.kernel.*;
+import org.uengine.modeling.ElementViewActionDelegate;
+import org.uengine.modeling.modeler.ProcessCanvas;
+import org.uengine.modeling.modeler.ProcessModeler;
 import org.uengine.modeling.resource.Version;
 import org.uengine.modeling.resource.VersionManager;
 import org.uengine.processmanager.ProcessManagerRemote;
+import org.uengine.social.ElementViewActionDelegateForInstanceMonitoring;
 
 
 @Face(displayName="$RoleMapping", options="hideLabels", values="true")
@@ -54,6 +59,25 @@ public class RoleMappingPanel implements ContextAware{
 		load(defId);
 	}
 
+	ProcessModeler processView;
+		public ProcessModeler getProcessView() {
+			return processView;
+		}
+		public void setProcessView(ProcessModeler processView) {
+			this.processView = processView;
+		}
+
+	ElementViewActionDelegate elementViewActionDelegate;
+	@AutowiredToClient
+		public ElementViewActionDelegate getElementViewActionDelegate() {
+			return elementViewActionDelegate;
+		}
+		public void setElementViewActionDelegate(ElementViewActionDelegate elementViewActionDelegate) {
+			this.elementViewActionDelegate = elementViewActionDelegate;
+		}
+
+
+
 	public void load(String defId) throws Exception {
 
 		defId = VersionManager.getProductionResourcePath("codi", defId);
@@ -61,9 +85,28 @@ public class RoleMappingPanel implements ContextAware{
 		if(defId == null)
 			throw new NoSuchProcessDefinitionException();
 
+
+
 		roleMappingDefinitions = new ArrayList<IRoleMappingDefinition>();
 
 		org.uengine.kernel.ProcessDefinition definition = processManager.getProcessDefinition(defId);
+
+
+
+		{//setting process view
+			ProcessModeler processModeler = new ProcessModeler();
+			processModeler.setPalette(null);
+
+			((ProcessCanvas) processModeler.getCanvas()).setMetaworksContext(new MetaworksContext());
+			((ProcessCanvas) processModeler.getCanvas()).getMetaworksContext().setWhen("monitor");
+			setProcessView(processModeler);
+
+			setElementViewActionDelegate(MetaworksRemoteService.getComponent(ElementViewActionDelegateForInstanceMonitoring.class));
+
+			getProcessView().setModel(definition);
+
+		}
+
 
 		if(definition.getRoles()!=null)
 		for(org.uengine.kernel.Role role : definition.getRoles()){

@@ -1,6 +1,11 @@
+<!--replace-->
+
+<div id="objDiv_<%=objectId%>" style="overflow:auto">
+
 <%
 	if(value == null && typeof value == 'undefined')
 		return;
+
 		if(mw3.how == 'loadDocument'){
 %>
 
@@ -32,7 +37,7 @@
 	<%=fields.instanceAction.here()%>		
 </div>
 
-<div class="bottom InstanceViewPanel" style="top: 110px; overflow:auto; position: absolute; min-width: 0px; min-height: 0px; max-width: 10000px; max-height: 10000px;  left: 0px; right: 0px; bottom: 0px;">
+<div class="bottom InstanceViewPanel" style="top: 110px; position: absolute; min-width: 0px; min-height: 0px; max-width: 10000px; max-height: 10000px;  left: 0px; right: 0px; bottom: 0px;">
 	<%=fields.instanceNameChanger.here({when:'edit'})%>
 	<%=fields.eventTriggerPanel.here()%>
 	<%=value.scheduleEditor ? fields.scheduleEditor.here() : ""%>
@@ -43,3 +48,6 @@
 %>
 </div>
 <%}%>
+
+
+</div>
