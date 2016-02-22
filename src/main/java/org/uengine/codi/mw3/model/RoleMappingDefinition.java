@@ -113,11 +113,11 @@ public class RoleMappingDefinition extends Database<IRoleMappingDefinition> impl
 		}	
 	
 	}
-	
+
 	public void removeUser(){
 		setRoleMappedUser(new RoleMappedUser());
 	}
-	
+
 //	public void refresh() {
 //		System.out.println("refresh");
 //	}

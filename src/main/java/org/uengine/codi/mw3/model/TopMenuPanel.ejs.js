@@ -15,6 +15,7 @@ var center2_layout = center_layout.find(".ui-layout-center").eq(0);
 var bar_layout = west_layout.next();
 
 function toggleLeft(){
+
 	if($('#navigator').hasClass('m_left')){
 		
 		$('#navigator').removeClass('m_left');
