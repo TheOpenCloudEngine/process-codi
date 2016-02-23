@@ -131,6 +131,30 @@ public class EmployeeWithCRUD extends AbstractEmployee{
 
         return employee;
     }
+
+    public IEmployee findByEmailAndGlobalCom(String userEmail, String GlobalCom) throws Exception {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * ");
+        sb.append("FROM emptable ");
+        sb.append("WHERE globalcom=?GlobalCom ");
+        sb.append("AND email=?UserEmail ");
+
+        IEmployee employee = null;
+
+        try {
+            employee = (IEmployee)this.sql(sb.toString());
+            employee.set("GlobalCom", GlobalCom);
+            employee.set("UserEmail", userEmail);
+            employee.setMetaworksContext(this.getMetaworksContext());
+            employee.select();
+            if(!employee.next()) {
+                employee = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return employee;
+    }
     
     public IEmployee findByEmail() throws Exception {
         EmployeeWithCRUD employee = null;

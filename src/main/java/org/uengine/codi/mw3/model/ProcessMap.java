@@ -278,7 +278,41 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		processMap.select();
 		
 		return processMap;
-		
+	}
+
+	public IProcessMap loadListByComCode(String comCode) throws Exception {
+
+		DAOUtil daoUtil = new DAOUtil();
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT *");
+		sb.append("  FROM processMap where comCode=?comCode");
+		sb.append(" ORDER BY " + daoUtil.replaceReservedKeyword("no"));
+
+		IProcessMap processMap = (IProcessMap)sql(ProcessMap.class, sb.toString());
+		processMap.setComCode(comCode);
+		processMap.select();
+
+		return processMap;
+	}
+
+	public IProcessMap findByMapId(String mapId) throws Exception {
+
+		DAOUtil daoUtil = new DAOUtil();
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT *");
+		sb.append("  FROM processMap where mapId=?mapId");
+		sb.append(" ORDER BY " + daoUtil.replaceReservedKeyword("no"));
+
+		IProcessMap processMap = (IProcessMap)sql(ProcessMap.class, sb.toString());
+		processMap.setMapId(mapId);
+		processMap.select();
+
+		if(!processMap.next())
+			processMap = null;
+
+		return processMap;
 	}
 	
 	@Autowired
