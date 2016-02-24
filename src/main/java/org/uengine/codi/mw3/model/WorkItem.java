@@ -828,6 +828,43 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         this.setInstanceViewThreadPanel(instanceViewThreadPanel);
     }
 
+    @ServiceMethod(callByContent=true, target= ServiceMethodContext.TARGET_POPUP)
+    public ModalWindow activityCardPopup() throws Exception{
+        Object result = null;
+        if ("file".equals(this.getType())) {
+            String path = null;
+            if (this.getFile().getMimeType().indexOf("image") > -1) {
+                this.getFile().getMetaworksContext().setWhen("image");
+                result = this.getFile();
+
+            } else {
+                path = "preview/" + this.getTaskId() + ".pdf";
+                IFrame iframe = new IFrame(path);
+                iframe.setWidth("100%");
+                iframe.setHeight("98%");
+                result = iframe;
+
+            }
+
+        } else if ("process".equals(this.getType())) {
+            this.workItemHandler = null;
+            detail();
+
+            workItemHandler.getMetaworksContext().setWhere("detail");
+            result = workItemHandler;
+
+        } else {
+            throw new Exception("$CannotOpen");
+        }
+        MetaworksFile file = this.getFile();
+        ModalWindow modal = new ModalWindow(result, 900, 700);
+        modal.setTitle("Activity Card");
+
+        MetaworksRemoteService.wrapReturn(modal.getPanel());
+
+        return modal;
+    }
+
     public void workItemPopup() throws Exception {
 
         Object result = null;
