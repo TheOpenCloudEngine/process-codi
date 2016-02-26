@@ -132,12 +132,35 @@ public class EmployeeWithCRUD extends AbstractEmployee{
         return employee;
     }
 
-    public IEmployee findByEmailAndGlobalCom(String userEmail, String GlobalCom) throws Exception {
+    public IEmployee findByEmpCode(String empCode) throws Exception {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * ");
+        sb.append("FROM emptable ");
+        sb.append("WHERE empcode=?empCode");
+
+        IEmployee employee = null;
+
+        try {
+            employee = (IEmployee)this.sql(sb.toString());
+            employee.set("empCode", empCode);
+            employee.setMetaworksContext(this.getMetaworksContext());
+            employee.select();
+            if(!employee.next()) {
+                employee = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return employee;
+    }
+
+    public IEmployee findByEmailAndKeyAndGlobalCom(String userEmail,String userKey, String GlobalCom) throws Exception {
         StringBuffer sb = new StringBuffer();
         sb.append("SELECT * ");
         sb.append("FROM emptable ");
         sb.append("WHERE globalcom=?GlobalCom ");
         sb.append("AND email=?UserEmail ");
+        sb.append("AND empname=?UserKey ");
 
         IEmployee employee = null;
 
@@ -145,6 +168,7 @@ public class EmployeeWithCRUD extends AbstractEmployee{
             employee = (IEmployee)this.sql(sb.toString());
             employee.set("GlobalCom", GlobalCom);
             employee.set("UserEmail", userEmail);
+            employee.set("UserKey", userKey);
             employee.setMetaworksContext(this.getMetaworksContext());
             employee.select();
             if(!employee.next()) {
