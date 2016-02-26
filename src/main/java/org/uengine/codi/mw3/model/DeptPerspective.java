@@ -7,6 +7,7 @@ public class DeptPerspective extends CollapsePerspective {
 
 	public DeptPerspective() {
 		setLabel("$Group");
+		setIcon("tree");
 	}
 	
 	@Override

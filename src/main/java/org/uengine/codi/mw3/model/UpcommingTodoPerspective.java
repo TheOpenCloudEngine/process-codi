@@ -10,6 +10,7 @@ public class UpcommingTodoPerspective extends CollapsePerspective {
 		this.setLabel("$UpcomingTodo");
 		this.setLoader(true);
 		this.setSelected(true);
+		this.setIcon("arrow-up");
 	}
 	
 	@Override

@@ -142,10 +142,10 @@ org_uengine_codi_mw3_Login.prototype = {
 	startLoading : function(){
 		$('body').prepend('<div id=\"mw3_progress\" style=\"position:absolute; z-index:9999999; top:50%; left:50%; margin-top:-12px; margin-left:-12px;\"><div id=\"info_div_box\"><img src=\"dwr/metaworks/images/circleloading.gif\"></div></div>');
 	},
-	endLoading : function(){	
+	endLoading : function(){
 		setTimeout(function(){
 			$('#mw3_progress').remove();
-		}, 100);		
+		}, 100);
 	},
 	destroy : function(){
 		$('#' + this.divId).unbind('keydown');

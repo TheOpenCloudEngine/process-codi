@@ -7,6 +7,7 @@ public class RolePerspective extends CollapsePerspective {
 
 	public RolePerspective() {
 		setLabel("$Role");
+		setIcon("profile");
 	}
 	
 	@Override

@@ -1,9 +1,12 @@
 <%	
 	if(value){
 %>
-		<div>
-			<%=fields.parameters.here()%>
-		</div>
+<div>
+	<%=fields.inputParameters.here()%>
+</div>
+<div>
+	<%=fields.outputParameters.here()%>
+</div>
 
 <%=fields.workItem.here({when:'view'})%>
 

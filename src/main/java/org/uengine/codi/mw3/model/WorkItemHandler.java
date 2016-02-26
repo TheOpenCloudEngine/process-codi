@@ -45,19 +45,20 @@ public class WorkItemHandler implements ContextAware {
 		if(humanActivity==null && instanceId!=null && tracingTag!=null){
 			humanActivity = (HumanActivity) instance.getProcessDefinition().getActivity(tracingTag);
 		}
-		
+
+		inputParameters = new ArrayList<ParameterValue>();
+		outputParameters = new ArrayList<ParameterValue>();
+
 		if(humanActivity != null && humanActivity.getParameters()!=null){
 			// load map for ITool
 			loadMapForITool((Map<String, Object>)makeMapForITool(humanActivity));
 			
 			//creates work item handler
-			parameters = new ParameterValue[humanActivity.getParameters().length];
+			//parameters = new ParameterValue[humanActivity.getParameters().length];
 			for(int i=0; i<humanActivity.getParameters().length; i++){
 				ParameterContext pc = humanActivity.getParameters()[i];
 
-				parameters[i] = new ParameterValue();
-
-				ParameterValue pv = parameters[i];
+				ParameterValue pv = new ParameterValue();
 
 				//TODO: why this occurs?
 				if(pc.getVariable()==null)
@@ -74,8 +75,12 @@ public class WorkItemHandler implements ContextAware {
 				when = MetaworksContext.WHEN_EDIT;
 
 //				if(MetaworksContext.WHEN_EDIT.equals(when)){
-				if(ParameterContext.DIRECTION_IN.equals(pc.getDirection()))
+				if(ParameterContext.DIRECTION_IN.equals(pc.getDirection())) {
 					when = MetaworksContext.WHEN_VIEW;
+					inputParameters.add(pv);
+				}else{
+					outputParameters.add(pv);
+				}
 
 //				}
 
@@ -181,17 +186,40 @@ public class WorkItemHandler implements ContextAware {
 	//// in old manners, we should carry all the following parameters by passing query string or json something:
 	
 
+//
+//	ParameterValue[] parameters;
+//		@Valid
+//		@Available(where = "detail")
+//		public ParameterValue[] getParameters() {
+//			return parameters;
+//		}
+//		public void setParameters(ParameterValue[] parameters) {
+//			this.parameters = parameters;
+//		}
 
-	ParameterValue[] parameters;
-		@Valid
-		@Available(where = "detail")
-		public ParameterValue[] getParameters() {
-			return parameters;
+	ArrayList<ParameterValue> inputParameters;
+	@Available(where = "detail")
+		public ArrayList<ParameterValue> getInputParameters() {
+			return inputParameters;
 		}
-		public void setParameters(ParameterValue[] parameters) {
-			this.parameters = parameters;
+		public void setInputParameters(ArrayList<ParameterValue> inputParameters) {
+			this.inputParameters = inputParameters;
 		}
-		
+
+
+	ArrayList<ParameterValue> outputParameters;
+	@Available(where = "detail")
+		public ArrayList<ParameterValue> getOutputParameters() {
+			return outputParameters;
+		}
+		public void setOutputParameters(ArrayList<ParameterValue> outputParameters) {
+			this.outputParameters = outputParameters;
+		}
+
+
+
+
+
 	String instanceId;
 	@Hidden
 		public String getInstanceId() {
@@ -396,23 +424,24 @@ public class WorkItemHandler implements ContextAware {
 
 		processManager.completeWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp);
 		processManager.applyChanges();
-		
-		if(parameters!=null){
-			for(int i=0; i<parameters.length; i++){				
 
-				ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
-
-				if(pvvl!=null && pvvl.getElements()!=null)
-				for(MetaworksElement me : pvvl.getElements()){
-					Object processVariableValue = me.getValue();
-
-					if(processVariableValue instanceof ITool){
-						((ITool)processVariableValue).afterComplete();
-					}
-				}
-
-			}
-		}
+		//TODO - ITool interface lifecycle implementation
+//		if(parameters!=null){
+//			for(int i=0; i<parameters.length; i++){
+//
+//				ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
+//
+//				if(pvvl!=null && pvvl.getElements()!=null)
+//				for(MetaworksElement me : pvvl.getElements()){
+//					Object processVariableValue = me.getValue();
+//
+//					if(processVariableValue instanceof ITool){
+//						((ITool)processVariableValue).afterComplete();
+//					}
+//				}
+//
+//			}
+//		}
 		
 		releaseMapForITool();
 
@@ -592,25 +621,22 @@ public class WorkItemHandler implements ContextAware {
 	private ResultPayload createResultPayload() throws Exception {
 		ResultPayload rp = new ResultPayload();
 
-		if(parameters!=null)
-			for(int i=0; i<parameters.length; i++){
-				ParameterValue pv = parameters[i];
-
-
-				String variableTypeName = parameters[i].getVariableType();
+		if(outputParameters!=null)
+			for(ParameterValue pv : outputParameters){
+				String variableTypeName = pv.getVariableType();
 				//Class variableType = Thread.currentThread().getContextClassLoader().loadClass(variableTypeName);
 				ProcessVariableValue processVariableValue = new ProcessVariableValue();
-				processVariableValue.setName(parameters[i].getVariableName());
+				processVariableValue.setName(pv.getVariableName());
 
-				if(parameters[i].isMultipleInput()) {
-					ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
+				if(pv.isMultipleInput()) {
+					ProcessVariableValueList pvvl =pv.getProcessVariableValueList();
 
 					for (MetaworksElement me : pvvl.getElements()) {
 						processVariableValue.setValue(me.getValue());
 						processVariableValue.moveToAdd();
 					}
 				}else{
-					processVariableValue.setValue(parameters[i].getValue());
+					processVariableValue.setValue(pv.getValue());
 				}
 
 				if(processVariableValue instanceof ITool){
@@ -658,25 +684,17 @@ public class WorkItemHandler implements ContextAware {
 		Instance inst = new Instance();
 		inst.setInstId(new Long(getRootInstId()));
 		inst.copyFrom(inst.databaseMe());
-		
-		instanceViewContent.load(inst);
+
+		InstanceViewThreadPanel panel = new InstanceViewThreadPanel();
+		panel.getMetaworksContext().setHow("instanceList");
+		panel.getMetaworksContext().setWhere("sns");
+		panel.session = session;
+		panel.load(this.getRootInstId().toString());
 		
 		this.sendPush(inst,newlyAddedWorkItems,workItemMe);
 		
-		if("oce".equals(session.getUx()) || "sns".equals(session.getEmployee().getPreferUX())){
-			InstanceViewThreadPanel panel = new InstanceViewThreadPanel();
-			panel.getMetaworksContext().setHow("instanceList");
-			panel.getMetaworksContext().setWhere("sns");
-			panel.session = session;
-			panel.load(this.getRootInstId().toString());
-			
-			return new Object[]{panel, new Remover(new ModalWindow() , true )};
-		
-		}else {
-			return new Object[]{instanceViewContent, new Remover(new ModalWindow(), true)};
-			
-		}
-		
+		return new Object[]{panel, new Remover(new ModalWindow(), true)};
+
 	}
 	@ServiceMethod(payload={"taskId", "replyTitle", "replyFieldName", "rootInstId", "instanceId"}, when=MetaworksContext.WHEN_EDIT, target=ServiceMethodContext.TARGET_APPEND)
 	public ReplyOverlayCommentWorkItem comment() throws Exception{

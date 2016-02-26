@@ -5,6 +5,9 @@ import org.metaworks.annotation.Available;
 import org.metaworks.annotation.ServiceMethod;
 
 public class MoreViewPerspective extends Perspective {
+
+
+
 	boolean more;
 		public boolean isMore() {
 			return more;

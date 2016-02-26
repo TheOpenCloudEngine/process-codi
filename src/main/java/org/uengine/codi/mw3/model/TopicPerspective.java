@@ -12,6 +12,7 @@ public class TopicPerspective extends MoreViewPerspective {
 	public TopicPerspective() throws Exception {
 		this.setLabel("$Topic");
 		this.setLoader(true);
+		this.setIcon("bubbles2");
 	}
 	
 	@Override

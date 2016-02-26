@@ -7,6 +7,7 @@ public class ProcessPerspective extends CollapsePerspective {
 	
 	public ProcessPerspective(){
 		setLabel("$Process");
+		setIcon("shuffle");
 	}
 	
 	protected void loadChildren() throws Exception {
