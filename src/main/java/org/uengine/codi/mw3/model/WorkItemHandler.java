@@ -26,15 +26,15 @@ import java.util.*;
 @Scope("prototype")
 //@Face(ejsPath="faces/org/metaworks/widget/Window.ejs", options={"hideLabels"}, values={"true"}, displayName="업무 처리 화면")
 public class WorkItemHandler implements ContextAware {
-	
+
 	public WorkItemHandler(){} //to be spring bean without argument, this is required.
-	
+
 	public void load() throws Exception{
-		
+
 		Long instanceId = new Long(getInstanceId());
 		Long taskId = getTaskId();
 		String tracingTag = getTracingTag();
-		
+
 		ProcessInstance instance = processManager.getProcessInstance(instanceId.toString());
 
 		if(getExecutionScope()!=null)
@@ -52,7 +52,7 @@ public class WorkItemHandler implements ContextAware {
 		if(humanActivity != null && humanActivity.getParameters()!=null){
 			// load map for ITool
 			loadMapForITool((Map<String, Object>)makeMapForITool(humanActivity));
-			
+
 			//creates work item handler
 			//parameters = new ParameterValue[humanActivity.getParameters().length];
 			for(int i=0; i<humanActivity.getParameters().length; i++){
@@ -148,19 +148,19 @@ public class WorkItemHandler implements ContextAware {
 
 			releaseMapForITool();
 		}
-		
+
 		setInstanceId(instanceId.toString());
 		setTracingTag(humanActivity.getTracingTag());
 		setTaskId(taskId);
-		
+
 		// 댓글이 있는지 찾는다.
 		if( taskId != -1 && taskId != 0){
 			WorkItem item = new WorkItem();
-			
+
 			workItem = item.findParentWorkItem(taskId.toString());
 		}
 	}
-	
+
 	transient IWorkItem workItem;
 	@Hidden
 		public IWorkItem getWorkItem() {
@@ -170,32 +170,6 @@ public class WorkItemHandler implements ContextAware {
 			this.workItem = workItem;
 		}
 
-//	transient protected HumanActivity humanActivity;
-//	@NonLoadable
-//	@NonSavable
-//	@Hidden
-//		public HumanActivity getHumanActivity() {
-//			return humanActivity;
-//		}
-//		public void setHumanActivity(HumanActivity humanActivity) {
-//			this.humanActivity = humanActivity;
-//		}
-		
-//	transient protected ProcessInstance instance;
-	
-	//// in old manners, we should carry all the following parameters by passing query string or json something:
-	
-
-//
-//	ParameterValue[] parameters;
-//		@Valid
-//		@Available(where = "detail")
-//		public ParameterValue[] getParameters() {
-//			return parameters;
-//		}
-//		public void setParameters(ParameterValue[] parameters) {
-//			this.parameters = parameters;
-//		}
 
 	ArrayList<ParameterValue> inputParameters;
 	@Available(where = "detail")
@@ -268,7 +242,7 @@ public class WorkItemHandler implements ContextAware {
 		public void setRootInstId(Long rootInstId) {
 			this.rootInstId = rootInstId;
 		}
-		
+
 	String replyFieldName;
 		@Hidden
 		public String getReplyFieldName() {
@@ -286,6 +260,7 @@ public class WorkItemHandler implements ContextAware {
 			this.replyTitle = replyTitle;
 		}
 
+
 	@ServiceMethod(callByContent=true, when= MetaworksContext.WHEN_EDIT)
 	public Object[] cancel() throws Exception{
 		ProcessInstance instance = processManager.getProcessInstance(instanceId);
@@ -299,35 +274,35 @@ public class WorkItemHandler implements ContextAware {
 //		humanActivity.setStatus(instance, Activity.ACTIVITY_STOPPED)
 
 		humanActivity.stop(instance);
-		
+
 		processManager.applyChanges();
-		
+
 		CommentWorkItem cancelledHistory = new CommentWorkItem();
 		cancelledHistory.processManager = processManager;
 		cancelledHistory.session = session;
 		cancelledHistory.setInstId(new Long(getInstanceId()));
 		cancelledHistory.setTitle(humanActivity.getName() + " task has been cancelled by me.");
-		
-		
+
+
 		cancelledHistory.setWriter(session.getUser());
 		cancelledHistory.add();
-		
+
 		Instance instanceDAO = new Instance();
 		instanceDAO.setInstId(this.getRootInstId());
 		instanceDAO.copyFrom(instanceDAO.databaseMe());
-		
+
 		instanceViewContent.session = session;
 		instanceViewContent.load(instanceDAO);
-		
+
 		this.sendPush(instanceDAO,null,cancelledHistory);
-		
+
 		if("oce".equals(session.getUx())){
 			InstanceViewThreadPanel panel = new InstanceViewThreadPanel();
 			panel.getMetaworksContext().setHow("instanceList");
 			panel.getMetaworksContext().setWhere("sns");
 			panel.session = session;
 			panel.load(this.getRootInstId().toString());
-			
+
 			return new Object[]{panel, new Remover(new ModalWindow() , true )};
 		}else {
 			return new Object[]{instanceViewContent, new Remover(new ModalWindow(), true)};
@@ -356,41 +331,41 @@ public class WorkItemHandler implements ContextAware {
 		humanActivity.skip(instance);
 
 		List activities = humanActivity.getPropagatedActivities(instance);
-		
+
 		//resume the process
 //		Vector activityInstances =  instance.getCurrentRunningActivitiesDeeply();
 		for(int i=0; i<activities.size(); i++){
 			Activity nextAct = (Activity) activities.get(i);
 			nextAct.resume(instance);
 		}
-		
+
 		processManager.applyChanges();
-		
+
 		CommentWorkItem cancelledHistory = new CommentWorkItem();
 		cancelledHistory.processManager = processManager;
 		cancelledHistory.session = session;
 		cancelledHistory.setInstId(new Long(getInstanceId()));
-		
+
 		cancelledHistory.setTitle(humanActivity.getName() + " has been skipped by me.");
 		cancelledHistory.setWriter(session.getUser());
 		cancelledHistory.add();
-		
+
 		Instance instanceDAO = new Instance();
 		instanceDAO.setInstId(this.getRootInstId());
 		instanceDAO.copyFrom(instanceDAO.databaseMe());
-		
+
 		instanceViewContent.session = session;
 		instanceViewContent.load(instanceDAO);
-		
+
 		this.sendPush(instanceDAO,null,cancelledHistory);
-			
+
 		if("oce".equals(session.getUx())){
 			InstanceViewThreadPanel panel = new InstanceViewThreadPanel();
 			panel.getMetaworksContext().setHow("instanceList");
 			panel.getMetaworksContext().setWhere("sns");
 			panel.session = session;
 			panel.load(this.getRootInstId().toString());
-			
+
 			return new Object[]{panel, new Remover(new ModalWindow() , true )};
 		}else{
 			return new Object[]{instanceViewContent, new Remover(new ModalWindow(), true)};
@@ -399,13 +374,13 @@ public class WorkItemHandler implements ContextAware {
 
 	@AutowiredFromClient
 	public Session session;
-		
+
 	@ServiceMethod(callByContent=true, when= MetaworksContext.WHEN_EDIT, validate=true, target= ServiceMethodContext.TARGET_APPEND)
 //	@Available(when={"NEW"})
 	public Object[] complete() throws RemoteException, ClassNotFoundException, Exception{
-						
+
 		ProcessInstance instance = processManager.getProcessInstance(instanceId);
-		
+
 		HumanActivity humanActivity = null;
 		if (instanceId != null && tracingTag != null) {
 			humanActivity = (HumanActivity) instance.getProcessDefinition()
@@ -425,32 +400,14 @@ public class WorkItemHandler implements ContextAware {
 		processManager.completeWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp);
 		processManager.applyChanges();
 
-		//TODO - ITool interface lifecycle implementation
-//		if(parameters!=null){
-//			for(int i=0; i<parameters.length; i++){
-//
-//				ProcessVariableValueList pvvl = parameters[i].getProcessVariableValueList();
-//
-//				if(pvvl!=null && pvvl.getElements()!=null)
-//				for(MetaworksElement me : pvvl.getElements()){
-//					Object processVariableValue = me.getValue();
-//
-//					if(processVariableValue instanceof ITool){
-//						((ITool)processVariableValue).afterComplete();
-//					}
-//				}
-//
-//			}
-//		}
-		
 		releaseMapForITool();
 
-		
+
 		// TODO pushTargetClientObjects 를 하고 나면 copyOfInstance 가 변경이 되는 상황이 발생하여 새로운 객체를 생성하여줌
 		Instance inst = new Instance();
 		inst.setInstId(this.getRootInstId());
 		inst.copyFrom(inst.databaseMe());
-		
+
 		this.saveLastComment(inst, humanActivity);
 		inst.flushDatabaseMe();
 
@@ -462,7 +419,7 @@ public class WorkItemHandler implements ContextAware {
 		return new Object[]{new Remover(new ModalWindow(), true ), new Refresh(panel, true)};
 
 	}
-	
+
 	public void sendPush(Instance inst, ArrayList<ProcessWorkItem> newlyAddedWorkItems, IWorkItem workItemMe) throws Exception{
 		/**
 		 *  === noti push 부분 ===
@@ -480,7 +437,7 @@ public class WorkItemHandler implements ContextAware {
 				notiUsers.put(followerUserId, topicNotiUsers.get(followerUserId));
 			}
 		}
-		
+
 		// noti 저장
 		Iterator<String> iterator = notiUsers.keySet().iterator();
 		while(iterator.hasNext()){
@@ -495,28 +452,28 @@ public class WorkItemHandler implements ContextAware {
 				noti.setConfirm(false);
 				noti.setInputDate(Calendar.getInstance().getTime());
 				noti.setTaskId(getTaskId());
-				noti.setInstId(new Long(getInstanceId()));					
+				noti.setInstId(new Long(getInstanceId()));
 				noti.setActAbstract(session.getUser().getName() + " completed workItem : " + inst.getName());
 				noti.add(inst);
 			}
 		}
-		
+
 		MetaworksRemoteService.pushTargetScriptFiltered(new AllSessionFilter(notiUsers),
 				"mw3.getAutowiredObject('" + NotificationBadge.class.getName() + "').refresh",
 				new Object[]{});
-		
+
 		/**
 		 *  === todo count push 부분 ===
 		 */
 		TodoBadge todoBadge = new TodoBadge();
 		todoBadge.loader = true;
-		
+
 		MetaworksRemoteService.pushTargetClientObjects(Login.getSessionIdWithUserId(session.getUser().getUserId()), new Object[]{new Refresh(todoBadge, true)});
 		// follower 될 사용자의 todo count 를 refresh
 		MetaworksRemoteService.pushClientObjectsFiltered(
 				new OtherSessionFilter(notiUsers, session.getUser().getUserId()),
 				new Object[]{new Refresh(todoBadge, true)});
-		
+
 		/**
 		 *  === instance push 부분 ===
 		 */
@@ -524,13 +481,13 @@ public class WorkItemHandler implements ContextAware {
 		if(Login.getSessionIdWithCompany(session.getEmployee().getGlobalCom()) != null){
 			notiUsers.putAll(Login.getSessionIdWithCompany(session.getEmployee().getGlobalCom()));
 		}
-		
+
 		inst.getMetaworksContext().setWhere(Instance.WHERE_INSTANCELIST);
-		
+
 		// 본인의 instanceList 에 push
 		MetaworksRemoteService.pushTargetClientObjects(Login.getSessionIdWithUserId(session.getUser().getUserId()), new Object[]{new InstanceListener(inst)});
-		
-		// 본인 이외에 다른 사용자에게 push			
+
+		// 본인 이외에 다른 사용자에게 push
 		// 새로 추가되는 workItem이 있는 경우 - 1. 새로추가된 workItem은 append를 하고 2.완료시킨 워크아이템은 리프레쉬를 시킨다
 		if( newlyAddedWorkItems != null &&newlyAddedWorkItems.size() > 0 ){
 			for(int j=0; j < newlyAddedWorkItems.size(); j++){
@@ -551,12 +508,12 @@ public class WorkItemHandler implements ContextAware {
 					new OtherSessionFilter(notiUsers, session.getUser().getUserId().toUpperCase()),
 					new Object[]{new InstanceListener(inst)});
 		}
-			
+
 	}
-	
+
 	private IInstance saveLastComment(Instance instanceRef, HumanActivity humanActivity) throws Exception{
 		String title = humanActivity.getDescription() != null ? humanActivity.getDescription() : null;
-		
+
 		IUser writer = new User();
 		writer.setUserId(session.getUser().getUserId());
 		writer.setName(session.getUser().getName());
@@ -584,7 +541,7 @@ public class WorkItemHandler implements ContextAware {
 					instanceRef.setLastCmnt(instanceRef.getLastCmnt2());
 					instanceRef.setLastCmntUser(instanceRef.getLastCmnt2User());
 					instanceRef.setLastcmntTaskId(instanceRef.getLastcmnt2TaskId());
-					
+
 					instanceRef.setLastCmnt2(title);
 					instanceRef.setLastCmnt2User(writer);
 					instanceRef.setLastcmnt2TaskId(this.getTaskId());
@@ -592,7 +549,7 @@ public class WorkItemHandler implements ContextAware {
 					instanceRef.databaseMe().setLastCmnt(instanceRef.getLastCmnt());
 					instanceRef.databaseMe().setLastCmntUser(instanceRef.getLastCmntUser());
 					instanceRef.databaseMe().setLastcmntTaskId(instanceRef.getLastcmntTaskId());
-					
+
 					instanceRef.databaseMe().setLastCmnt2(instanceRef.getLastCmnt2());
 					instanceRef.databaseMe().setLastCmnt2User(instanceRef.getLastCmnt2User());
 					instanceRef.databaseMe().setLastcmnt2TaskId(instanceRef.getLastcmnt2TaskId());
@@ -603,8 +560,8 @@ public class WorkItemHandler implements ContextAware {
 	}
 	@Autowired
 	public InstanceViewContent instanceViewContent;
-	
-			
+
+
 	@ServiceMethod(callByContent=true, when= MetaworksContext.WHEN_EDIT )
 	public void save() throws RemoteException, ClassNotFoundException, Exception{
 
@@ -651,34 +608,34 @@ public class WorkItemHandler implements ContextAware {
 	@ServiceMethod(callByContent=true, when="compete")
 	public Object[]  accept() throws Exception{
 		ProcessInstance instance = processManager.getProcessInstance(instanceId.toString());
-		
+
 		HumanActivity humanActivity = (HumanActivity) instance.getProcessDefinition().getActivity(tracingTag);
-		
-		
+
+
 		RoleMapping roleMapping = RoleMapping.create();
 		roleMapping.setName(humanActivity.getRole().getName());
-		roleMapping.setEndpoint(session.getEmployee().getEmpCode());		
-		
+		roleMapping.setEndpoint(session.getEmployee().getEmpCode());
+
 		String[] executedTaskIds = processManager.delegateWorkitem(this.getInstanceId(), this.getTracingTag(), roleMapping);
 		processManager.applyChanges();
-		
+
 		// 변경된 액티비티 들만 찾기
 		ArrayList<ProcessWorkItem> newlyAddedWorkItems = new ArrayList<ProcessWorkItem>();
-		
+
 		for(String taskId : executedTaskIds){
 			ProcessWorkItem newlyAppendedWorkItem = new ProcessWorkItem();
 			newlyAppendedWorkItem.setTaskId(new Long(taskId));
 			newlyAppendedWorkItem.copyFrom(newlyAppendedWorkItem.databaseMe());
-			
+
 			newlyAddedWorkItems.add(newlyAppendedWorkItem);
 		}
-		
-		
+
+
 		ProcessWorkItem workItemMe = new ProcessWorkItem();
 		workItemMe.setTaskId(this.getTaskId());
 		workItemMe.copyFrom(workItemMe.databaseMe());
 		workItemMe.setMetaworksContext(new MetaworksContext());
-		
+
 
 		//refreshes the instanceview so that the next workitem can be show up
 		Instance inst = new Instance();
@@ -690,18 +647,18 @@ public class WorkItemHandler implements ContextAware {
 		panel.getMetaworksContext().setWhere("sns");
 		panel.session = session;
 		panel.load(this.getRootInstId().toString());
-		
+
 		this.sendPush(inst,newlyAddedWorkItems,workItemMe);
-		
+
 		return new Object[]{panel, new Remover(new ModalWindow(), true)};
 
 	}
 	@ServiceMethod(payload={"taskId", "replyTitle", "replyFieldName", "rootInstId", "instanceId"}, when=MetaworksContext.WHEN_EDIT, target=ServiceMethodContext.TARGET_APPEND)
 	public ReplyOverlayCommentWorkItem comment() throws Exception{
-		
+
 		OverlayCommentOption overlayCommentOption = new OverlayCommentOption();
 		overlayCommentOption.setParentTaskId(getTaskId());
-		
+
 		ReplyOverlayCommentWorkItem replyOverlayCommentWorkItem = new ReplyOverlayCommentWorkItem();
 		replyOverlayCommentWorkItem.session = session;
 		replyOverlayCommentWorkItem.processManager = processManager;
@@ -713,14 +670,14 @@ public class WorkItemHandler implements ContextAware {
 		replyOverlayCommentWorkItem.setEndpoint(session.getUser().getUserId());
 		replyOverlayCommentWorkItem.setRootInstId(this.getRootInstId());
 		replyOverlayCommentWorkItem.add();
-		
+
 		replyOverlayCommentWorkItem.getMetaworksContext().setWhen("edit");
 		return replyOverlayCommentWorkItem;
 	}
-			
+
 	@Autowired
 	transient public ProcessManagerRemote processManager;
-	
+
 	MetaworksContext metaworksContext;
 		public MetaworksContext getMetaworksContext() {
 			return metaworksContext;
@@ -728,7 +685,7 @@ public class WorkItemHandler implements ContextAware {
 		public void setMetaworksContext(MetaworksContext metaworksContext) {
 			this.metaworksContext = metaworksContext;
 		}
-		
+
 	protected Map<String, Object> makeMapForITool(HumanActivity humanActivity)
 			throws Exception {
 		Map<String, Object> mapForITool = new HashMap<String, Object>();
@@ -748,12 +705,12 @@ public class WorkItemHandler implements ContextAware {
 		mapForITool.put(ITool.ITOOL_ACTIVITY_EXT8_KEY, humanActivity.getExtValue8());
 		mapForITool.put(ITool.ITOOL_ACTIVITY_EXT9_KEY, humanActivity.getExtValue9());
 		mapForITool.put(ITool.ITOOL_ACTIVITY_EXT10_KEY, humanActivity.getExtValue10());
-		
-		
-		
+
+
+
 		return mapForITool;
 	}
-	
+
 	private void loadMapForITool(Map<String, Object> map) {
 		TransactionContext.getThreadLocalInstance().setSharedContext(
 				ITool.ITOOL_MAP_KEY, map);
@@ -762,35 +719,35 @@ public class WorkItemHandler implements ContextAware {
 	private void releaseMapForITool() {
 		TransactionContext.getThreadLocalInstance().setSharedContext(
 				ITool.ITOOL_MAP_KEY, null);
-	}		
-	
-	
-	
+	}
+
+
+
 	public static String[] executedActivityTaskIds(ProcessManagerRemote processManager, String instanceId) throws Exception {
 		ProcessInstance instance = processManager.getProcessInstance(instanceId);
-		
+
 		return executedActivityTaskIds(instance);
 	}
-	
+
 	public static String[] executedActivityTaskIds(ProcessInstance instance) throws Exception {
         List executedActivityCtxs = instance.getProcessTransactionContext().getExecutedActivityInstanceContextsInTransaction();
-        
+
 		List<String> newlyAddedWorkItems = new ArrayList<String>();
         if(executedActivityCtxs!=null && executedActivityCtxs.size() > 0){
             for(int i=executedActivityCtxs.size()-1; i>-1; i--){
                     ActivityInstanceContext lastActCtx = (ActivityInstanceContext)executedActivityCtxs.get(i);
                     Activity lastAct = lastActCtx.getActivity();
-                    
+
                     if(lastAct instanceof HumanActivity && lastActCtx.getInstance().isRunning(lastAct.getTracingTag())){
                         HumanActivity newlyStartedAct = (HumanActivity)lastAct;
 						String[] taskIds = newlyStartedAct.getTaskIds(instance);
                         if( taskIds != null ){
 							for(String taskId : taskIds){
 	                            newlyAddedWorkItems.add(taskId);
-							}						
+							}
                         }
                     }
-                    
+
                     if(lastAct instanceof SubProcessActivity && lastActCtx.getInstance().isRunning(lastAct.getTracingTag())){
                     	Vector subProcess = ((SubProcessActivity)lastAct).getSubProcesses(instance);
                     	for(int indexOfSP=0; indexOfSP<subProcess.size(); indexOfSP++){
@@ -814,7 +771,16 @@ public class WorkItemHandler implements ContextAware {
         		}
     		}
         }
-        
+
         return newlyAddedWorkItems.toArray(new String[newlyAddedWorkItems.size()]);
 	}
+
+	Boolean handleByJira;
+		@Hidden
+		public Boolean getHandleByJira() {
+			return handleByJira;
+		}
+		public void setHandleByJira(Boolean handleByJira) {
+			this.handleByJira = handleByJira;
+		}
 }

@@ -10,6 +10,7 @@ import org.metaworks.example.ide.SourceCode;
 import org.metaworks.website.MetaworksFile;
 import org.metaworks.widget.IFrame;
 import org.metaworks.widget.ModalWindow;
+import org.oce.garuda.multitenancy.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -804,6 +805,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
                 workItemHandler.getMetaworksContext().setWhen(WHEN_VIEW);
             }
 
+
             workItemHandler.session = session;
 
             workItemHandler.load();
@@ -851,12 +853,46 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
             detail();
 
             workItemHandler.getMetaworksContext().setWhere("detail");
+            workItemHandler.getMetaworksContext().setWhen("edit");
             result = workItemHandler;
 
         } else {
             throw new Exception("$CannotOpen");
         }
         MetaworksFile file = this.getFile();
+        ModalWindow modal = new ModalWindow(result, 900, 700);
+        modal.setTitle("Activity Card");
+
+        MetaworksRemoteService.wrapReturn(modal.getPanel());
+
+        return modal;
+    }
+
+    public String jiraTenant;
+
+    public String getJiraTenant() {
+        return jiraTenant;
+    }
+
+    public void setJiraTenant(String jiraTenant) {
+        this.jiraTenant = jiraTenant;
+    }
+
+
+
+    @ServiceMethod(callByContent=true, target= ServiceMethodContext.TARGET_POPUP)
+    public ModalWindow jiraActivityCardPopup() throws Exception{
+
+        new TenantContext(this.getJiraTenant());
+        Object result = null;
+        this.workItemHandler = null;
+        detail();
+
+        workItemHandler.setRootInstId(this.getInstId());
+        workItemHandler.getMetaworksContext().setWhere("detail");
+        workItemHandler.getMetaworksContext().setWhen("edit");
+        workItemHandler.setHandleByJira(true);
+        result = workItemHandler;
         ModalWindow modal = new ModalWindow(result, 900, 700);
         modal.setTitle("Activity Card");
 
