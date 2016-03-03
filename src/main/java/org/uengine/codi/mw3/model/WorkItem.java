@@ -2093,12 +2093,4 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
         this.setInstanceViewThreadPanel(instanceViewThreadPanel);
     }
-
-//	@AutowiredFromClient
-//	public TopicFollowers topicFollowers;
-//	
-//	@AutowiredFromClient
-//	public DeptFollowers deptFollowers;
-
-
 }
