@@ -62,7 +62,8 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 		try {
 			DefaultResource processResource = new DefaultResource();
 
-			processResource.setPath("codi/" + location);
+			//processResource.setPath("codi/" + location);
+			processResource.setPath(location);
 
 			Object object = resourceManager.getObject(processResource);
 
