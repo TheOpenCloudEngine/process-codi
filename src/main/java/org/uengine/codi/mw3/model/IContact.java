@@ -13,7 +13,7 @@ import org.metaworks.annotation.ORMapping;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.IDAO;
 
-@Face(ejsPathForArray="dwr/metaworks/genericfaces/ListFace.ejs")
+//@Face(ejsPathForArray="dwr/metaworks/genericfaces/ListFace.ejs")
 public interface IContact extends IDAO{
 	
 	public final static String HOW_PICK 					= "contact_pick";
