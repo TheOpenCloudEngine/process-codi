@@ -134,6 +134,7 @@ public class InstanceList implements ContextAware{
 		loadDocument(this.getNavigation());
 	}
 
+	@ServiceMethod(callByContent = true, onLoad = true)
 	public InstanceList load() throws Exception {
 		return load(this.getNavigation());
 	}

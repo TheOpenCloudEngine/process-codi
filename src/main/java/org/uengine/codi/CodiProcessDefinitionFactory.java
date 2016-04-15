@@ -50,7 +50,7 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 		// TODO Auto-generated method stub
 		
 		
-		if(unstructuredProcessDefinitionLocation.equals(location)){
+		if(location.endsWith(unstructuredProcessDefinitionLocation)){
 			ProcessDefinition obj = new ProcessDefinition();
 			
 			obj.setModifiedDate(Calendar.getInstance());

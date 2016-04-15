@@ -692,14 +692,15 @@ public class Login implements ContextAware {
 
         String ipAddress = httpServletRequest.getRemoteAddr();
 
-        CodiLog log = new CodiLog();
-        log.setId(log.createNewId());
-        log.setEmpcode(session.getEmployee().getEmpCode());
-        log.setComCode(session.getEmployee().getGlobalCom());
-        log.setType("login");
-        log.setDate(new Date());
-        log.setIp(ipAddress);
-        log.createDatabaseMe();
+        //disable for performance tunning
+//        CodiLog log = new CodiLog();
+//        log.setId(log.createNewId());
+//        log.setEmpcode(session.getEmployee().getEmpCode());
+//        log.setComCode(session.getEmployee().getGlobalCom());
+//        log.setType("login");
+//        log.setDate(new Date());
+//        log.setIp(ipAddress);
+//        log.createDatabaseMe();
 
 
         MainPanel mainPanel;

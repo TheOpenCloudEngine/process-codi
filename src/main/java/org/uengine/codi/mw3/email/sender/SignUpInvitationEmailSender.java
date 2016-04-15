@@ -26,7 +26,7 @@ public class SignUpInvitationEmailSender extends TempEmailSender {
         String url = baseUrl + urlPath;
         String tempContent = readContent();
 
-        String title = "프로세스코디 계정을 활성화시키세요.";
+        String title = "Please activate your account";
 
         tempContent = tempContent.replaceAll(beforeCompany, afterCompany);
         tempContent = tempContent.replaceAll(parameterSignUpURL, url);

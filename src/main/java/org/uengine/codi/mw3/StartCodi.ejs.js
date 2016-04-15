@@ -36,9 +36,5 @@ org_uengine_codi_mw3_StartCodi.prototype = {
 			this.object.logout();
 		}else if(this.object.key == 'login')
 			this.object.login();
-	}, 
-	startLoading : function(){
-	},
-	endLoading : function(){
 	}
 };

@@ -149,7 +149,7 @@ public class Perspective {
 			instListPanel.setScheduleCalendar(scheduleCalendar);
 		}else{
 			InstanceList instList = new InstanceList(session);
-			instList.load();
+			//instList.load();
 
 			instListPanel.setInstanceList(instList);
 		}
