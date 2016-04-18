@@ -286,6 +286,20 @@ public class Session implements ContextAware{
 
 			this.setUser(user);
 
+			setCompany(new Company());
+
+		} else {
+			throw new Exception(
+					"There is no Company info in user info.");
+		}
+	}
+
+
+	@ServiceMethod(callByContent = true, onLoad = true)
+	public void fillDeptAndComp() throws Exception {
+		if (this.getEmployee() != null
+				&& this.getEmployee().getGlobalCom() != null) {
+
 
 			if (this.getEmployee().getPartCode() != null) {
 				try{
@@ -306,6 +320,8 @@ public class Session implements ContextAware{
 
 				}
 			}
+
+			setCompany(new Company());
 		} else {
 			throw new Exception(
 					"There is no Company info in user info.");

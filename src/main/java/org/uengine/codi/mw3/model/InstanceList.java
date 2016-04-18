@@ -73,12 +73,12 @@ public class InstanceList implements ContextAware{
 		this.arrayInstances = arrayInstances;
 	}
 
-	InstanceList moreInstanceList;
-	public InstanceList getMoreInstanceList() {
+	MoreInstanceList moreInstanceList;
+	public MoreInstanceList getMoreInstanceList() {
 		return moreInstanceList;
 	}
 
-	public void setMoreInstanceList(InstanceList moreInstanceList) {
+	public void setMoreInstanceList(MoreInstanceList moreInstanceList) {
 		this.moreInstanceList = moreInstanceList;
 	}
 
@@ -150,7 +150,7 @@ public class InstanceList implements ContextAware{
 			ArrayList<IInstance> instanceContents = Instance.loadWithSolr(navigation, getPage() - 1, count);
 			this.setArrayInstances(instanceContents);
 
-			setMoreInstanceList(new InstanceList());
+			setMoreInstanceList(new MoreInstanceList());
 			getMoreInstanceList().setNavigation(navigation);
 			getMoreInstanceList().setPage(getPage() + 1);
 
@@ -164,7 +164,7 @@ public class InstanceList implements ContextAware{
 
 			// setting moreInstanceList
 			if( instanceContents.size() >= count){
-				setMoreInstanceList(new InstanceList());
+				setMoreInstanceList(new MoreInstanceList());
 				getMoreInstanceList().setNavigation(navigation);
 				getMoreInstanceList().setPage(getPage() + 1);
 			}
@@ -199,7 +199,7 @@ public class InstanceList implements ContextAware{
 		instance.getMetaworksContext().setHow("document");
 		//setInstances(instance);
 //		setWorkItem(workitem);
-		setMoreInstanceList(new InstanceList());
+		setMoreInstanceList(new MoreInstanceList());
 		getMoreInstanceList().setNavigation(navigation);
 		getMoreInstanceList().setPage(getPage()+1);
 		return this;

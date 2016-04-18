@@ -16,8 +16,9 @@ public class ProcessMapList implements ContextAware {
 	public ProcessMapList(){
 		setMetaworksContext(new MetaworksContext());
 	}
-	
-	public void load(Session session) throws Exception {
+
+	@ServiceMethod(onLoad = true)
+	public void load(@AutowiredFromClient Session session) throws Exception {
 		IProcessMap processMap = ProcessMap.loadList(session);
 		processMap.getMetaworksContext().setWhen(MetaworksContext.WHEN_VIEW);
 		

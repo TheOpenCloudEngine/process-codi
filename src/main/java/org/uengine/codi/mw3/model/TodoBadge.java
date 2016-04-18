@@ -42,10 +42,11 @@ public class TodoBadge{
 		personalPerspective.session.getMetaworksContext().setWhen("todoBadge");
 		personalPerspective.loadInbox();
 		personalPerspective.session.getMetaworksContext().setWhen(null);*/
-		
+
+		this.setLoader(false);
+
 		if(session != null){
-			this.setLoader(false);
-			
+
 			setNewItemCount(Instance.countTodo(session));
 		}
 	}

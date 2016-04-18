@@ -15,7 +15,7 @@ public class ProcessMapPanel implements ContextAware {
 	public void load(Session session) throws Exception {
 		ProcessMapList processMapList = new ProcessMapList();
 		processMapList.setMetaworksContext(this.getMetaworksContext());
-		processMapList.load(session);
+		//processMapList.load(session);
 		
 		setProcessMapList(processMapList);
 	}

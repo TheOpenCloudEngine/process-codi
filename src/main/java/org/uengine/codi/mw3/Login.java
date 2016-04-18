@@ -744,7 +744,9 @@ public class Login implements ContextAware {
         if (getSsoService() != null)
             return new Object[]{new Forward(getSsoService())};
 
-        return new Object[]{new Refresh(session), new Refresh(locale), new Refresh(mainPanel, false, true)};
+        mainPanel.getTopPanel().setSession(session);
+
+        return new Object[]{/*new Refresh(session),*/ new Refresh(locale), new Refresh(mainPanel, false, true)};
     }
 
   /*

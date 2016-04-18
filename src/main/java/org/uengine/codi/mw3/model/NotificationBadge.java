@@ -30,9 +30,9 @@ public class NotificationBadge{
 	
 	@ServiceMethod
 	public void refresh() throws Exception{
+		this.setLoader(false);
+
 		if(session != null){
-			this.setLoader(false);
-			
 			Notification notiList = new Notification();
 			setNewItemCount(notiList.count(session));
 		}
