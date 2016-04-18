@@ -321,7 +321,6 @@ public class Session implements ContextAware{
 				}
 			}
 
-			setCompany(new Company());
 		} else {
 			throw new Exception(
 					"There is no Company info in user info.");

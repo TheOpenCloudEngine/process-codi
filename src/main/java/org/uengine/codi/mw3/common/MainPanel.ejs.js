@@ -7,7 +7,7 @@ var org_uengine_codi_mw3_common_MainPanel = function(objectId, className){
 	
 	var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
 	
-	if('phone' == session.ux){
+	if(session && 'phone' == session.ux){
 		$("#objDiv_" + objectId +" .top_panel_mobile_menu").click(function(){
 			$("#objDiv_" + objectId + " #main_container").css({"position":"relative","height":"100%","right":"initial"});
 			$("#objDiv_" + objectId + " #main_container").animate({left:260},200);
