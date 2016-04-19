@@ -287,6 +287,7 @@ public class Session implements ContextAware{
 			this.setUser(user);
 
 			setCompany(new Company());
+			getCompany().setComCode(getEmployee().getGlobalCom());
 
 		} else {
 			throw new Exception(
