@@ -24,8 +24,8 @@ org_uengine_codi_mw3_calendar_ScheduleCalendar.prototype = {
 		if(object){
 			var facehelper = this;
 			
-			mw3.importStyle('scripts/jquery/fullcalendar/fullcalendar.css');
-			mw3.importScript('scripts/jquery/fullcalendar/fullcalendar.min.js', function(){
+			mw3.importStyle('scripts/jquery/fullcalendar-1.6.4/fullcalendar/fullcalendar.css');
+			mw3.importScript('scripts/jquery/fullcalendar-1.6.4/fullcalendar/fullcalendar.min.js', function(){
 				facehelper.load();
 			});
 		}
