@@ -22,7 +22,13 @@ public class SignUpInvitationEmailSender extends TempEmailSender {
 
         String parameterSignUpURL = "signup.url";
         String signUpBaseUrl = "signup.baseurl";
-        String baseUrl = CodiStringUtil.lastLastFileSeparatorChar(TenantURL.getURL()); //TODO: codi-refactoring
+
+        String codiServerUrl = GlobalContext.getPropertyString("codi.server.url");
+
+        String baseUrl = codiServerUrl!=null ? codiServerUrl : CodiStringUtil.lastLastFileSeparatorChar(TenantURL.getURL()); //TODO: codi-refactoring
+
+        if(!baseUrl.endsWith("/")) baseUrl = baseUrl + "/";
+
         String url = baseUrl + urlPath;
         String tempContent = readContent();
 
