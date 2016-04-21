@@ -18,7 +18,7 @@ import org.metaworks.component.SelectBox;
 import org.metaworks.dao.DAOFactory;
 import org.metaworks.dao.KeyGeneratorDAO;
 import org.metaworks.dao.TransactionContext;
-import org.metaworks.website.MetaworksFile;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.uengine.cloud.saasfier.TenantURL;
 import org.uengine.codi.mw3.Login;
@@ -400,6 +400,10 @@ public class Employee extends EmployeeWithCRUD {
 
                 this.setGlobalCom(tenantId);
 
+                TenantLifecycle tenantLifecycle = MetaworksRemoteService.getComponent(TenantLifecycle.class);
+                if(tenantLifecycle!=null)
+                    tenantLifecycle.onNewTenantSubscribe(tenantId);
+
                 // Addition of Basic Topics and Processes
                // ---------
 //                addBasicTopics();
@@ -510,45 +514,49 @@ public class Employee extends EmployeeWithCRUD {
     }
 
     public void addBasicProcess() throws Exception {
-        String[] defId = {
-                "buisinesstrip/process/buisinesstrip.process",
-                "contact/process/contactregistration.process",
-                "holiday/process/applholiday.process",
-                "purchasing/process/purchasingreq.process",
-                "sales/process/sales.process",
-                "troubleticket/process/troubleticket.process",
-        };
+//        String[] defId = {
+//                "buisinesstrip/process/buisinesstrip.process",
+//                "contact/process/contactregistration.process",
+//                "holiday/process/applholiday.process",
+//                "purchasing/process/purchasingreq.process",
+//                "sales/process/sales.process",
+//                "troubleticket/process/troubleticket.process",
+//        };
+//
+//        String[] name = {
+//                "출장",
+//                "연락처",
+//                "휴가",
+//                "구매",
+//                "영업",
+//                "클레임",
+//        };
+//
+//        String basePath = "default/process/";
+//        String[] upLoadedPath = {
+//                basePath + "buisinesstrip.png",
+//                basePath + "contact.png",
+//                basePath + "holiday.png",
+//                basePath + "purchasing.png",
+//                basePath + "sales.png",
+//                basePath + "troubleticket.png",
+//        };
+//
+//        for (int i = 0; i < defId.length; i++) {
+//            IProcessMap processMap = new ProcessMap();
+//            processMap.setMapId(this.getGlobalCom() + "." + defId[i]);
+//            processMap.setDefId(defId[i]);
+//            processMap.setName(name[i]);
+//            processMap.setComCode(this.getGlobalCom());
+//            processMap.setNo(i);
+//            processMap.setIconFile(new MetaworksFile());
+//            processMap.getIconFile().setUploadedPath(upLoadedPath[i]);
+//            processMap.createMe();
+//        }
 
-        String[] name = {
-                "출장",
-                "연락처",
-                "휴가",
-                "구매",
-                "영업",
-                "클레임",
-        };
 
-        String basePath = "default/process/";
-        String[] upLoadedPath = {
-                basePath + "buisinesstrip.png",
-                basePath + "contact.png",
-                basePath + "holiday.png",
-                basePath + "purchasing.png",
-                basePath + "sales.png",
-                basePath + "troubleticket.png",
-        };
 
-        for (int i = 0; i < defId.length; i++) {
-            IProcessMap processMap = new ProcessMap();
-            processMap.setMapId(this.getGlobalCom() + "." + defId[i]);
-            processMap.setDefId(defId[i]);
-            processMap.setName(name[i]);
-            processMap.setComCode(this.getGlobalCom());
-            processMap.setNo(i);
-            processMap.setIconFile(new MetaworksFile());
-            processMap.getIconFile().setUploadedPath(upLoadedPath[i]);
-            processMap.createMe();
-        }
+
     }
 
 
