@@ -37,8 +37,8 @@ public class Employee extends EmployeeWithCRUD {
     @Override
     @Name
     @ValidatorSet({
-            @Validator(name=ValidatorContext.VALIDATE_NOTNULL, message="이름을 입력하세요."),
-            @Validator(name=ValidatorContext.VALIDATE_MAX , options={"200"}, message="이름은 200자 이내로 입력하셔야 합니다.")
+            @Validator(name=ValidatorContext.VALIDATE_NOTNULL, message="Please enter your name"),
+            @Validator(name=ValidatorContext.VALIDATE_MAX , options={"200"}, message="Name must be under 200 characters.")
     })
     public String getEmpName(){
         return super.getEmpName();
@@ -53,7 +53,7 @@ public class Employee extends EmployeeWithCRUD {
     @Override
     @Hidden(when = "view")
     @ValidatorSet({
-            @Validator(name=ValidatorContext.VALIDATE_NOTNULL, message="비밀번호를 입력해 주세요."),
+            @Validator(name=ValidatorContext.VALIDATE_NOTNULL, message="Please enter a password"),
     })
     public String getPassword(){
         return super.getPassword();
@@ -68,7 +68,7 @@ public class Employee extends EmployeeWithCRUD {
     }
 
     @Override
-    @Validator(name=ValidatorContext.VALIDATE_MAX , options={"20"}, message="직급/직책은 20자 이내로 입력하셔야 합니다.")
+    @Validator(name=ValidatorContext.VALIDATE_MAX , options={"20"}, message="Title must be under 20 characters.")
     public String getJikName(){
         return super.getJikName();
     }
@@ -88,7 +88,7 @@ public class Employee extends EmployeeWithCRUD {
 
     @Override
     @ValidatorSet({
-            @Validator(name=ValidatorContext.VALIDATE_NOTNULL,condition="metaworksContext.when == 'new2'", message="회사이름을 입력하세요")
+            @Validator(name=ValidatorContext.VALIDATE_NOTNULL,condition="metaworksContext.when == 'new2'", message="Please enter your company name")
     })
     public String getGlobalCom(){
         return super.getGlobalCom();
@@ -101,16 +101,16 @@ public class Employee extends EmployeeWithCRUD {
     }
 
     @Override
-    @Validator(name=ValidatorContext.VALIDATE_MAX , options={"20"}, message="전화번호는 20자 이내로 입력하셔야 합니다.")
+    @Validator(name=ValidatorContext.VALIDATE_MAX , options={"20"}, message="Phone number must be under 20 digits.")
     public String getMobileNo(){
         return super.getMobileNo();
     }
 
     @Override
     @ValidatorSet({
-            @Validator(name=ValidatorContext.VALIDATE_NOTNULL, message="이메일을 입력하세요."),
-            @Validator(name=ValidatorContext.VALIDATE_REGULAREXPRESSION, options={"/^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$/"}, message="이메일 형식이 잘못되었습니다"),
-            @Validator(name=ValidatorContext.VALIDATE_MAX , options={"50"}, message="이메일은 50자 이내로 입력하셔야 합니다.")
+            @Validator(name=ValidatorContext.VALIDATE_NOTNULL, message="Please enter your e-mail address"),
+            @Validator(name=ValidatorContext.VALIDATE_REGULAREXPRESSION, options={"/^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$/"}, message="Invalid Email address"),
+            @Validator(name=ValidatorContext.VALIDATE_MAX , options={"50"}, message="Email address must be under 50 characters.")
     })
     public String getEmail(){
         return super.getEmail();
@@ -352,9 +352,9 @@ public class Employee extends EmployeeWithCRUD {
         comment.getMetaworksContext().setWhen(MetaworksContext.WHEN_NEW);
 
         if ("join".equals(type)) {
-            comment.setSystemMessage(this.getEmpName() + "님이 가입 하셨습니다.");
+            comment.setSystemMessage(this.getEmpName() + " has been subscribed");
         } else if ("addFriend".equals(type)) {
-            comment.setSystemMessage(session.getUser().getName() + "님이 " + this.getEmpName() + "님을 친구로 추가 하셨습니다.");
+            comment.setSystemMessage(session.getUser().getName() + " added " + this.getEmpName() + " as a friend.");
         }
         comment.session = session;
 
@@ -775,7 +775,7 @@ public class Employee extends EmployeeWithCRUD {
         }
 
         if(findEmployee == null)
-            throw new MetaworksException("wrong access");
+            throw new MetaworksException("Illegal access");
 
         if(findEmployee.isApproved()){
             Login login = new Login();
@@ -887,7 +887,7 @@ public class Employee extends EmployeeWithCRUD {
                 noti.setConfirm(false);
                 noti.setInstId(instance.getInstId());
                 noti.setInputDate(Calendar.getInstance().getTime());
-                noti.setActAbstract(session.getUser().getName() + "님이 " + this.getEmpName() + "님을 친구로 추가 하셨습니다.");
+                noti.setActAbstract(session.getUser().getName() + " added " + this.getEmpName() + " as a friend.");
 
                 noti.add(instance);
 
