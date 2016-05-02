@@ -13,10 +13,8 @@ import org.metaworks.widget.ModalWindow;
 import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.collection.SessionIdHashTable;
 import org.uengine.codi.mw3.common.MainPanel;
-import org.uengine.codi.mw3.email.factory.EmailSenderFactory;
-import org.uengine.codi.mw3.email.sender.IEmailSender;
-import org.uengine.codi.mw3.email.type.EmailSenderType;
-import org.uengine.codi.mw3.email.util.EmailSenderUtil;
+import org.uengine.codi.mw3.email.sender.AbstractEmailSender;
+import org.uengine.codi.mw3.email.sender.LoginForgerPasswordInvitationEmailSender;
 import org.uengine.codi.mw3.model.Application;
 import org.uengine.codi.mw3.model.*;
 import org.uengine.codi.mw3.model.Locale;
@@ -797,7 +795,8 @@ public class Login implements ContextAware {
         this.setEmail(employeeRef.getEmail());
 
         // send mail
-        EmailSenderUtil.sendEmail("findpw.html?key=" + authKey, EmailSenderType.LOGIN_FORGET_PASSWORD, getEmail());
+        AbstractEmailSender emailSender = new LoginForgerPasswordInvitationEmailSender();
+        emailSender.send("findpw.html?key=" + authKey, getEmail());
 
         this.getMetaworksContext().setHow("afterforgotpassword");
         return;

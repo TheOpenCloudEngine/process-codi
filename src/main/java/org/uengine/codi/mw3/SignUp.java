@@ -4,8 +4,7 @@ import org.metaworks.MetaworksException;
 import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.website.MetaworksFile;
-import org.uengine.codi.mw3.email.type.EmailSenderType;
-import org.uengine.codi.mw3.email.util.EmailSenderUtil;
+import org.uengine.codi.mw3.email.sender.SignUpInvitationEmailSender;
 import org.uengine.codi.mw3.model.Company;
 import org.uengine.codi.mw3.model.Employee;
 import org.uengine.codi.mw3.model.ICompany;
@@ -64,7 +63,9 @@ public class SignUp {
             if (employeeRef.isApproved()) {
                 throw new Exception("$AlreadyExistingUser");
             } else {
-                EmailSenderUtil.sendEmail("activate.html?key=" + employeeRef.getAuthKey(), EmailSenderType.SIGN_UP_INVITATION, email);
+                SignUpInvitationEmailSender signUpInvitationEmailSender = new SignUpInvitationEmailSender();
+                signUpInvitationEmailSender.send("activate.html?key=" + employeeRef.getAuthKey(), email);
+
                 return employeeRef;
             }
         }
@@ -92,7 +93,8 @@ public class SignUp {
             throw new MetaworksException(e.getMessage());
         }
 
-        EmailSenderUtil.sendEmail("activate.html?key=" + authKey, EmailSenderType.SIGN_UP_INVITATION,email);
+        SignUpInvitationEmailSender signUpInvitationEmailSender = new SignUpInvitationEmailSender();
+        signUpInvitationEmailSender.send("activate.html?key=" + authKey, email);
 
         return employee;
     }

@@ -20,8 +20,7 @@ import org.metaworks.annotation.Available;
 import org.metaworks.annotation.Face;
 import org.metaworks.annotation.ServiceMethod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.uengine.codi.mw3.email.type.EmailSenderType;
-import org.uengine.codi.mw3.email.util.EmailSenderUtil;
+import org.uengine.codi.mw3.email.sender.SignUpFriendInvitationEmailSender;
 
 
 public class Invitation implements ContextAware{
@@ -266,8 +265,11 @@ public class Invitation implements ContextAware{
         properties.setProperty("email", session.getEmployee().getEmail());
         properties.setProperty("empCode", session.getEmployee().getEmpCode());
 
-        EmailSenderUtil.sendEmail("activate.html?key=" + authKey, EmailSenderType.SIGN_UP_FRIEND_INVITATION,
-                friendEmail, properties);
+		SignUpFriendInvitationEmailSender signUpFriendInvitationEmailSender = new SignUpFriendInvitationEmailSender();
+		signUpFriendInvitationEmailSender.setProperties(properties);
+
+		signUpFriendInvitationEmailSender.send("activate.html?key=" + authKey,
+                friendEmail);
 	}
 
 }
