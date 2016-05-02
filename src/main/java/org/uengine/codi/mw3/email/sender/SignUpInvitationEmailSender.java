@@ -1,5 +1,7 @@
 package org.uengine.codi.mw3.email.sender;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.metaworks.dao.TransactionContext;
 import org.uengine.cloud.saasfier.TenantURL;
 import org.uengine.codi.mw3.model.Employee;
@@ -14,6 +16,9 @@ import javax.servlet.http.HttpServletRequestWrapper;
  */
 public class SignUpInvitationEmailSender extends TempEmailSender {
 
+  //  private static final Log log = LogFactory.getLog(SignUpInvitationEmailSender.class);
+
+
     @Override
     public void sendEmail(String urlPath, String email) throws Exception{
         String from = GlobalContext.getPropertyString("codi.mail.support", "support@processcodi.com");
@@ -24,6 +29,10 @@ public class SignUpInvitationEmailSender extends TempEmailSender {
         String signUpBaseUrl = "signup.baseurl";
 
         String codiServerUrl = GlobalContext.getPropertyString("codi.server.url");
+
+        //log.info("EMail Sender host : " + codiServerUrl);
+System.out.println("EMail Sender host : " + codiServerUrl);
+
 
         String baseUrl = codiServerUrl!=null ? codiServerUrl : CodiStringUtil.lastLastFileSeparatorChar(TenantURL.getURL()); //TODO: codi-refactoring
 
@@ -48,8 +57,8 @@ public class SignUpInvitationEmailSender extends TempEmailSender {
 
     @Override
     public String getPath() {
-        String resourcePath = CodiStringUtil.lastLastFileSeparatorChar(new HttpServletRequestWrapper(TransactionContext.getThreadLocalInstance().getRequest()).getRealPath(""));
-        String path = resourcePath + GlobalContext.getPropertyString("email.signup", "resources/mail/signupMail.html");
+        //String resourcePath = CodiStringUtil.lastLastFileSeparatorChar(new HttpServletRequestWrapper(TransactionContext.getThreadLocalInstance().getRequest()).getRealPath(""));
+        String path = GlobalContext.getPropertyString("email.signup", "mail/signupMail.html");
         return path;
     }
 }
