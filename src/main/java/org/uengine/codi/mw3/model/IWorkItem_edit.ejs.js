@@ -13,24 +13,29 @@ var org_uengine_codi_mw3_model_IWorkItem_edit = function(objectId, className){
 		this.instanceFirst = false;
 	}
 
-	$("#post_" + this.objectId).focus();
-	if($("#post_" + this.objectId).focus()){
+	var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
 
-		var obj = $("#post_" + this.objectId)[0];
-		if(obj){
-			var pos = obj.textLength;
-			
-			if ( obj.setSelectionRange ) { 
-				obj.focus(); 
-				obj.setSelectionRange(pos,pos); 
-			} else if ( obj.createTextRange ) { 
-				var c = obj.createTextRange(); 
-				c.move("character",pos); 
-				c.select(); 
+
+	if('phone' != session.ux){
+		$("#post_" + this.objectId).focus();
+		if($("#post_" + this.objectId).focus()){
+
+			var obj = $("#post_" + this.objectId)[0];
+			if(obj){
+				var pos = obj.textLength;
+
+				if ( obj.setSelectionRange ) {
+					obj.focus();
+					obj.setSelectionRange(pos,pos);
+				} else if ( obj.createTextRange ) {
+					var c = obj.createTextRange();
+					c.move("character",pos);
+					c.select();
+				}
 			}
 		}
 	}
-	
+
 	//$("#post_" + this.objectId).keydown()
 	
 	$("#commandDiv_" + this.objectId + " textarea").bind("keyup", function(event){
@@ -196,8 +201,12 @@ org_uengine_codi_mw3_model_IWorkItem_edit.prototype = {
 		
 					value.title = "";
 					mw3.setObject(value.__objectId, value);
-					
-					$("#post_" + this.objectId).focus();
+
+					var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
+
+					if('phone' != session.ux) {
+						$("#post_" + this.objectId).focus();
+					}
 				}
 			}else{
 				if(value.title != null)
