@@ -1,531 +1,531 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+set @old_unique_checks=@@unique_checks, unique_checks=0;
+set @old_foreign_key_checks=@@foreign_key_checks, foreign_key_checks=0;
+set @old_sql_mode=@@sql_mode, sql_mode='traditional,allow_invalid_dates';
 
-CREATE SCHEMA IF NOT EXISTS `uengine` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-USE `uengine` ;
-
--- -----------------------------------------------------
--- Table `uengine`.`bpm_knol`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`bpm_knol` (
-  `id` VARCHAR(20) NOT NULL ,
-  `name` VARCHAR(1000) NULL DEFAULT NULL ,
-  `linkedInstId` INT(11) NULL DEFAULT NULL ,
-  `parentId` VARCHAR(20) NOT NULL ,
-  `no` INT(11) NULL DEFAULT NULL ,
-  `authorid` VARCHAR(100) NULL DEFAULT NULL ,
-  `type` CHAR(10) NULL DEFAULT NULL ,
-  `vistype` CHAR(10) NULL DEFAULT NULL ,
-  `CONNTYPE` CHAR(20) NULL DEFAULT NULL ,
-  `URL` VARCHAR(200) NULL DEFAULT NULL ,
-  `THUMBNAIL` VARCHAR(200) NULL DEFAULT NULL ,
-  `SECUOPT` CHAR(1) NULL DEFAULT '0' ,
-  `companyId` VARCHAR(20) NULL DEFAULT NULL ,
-  `refId` VARCHAR(20) NULL DEFAULT NULL ,
-  `budget` INT(11) NULL DEFAULT NULL ,
-  `effort` INT(11) NULL DEFAULT NULL ,
-  `benefit` INT(11) NULL DEFAULT NULL ,
-  `penalty` INT(11) NULL DEFAULT NULL ,
-  `startdate` DATE NULL DEFAULT NULL ,
-  `enddate` DATE NULL DEFAULT NULL ,
-  `description` VARCHAR(1000) NULL DEFAULT NULL ,
-  `ext` VARCHAR(3000) NULL DEFAULT NULL ,
-  `isreleased` TINYINT(1) NULL DEFAULT NULL ,
-  `isdistributed` TINYINT(1) NULL DEFAULT NULL ,
-  `projectalias` VARCHAR(1000) NULL DEFAULT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `parentId` (`parentId` ASC, `no` ASC) )
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
+create schema if not exists `uengine` default character set utf8 collate utf8_unicode_ci ;
+use `uengine` ;
 
 -- -----------------------------------------------------
--- Table `uengine`.`bpm_noti`
+-- table `uengine`.`bpm_knol`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`bpm_noti` (
-  `notiId` MEDIUMTEXT NULL DEFAULT NULL ,
-  `userId` CHAR(100) NULL DEFAULT NULL ,
-  `actorId` CHAR(100) NULL DEFAULT NULL ,
-  `instId` INT(11) NULL DEFAULT NULL ,
-  `actAbstract` VARCHAR(300) NULL DEFAULT NULL ,
-  `taskId` INT(11) NULL DEFAULT NULL ,
-  `type` INT(11) NULL DEFAULT NULL ,
-  `inputdate` DATETIME NULL DEFAULT NULL ,
-  `confirm` INT(11) NULL DEFAULT NULL )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`bpm_knol` (
+  `id` varchar(20) not null ,
+  `name` varchar(1000) null default null ,
+  `linkedinstid` int(11) null default null ,
+  `parentid` varchar(20) not null ,
+  `no` int(11) null default null ,
+  `authorid` varchar(100) null default null ,
+  `type` char(10) null default null ,
+  `vistype` char(10) null default null ,
+  `conntype` char(20) null default null ,
+  `url` varchar(200) null default null ,
+  `thumbnail` varchar(200) null default null ,
+  `secuopt` char(1) null default '0' ,
+  `companyid` varchar(20) null default null ,
+  `refid` varchar(20) null default null ,
+  `budget` int(11) null default null ,
+  `effort` int(11) null default null ,
+  `benefit` int(11) null default null ,
+  `penalty` int(11) null default null ,
+  `startdate` date null default null ,
+  `enddate` date null default null ,
+  `description` varchar(1000) null default null ,
+  `ext` varchar(3000) null default null ,
+  `isreleased` tinyint(1) null default null ,
+  `isdistributed` tinyint(1) null default null ,
+  `projectalias` varchar(1000) null default null ,
+  primary key (`id`) ,
+  index `parentid` (`parentid` asc, `no` asc) )
+engine = myisam
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`bpm_procinst`
+-- table `uengine`.`bpm_noti`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`bpm_procinst` (
-  `INSTID` INT(11) NOT NULL ,
-  `DEFVERID` VARCHAR(100) NULL DEFAULT NULL ,
-  `DEFID` VARCHAR(100) NULL DEFAULT NULL ,
-  `DEFNAME` VARCHAR(255) NULL DEFAULT NULL ,
-  `DEFPATH` VARCHAR(255) NULL DEFAULT NULL ,
-  `DEFMODDATE` DATETIME NULL DEFAULT NULL ,
-  `STARTEDDATE` DATETIME NULL DEFAULT NULL ,
-  `FINISHEDDATE` DATETIME NULL DEFAULT NULL ,
-  `DUEDATE` DATETIME NULL DEFAULT NULL ,
-  `STATUS` VARCHAR(20) NULL DEFAULT NULL ,
-  `INFO` VARCHAR(255) NULL DEFAULT NULL ,
-  `NAME` VARCHAR(255) NULL DEFAULT NULL ,
-  `ISDELETED` INT(11) NULL DEFAULT '0' ,
-  `ISADHOC` INT(11) NULL DEFAULT '0' ,
-  `ISARCHIVE` INT(11) NULL DEFAULT '0' ,
-  `ISSUBPROCESS` INT(11) NULL DEFAULT '0' ,
-  `ISEVENTHANDLER` INT(11) NULL DEFAULT '0' ,
-  `ROOTINSTID` INT(11) NULL DEFAULT NULL ,
-  `MAININSTID` INT(11) NULL DEFAULT NULL ,
-  `MAINDEFVERID` INT(11) NULL DEFAULT NULL ,
-  `MAINACTTRCTAG` VARCHAR(20) NULL DEFAULT NULL ,
-  `MAINEXECSCOPE` VARCHAR(20) NULL DEFAULT NULL ,
-  `ABSTRCPATH` VARCHAR(200) NULL DEFAULT NULL ,
-  `DONTRETURN` INT(11) NULL DEFAULT NULL ,
-  `MODDATE` DATETIME NULL DEFAULT NULL ,
-  `EXT1` VARCHAR(100) NULL DEFAULT NULL ,
-  `INITEP` VARCHAR(100) NULL DEFAULT NULL ,
-  `INITRSNM` VARCHAR(100) NULL DEFAULT NULL ,
-  `CURREP` VARCHAR(100) NULL DEFAULT NULL ,
-  `CURRRSNM` VARCHAR(100) NULL DEFAULT NULL ,
-  `STRATEGYID` INT(11) NULL DEFAULT NULL ,
-  `PREVCURREP` VARCHAR(100) NULL DEFAULT NULL ,
-  `PREVCURRRSNM` VARCHAR(100) NULL DEFAULT NULL ,
-  `STARCNT` INT(11) NULL DEFAULT NULL ,
-  `STARRSNM` VARCHAR(100) NULL DEFAULT NULL ,
-  `STARFLAG` INT(11) NULL DEFAULT NULL ,
-  `ABSTRACTINST` TEXT NULL DEFAULT NULL ,
-  `CURRTRCTAG` INT(11) NULL DEFAULT NULL ,
-  `PREVTRCTAG` INT(11) NULL DEFAULT NULL ,
-  `INITCOMCD` VARCHAR(20) NULL DEFAULT NULL ,
-  `SECUOPT` CHAR(1) NULL DEFAULT '0' ,
-  `lastcmnt` VARCHAR(200) NULL DEFAULT NULL ,
-  `initcmpl` INT(1) NULL DEFAULT NULL ,
-  `topicId` CHAR(20) NULL DEFAULT NULL ,
-  `progress` VARCHAR(10) NULL DEFAULT NULL ,
-  `lastcmnt2` VARCHAR(200) NULL DEFAULT NULL ,
-  `BENEFIT` INT(6) NULL DEFAULT NULL ,
-  `PENALTY` INT(6) NULL DEFAULT NULL ,
-  `EFFORT` INT(6) NULL DEFAULT NULL ,
-  `lastCmntEp` VARCHAR(100) NULL DEFAULT NULL ,
-  `lastCmntRsnm` VARCHAR(100) NULL DEFAULT NULL ,
-  `lastCmnt2Ep` VARCHAR(100) NULL DEFAULT NULL ,
-  `lastCmnt2Rsnm` VARCHAR(100) NULL DEFAULT NULL ,
-  `isdocument` INT(11) NULL DEFAULT '0' ,
-  `isfileadded` INT(11) NULL DEFAULT '0' ,
-  `lastcmntTaskId` INT(11) NULL DEFAULT NULL ,
-  `lastcmnt2TaskId` INT(11) NULL DEFAULT NULL ,
-  PRIMARY KEY (`INSTID`) ,
-  INDEX `FKF57F151C46F158C1` (`DEFID` ASC) ,
-  INDEX `FKF57F151C78EB68E6` (`ROOTINSTID` ASC) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`bpm_noti` (
+  `notiid` mediumtext null default null ,
+  `userid` char(100) null default null ,
+  `actorid` char(100) null default null ,
+  `instid` int(11) null default null ,
+  `actabstract` varchar(300) null default null ,
+  `taskid` int(11) null default null ,
+  `type` int(11) null default null ,
+  `inputdate` datetime null default null ,
+  `confirm` int(11) null default null )
+engine = innodb
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`bpm_procvar`
+-- table `uengine`.`bpm_procinst`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`bpm_procvar` (
-  `VARID` INT(11) NOT NULL AUTO_INCREMENT ,
-  `INSTID` INT(11) NULL DEFAULT NULL ,
-  `DATATYPE` INT(11) NULL DEFAULT NULL ,
-  `VALUESTRING` VARCHAR(4000) NULL DEFAULT NULL ,
-  `VALUELONG` INT(11) NULL DEFAULT NULL ,
-  `VALUEBOOLEAN` INT(11) NULL DEFAULT NULL ,
-  `VALUEDATE` DATETIME NULL DEFAULT NULL ,
-  `VARINDEX` INT(11) NULL DEFAULT NULL ,
-  `TRCTAG` VARCHAR(20) NULL DEFAULT NULL ,
-  `ISPROPERTY` INT(11) NULL DEFAULT NULL ,
-  `MODDATE` DATETIME NULL DEFAULT NULL ,
-  `KEYNAME` VARCHAR(100) NULL DEFAULT NULL ,
-  `KEYSTRING` VARCHAR(200) NULL DEFAULT NULL ,
-  `FILECONTENT` TEXT NULL DEFAULT NULL ,
-  `HTMLFILEPATH` VARCHAR(255) NULL DEFAULT NULL ,
-  PRIMARY KEY (`VARID`) )
-ENGINE = InnoDB
-AUTO_INCREMENT = 17678
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`bpm_roledef`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`bpm_roledef` (
-  `roledefid` VARCHAR(100) NULL DEFAULT NULL ,
-  `defId` VARCHAR(50) NULL DEFAULT NULL ,
-  `roleName` CHAR(20) NULL DEFAULT NULL ,
-  `mappedUserId` VARCHAR(50) NULL DEFAULT NULL ,
-  `comCode` VARCHAR(50) NULL DEFAULT NULL ,
-  `mappedRoleCode` VARCHAR(100) NULL DEFAULT NULL ,
-  `roleDefType` VARCHAR(10) NULL DEFAULT NULL )
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`bpm_rolemapping`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`bpm_rolemapping` (
-  `ROLEMAPPINGID` INT(11) NOT NULL AUTO_INCREMENT ,
-  `INSTID` INT(11) NULL DEFAULT NULL ,
-  `ROOTINSTID` INT(11) NULL DEFAULT NULL ,
-  `ROLENAME` VARCHAR(255) NULL DEFAULT NULL ,
-  `ENDPOINT` VARCHAR(255) NULL DEFAULT NULL ,
-  `VALUE` VARCHAR(4000) NULL DEFAULT NULL ,
-  `RESNAME` VARCHAR(200) NULL DEFAULT NULL ,
-  `ASSIGNTYPE` INT(11) NULL DEFAULT NULL ,
-  `ASSIGNPARAM1` VARCHAR(100) NULL DEFAULT NULL ,
-  `DISPATCHOPTION` INT(11) NULL DEFAULT NULL ,
-  `DISPATCHPARAM1` VARCHAR(100) NULL DEFAULT NULL ,
-  `GROUPID` VARCHAR(30) NULL DEFAULT NULL ,
-  `ISREFERENCER` INT(1) NULL DEFAULT '0' ,
-  PRIMARY KEY (`ROLEMAPPINGID`) )
-ENGINE = InnoDB
-AUTO_INCREMENT = 2519
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`bpm_seq`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`bpm_seq` (
-  `SEQ` INT(11) NULL DEFAULT NULL ,
-  `TBNAME` VARCHAR(255) NULL DEFAULT NULL ,
-  `DESCRIPTION` VARCHAR(255) NULL DEFAULT NULL ,
-  `MODDATE` DATETIME NULL DEFAULT NULL )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`bpm_procinst` (
+  `instid` int(11) not null ,
+  `defverid` varchar(100) null default null ,
+  `defid` varchar(100) null default null ,
+  `defname` varchar(255) null default null ,
+  `defpath` varchar(255) null default null ,
+  `defmoddate` datetime null default null ,
+  `starteddate` datetime null default null ,
+  `finisheddate` datetime null default null ,
+  `duedate` datetime null default null ,
+  `status` varchar(20) null default null ,
+  `info` varchar(255) null default null ,
+  `name` varchar(255) null default null ,
+  `isdeleted` int(11) null default '0' ,
+  `isadhoc` int(11) null default '0' ,
+  `isarchive` int(11) null default '0' ,
+  `issubprocess` int(11) null default '0' ,
+  `iseventhandler` int(11) null default '0' ,
+  `rootinstid` int(11) null default null ,
+  `maininstid` int(11) null default null ,
+  `maindefverid` int(11) null default null ,
+  `mainacttrctag` varchar(20) null default null ,
+  `mainexecscope` varchar(20) null default null ,
+  `abstrcpath` varchar(200) null default null ,
+  `dontreturn` int(11) null default null ,
+  `moddate` datetime null default null ,
+  `ext1` varchar(100) null default null ,
+  `initep` varchar(100) null default null ,
+  `initrsnm` varchar(100) null default null ,
+  `currep` varchar(100) null default null ,
+  `currrsnm` varchar(100) null default null ,
+  `strategyid` int(11) null default null ,
+  `prevcurrep` varchar(100) null default null ,
+  `prevcurrrsnm` varchar(100) null default null ,
+  `starcnt` int(11) null default null ,
+  `starrsnm` varchar(100) null default null ,
+  `starflag` int(11) null default null ,
+  `abstractinst` text null default null ,
+  `currtrctag` int(11) null default null ,
+  `prevtrctag` int(11) null default null ,
+  `initcomcd` varchar(20) null default null ,
+  `secuopt` char(1) null default '0' ,
+  `lastcmnt` varchar(200) null default null ,
+  `initcmpl` int(1) null default null ,
+  `topicid` char(20) null default null ,
+  `progress` varchar(10) null default null ,
+  `lastcmnt2` varchar(200) null default null ,
+  `benefit` int(6) null default null ,
+  `penalty` int(6) null default null ,
+  `effort` int(6) null default null ,
+  `lastcmntep` varchar(100) null default null ,
+  `lastcmntrsnm` varchar(100) null default null ,
+  `lastcmnt2ep` varchar(100) null default null ,
+  `lastcmnt2rsnm` varchar(100) null default null ,
+  `isdocument` int(11) null default '0' ,
+  `isfileadded` int(11) null default '0' ,
+  `lastcmnttaskid` int(11) null default null ,
+  `lastcmnt2taskid` int(11) null default null ,
+  primary key (`instid`) ,
+  index `fkf57f151c46f158c1` (`defid` asc) ,
+  index `fkf57f151c78eb68e6` (`rootinstid` asc) )
+engine = innodb
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`bpm_topicmapping`
+-- table `uengine`.`bpm_procvar`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`bpm_topicmapping` (
-  `TOPICMAPPINGID` INT(11) NOT NULL ,
-  `TOPICID` VARCHAR(20) NOT NULL ,
-  `USERID` VARCHAR(255) NULL DEFAULT NULL ,
-  `USERNAME` VARCHAR(1000) NULL DEFAULT NULL ,
-  `ASSIGNTYPE` INT(11) NULL DEFAULT '0' ,
-  PRIMARY KEY (`TOPICMAPPINGID`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`bpm_worklist`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`bpm_worklist` (
-  `TASKID` INT(11) NOT NULL ,
-  `title` VARCHAR(3000) NULL DEFAULT NULL ,
-  `DESCRIPTION` VARCHAR(500) NULL DEFAULT NULL ,
-  `ENDPOINT` VARCHAR(200) NULL DEFAULT NULL ,
-  `STATUS` VARCHAR(100) NULL DEFAULT '' ,
-  `PRIORITY` INT(11) NULL DEFAULT NULL ,
-  `STARTDATE` DATETIME NULL DEFAULT NULL ,
-  `ENDDATE` DATETIME NULL DEFAULT NULL ,
-  `DUEDATE` DATETIME NULL DEFAULT NULL ,
-  `INSTID` INT(11) NULL DEFAULT NULL ,
-  `DEFID` VARCHAR(100) NULL DEFAULT NULL ,
-  `DEFNAME` VARCHAR(200) NULL DEFAULT NULL ,
-  `TRCTAG` VARCHAR(100) NULL DEFAULT NULL ,
-  `TOOL` VARCHAR(200) NULL DEFAULT NULL ,
-  `PARAMETER` VARCHAR(4000) NULL DEFAULT NULL ,
-  `GROUPID` INT(11) NULL DEFAULT NULL ,
-  `GROUPNAME` INT(11) NULL DEFAULT NULL ,
-  `EXT1` VARCHAR(200) NULL DEFAULT NULL ,
-  `EXT2` VARCHAR(200) NULL DEFAULT NULL ,
-  `EXT3` VARCHAR(200) NULL DEFAULT NULL ,
-  `ISURGENT` INT(11) NULL DEFAULT NULL ,
-  `HASATTACHFILE` INT(11) NULL DEFAULT NULL ,
-  `HASCOMMENT` INT(11) NULL DEFAULT NULL ,
-  `DOCUMENTCATEGORY` VARCHAR(200) NULL DEFAULT NULL ,
-  `ISDELETED` INT(11) NULL DEFAULT '0' ,
-  `ROOTINSTID` INT(11) NULL DEFAULT NULL ,
-  `DISPATCHOPTION` INT(11) NULL DEFAULT NULL ,
-  `DISPATCHPARAM1` VARCHAR(100) NULL DEFAULT NULL ,
-  `ROLENAME` VARCHAR(100) NULL DEFAULT NULL ,
-  `RESNAME` VARCHAR(100) NULL DEFAULT NULL ,
-  `REFROLENAME` VARCHAR(100) NULL DEFAULT NULL ,
-  `EXECSCOPE` VARCHAR(5) NULL DEFAULT NULL ,
-  `SAVEDATE` DATETIME NULL DEFAULT NULL ,
-  `ABSTRACT` TEXT NULL DEFAULT NULL ,
-  `type` CHAR(10) NULL DEFAULT NULL ,
-  `content` MEDIUMTEXT NULL DEFAULT NULL ,
-  `extfile` VARCHAR(200) NULL DEFAULT NULL ,
-  `prevver` INT(11) NULL DEFAULT NULL ,
-  `nextver` INT(11) NULL DEFAULT NULL ,
-  `EXT4` VARCHAR(200) NULL DEFAULT NULL ,
-  `EXT5` VARCHAR(200) NULL DEFAULT NULL ,
-  `EXT6` VARCHAR(200) NULL DEFAULT NULL ,
-  `EXT7` VARCHAR(200) NULL DEFAULT NULL ,
-  `EXT8` VARCHAR(200) NULL DEFAULT NULL ,
-  `EXT9` VARCHAR(200) NULL DEFAULT NULL ,
-  `EXT10` VARCHAR(200) NULL DEFAULT NULL ,
-  `prtTskId` INT(11) NULL DEFAULT NULL ,
-  `MAJORVER` INT(5) NULL DEFAULT NULL ,
-  `MINORVER` INT(5) NULL DEFAULT NULL ,
-  `grpTaskId` INT(11) NULL DEFAULT NULL ,
-  `folderId` VARCHAR(100) NULL DEFAULT NULL ,
-  `folderName` VARCHAR(100) NULL DEFAULT NULL ,
-  PRIMARY KEY (`TASKID`) ,
-  INDEX `FK33852DAFF5139497` (`DEFID` ASC) ,
-  INDEX `FK33852DAFE10386FC` (`ENDPOINT` ASC) ,
-  INDEX `FK33852DAF63959984` (`INSTID` ASC) ,
-  INDEX `FK33852DAF78EB68E6` (`ROOTINSTID` ASC) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`bpm_procvar` (
+  `varid` int(11) not null auto_increment ,
+  `instid` int(11) null default null ,
+  `datatype` int(11) null default null ,
+  `valuestring` varchar(4000) null default null ,
+  `valuelong` int(11) null default null ,
+  `valueboolean` int(11) null default null ,
+  `valuedate` datetime null default null ,
+  `varindex` int(11) null default null ,
+  `trctag` varchar(20) null default null ,
+  `isproperty` int(11) null default null ,
+  `moddate` datetime null default null ,
+  `keyname` varchar(100) null default null ,
+  `keystring` varchar(200) null default null ,
+  `filecontent` text null default null ,
+  `htmlfilepath` varchar(255) null default null ,
+  primary key (`varid`) )
+engine = innodb
+auto_increment = 17678
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`comtable`
+-- table `uengine`.`bpm_roledef`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`comtable` (
-  `COMCODE` VARCHAR(20) NOT NULL DEFAULT '' ,
-  `COMNAME` VARCHAR(100) NULL DEFAULT NULL ,
-  `DESCRIPTION` VARCHAR(255) NULL DEFAULT NULL ,
-  `ISDELETED` VARCHAR(1) NULL DEFAULT '0' ,
-  `repmail` VARCHAR(100) NULL DEFAULT NULL ,
-  `repMlHst` VARCHAR(100) NULL DEFAULT NULL ,
-  `repMlPwd` VARCHAR(100) NULL DEFAULT NULL ,
-  `alias` VARCHAR(100) NULL DEFAULT NULL ,
-  `logoPath` VARCHAR(100) NULL DEFAULT NULL ,
-  PRIMARY KEY (`COMCODE`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`bpm_roledef` (
+  `roledefid` varchar(100) null default null ,
+  `defid` varchar(50) null default null ,
+  `rolename` char(20) null default null ,
+  `mappeduserid` varchar(50) null default null ,
+  `comcode` varchar(50) null default null ,
+  `mappedrolecode` varchar(100) null default null ,
+  `roledeftype` varchar(10) null default null )
+engine = myisam
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`contact`
+-- table `uengine`.`bpm_rolemapping`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`contact` (
-  `userId` VARCHAR(100) NULL DEFAULT NULL ,
-  `friendId` VARCHAR(100) NULL DEFAULT NULL ,
-  `friendName` VARCHAR(20) NULL DEFAULT NULL ,
-  `network` CHAR(10) NULL DEFAULT NULL ,
-  `mood` VARCHAR(100) NULL DEFAULT NULL )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`emp_prop_table`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`emp_prop_table` (
-  `PROPID` INT(11) NOT NULL ,
-  `COMCODE` VARCHAR(20) NOT NULL ,
-  `EMPCODE` VARCHAR(20) NOT NULL ,
-  `PROPKEY` VARCHAR(40) NOT NULL ,
-  `PROPVALUE` VARCHAR(100) NOT NULL ,
-  PRIMARY KEY (`PROPID`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`bpm_rolemapping` (
+  `rolemappingid` int(11) not null auto_increment ,
+  `instid` int(11) null default null ,
+  `rootinstid` int(11) null default null ,
+  `rolename` varchar(255) null default null ,
+  `endpoint` varchar(255) null default null ,
+  `value` varchar(4000) null default null ,
+  `resname` varchar(200) null default null ,
+  `assigntype` int(11) null default null ,
+  `assignparam1` varchar(100) null default null ,
+  `dispatchoption` int(11) null default null ,
+  `dispatchparam1` varchar(100) null default null ,
+  `groupid` varchar(30) null default null ,
+  `isreferencer` int(1) null default '0' ,
+  primary key (`rolemappingid`) )
+engine = innodb
+auto_increment = 2519
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`emptable`
+-- table `uengine`.`bpm_seq`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`emptable` (
-  `empcode` VARCHAR(100) NOT NULL DEFAULT '' ,
-  `EMPNAME` VARCHAR(100) NULL DEFAULT NULL ,
-  `PASSWORD` VARCHAR(20) NULL DEFAULT NULL ,
-  `ISADMIN` INT(11) NULL DEFAULT NULL ,
-  `JIKNAME` VARCHAR(100) NULL DEFAULT NULL ,
-  `EMAIL` VARCHAR(100) NULL DEFAULT NULL ,
-  `PARTCODE` VARCHAR(20) NULL DEFAULT NULL ,
-  `GLOBALCOM` VARCHAR(20) NULL DEFAULT NULL ,
-  `ISDELETED` VARCHAR(1) NULL DEFAULT '0' ,
-  `locale` VARCHAR(10) NULL DEFAULT NULL ,
-  `NATEON` VARCHAR(50) NULL DEFAULT NULL ,
-  `MSN` VARCHAR(50) NULL DEFAULT NULL ,
-  `MOBILECMP` VARCHAR(50) NULL DEFAULT NULL ,
-  `MOBILENO` VARCHAR(50) NULL DEFAULT NULL ,
-  `FACEBOOKID` VARCHAR(100) NULL DEFAULT NULL ,
-  `FACEBOOKPASSWORD` VARCHAR(100) NULL DEFAULT NULL ,
-  `preferux` CHAR(10) NULL DEFAULT NULL ,
-  `prefermob` CHAR(10) NULL DEFAULT NULL ,
-  `mood` VARCHAR(100) NULL DEFAULT NULL ,
-  `APPKEY` VARCHAR(100) NULL DEFAULT NULL ,
-  `approved` INT(1) NULL DEFAULT NULL ,
-  `guest` INT(1) NULL DEFAULT NULL ,
-  `inviteUser` VARCHAR(100) NULL DEFAULT NULL ,
-  `MailNoti` INT(1) NULL DEFAULT '0' ,
-  `notiEmail` INT(1) NULL DEFAULT '0' ,
-  `authkey` VARCHAR(100) NULL DEFAULT NULL ,
-  `roletype` VARCHAR(10) NULL DEFAULT NULL ,
-  PRIMARY KEY (`empcode`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`bpm_seq` (
+  `seq` int(11) null default null ,
+  `tbname` varchar(255) null default null ,
+  `description` varchar(255) null default null ,
+  `moddate` datetime null default null )
+engine = innodb
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`inst_emp_perf`
+-- table `uengine`.`bpm_topicmapping`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`inst_emp_perf` (
-  `INSTID` INT(11) NOT NULL ,
-  `EMPCODE` VARCHAR(100) NOT NULL DEFAULT '' ,
-  `BUSINESSVALUE` INT(10) NULL DEFAULT NULL ,
-  PRIMARY KEY (`INSTID`, `EMPCODE`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`logtable`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`logtable` (
-  `id` INT(11) NOT NULL ,
-  `type` VARCHAR(20) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL ,
-  `empcode` VARCHAR(100) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL ,
-  `comcode` VARCHAR(100) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NULL DEFAULT NULL ,
-  `ip` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NULL DEFAULT NULL ,
-  `date` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NULL DEFAULT NULL ,
-  PRIMARY KEY (`id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_unicode_ci;
+create  table if not exists `uengine`.`bpm_topicmapping` (
+  `topicmappingid` int(11) not null ,
+  `topicid` varchar(20) not null ,
+  `userid` varchar(255) null default null ,
+  `username` varchar(1000) null default null ,
+  `assigntype` int(11) null default '0' ,
+  primary key (`topicmappingid`) )
+engine = innodb
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`notisetting`
+-- table `uengine`.`bpm_worklist`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`notisetting` (
-  `id` INT(11) NOT NULL ,
-  `userId` VARCHAR(20) NOT NULL ,
-  `notiAdvice` INT(11) NULL DEFAULT '0' ,
-  `modiUser` INT(11) NULL DEFAULT '0' ,
-  `modiTopic` INT(11) NULL DEFAULT '0' ,
-  `modiOrgan` INT(11) NULL DEFAULT '0' ,
-  `writeBookmark` INT(11) NULL DEFAULT '0' ,
-  `writeTopic` INT(11) NULL DEFAULT '0' ,
-  `writeOrgan` INT(11) NULL DEFAULT '0' ,
-  `writeInstance` INT(11) NULL DEFAULT '0' ,
-  `inviteTopic` INT(11) NULL DEFAULT '0' ,
-  `inviteOrgan` INT(11) NULL DEFAULT '0' ,
-  `addFriend` INT(11) NULL DEFAULT '0' ,
-  `beforehandNoti` INT(11) NULL DEFAULT '0' ,
-  `notiTime` INT(11) NULL DEFAULT '0' ,
-  `defaultNotiTime` VARCHAR(20) NULL DEFAULT NULL ,
-  `notiEmail` INT(11) NULL DEFAULT '0' ,
-  `checkLogin` INT(11) NULL DEFAULT '0' ,
-  PRIMARY KEY (`id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`parttable`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`parttable` (
-  `GLOBALCOM` VARCHAR(20) NULL DEFAULT NULL ,
-  `PARTCODE` VARCHAR(20) NOT NULL ,
-  `PARTNAME` VARCHAR(30) NULL DEFAULT NULL ,
-  `PARENT_PARTCODE` VARCHAR(20) NULL DEFAULT NULL ,
-  `ISDELETED` VARCHAR(1) NULL DEFAULT '0' ,
-  `DESCRIPTION` VARCHAR(255) NULL DEFAULT NULL ,
-  `COMCODE` VARCHAR(255) NULL DEFAULT NULL ,
-  PRIMARY KEY (`PARTCODE`) ,
-  INDEX `FK3B63679B4506931C` (`COMCODE` ASC) ,
-  CONSTRAINT `FK3B63679B4506931C`
-    FOREIGN KEY (`COMCODE` )
-    REFERENCES `uengine`.`comtable` (`COMCODE` ))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`processmap`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`processmap` (
-  `mapId` VARCHAR(100) NOT NULL DEFAULT '' ,
-  `defId` VARCHAR(50) NOT NULL DEFAULT '' ,
-  `name` VARCHAR(50) NULL DEFAULT NULL ,
-  `iconPath` VARCHAR(255) NULL DEFAULT NULL ,
-  `color` VARCHAR(10) NULL DEFAULT NULL ,
-  `comcode` VARCHAR(20) NULL DEFAULT NULL ,
-  `no` INT(11) NULL DEFAULT NULL ,
-  `cmphrase` CHAR(200) NULL DEFAULT NULL ,
-  `cmtrgr` VARCHAR(20) NULL DEFAULT NULL ,
-  `isScheduled` INT(1) NULL DEFAULT '0' ,
-  PRIMARY KEY (`mapId`) )
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`processtopicmapping`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`processtopicmapping` (
-  `processName` VARCHAR(200) NOT NULL ,
-  `processPath` VARCHAR(200) NOT NULL ,
-  `topicId` VARCHAR(50) NOT NULL ,
-  `type` VARCHAR(20) NOT NULL ,
-  PRIMARY KEY (`topicId`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`bpm_worklist` (
+  `taskid` int(11) not null ,
+  `title` varchar(3000) null default null ,
+  `description` varchar(500) null default null ,
+  `endpoint` varchar(200) null default null ,
+  `status` varchar(100) null default '' ,
+  `priority` int(11) null default null ,
+  `startdate` datetime null default null ,
+  `enddate` datetime null default null ,
+  `duedate` datetime null default null ,
+  `instid` int(11) null default null ,
+  `defid` varchar(100) null default null ,
+  `defname` varchar(200) null default null ,
+  `trctag` varchar(100) null default null ,
+  `tool` varchar(200) null default null ,
+  `parameter` varchar(4000) null default null ,
+  `groupid` int(11) null default null ,
+  `groupname` int(11) null default null ,
+  `ext1` varchar(200) null default null ,
+  `ext2` varchar(200) null default null ,
+  `ext3` varchar(200) null default null ,
+  `isurgent` int(11) null default null ,
+  `hasattachfile` int(11) null default null ,
+  `hascomment` int(11) null default null ,
+  `documentcategory` varchar(200) null default null ,
+  `isdeleted` int(11) null default '0' ,
+  `rootinstid` int(11) null default null ,
+  `dispatchoption` int(11) null default null ,
+  `dispatchparam1` varchar(100) null default null ,
+  `rolename` varchar(100) null default null ,
+  `resname` varchar(100) null default null ,
+  `refrolename` varchar(100) null default null ,
+  `execscope` varchar(5) null default null ,
+  `savedate` datetime null default null ,
+  `abstract` text null default null ,
+  `type` char(10) null default null ,
+  `content` mediumtext null default null ,
+  `extfile` varchar(200) null default null ,
+  `prevver` int(11) null default null ,
+  `nextver` int(11) null default null ,
+  `ext4` varchar(200) null default null ,
+  `ext5` varchar(200) null default null ,
+  `ext6` varchar(200) null default null ,
+  `ext7` varchar(200) null default null ,
+  `ext8` varchar(200) null default null ,
+  `ext9` varchar(200) null default null ,
+  `ext10` varchar(200) null default null ,
+  `prttskid` int(11) null default null ,
+  `majorver` int(5) null default null ,
+  `minorver` int(5) null default null ,
+  `grptaskid` int(11) null default null ,
+  `folderid` varchar(100) null default null ,
+  `foldername` varchar(100) null default null ,
+  primary key (`taskid`) ,
+  index `fk33852daff5139497` (`defid` asc) ,
+  index `fk33852dafe10386fc` (`endpoint` asc) ,
+  index `fk33852daf63959984` (`instid` asc) ,
+  index `fk33852daf78eb68e6` (`rootinstid` asc) )
+engine = innodb
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`recentitem`
+-- table `uengine`.`comtable`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`recentitem` (
-  `empcode` VARCHAR(100) NOT NULL ,
-  `itemType` VARCHAR(10) NOT NULL ,
-  `itemId` VARCHAR(100) NOT NULL ,
-  `updateDate` DATETIME NULL DEFAULT NULL ,
-  `clickedCount` VARCHAR(4) NULL DEFAULT NULL ,
-  PRIMARY KEY (`empcode`, `itemType`, `itemId`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `uengine`.`roletable`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`roletable` (
-  `ROLECODE` VARCHAR(20) NOT NULL ,
-  `COMCODE` VARCHAR(20) NULL DEFAULT NULL ,
-  `DESCR` VARCHAR(255) NULL DEFAULT NULL ,
-  `ISDELETED` VARCHAR(1) NULL DEFAULT '0' ,
-  `URL` VARCHAR(200) NULL DEFAULT NULL ,
-  `THUMBNAIL` VARCHAR(200) NULL DEFAULT NULL ,
-  `roleName` VARCHAR(100) NULL DEFAULT NULL ,
-  PRIMARY KEY (`ROLECODE`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`comtable` (
+  `comcode` varchar(20) not null default '' ,
+  `comname` varchar(100) null default null ,
+  `description` varchar(255) null default null ,
+  `isdeleted` varchar(1) null default '0' ,
+  `repmail` varchar(100) null default null ,
+  `repmlhst` varchar(100) null default null ,
+  `repmlpwd` varchar(100) null default null ,
+  `alias` varchar(100) null default null ,
+  `logopath` varchar(100) null default null ,
+  primary key (`comcode`) )
+engine = innodb
+default character set = utf8;
 
 
 -- -----------------------------------------------------
--- Table `uengine`.`roleusertable`
+-- table `uengine`.`contact`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uengine`.`roleusertable` (
-  `ROLECODE` VARCHAR(20) NOT NULL ,
-  `EMPCODE` VARCHAR(20) NOT NULL ,
-  PRIMARY KEY (`ROLECODE`, `EMPCODE`) ,
-  INDEX `FK8CEEB30D7C65B1A` (`ROLECODE` ASC) ,
-  CONSTRAINT `FK8CEEB30D7C65B1A`
-    FOREIGN KEY (`ROLECODE` )
-    REFERENCES `uengine`.`roletable` (`ROLECODE` ))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+create  table if not exists `uengine`.`contact` (
+  `userid` varchar(100) null default null ,
+  `friendid` varchar(100) null default null ,
+  `friendname` varchar(20) null default null ,
+  `network` char(10) null default null ,
+  `mood` varchar(100) null default null )
+engine = innodb
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`emp_prop_table`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`emp_prop_table` (
+  `propid` int(11) not null ,
+  `comcode` varchar(20) not null ,
+  `empcode` varchar(20) not null ,
+  `propkey` varchar(40) not null ,
+  `propvalue` varchar(100) not null ,
+  primary key (`propid`) )
+engine = innodb
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`emptable`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`emptable` (
+  `empcode` varchar(100) not null default '' ,
+  `empname` varchar(100) null default null ,
+  `password` varchar(20) null default null ,
+  `isadmin` int(11) null default null ,
+  `jikname` varchar(100) null default null ,
+  `email` varchar(100) null default null ,
+  `partcode` varchar(20) null default null ,
+  `globalcom` varchar(20) null default null ,
+  `isdeleted` varchar(1) null default '0' ,
+  `locale` varchar(10) null default null ,
+  `nateon` varchar(50) null default null ,
+  `msn` varchar(50) null default null ,
+  `mobilecmp` varchar(50) null default null ,
+  `mobileno` varchar(50) null default null ,
+  `facebookid` varchar(100) null default null ,
+  `facebookpassword` varchar(100) null default null ,
+  `preferux` char(10) null default null ,
+  `prefermob` char(10) null default null ,
+  `mood` varchar(100) null default null ,
+  `appkey` varchar(100) null default null ,
+  `approved` int(1) null default null ,
+  `guest` int(1) null default null ,
+  `inviteuser` varchar(100) null default null ,
+  `mailnoti` int(1) null default '0' ,
+  `notiemail` int(1) null default '0' ,
+  `authkey` varchar(100) null default null ,
+  `roletype` varchar(10) null default null ,
+  primary key (`empcode`) )
+engine = innodb
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`inst_emp_perf`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`inst_emp_perf` (
+  `instid` int(11) not null ,
+  `empcode` varchar(100) not null default '' ,
+  `businessvalue` int(10) null default null ,
+  primary key (`instid`, `empcode`) )
+engine = innodb
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`logtable`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`logtable` (
+  `id` int(11) not null ,
+  `type` varchar(20) character set 'utf8' collate 'utf8_unicode_ci' not null ,
+  `empcode` varchar(100) character set 'utf8' collate 'utf8_unicode_ci' not null ,
+  `comcode` varchar(100) character set 'utf8' collate 'utf8_unicode_ci' null default null ,
+  `ip` varchar(50) character set 'utf8' collate 'utf8_unicode_ci' null default null ,
+  `date` varchar(50) character set 'utf8' collate 'utf8_unicode_ci' null default null ,
+  primary key (`id`) )
+engine = innodb
+default character set = utf8
+collate = utf8_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`notisetting`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`notisetting` (
+  `id` int(11) not null ,
+  `userid` varchar(20) not null ,
+  `notiadvice` int(11) null default '0' ,
+  `modiuser` int(11) null default '0' ,
+  `moditopic` int(11) null default '0' ,
+  `modiorgan` int(11) null default '0' ,
+  `writebookmark` int(11) null default '0' ,
+  `writetopic` int(11) null default '0' ,
+  `writeorgan` int(11) null default '0' ,
+  `writeinstance` int(11) null default '0' ,
+  `invitetopic` int(11) null default '0' ,
+  `inviteorgan` int(11) null default '0' ,
+  `addfriend` int(11) null default '0' ,
+  `beforehandnoti` int(11) null default '0' ,
+  `notitime` int(11) null default '0' ,
+  `defaultnotitime` varchar(20) null default null ,
+  `notiemail` int(11) null default '0' ,
+  `checklogin` int(11) null default '0' ,
+  primary key (`id`) )
+engine = innodb
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`parttable`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`parttable` (
+  `globalcom` varchar(20) null default null ,
+  `partcode` varchar(20) not null ,
+  `partname` varchar(30) null default null ,
+  `parent_partcode` varchar(20) null default null ,
+  `isdeleted` varchar(1) null default '0' ,
+  `description` varchar(255) null default null ,
+  `comcode` varchar(255) null default null ,
+  primary key (`partcode`) ,
+  index `fk3b63679b4506931c` (`comcode` asc) ,
+  constraint `fk3b63679b4506931c`
+    foreign key (`comcode` )
+    references `uengine`.`comtable` (`comcode` ))
+engine = innodb
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`processmap`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`processmap` (
+  `mapid` varchar(100) not null default '' ,
+  `defid` varchar(50) not null default '' ,
+  `name` varchar(50) null default null ,
+  `iconpath` varchar(255) null default null ,
+  `color` varchar(10) null default null ,
+  `comcode` varchar(20) null default null ,
+  `no` int(11) null default null ,
+  `cmphrase` char(200) null default null ,
+  `cmtrgr` varchar(20) null default null ,
+  `isscheduled` int(1) null default '0' ,
+  primary key (`mapid`) )
+engine = myisam
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`processtopicmapping`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`processtopicmapping` (
+  `processname` varchar(200) not null ,
+  `processpath` varchar(200) not null ,
+  `topicid` varchar(50) not null ,
+  `type` varchar(20) not null ,
+  primary key (`topicid`) )
+engine = innodb
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`recentitem`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`recentitem` (
+  `empcode` varchar(100) not null ,
+  `itemtype` varchar(10) not null ,
+  `itemid` varchar(100) not null ,
+  `updatedate` datetime null default null ,
+  `clickedcount` varchar(4) null default null ,
+  primary key (`empcode`, `itemtype`, `itemid`) )
+engine = innodb
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`roletable`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`roletable` (
+  `rolecode` varchar(20) not null ,
+  `comcode` varchar(20) null default null ,
+  `descr` varchar(255) null default null ,
+  `isdeleted` varchar(1) null default '0' ,
+  `url` varchar(200) null default null ,
+  `thumbnail` varchar(200) null default null ,
+  `rolename` varchar(100) null default null ,
+  primary key (`rolecode`) )
+engine = innodb
+default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- table `uengine`.`roleusertable`
+-- -----------------------------------------------------
+create  table if not exists `uengine`.`roleusertable` (
+  `rolecode` varchar(20) not null ,
+  `empcode` varchar(20) not null ,
+  primary key (`rolecode`, `empcode`) ,
+  index `fk8ceeb30d7c65b1a` (`rolecode` asc) ,
+  constraint `fk8ceeb30d7c65b1a`
+    foreign key (`rolecode` )
+    references `uengine`.`roletable` (`rolecode` ))
+engine = innodb
+default character set = utf8;
 
 
 
-USE `uengine` ;
+use `uengine` ;
 
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+set sql_mode=@old_sql_mode;
+set foreign_key_checks=@old_foreign_key_checks;
+set unique_checks=@old_unique_checks;
 
--- INSERT INTO `comtable` (`COMCODE`, `COMNAME`) VALUES ('1', 'uEngine');
--- INSERT INTO `emptable` (`empcode`, `EMPNAME`, `PASSWORD`, `ISADMIN`, `EMAIL`,`GLOBALCOM`, `ISDELETED`, `LOCALE`, `approved`, `guest`) VALUES ('1', 'Tester', 'test', '1', 'test@uengine.org', '1', '0', 'ko', '1', '0');
+-- insert into `comtable` (`comcode`, `comname`) values ('1', 'uengine');
+-- insert into `emptable` (`empcode`, `empname`, `password`, `isadmin`, `email`,`globalcom`, `isdeleted`, `locale`, `approved`, `guest`) values ('1', 'tester', 'test', '1', 'test@uengine.org', '1', '0', 'ko', '1', '0');
 
 
 
-alter table bpm_worklist add column hasChild int;
+alter table bpm_worklist add column haschild int;
 
 
 alter table processmap modify column mapid varchar(200); -- generation logic of map id should be changed to reduce the string size

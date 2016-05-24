@@ -73,13 +73,15 @@ public abstract class AbstractEmailSender{
 
         String url = baseUrl + urlPath;
 
-        properties.setProperty("face.icon", getProperties().getProperty("empCode"));
+        if(getProperties()!=null){
+            properties.setProperty("face.icon", getProperties().getProperty("empCode"));
+            properties.setProperty("user.name", getProperties().getProperty("empName"));
+        }
+
         properties.setProperty("company.name", Employee.extractTenantName(email));
         properties.setProperty("password.url", url);
         properties.setProperty("signup.baseurl", baseUrl);
         properties.setProperty("base.url", baseUrl);
-        properties.setProperty("user.name", getProperties().getProperty("empName"));
-
 
         String tempContent = readContent();
         String title = getTitle();
