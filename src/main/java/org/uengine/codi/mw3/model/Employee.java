@@ -130,7 +130,7 @@ public class Employee extends EmployeeWithCRUD {
     String role;
     @Range(
             values={"pa", "pm", "dev", "po"},
-            options={"I'm a practice author ($100 / mo.)", "I'm a project manager ($50 / mo.)", "I'm a developer ($10 / mo.)", "I'm a product owner ($100 / mo.)"}
+            options={"I'm a practice author", "I'm a project manager", "I'm a developer", "I'm a product owner"}
     )
         public String getRole() {
             return role;

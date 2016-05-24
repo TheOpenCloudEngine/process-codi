@@ -48,6 +48,11 @@ public abstract class AbstractEmailSender{
         InputStream is;
         try {
             is = Thread.currentThread().getContextClassLoader().getResourceAsStream(getTemplateClassPath());
+
+            if(is==null){
+                throw new Exception("Email template '" + getTemplateClassPath() + "' is not found in classpath.");
+            }
+
             InputStreamReader isr = new InputStreamReader(is, "UTF-8");
             BufferedReader br = new BufferedReader(isr);
 
@@ -59,6 +64,24 @@ public abstract class AbstractEmailSender{
             throw new RuntimeException(e);
         }
         return tempContent;
+    }
+
+    public void setProperty(String key, String value){
+        if(getProperties()==null)
+            setProperties(new Properties());
+
+        if(value==null) {
+            getProperties().remove(key);
+        }else{
+            getProperties().setProperty(key, value);
+        }
+
+    }
+
+    public String getProperty(String key){
+        if(getProperties() == null) return null;
+
+        return getProperties().getProperty(key);
     }
 
     public void send(String urlPath, String email) throws Exception {
@@ -73,15 +96,13 @@ public abstract class AbstractEmailSender{
 
         String url = baseUrl + urlPath;
 
-        if(getProperties()!=null){
-            properties.setProperty("face.icon", getProperties().getProperty("empCode"));
-            properties.setProperty("user.name", getProperties().getProperty("empName"));
-        }
-
-        properties.setProperty("company.name", Employee.extractTenantName(email));
-        properties.setProperty("password.url", url);
-        properties.setProperty("signup.baseurl", baseUrl);
-        properties.setProperty("base.url", baseUrl);
+        setProperty("face.icon", getProperty("empCode"));
+        setProperty("user.name", getProperty("empName"));
+        setProperty("company.name", Employee.extractTenantName(email));
+        setProperty("password.url", url);
+        setProperty("signup.baseurl", baseUrl);
+        setProperty("base.url", baseUrl);
+        setProperty("signup.url", url);
 
         String tempContent = readContent();
         String title = getTitle();
