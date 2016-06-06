@@ -131,7 +131,7 @@ public class TopPanel {
 		this.topMenuPanel = topMenuPanel;
 	}
 
-	@ServiceMethod(target=ServiceMethodContext.TARGET_STICK)
+	@ServiceMethod(target=ServiceMethodContext.TARGET_STICK, onLoad = true)
 	public Popup showApps() throws Exception{
 		AllAppList allAppList = MetaworksRemoteService.getComponent(AllAppList.class);
 		allAppList.session = session;
