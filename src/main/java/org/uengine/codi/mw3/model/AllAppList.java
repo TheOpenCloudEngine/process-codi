@@ -6,6 +6,7 @@ import org.metaworks.ServiceMethodContext;
 import org.metaworks.ToEvent;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.uengine.codi.mw3.admin.TopPanel;
 
 /**
@@ -24,7 +25,8 @@ public class AllAppList {
 
     @ServiceMethod(target= ServiceMethodContext.TARGET_APPEND)
     public Object[] goSNS() throws Exception {
-        SNS sns = new SNS(session);
+        SNS sns = MetaworksRemoteService.getComponent(SNS.class);
+        sns.load(session);
         topPanel.setTopCenterTitle("Workspace");
         return new Object[]{new Refresh(sns), new Refresh(topPanel),
                 new ToEvent(ServiceMethodContext.TARGET_SELF, EventContext.EVENT_CLOSE)};

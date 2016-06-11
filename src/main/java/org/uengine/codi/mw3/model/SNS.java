@@ -67,15 +67,15 @@ public class SNS extends Application{
 	}
 	
 	
-	public SNS(Session session) throws Exception {
-		this(session, null);
+	public void load(Session session) throws Exception {
+		load(session, null);
 	}
 	
-	public SNS(Session session, String instId) throws Exception {
-		this(session, instId, null);
+	public void load(Session session, String instId) throws Exception {
+		load(session, instId, null);
 	}
 			
-	public SNS(Session session, String instId, String topicId) throws Exception {
+	public void load(Session session, String instId, String topicId) throws Exception {
 		
 		String preferUX = session.getEmployee().getPreferUX();
 		String preferMob = session.getEmployee().getPreferMob();
@@ -194,7 +194,7 @@ public class SNS extends Application{
 
 	}
 
-	private ContentWindow createNewInstancePanel(Session session)
+	protected ContentWindow createNewInstancePanel(Session session)
 			throws Exception {
 		ContentWindow contentWindow = new ContentWindow();
 		contentWindow.setTitle("$New");

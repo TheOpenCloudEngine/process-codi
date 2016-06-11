@@ -9,6 +9,7 @@ import org.metaworks.annotation.*;
 import org.metaworks.annotation.Face;
 import org.metaworks.common.MetaworksUtil;
 import org.metaworks.dao.TransactionContext;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.collection.SessionIdHashTable;
@@ -715,11 +716,13 @@ public class Login implements ContextAware {
 		}
 		 */
 
-        Application app = null;
+        SNS app = null;
 
 
         if (app == null)
-            app = new SNS(session);
+            app = MetaworksRemoteService.getComponent(SNS.class);
+
+        app.load(session);
 
         TopPanel topPanel = new TopPanel(session);
 

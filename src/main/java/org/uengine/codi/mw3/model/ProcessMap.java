@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.itextpdf.text.Meta;
+import org.jvnet.hk2.annotations.Service;
 import org.metaworks.EventContext;
 import org.metaworks.MetaworksContext;
 import org.metaworks.MetaworksException;
@@ -15,6 +17,8 @@ import org.metaworks.ServiceMethodContext;
 import org.metaworks.ToAppend;
 import org.metaworks.ToEvent;
 import org.metaworks.annotation.AutowiredFromClient;
+import org.metaworks.annotation.Payload;
+import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.DAOUtil;
 import org.metaworks.dao.Database;
 import org.metaworks.dao.IDAO;
@@ -37,6 +41,8 @@ import org.uengine.kernel.EJBProcessInstance;
 import org.uengine.kernel.NoSuchProcessDefinitionException;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.RoleMapping;
+import org.uengine.modeling.resource.DefaultResource;
+import org.uengine.modeling.resource.ResourcePreviewer;
 import org.uengine.modeling.resource.Version;
 import org.uengine.modeling.resource.VersionManager;
 import org.uengine.processmanager.ProcessManagerBean;
@@ -62,6 +68,15 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 
 	@AutowiredFromClient
 	public ProcessMapList processMapList;
+
+	ResourcePreviewer previewer;
+		public ResourcePreviewer getPreviewer() {
+			return previewer;
+		}
+		public void setPreviewer(ResourcePreviewer previewer) {
+			this.previewer = previewer;
+		}
+
 
 	String mapId;
 		public String getMapId() {
@@ -276,7 +291,7 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		IProcessMap processMap = (IProcessMap)sql(ProcessMap.class, sb.toString());
 		processMap.setComCode(session.getCompany().getComCode());
 		processMap.select();
-		
+
 		return processMap;
 	}
 
@@ -766,6 +781,14 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		MetaworksRemoteService.wrapReturn(modalWindow);
 
 		return this;
+	}
+
+	@Override
+	public void loadPreviewer() throws Exception {
+		setPreviewer(new ResourcePreviewer(new DefaultResource("codi/" + defId)));
+
+		MetaworksRemoteService.autowire(getPreviewer());
+		getPreviewer().fill();
 	}
 
 }

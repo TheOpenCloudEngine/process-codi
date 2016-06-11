@@ -256,7 +256,8 @@ public class Employee extends EmployeeWithCRUD {
         if (session != null && session.getEmployee().getEmpCode().equals(getEmpCode())) {
             session.setEmployee(findMe());
 
-            SNS sns = new SNS(session);
+            SNS sns = MetaworksRemoteService.getComponent(SNS.class);
+            sns.load(session);
             TopPanel topPanel = new TopPanel(session);
             topPanel.setTopCenterPanel(sns.loadTopCenterPanel(session));
 
