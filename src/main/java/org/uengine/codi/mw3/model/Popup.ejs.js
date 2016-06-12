@@ -3,6 +3,8 @@ var org_uengine_codi_mw3_model_Popup = function(objectId, className) {
 	this.className = className;
 	this.divId = "#objDiv_" + this.objectId;
 	this.divObj = $("#objDiv_" + this.objectId).closest('.target_stick,.target_popup');
+
+	$(this.divId).parent().draggable();
 	
 	var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
 
@@ -128,8 +130,9 @@ org_uengine_codi_mw3_model_Popup.prototype = {
 			showTitle = true;
 			left = (bodyWidth - popLayerWidth)/2;
 			top = (bodyHeight - popLayerHeight)/2;
-			
+
 			this.divObj.css({left: left + 'px',top: top + 'px'});
+
 			this.divObj.find('.cluetip-arrows').remove();
 		}
 		
