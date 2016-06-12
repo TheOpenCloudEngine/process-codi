@@ -135,5 +135,7 @@ public class InstanceListPanel {
 		}
 		public void setInstanceList(InstanceList instanceList) {
 			this.instanceList = instanceList;
-		}	
+		}
+
+
 }

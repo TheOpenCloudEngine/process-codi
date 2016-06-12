@@ -33,7 +33,6 @@ import org.uengine.kernel.Role;
 import org.uengine.processmanager.ProcessManagerRemote;
 import org.uengine.solr.SolrServerManager;
 
-@Component
 public class Instance extends Database<IInstance> implements IInstance{
 
 	public final static String INSTNACE_STATUS_STOPPED    = "Stopped";
