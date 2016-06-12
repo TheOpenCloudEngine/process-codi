@@ -778,14 +778,19 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 
 		ModalWindow modalWindow = new ModalWindow(this, 1000, 700, "$ProcessDetail");
 
-		MetaworksRemoteService.wrapReturn(modalWindow);
+//		MetaworksRemoteService.wrapReturn(modalWindow);
+
+		ContentWindow contentWindow = new ContentWindow();
+		contentWindow.setPanel(this);
+
+		MetaworksRemoteService.wrapReturn(contentWindow);
 
 		return this;
 	}
 
 	@Override
 	public void loadPreviewer() throws Exception {
-		setPreviewer(new ResourcePreviewer(new DefaultResource("codi/" + defId)));
+		setPreviewer(new ResourcePreviewer(new DefaultResource(defId)));
 
 		MetaworksRemoteService.autowire(getPreviewer());
 		getPreviewer().fill();

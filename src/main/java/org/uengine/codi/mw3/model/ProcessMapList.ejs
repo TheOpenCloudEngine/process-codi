@@ -10,31 +10,18 @@
 %>
 
 
-
-	<div class="guide">
-		<span class="tl"></span>
-		<span class="tr"></span>
-	</div>
-	<div class="cont" style="padding:10px;">
-		<ul class="process_map2">		
 						
 <%
 			for (var i=0; i<value.processMapList.length; i++){
-				if(typeof options == 'undefined') 
-					options = objectMetadata;
-			
-				options['index'] = i;
-				options['htmlTag'] =  'li';
 %>
-						<%=mw3.locateObject(value.processMapList[i], value.processMapList[i].__className, null, options, {objectId: value.__objectId, name: 'processMapList[' + i + ']'})%>	
+						<%=mw3.locateObject(value.processMapList[i])%>
 <%
 			}
 %>
-		</ul>
-<%          
+<%
 			if(true){
 %>					<br><br>
-		<button class="btn btn-primary" onclick="<%=methods.addApp.caller()%>"><%=mw3.localize("$AddFromLibrary")%></button>
+		<%=methods.addApp.here()%>
 <%
 			 }
 %>					
@@ -43,12 +30,6 @@
 		<div><span style="color: red">* <%=mw3.localize("$existingSchedule")%></span></div>
 		<% } %>
 	</div>
-
-	<div class="guide">
-		<span class="lb"></span>
-		<span class="rb"></span>
-	</div>
-
 
 
 <%

@@ -6,7 +6,7 @@ import org.metaworks.widget.Window;
 
 @Face(ejsPath="genericfaces/Window.ejs", options={"hideLabels", "minimize", "hideTitleBar"}, values={"true", "true", "true"})
 
-public class ListWindow extends Window {
+public class ListWindow extends ContentWindow {
 	
 	public ListWindow(){}
 	

@@ -1,6 +1,7 @@
 package org.uengine.codi.mw3.model;
 
 import org.metaworks.annotation.Face;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.Window;
 import org.uengine.kernel.GlobalContext;
 
@@ -13,8 +14,7 @@ public class PerspectiveWindow extends Window {
 	
 	public PerspectiveWindow(Session session) throws Exception {
 		
-		String clsName = GlobalContext.getPropertyString("perspectivepanel.class","org.uengine.codi.mw3.model.PerspectivePanel");
-		PerspectivePanel perspectivePanel = (PerspectivePanel)GlobalContext.loadClass(clsName).newInstance();
+		PerspectivePanel perspectivePanel = MetaworksRemoteService.getComponent(PerspectivePanel.class);
 		perspectivePanel.load(session);
 		setPanel(perspectivePanel);
 	}

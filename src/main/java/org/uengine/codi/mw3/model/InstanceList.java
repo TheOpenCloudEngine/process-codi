@@ -158,8 +158,15 @@ public class InstanceList implements ContextAware{
 		} else {
 			// codi search to db
 			IInstance instanceContents = Instance.load(navigation, getPage() - 1, count);
-			instanceContents.setMetaworksContext(new MetaworksContext());
-			instanceContents.getMetaworksContext().setWhere(IInstance.WHERE_INSTANCELIST);
+
+
+			if(getMetaworksContext()==null) {
+				instanceContents.setMetaworksContext(new MetaworksContext());
+				instanceContents.getMetaworksContext().setWhere(IInstance.WHERE_INSTANCELIST);
+			}else{
+				instanceContents.setMetaworksContext(getMetaworksContext());
+			}
+
 			this.setInstances(instanceContents);
 
 			// setting moreInstanceList

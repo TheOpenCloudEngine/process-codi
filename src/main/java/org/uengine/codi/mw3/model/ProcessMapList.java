@@ -5,6 +5,7 @@ import org.metaworks.MetaworksContext;
 import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.AutowiredToClient;
+import org.metaworks.annotation.Face;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
@@ -83,6 +84,7 @@ public class ProcessMapList implements ContextAware {
 	}
 	
 	@ServiceMethod(target=ServiceMethodContext.TARGET_POPUP, callByContent=true)
+	@Face(displayName = "$AddFromLibrary")
 	public ModalWindow addApp() throws Exception {
 		AddProcessMapPanel addProcessMapPanel = MetaworksRemoteService.getComponent(AddProcessMapPanel.class);
 

@@ -543,7 +543,14 @@ public class Instance extends Database<IInstance> implements IInstance{
 		return modalWindow;
 	}
 
+	@Override
+	public ListWindow detailInTwoColumn() throws Exception{
+		ListWindow detailListWindow = new ListWindow();
+		InstanceView instanceView = ((InstanceViewContent)detail()).getInstanceView();
+		detailListWindow.setPanel(instanceView);
 
+		return detailListWindow;
+	}
 
 
 	@Autowired
@@ -966,6 +973,15 @@ public class Instance extends Database<IInstance> implements IInstance{
 	public void setLastcmnt2TaskId(Long lastcmnt2TaskId) {
 		this.lastcmnt2TaskId = lastcmnt2TaskId;
 	}
+
+	InstancePreview preview;
+		public InstancePreview getPreview() {
+			return preview;
+		}
+		public void setPreview(InstancePreview preview) {
+			this.preview = preview;
+		}
+
 
 	public void split() throws Exception {
 		Long root = new Long(-1);
@@ -1592,4 +1608,14 @@ public class Instance extends Database<IInstance> implements IInstance{
 		topicNode.setName(this.getTopicName());
 		return topicNode.loadTopic();
 	}
+
+	@Override
+	public void loadPreview() throws Exception {
+		InstancePreview instancePreview = MetaworksRemoteService.getComponent(InstancePreview.class);
+		instancePreview.load(this);
+
+		setPreview(instancePreview);
+	}
+
+
 }

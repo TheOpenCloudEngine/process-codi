@@ -87,7 +87,7 @@ public interface IProcessMap extends IDAO {
 
 	public void saveMe() throws Exception;
 
-	@ServiceMethod(callByContent = true, when = WHEN_VIEW, target = ServiceMethodContext.TARGET_POPUP)
+	@ServiceMethod(callByContent = true, when = WHEN_VIEW)//, target = ServiceMethodContext.TARGET_POPUP)
 	public Object startWithRoleMapping() throws Exception;
 
 

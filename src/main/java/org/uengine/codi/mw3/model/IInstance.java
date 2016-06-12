@@ -42,6 +42,9 @@ public interface IInstance extends IDAO{
 	@ServiceMethod(target="popup")
 	public ModalWindow popupDetail() throws Exception;
 
+	@ServiceMethod()
+	public ListWindow detailInTwoColumn() throws Exception;
+
 	@Id
 	public Long getInstId();
 	public void setInstId(Long id);
@@ -258,6 +261,11 @@ public interface IInstance extends IDAO{
 
 	@ServiceMethod(callByContent=true)
 	public Object[] loadTopic() throws Exception;
+
+
+	@ServiceMethod(callByContent=true, where="pinterest", target=ServiceMethod.TARGET_SELF, onLoad = true, inContextMenu = true)
+	public void loadPreview() throws Exception;
+
 	/*
 	@ServiceMethod(payload={"instId"}, target=ServiceMethodContext.TARGET_POPUP)
 	public ModalWindow monitor() throws Exception;
