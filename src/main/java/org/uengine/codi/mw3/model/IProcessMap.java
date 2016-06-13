@@ -1,5 +1,6 @@
 package org.uengine.codi.mw3.model;
 
+import org.metaworks.MetaworksContext;
 import org.metaworks.Remover;
 import org.metaworks.ServiceMethodContext;
 import org.metaworks.ToEvent;
@@ -91,7 +92,7 @@ public interface IProcessMap extends IDAO {
 	public Object startWithRoleMapping() throws Exception;
 
 
-	@ServiceMethod(onLoad = true, inContextMenu = true, target = ServiceMethod.TARGET_SELF, callByContent = true)
+	@ServiceMethod(onLoad = true, inContextMenu = true, target = ServiceMethod.TARGET_SELF, callByContent = true, when= MetaworksContext.WHEN_VIEW)
 	public void loadPreviewer() throws Exception;
 
 }

@@ -1,15 +1,16 @@
+<div style="padding: 15px">
+    <h2><%=mw3.localize("$ProcessDetail")%></h2>
+    <p>
+        <%=mw3.localize("$ProcessDetail.PressElement")%>
+    </p>
+    <div style="height:800px;position:relative"><%=fields.processView.here()%></div>
 
-<h2><%=mw3.localize("$ProcessDetail")%></h2>
-<p>
-    <%=mw3.localize("$ProcessDetail.PressElement")%>
-</p>
-<div style="height:300px;position:relative"><%=fields.processView.here()%></div>
+    <h2><%=mw3.localize("$ProcessRun")%></h2>
+    <p>
+        <%=mw3.localize("$RoleMapping")%>
+    </p>
+    <div style="height: 80px">
+        <%=fields.roleMappingDefinitions.here()%>
+    </div>
 
-<h2><%=mw3.localize("$ProcessRun")%></h2>
-<p>
-    <%=mw3.localize("$RoleMapping")%>
-</p>
-<div style="height: 80px">
-    <%=fields.roleMappingDefinitions.here()%>
 </div>
-

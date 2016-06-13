@@ -774,7 +774,12 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
 		getMetaworksContext().setHow("run");
 
-		this.setRoleMappingPanel(new RoleMappingPanel(processManager, this.getDefId(), session));
+
+		RoleMappingPanel roleMappingPanel1 = MetaworksRemoteService.getComponent(RoleMappingPanel.class);
+		MetaworksRemoteService.autowire(roleMappingPanel1);
+		roleMappingPanel1.load(this.getDefId());
+
+		this.setRoleMappingPanel(roleMappingPanel1);
 
 		ModalWindow modalWindow = new ModalWindow(this, 1000, 700, "$ProcessDetail");
 

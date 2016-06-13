@@ -94,7 +94,6 @@ public class RoleMappingPanel implements ContextAware{
 			getProcessView().setModel(definition);
 			getProcessView().setElementViewActionDelegate(MetaworksRemoteService.getComponent(ElementViewActionDelegateForInstanceMonitoring.class));
 
-
 		}
 
 
