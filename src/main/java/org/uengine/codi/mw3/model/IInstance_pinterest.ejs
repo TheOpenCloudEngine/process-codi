@@ -28,19 +28,19 @@
 				<%}%>
 
 				<div class="caption">
-					<h3><%=value.name%> <%=fields.instanceDrag.here()%></h3>
+					<h3><a href="#" onclick="<%=methods.detailInTwoColumn.caller()%>"><%=value.name%></a> <%=fields.instanceDrag.here()%></h3>
 					<p>
-						Initiator: <img src="portrait/<%=value.initiator.userId%>.thumnail.jpg" style="height: 40px; display: block;" onerror="$(this).remove();">
+						Started at <%=fields.startedDate.here({when: 'timeago'})%> by <%=fields.initiator.here({when: 'timeago'}) %>
 
 						<% if(value.currentUser && value.currentUser.userId && (value.initiator.userId!=value.currentUser.userId || value.name!=value.lastCmnt)){%>
 						<img src="portrait/<%=value.currentUser.userId%>.thumnail.jpg" width="20px" align=left onerror="$(this).remove();">
 						<%=value.lastCmnt%>
 						<%}%>
 
-						<%=fields.startedDate.here()%>
+
 						<%if(value.status=='Completed'){%> ( <%=mw3.localize('$Complete')%> ) <%}%>
 					</p>
-					<p><a href="#" class="btn btn-primary" role="button" onclick="<%=methods.detailInTwoColumn.caller()%>">Open</a></p>
+
 				</div>
 			</div>
 		</div>

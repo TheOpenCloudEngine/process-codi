@@ -168,7 +168,7 @@ public class SNS extends Application{
 			eastLayout.setUseHideBar(false);
 			
 			Layout outerLayout = new Layout();
-			outerLayout.setOptions("togglerLength_open:0, spacing_open:0, spacing_closed:0, west__spacing_open:1, north__size:52, west__size: 100");
+			outerLayout.setOptions("togglerLength_open:0, spacing_open:0, spacing_closed:0, west__spacing_open:1, north__size:52, west__size: 150");
 			
 			outerLayout.setWest(westLayout);
 			outerLayout.setCenter(eastLayout);		
@@ -194,7 +194,7 @@ public class SNS extends Application{
 
 	}
 
-	protected ContentWindow createNewInstancePanel(Session session)
+	public static ContentWindow createNewInstancePanel(Session session)
 			throws Exception {
 		ContentWindow contentWindow = new ContentWindow();
 		contentWindow.setTitle("$New");

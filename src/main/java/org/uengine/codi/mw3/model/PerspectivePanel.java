@@ -140,6 +140,16 @@ public class PerspectivePanel implements ContextAware {
 //    }
 
 
+    String viewMode;
+    public String getViewMode() {
+        return viewMode;
+    }
+
+    public void setViewMode(String viewMode) {
+        this.viewMode = viewMode;
+    }
+
+
     @AutowiredFromClient
     public Session session;
 

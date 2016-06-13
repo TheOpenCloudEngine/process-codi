@@ -1,4 +1,4 @@
-<div id="navigator" class="m_left">
+<div id="navigator" <%if (value.viewMode){%>class="<%=value.viewMode%>"<%}%>>
 	<%=fields.personalPerspective.here() %>
 	<%=fields.topicPerspective.here() %>
 	<%=fields.upcommingTodoPerspective.here() %>
