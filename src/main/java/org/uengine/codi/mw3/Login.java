@@ -11,6 +11,7 @@ import org.metaworks.common.MetaworksUtil;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
+import org.mindrot.jbcrypt.BCrypt;
 import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.collection.SessionIdHashTable;
 import org.uengine.codi.mw3.common.MainPanel;
@@ -365,7 +366,11 @@ public class Login implements ContextAware {
             if (!loginSso(session))
                 throw new Exception("<font color=blue>Wrong User or Password! forgot?</font>");
         } else {
-            if (!getPassword().equals(findEmp.getPassword()))
+            // BCrypt 로 생성된 password 를 DB 에서 가져온 후,
+            String password = findEmp.getPassword();
+
+            // 화면에서 입력받은 password 와 비교한다.
+            if (!BCrypt.checkpw(getPassword(), password))
                 throw new Exception("<font color=blue>Wrong User or Password! forgot?</font>");
         }
 
