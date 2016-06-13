@@ -20,6 +20,7 @@ import org.metaworks.dao.KeyGeneratorDAO;
 import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
+import org.mindrot.jbcrypt.BCrypt;
 import org.uengine.cloud.saasfier.TenantURL;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.StartCodi;
@@ -209,8 +210,11 @@ public class Employee extends EmployeeWithCRUD {
             throw new Exception("Is that email is already subscribed");
         }
 
+        // BCrypt 로 생성된 password 를 DB 에서 가져온 후,
+        String password = this.getPassword();
 
-        if (!getPassword().equals(getConfirmPassword())) {
+
+        if (!BCrypt.checkpw(getPassword(), password)) {
             throw new Exception("Re-entered password doesn't match");
         }
 
@@ -429,6 +433,12 @@ public class Employee extends EmployeeWithCRUD {
                 getImageFile().upload();
             }
         }
+
+        // Random salt 생성 및 BCrypt 암호화
+        // workload 에 따라 성능에 영향을 미치므로 normal 계수인 6을 대입
+        int workload = 6;
+        String salt = BCrypt.gensalt(workload);
+        this.setPassword(BCrypt.hashpw(this.getPassword(), salt));
 
         if (WHEN_NEW.equals(this.getMetaworksContext().getWhen())) {
             this.setEmpCode(this.createNewId());
@@ -844,6 +854,8 @@ public class Employee extends EmployeeWithCRUD {
         IEmployee employeeProxy = findMe();
         Employee employee = new Employee();
         employee.copyFrom(employeeProxy);
+        // password empty
+        employee.setPassword("");
 
         employee.getMetaworksContext().setHow("detail");
         employee.getMetaworksContext().setWhen(WHEN_EDIT);
