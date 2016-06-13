@@ -539,6 +539,14 @@
 			<version>2.2.1</version>
 		</dependency>
 
+		<!-- http://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.3m</version>
+		</dependency>
+
+
 		<!--<dependency>-->
 			<!--<groupId>net.sourceforge</groupId>-->
 			<!--<artifactId>mpxj</artifactId>-->
