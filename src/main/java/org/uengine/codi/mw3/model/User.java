@@ -24,6 +24,7 @@ import org.metaworks.website.MetaworksFile;
 import org.metaworks.widget.Label;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.uengine.codi.mw3.subscription.subscription.TenantConfiguration;
 import org.uengine.processmanager.ProcessManagerRemote;
 
 public class User extends Database<IUser> implements IUser {
@@ -663,6 +664,13 @@ public class User extends Database<IUser> implements IUser {
 
 	public void modePicker(){
 		this.getMetaworksContext().setHow(HOW_PICKER);
+	}
+
+
+	@ServiceMethod(target=ServiceMethod.TARGET_POPUP)
+	//@Available(condition = "value.admin")
+	public void tenantConfiguration(){
+		MetaworksRemoteService.wrapReturn(new ModalWindow(new TenantConfiguration(session), 800, 600));
 	}
 }
 
