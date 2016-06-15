@@ -21,6 +21,7 @@ import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.mindrot.jbcrypt.BCrypt;
+import org.oce.garuda.multitenancy.TenantContext;
 import org.uengine.cloud.saasfier.TenantURL;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.StartCodi;
@@ -404,6 +405,8 @@ public class Employee extends EmployeeWithCRUD {
                 String tenantId = findCompany.getComCode();
 
                 this.setGlobalCom(tenantId);
+
+                new TenantContext(tenantId); // From now, tenant will be recognized.
 
                 TenantLifecycle tenantLifecycle = MetaworksRemoteService.getComponent(TenantLifecycle.class);
                 if(tenantLifecycle!=null)

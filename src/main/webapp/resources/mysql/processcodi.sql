@@ -530,3 +530,5 @@ alter table bpm_worklist add column haschild int;
 
 alter table processmap modify column mapid varchar(200); -- generation logic of map id should be changed to reduce the string size
 alter table processmap modify column defid varchar(200); -- generation logic of map id should be changed to reduce the string size
+
+alter table emptable modify column password varchar(100);

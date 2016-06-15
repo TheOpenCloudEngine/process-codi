@@ -14,17 +14,17 @@ public class ContactPerspective extends MoreViewPerspective {
 	@Override
 	protected void loadChildren() throws Exception {
 		super.loadChildren();
-		
-		IContact contact = Contact.findContacts(session.getUser(), this.isMore());
-		contact.getMetaworksContext().setWhere(IUser.WHERE_FRIENDS);
-		
-		int count = Contact.calcFriendCount(session.getUser());
-		if(count > Integer.parseInt(Contact.DEFAULT_TOPIC_COUNT))
-			this.setEnableMore(true);
-		else
-			this.setEnableMore(false);
-		
-		this.setChild(contact);
+
+			IContact contact = Contact.findContacts(session.getUser(), this.isMore());
+			contact.getMetaworksContext().setWhere(IUser.WHERE_FRIENDS);
+
+			int count = Contact.calcFriendCount(session.getUser());
+			if (count > Integer.parseInt(Contact.DEFAULT_TOPIC_COUNT))
+				this.setEnableMore(true);
+			else
+				this.setEnableMore(false);
+
+			this.setChild(contact);
 	}
 	
 	@Override

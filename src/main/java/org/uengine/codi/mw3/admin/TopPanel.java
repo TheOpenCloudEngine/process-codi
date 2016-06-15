@@ -1,6 +1,8 @@
 package org.uengine.codi.mw3.admin;
 
 import org.metaworks.ServiceMethodContext;
+import org.metaworks.annotation.AutowiredFromClient;
+import org.metaworks.annotation.AutowiredToClient;
 import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dwr.MetaworksRemoteService;
@@ -14,10 +16,11 @@ public class TopPanel {
 	}
 	
 	public TopPanel(Session session) {
-		setSession(session);
+		//setSession(session);
+		setUx(session.getUx());
 		
 		notificationBadge = new NotificationBadge();
-		
+
 		todoBadge = new TodoBadge();
 		
 		TopPanelUser topPanelUser = new TopPanelUser();
@@ -68,20 +71,33 @@ public class TopPanel {
 	String topCenterTitle;
 		@Hidden
 		public String getTopCenterTitle() {
-			return topCenterTitle==null?"Workspace":topCenterTitle;
+			return topCenterTitle==null?"Dashboard":topCenterTitle;
 		}
 		public void setTopCenterTitle(String topCenterTitle) {
 			this.topCenterTitle = topCenterTitle;
 		}
 
-	Session session;
-		public Session getSession() {
-			return session;
+	@AutowiredFromClient
+	public Session session;
+//	@AutowiredToClient
+//		public Session getSession() {
+//			return session;
+//		}
+//		public void setSession(Session session) {
+//			this.session = session;
+//		}
+
+
+	String ux;
+		public String getUx() {
+			return ux;
 		}
-		public void setSession(Session session) {
-			this.session = session;
+
+		public void setUx(String ux) {
+			this.ux = ux;
 		}
-		
+
+
 	TopPanelUser loginUser;
 		public TopPanelUser getLoginUser() {
 			return loginUser;
@@ -134,7 +150,7 @@ public class TopPanel {
 	@ServiceMethod(target=ServiceMethodContext.TARGET_STICK, onLoad = true)
 	public Popup showApps() throws Exception{
 		AllAppList allAppList = MetaworksRemoteService.getComponent(AllAppList.class);
-		allAppList.session = session;
+		//allAppList.session = session;
 
 		Popup popup = new Popup();
 		popup.setPanel(allAppList);

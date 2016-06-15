@@ -173,6 +173,7 @@ public class InstanceList implements ContextAware{
 			if( instanceContents.size() >= count){
 				setMoreInstanceList(new MoreInstanceList());
 				getMoreInstanceList().setNavigation(navigation);
+				getMoreInstanceList().setMetaworksContext(getMetaworksContext());
 				getMoreInstanceList().setPage(getPage() + 1);
 			}
 		}

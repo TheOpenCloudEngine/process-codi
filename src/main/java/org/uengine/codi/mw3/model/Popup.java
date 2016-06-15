@@ -14,6 +14,7 @@ public class Popup implements ContextAware {
 	
 	public Popup(){
 		this(400,300, null);
+		setSticky(true);
 	}
 
 	public Popup(Object panel){		
@@ -80,6 +81,16 @@ public class Popup implements ContextAware {
 		public void setAnimate(boolean animate) {
 			this.animate = animate;
 		}
+
+	boolean sticky;
+		public boolean isSticky() {
+			return sticky;
+		}
+		public void setSticky(boolean sticky) {
+			this.sticky = sticky;
+		}
+
+
 
 	@ServiceMethod(eventBinding=EventContext.EVENT_CLOSE)
 	public Object close() {

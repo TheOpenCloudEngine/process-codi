@@ -370,13 +370,24 @@ public class Login implements ContextAware {
             String password = findEmp.getPassword();
 
             // 화면에서 입력받은 password 와 비교한다.
-            if (!BCrypt.checkpw(getPassword(), password))
+            try {
+                if (!BCrypt.checkpw(getPassword(), password))
+                    throw new Exception("<font color=blue>Wrong User or Password! forgot?</font>");
+            }catch (Exception e){
                 throw new Exception("<font color=blue>Wrong User or Password! forgot?</font>");
+            }
         }
+
+        secureEmployeeInfo(findEmp);
 
         session.setEmployee(findEmp);
 
         return session;
+    }
+
+    private void secureEmployeeInfo(IEmployee findEmp) {
+        findEmp.setPassword(null);
+        findEmp.setAuthKey(null);
     }
 
     public boolean loginSso(Session session) {
@@ -745,14 +756,16 @@ public class Login implements ContextAware {
         locale.load();
 
 
-        System.out.println(getSsoService() + "   <====================================================  ");
+//        System.out.println(getSsoService() + "   <====================================================  ");
 
         if (getSsoService() != null)
             return new Object[]{new Forward(getSsoService())};
 
-        mainPanel.getTopPanel().setSession(session);
+        //mainPanel.getTopPanel().setSession(session);
 
-        return new Object[]{/*new Refresh(session),*/ new Refresh(locale), new Refresh(mainPanel, false, true)};
+        mainPanel.setSession(session);
+
+        return new Object[]{/*session, */new Refresh(locale), new Refresh(mainPanel, false, true)};
     }
 
   /*

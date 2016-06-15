@@ -155,7 +155,7 @@ public abstract class AbstractEmployee extends Database<IEmployee> implements IE
         this.password = password;
     }
 
-    @Face(displayName="$Password", options="type", values="password")
+    @Face(displayName="$ConfirmPassword", options="type", values="password")
     public String getConfirmPassword() {
         return confirmPassword;
     }

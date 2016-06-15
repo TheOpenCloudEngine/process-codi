@@ -19,11 +19,11 @@ var org_uengine_codi_mw3_model_Popup = function(objectId, className) {
 	
 	this.divObj.addClass("mw3_popup").attr("objectid", objectId).addClass("clue-right-rounded").addClass("cluetip-rounded").css({position:'absolute','z-index':zIndex,display:'none'});
 	
-	var object = mw3.objects[this.objectId];
+	this.object = mw3.objects[this.objectId];
 	
 	var faceHelper = this;
 	
-	faceHelper.createPopup(object.width, object.height, mw3.mouseX, mw3.mouseY);
+	faceHelper.createPopup(this.object.width, this.object.height, mw3.mouseX, mw3.mouseY);
 	
 	var scrollDiv = $('#objDiv_' + this.objectId + " #addcontact-con");
 	var scrollDivChild = $('#objDiv_' + this.objectId + " #addcontact-con > div");
@@ -32,7 +32,7 @@ var org_uengine_codi_mw3_model_Popup = function(objectId, className) {
 		scrollDiv.scroll(function(e) {
 			if(scrollDiv.scrollTop() > 1){
 				/*scrollDiv.animate({height:scrollDivChild.height()});*/
-				if( object.animate ){
+				if( this.object.animate ){
 					scrollDiv.animate({height:$('body').height()-50});
 					scrollDiv.closest('.target_stick,.target_popup').animate({top:3});
 				}
@@ -62,7 +62,7 @@ org_uengine_codi_mw3_model_Popup.prototype = {
 
 		
 		
-		if(this.divObj.hasClass('target_stick')){
+		if(this.object.sticky && this.divObj.hasClass('target_stick')){
 			var position = 'right';
 			var where = 'up';
 			

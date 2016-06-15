@@ -19,7 +19,7 @@ public interface IEmployee extends IDAO {
 	public String getFacebookId();
 	public void setFacebookId(String facebookId);
 
-	@Face(displayName="$Re-Password", options="type", values="password")
+	@Face(displayName="$Password", options="type", values="password")
 	public String getPassword();
 	public void setPassword(String password);
 	

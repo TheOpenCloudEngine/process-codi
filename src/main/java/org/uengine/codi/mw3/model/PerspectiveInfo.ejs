@@ -6,7 +6,7 @@
 	<div class="toolbar">
         <ul>
 <%
-		var session = mw3.fn.getSession();
+		var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
 		
 		if(session.lastPerspecteMode == 'personal' && session.lastSelectedItem != session.user.userId){
 %>       

@@ -48,7 +48,7 @@
 		}else{
 			var ejsPath = 'dwr/metaworks/' + objectTypeName.split('.').join('/') + '.ejs';
 			
-			var session = mw3.fn.getSession();
+			var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
 			var isMine = false;
 			var type = value.type;
 			var collapse = false;
