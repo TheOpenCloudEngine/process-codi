@@ -8,7 +8,7 @@
 <%
 		var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
 		
-		if(session.lastPerspecteMode == 'personal' && session.lastSelectedItem != session.user.userId){
+		if(session && session.lastPerspecteMode == 'personal' && session.lastSelectedItem != session.user.userId){
 %>       
             <li onclick="<%=methods.switchToRequest.caller()%>" <%=(value.type=='request') ? "class='toolbar_current'" : ""%>>
             	<span class="toolbarIcon icon-feed"></span><span><%=mw3.localize("$StartedBy")%></span>

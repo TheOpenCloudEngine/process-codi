@@ -356,7 +356,10 @@ public class Login implements ContextAware {
         Session session = new Session();
 
         Employee emp = new Employee();
-        emp.setEmail(getEmail());
+
+        if(getEmail()==null) throw new Exception("Please enter email address");
+
+        emp.setEmail(getEmail().trim());
         IEmployee findEmp = emp.findByEmail();
 
         if (findEmp == null)
@@ -740,10 +743,12 @@ public class Login implements ContextAware {
 
         app.load(session);
 
-        TopPanel topPanel = new TopPanel(session);
+        TopPanel topPanel = null;
 
-        if (!SNS.isPhone())
+        if (!SNS.isPhone()) {
+            topPanel = new TopPanel(session);
             topPanel.setTopCenterPanel(app.loadTopCenterPanel(session));
+        }
 
         mainPanel = new MainPanel(topPanel, app);
 

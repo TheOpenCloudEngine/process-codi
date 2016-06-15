@@ -1,10 +1,7 @@
 package org.uengine.codi.mw3.admin;
 
 import org.metaworks.ServiceMethodContext;
-import org.metaworks.annotation.AutowiredFromClient;
-import org.metaworks.annotation.AutowiredToClient;
-import org.metaworks.annotation.Hidden;
-import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.annotation.*;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.uengine.codi.mw3.model.*;
@@ -148,6 +145,7 @@ public class TopPanel {
 	}
 
 	@ServiceMethod(target=ServiceMethodContext.TARGET_STICK, onLoad = true)
+	@Available(condition = "value.ux != 'phone'")
 	public Popup showApps() throws Exception{
 		AllAppList allAppList = MetaworksRemoteService.getComponent(AllAppList.class);
 		//allAppList.session = session;

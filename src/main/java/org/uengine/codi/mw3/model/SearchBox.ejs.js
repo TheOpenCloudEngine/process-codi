@@ -19,7 +19,11 @@ var org_uengine_codi_mw3_model_SearchBox = function(objectId, className) {
 	$("#search_" + this.objectId).bind('keyup', {objectId: this.objectId}, function(event){
 		mw3.getFaceHelper(event.data.objectId).keyup(event, this);
 	});
-	$("#search_" + this.objectId).focus();
+
+	var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
+
+	if(session && session.ux != 'phone' && session.ux != 'ipad' )
+		$("#search_" + this.objectId).focus();
 };
 
 org_uengine_codi_mw3_model_SearchBox.prototype = {

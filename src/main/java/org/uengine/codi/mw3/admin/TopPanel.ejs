@@ -1,16 +1,8 @@
 <%
 	if(value){
 %>
-<%
-		if(value.ux == 'phone'){
-%>
-			<div class="top_panel_mobile_menu"><span class="icon-menu2"></span></div>
-		<!--	<div class="top_panel_mobile_friend"><span class="icon-user"></span></div> -->
-<%
-		}
-%>
-			
-			<div class="top_panel_location" onclick="<%=methods.showApps.caller()%>"><%=value.topCenterTitle%> <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div>
+
+			<div <%if(value.ux != 'phone'){%>class="top_panel_location" <%}%>onclick="<%=methods.showApps.caller()%>"><%=value.topCenterTitle%></div>
 			<div class="top_panel_apps">
 				<span id="methodDiv_showApps" class="glyphicon glyphicon-th app_icon" style="color: #fff;" onClick="<%=methods.showApps.caller()%>" title="Apps">
 				</span></div>

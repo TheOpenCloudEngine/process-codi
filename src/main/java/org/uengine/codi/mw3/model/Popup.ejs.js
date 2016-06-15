@@ -39,6 +39,8 @@ var org_uengine_codi_mw3_model_Popup = function(objectId, className) {
 				
 			}
 		});
+	}else{
+		this.object.sticky = false;
 	}
 	
 };
