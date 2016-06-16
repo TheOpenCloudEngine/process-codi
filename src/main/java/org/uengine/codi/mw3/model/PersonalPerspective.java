@@ -18,7 +18,7 @@ public class PersonalPerspective extends Perspective {
 		listPanel.setInstanceListPanel(instanceListPanel);
 		listPanel.setPerspectiveInfo(new PerspectiveInfo(session, type));
 		
-		return new Object[]{session, listPanel};
+		return new Object[]{listPanel};
 	}
 	
 	@ServiceMethod
