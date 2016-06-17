@@ -5,16 +5,14 @@ import java.util.ArrayList;
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
 import org.metaworks.annotation.AutowiredFromClient;
-import org.metaworks.annotation.AutowiredToClient;
 import org.metaworks.annotation.Face;
-import org.metaworks.dao.MetaworksDAO;
+import org.metaworks.annotation.Id;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.uengine.kernel.*;
-import org.uengine.modeling.ElementViewActionDelegate;
+import org.uengine.kernel.ProcessDefinition;
 import org.uengine.modeling.modeler.ProcessCanvas;
 import org.uengine.modeling.modeler.ProcessModeler;
-import org.uengine.modeling.resource.Version;
 import org.uengine.modeling.resource.VersionManager;
 import org.uengine.processmanager.ProcessManagerRemote;
 import org.uengine.social.ElementViewActionDelegateForInstanceMonitoring;
@@ -41,8 +39,19 @@ public class RoleMappingPanel implements ContextAware{
 				ArrayList<IRoleMappingDefinition> roleMappingDefinitions) {
 			this.roleMappingDefinitions = roleMappingDefinitions;
 		}
-		
-		
+
+	String defId;
+		@Id
+		public String getDefId() {
+			return defId;
+		}
+
+		public void setDefId(String defId) {
+			this.defId = defId;
+		}
+
+
+
 	public RoleMappingPanel(){}
 
 	@Autowired
@@ -68,42 +77,32 @@ public class RoleMappingPanel implements ContextAware{
 		}
 
 
-	public void load(String defId) throws Exception {
+	public void load(String defId_) throws Exception {
 
-		defId = VersionManager.getProductionResourcePath("codi", defId);
+		setDefId(defId_);
 
-		if(defId == null)
+		defId_ = VersionManager.getProductionResourcePath("codi", defId_);
+
+		if(defId_ == null)
 			throw new NoSuchProcessDefinitionException();
 
 
 
 		roleMappingDefinitions = new ArrayList<IRoleMappingDefinition>();
 
-		org.uengine.kernel.ProcessDefinition definition = processManager.getProcessDefinition(defId);
+		org.uengine.kernel.ProcessDefinition definition = processManager.getProcessDefinition(defId_);
 
 
-
-		{//setting process view
-			ProcessModeler processModeler = new ProcessModeler();
-			processModeler.setPalette(null);
-
-			((ProcessCanvas) processModeler.getCanvas()).setMetaworksContext(new MetaworksContext());
-			((ProcessCanvas) processModeler.getCanvas()).getMetaworksContext().setWhen("monitor");
-			setProcessView(processModeler);
-
-			getProcessView().setModel(definition);
-			getProcessView().setElementViewActionDelegate(MetaworksRemoteService.getComponent(ElementViewActionDelegateForInstanceMonitoring.class));
-
-		}
+		installProcessView(definition);
 
 
 		if(definition.getRoles()!=null)
 		for(org.uengine.kernel.Role role : definition.getRoles()){
-			if( "Initiator".equalsIgnoreCase(role.getName()) ){
+			if( "rootRole".equals(role.getName()) || "Initiator".equalsIgnoreCase(role.getName()) ){
 				continue;
 			}
 			RoleMappingDefinition roleMappingDefinition = new RoleMappingDefinition();
-			roleMappingDefinition.setRoleDefId(session.getEmployee().getGlobalCom() + "." + defId + "." + role.getName());
+			roleMappingDefinition.setRoleDefId(session.getEmployee().getGlobalCom() + "." + defId_ + "." + role.getName());
 			try{
 				roleMappingDefinition.copyFrom(roleMappingDefinition.findRoleMappingDefinition());
 				roleMappingDefinition.setRoleMappedUser(new RoleMappedUser());
@@ -119,7 +118,7 @@ public class RoleMappingPanel implements ContextAware{
 			}catch(Exception e){
 				RoleMappingDefinition roleMappingDef = new RoleMappingDefinition();
 				roleMappingDef.setRoleDefId(roleMappingDefinition.getRoleDefId());
-				roleMappingDef.setDefId(defId);
+				roleMappingDef.setDefId(defId_);
 				roleMappingDef.setRoleName(role.getName());
 				roleMappingDefinition.getRoleMappedUser().getUsers().add(session.getUser());
 
@@ -131,7 +130,20 @@ public class RoleMappingPanel implements ContextAware{
 			}
 		}
 	}
-	
+
+	protected void installProcessView(ProcessDefinition definition) throws Exception {
+		//setting process view
+		ProcessModeler processModeler = new ProcessModeler();
+		processModeler.setPalette(null);
+
+		((ProcessCanvas) processModeler.getCanvas()).setMetaworksContext(new MetaworksContext());
+		((ProcessCanvas) processModeler.getCanvas()).getMetaworksContext().setWhen("monitor");
+		setProcessView(processModeler);
+
+		getProcessView().setModel(definition);
+		getProcessView().setElementViewActionDelegate(MetaworksRemoteService.getComponent(ElementViewActionDelegateForInstanceMonitoring.class));
+	}
+
 	public void save() throws Exception{
 		for(IRoleMappingDefinition roleMappingDefinition: roleMappingDefinitions){
 			RoleMappingDefinition saveRoleMappingDef = null;
