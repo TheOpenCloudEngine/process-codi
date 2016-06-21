@@ -286,8 +286,15 @@ public class Session implements ContextAware{
 
 			this.setUser(user);
 
+			Company company = new Company();
+			company.setComCode(getEmployee().getGlobalCom());
+			ICompany iCompany = company.findByCode();
+
 			setCompany(new Company());
 			getCompany().setComCode(getEmployee().getGlobalCom());
+			getCompany().setComName(iCompany.getComName());
+			getCompany().setKillbillAccount(iCompany.getKillbillAccount());
+			getCompany().setKillbillSubscription(iCompany.getKillbillSubscription());
 
 		} else {
 			throw new Exception(

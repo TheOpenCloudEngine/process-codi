@@ -27,6 +27,15 @@ public class TenantConfiguration {
         setInvoice(new Invoice());
         autowire(getInvoice());
         getInvoice().load();
+
+        setUsages(new Usages());
+        autowire(getUsages());
+        getUsages().load();
+
+        setTimeLine(new TimeLine());
+        autowire(getTimeLine());
+        getTimeLine().load();
+
     }
 
     Subscription subscription;
@@ -51,4 +60,17 @@ public class TenantConfiguration {
             this.invoice = invoice;
         }
 
+    Usages usages;
+    @Group(name="Usages")
+    @Order(3)
+        public Usages getUsages() { return usages; }
+
+        public void setUsages(Usages usages) { this.usages = usages; }
+
+    TimeLine timeLine;
+    @Group(name="TimeLine")
+    @Order(4)
+        public TimeLine getTimeLine() { return timeLine; }
+
+        public void setTimeLine(TimeLine timeLine) { this.timeLine = timeLine; }
 }
