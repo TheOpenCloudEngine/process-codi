@@ -20,7 +20,8 @@ var org_uengine_codi_mw3_model_InstanceListPanel = function(objectId, className)
 	// set window title
 	this.windowObjectId = this.objectDiv.closest('.mw3_window').attr('objectId');
 	
-	var session = mw3.fn.getSession();
+	var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
+
 	if(this.object && this.object.title || session.windowTitle){
 		var title = session.windowTitle;
 		if(this.object && this.object.title)

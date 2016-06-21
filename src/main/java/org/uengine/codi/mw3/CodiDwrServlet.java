@@ -11,15 +11,14 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.metaworks.Refresh;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.dwr.TransactionalDwrServlet;
-import org.oce.garuda.multitenancy.TenantContext;
-import org.uengine.codi.mw3.model.Session;
 //import org.uengine.codi.platform.SecurityContext;
 import org.uengine.kernel.GlobalContext;
+import org.uengine.modeling.resource.DefaultResource;
+import org.uengine.modeling.resource.ResourceManager;
+import org.uengine.util.UEngineUtil;
 
 public class CodiDwrServlet extends TransactionalDwrServlet{
 
@@ -244,4 +243,5 @@ public class CodiDwrServlet extends TransactionalDwrServlet{
 		// TODO Auto-generated method stub
 		super.doPost(request, response);
 	}
+
 }
