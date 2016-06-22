@@ -1,6 +1,7 @@
 package org.uengine.codi.mw3.model;
 
 import org.metaworks.annotation.AutowiredToClient;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.uengine.codi.mw3.admin.WindowPanel;
 
 public class SNSTopPanel {
@@ -12,7 +13,7 @@ public class SNSTopPanel {
 		tray.session = session;
 		tray.load();
 		
-		notificationBadge = new NotificationBadge();
+		notificationBadge = MetaworksRemoteService.getComponent(NotificationBadge.class);
 		notificationBadge.session = session;
 		notificationBadge.refresh();
 		

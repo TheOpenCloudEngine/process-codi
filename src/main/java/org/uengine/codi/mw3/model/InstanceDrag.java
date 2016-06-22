@@ -14,7 +14,7 @@ public class InstanceDrag {
 		public void setInstanceId(Long instanceId) {
 			this.instanceId = instanceId;
 		}
-	
+
 	@ServiceMethod(mouseBinding="drag")
 	public Session cut() throws Exception{
 		Instance instance = new Instance();

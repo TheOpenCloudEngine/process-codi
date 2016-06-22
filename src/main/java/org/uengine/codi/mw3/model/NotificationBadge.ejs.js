@@ -15,7 +15,7 @@ var org_uengine_codi_mw3_model_NotificationBadge = function(objectId, className)
 		if(badge && badge.newItemCount == -1)
 			mw3.objects[objectId].refresh();
 		
-		window.document.title = (badge.newItemCount > 0 ? "("+ badge.newItemCount + ")":"") + " Codi"; 
+		window.document.title = (badge.newItemCount > 0 ? "("+ badge.newItemCount + ")":"") + " " + this.object.appName;
 	}
 };
 
