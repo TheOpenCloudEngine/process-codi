@@ -34,7 +34,9 @@ create  table if not exists `uengine`.`bpm_knol` (
   `isreleased` tinyint(1) null default null ,
   `isdistributed` tinyint(1) null default null ,
   `projectalias` varchar(1000) null default null ,
-  primary key (`id`) ,
+  `projectalias` varchar(100) null default null ,
+  `killbillAccount` varchar(100) DEFAULT NULL,
+  `killbillSubscription` varchar(100) DEFAULT NULL,
   index `parentid` (`parentid` asc, `no` asc) )
 engine = myisam
 default character set = utf8;
