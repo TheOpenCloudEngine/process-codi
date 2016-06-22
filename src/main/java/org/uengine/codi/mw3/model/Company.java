@@ -18,6 +18,9 @@ public class Company extends Database<ICompany> implements ICompany {
 	String description;
 	String isDeleted;
 	String alias;
+	String killbillAccount;
+	String killbillSubscription;
+
 		public String getAlias() {
 			return alias;
 		}
@@ -85,7 +88,13 @@ public class Company extends Database<ICompany> implements ICompany {
 	public void setIsDeleted(String isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-	
+
+	public String getKillbillAccount() { return killbillAccount; }
+	public void setKillbillAccount(String killbillAccount) { this.killbillAccount = killbillAccount; }
+
+	public String getKillbillSubscription() { return killbillSubscription; }
+	public void setKillbillSubscription(String killbillSubscription) { this.killbillSubscription = killbillSubscription; }
+
 	MetaworksFile logo;
 		public MetaworksFile getLogo() {
 			return logo;

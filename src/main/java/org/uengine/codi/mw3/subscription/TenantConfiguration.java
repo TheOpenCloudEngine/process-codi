@@ -1,8 +1,10 @@
-package org.uengine.codi.mw3.subscription.subscription;
+package org.uengine.codi.mw3.subscription;
 
+import org.metaworks.ContextAware;
+import org.metaworks.MetaworksContext;
+import org.metaworks.annotation.Face;
 import org.metaworks.annotation.Group;
 import org.metaworks.annotation.Order;
-import org.metaworks.dwr.MetaworksRemoteService;
 import org.uengine.codi.mw3.model.Session;
 
 import static org.metaworks.dwr.MetaworksRemoteService.*;
@@ -10,7 +12,7 @@ import static org.metaworks.dwr.MetaworksRemoteService.*;
 /**
  * Created by jjy on 2016. 6. 15..
  */
-public class TenantConfiguration {
+public class TenantConfiguration implements ContextAware {
 
 
     public TenantConfiguration(){
@@ -27,6 +29,15 @@ public class TenantConfiguration {
         setInvoice(new Invoice());
         autowire(getInvoice());
         getInvoice().load();
+
+        setUsages(new Usages());
+        autowire(getUsages());
+        getUsages().load();
+
+        setTimeLine(new TimeLine());
+        autowire(getTimeLine());
+        getTimeLine().load();
+
     }
 
     Subscription subscription;
@@ -51,4 +62,27 @@ public class TenantConfiguration {
             this.invoice = invoice;
         }
 
+    Usages usages;
+    @Group(name="Usages")
+    @Order(3)
+        public Usages getUsages() { return usages; }
+
+        public void setUsages(Usages usages) { this.usages = usages; }
+
+    TimeLine timeLine;
+    @Group(name="TimeLine")
+    @Order(4)
+        public TimeLine getTimeLine() { return timeLine; }
+
+        public void setTimeLine(TimeLine timeLine) { this.timeLine = timeLine; }
+
+    @Override
+    public MetaworksContext getMetaworksContext() {
+        return null;
+    }
+
+    @Override
+    public void setMetaworksContext(MetaworksContext metaworksContext) {
+
+    }
 }

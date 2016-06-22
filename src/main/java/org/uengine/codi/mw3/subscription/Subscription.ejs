@@ -1,0 +1,71 @@
+<% if (value) { %>
+    <div class="div_table">
+        <div class="tbl_header">
+            <div class="tbl_th"></div>
+            <div class="tbl_th">Free</div>
+            <div class="tbl_th">Basic</div>
+            <div class="tbl_th">Enterprise</div>
+        </div>
+        <div class="table_tr">
+            <div class="tbl_td">One Time (Install fee)</div>
+            <div class="tbl_td">0</div>
+            <div class="tbl_td">0</div>
+            <div class="tbl_td">0</div>
+        </div>
+        <div class="table_tr">
+            <div class="tbl_td">Recurring (Per month)</div>
+            <div class="tbl_td">0</div>
+            <div class="tbl_td">$10/user</div>
+            <div class="tbl_td">$100/user</div>
+        </div>
+        <div class="table_tr">
+            <div class="tbl_td">Usage-based</div>
+            <div class="tbl_td">N/A</div>
+            <div class="tbl_td">N/A</div>
+            <div class="tbl_td">Default 30GB per team, Overage: $10 for 1GB /month</div>
+        </div>
+        <div class="table_tr">
+            <div class="tbl_td">Services</div>
+            <div class="tbl_td">
+                <ul>
+                    <li>Practice / Method Authoring</li>
+                    <li>Workspace - up to 1 project instances per a month, up to 5 participants limited.</li>
+                </ul>
+            </div>
+            <div class="tbl_td">
+                <ul>
+                    <li>including Free Services</li>
+                    <li>Workspace - up to 5 project instances per a month, up to 15 participants per project instance.</li>
+                </ul>
+            </div>
+            <div class="tbl_td">
+                <ul>
+                    <li>including Basic Services</li>
+                    <li>Workspace - unlimited instances and participants</li>
+                    <li>Free File attachement</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 25px">
+        <table id="subscription" class="display table table-bordered table-striped">
+            <thead>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+<div id="" class="" style="top: 34px; overflow:auto; position: absolute; min-width: 0px; min-height: 0px; max-width: 10000px; max-height: 10000px;  left: 0px; right: 0px; bottom: 0px;">
+    plan select : <%=fields.planSelected.here()%>
+</div>
+<div id="" class="bottom" style="top: 34px; overflow:auto; position: absolute; min-width: 0px; min-height: 0px; max-width: 10000px; max-height: 10000px;  left: 0px; right: 0px; bottom: 0px;">
+    <%=methods.subscribe.here()%>
+    <%=methods.changePlan.here()%>
+    <%=methods.unsubscribe.here()%>
+</div>
+<% } %>

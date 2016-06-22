@@ -40,6 +40,14 @@ public interface ICompany extends IDAO {
 	public String getIsDeleted();	
 	public void setIsDeleted(String deleted);
 
+	@Hidden
+	public String getKillbillAccount();
+	public void setKillbillAccount(String killbillAccount);
+
+	@Hidden
+	public String getKillbillSubscription();
+	public void setKillbillSubscription(String killbillSubscription);
+
 	@ValidatorSet({
 		@Validator(name=ValidatorContext.VALIDATE_REGULAREXPRESSION, condition="repMail", options={"/^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$/"}, message="이메일 형식이 잘못되었습니다")
 	})
@@ -69,4 +77,5 @@ public interface ICompany extends IDAO {
 	public Object[] save() throws Exception;
 	
 	public ICompany findByAlias() throws Exception;
+
 }
