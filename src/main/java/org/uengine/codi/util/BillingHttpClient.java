@@ -92,7 +92,7 @@ public class BillingHttpClient implements Serializable, DisposableBean{
 
 	public AccountTimeline getAccountTimeline(final String accountId) {
 
-		final String url = BILLING_SYSTEM_DOMAIN + BillingResource.ACCOUNTS_PATH + "/" + accountId + "/" + BillingResource.TIMELINE;
+		final String url = BILLING_SYSTEM_DOMAIN + BillingResource.ACCOUNTS_PATH + "/" + accountId + "/" + BillingResource.TIMELINE+"?audit=FULL";
 
 		final Future<HashMap> result = EXECUTOR_SERVICE.submit(new MessageSender("GET", url, "", "", this.readTimeout, this.connectionTimeout, this.followRedirects));
 
@@ -500,8 +500,10 @@ public class BillingHttpClient implements Serializable, DisposableBean{
 				}else if(connection.getResponseCode() == 201)
 				{
 					String location = connection.getHeaderField("location");
-					BillingHttpClient locationHClient = new BillingHttpClient();
-					mapResult = locationHClient.sendMessageToEndPoint(location, null, "GET", createUser);
+					if(location != null && !"".equals(location)) {
+						BillingHttpClient locationHClient = new BillingHttpClient();
+						mapResult = locationHClient.sendMessageToEndPoint(location, null, "GET", createUser);
+					}
 				}else{
 					return null;
 				}

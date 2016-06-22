@@ -21,8 +21,8 @@ public class TimeLine {
 
     @Hidden
     public String timeLineInfo;
-    public String getTimeLineInfo() { return timeLineInfo; }
-    public void setTimeLineInfo(String timeLineInfo) { this.timeLineInfo = timeLineInfo; }
+        public String getTimeLineInfo() { return timeLineInfo; }
+        public void setTimeLineInfo(String timeLineInfo) { this.timeLineInfo = timeLineInfo; }
 
 
     public void load() {

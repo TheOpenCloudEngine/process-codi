@@ -1,7 +1,12 @@
 package org.uengine.codi.mw3.subscription;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.metaworks.ContextAware;
+import org.metaworks.MetaworksContext;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.Face;
+import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.ServiceMethod;
 import org.uengine.codi.mw3.billing.model.RolledUpUsage;
 import org.uengine.codi.mw3.billing.model.SubscriptionUsageRecord;
@@ -20,9 +25,24 @@ import java.util.UUID;
  * Created by uEngineYBS on 2016-06-21.
  */
 public class Usages {
+    public Usages(){
+    }
 
     @AutowiredFromClient
     public Session session;
+
+    public String startDate;
+        public String getStartDate() { return startDate; }
+        public void setStartDate(String startDate) { this.startDate = startDate; }
+
+    public String endDate;
+        public String getEndDate() { return endDate; }
+        public void setEndDate(String endDate) { this.endDate = endDate; }
+
+    @Hidden
+    public String usagesInfo;
+        public String getUsagesInfo() { return usagesInfo; }
+        public void setUsagesInfo(String usagesInfo) { this.usagesInfo = usagesInfo; }
 
     @ServiceMethod
     public void createUsages(){
@@ -50,17 +70,25 @@ public class Usages {
 
     }
 
-    @ServiceMethod
+    @ServiceMethod(callByContent=true)
     public void getUsages(){
-        BillingHttpClient billingHttpClient = new BillingHttpClient();
-        String startDate = "2016-06-01";
-        String endDate = "2016-07-01";
-        RolledUpUsage result = billingHttpClient.getRolledUpUsage(session.getCompany().getKillbillSubscription(),"GByte", startDate, endDate);
-        System.out.println(result);
+            this.load();
     }
 
     public void load() {
+        String startDate = this.getStartDate();
+        String endDate = this.getEndDate();
 
+        if(startDate != null && endDate != null) {
+            BillingHttpClient billingHttpClient = new BillingHttpClient();
+            RolledUpUsage resultRolledUpUsage = billingHttpClient.getRolledUpUsage(session.getCompany().getKillbillSubscription(), "GByte", startDate, endDate);
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                this.setUsagesInfo(objectMapper.writeValueAsString(resultRolledUpUsage));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

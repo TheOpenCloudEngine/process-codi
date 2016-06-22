@@ -1,36 +1,48 @@
 var org_uengine_codi_mw3_subscription_Usages = function(objectId, className){
-    var dataSet = [
-        [
-            "Tiger Nixon",
-            "System Architect",
-            "Edinburgh",
-            "5421",
-            "2011/04/25",
-            "$320,800"
-        ],
-        [
-            "Garrett Winters",
-            "Accountant",
-            "Tokyo",
-            "8422",
-            "2011/07/25",
-            "$170,750"
-        ]
-    ];
+    this.objectId = objectId;
+    this.className = className;
+    this.object = mw3.objects[this.objectId];
 
-    var table = $('#usages').DataTable({
-        dom: 'ftipr',
-        data: dataSet,
-        bPaginate: false,
-        columns: [
-            { data: '0' },
-            { data: '1' },
-            { data: '2' },
-            { data: '3' },
-            { data: '4' },
-            { data: '5' }
-        ]
-    });
 
-    $('#usages').width('650');
+    this.drawUsages();
+    this.drawSettings();
+
+}
+
+org_uengine_codi_mw3_subscription_Usages.prototype = {
+    drawUsages: function() {
+        var jsonArray = new Array()
+
+        if (this.object.usagesInfo == null) {
+            jsonArray = [];
+        } else {
+            var json = JSON.parse(this.object.usagesInfo);
+            jsonArray.push(json);
+        }
+
+        console.log(jsonArray);
+        $('#usages').DataTable({
+            aaData: jsonArray,
+            bPaginate: false,
+            columnDefs: [{
+                targets: 3,
+                data: null,
+                render: function ( data, type, full, meta ) {
+                    var htmlStr =  "TOTAL USAGES : " + full.rolledUpUnits[0].amount + " " + full.rolledUpUnits[0].unitType
+                    return htmlStr;
+                }
+            }],
+            aoColumns: [
+                { "mDataProp": "subscriptionId" },
+                { "mDataProp": "startDate" },
+                { "mDataProp": "endDate" },
+                { "mDataProp": "3" }
+            ]
+        });
+    },
+
+    drawSettings: function() {
+        $('#usages').width('650');
+        $('#usages_info').remove();
+    }
 }

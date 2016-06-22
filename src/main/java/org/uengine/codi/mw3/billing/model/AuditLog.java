@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
  */
 public class AuditLog {
     private String changeType;
-    private DateTime changeDate;
+    private String changeDate;
     private String changedBy;
     private String reasonCode;
     private String comments;
@@ -19,7 +19,7 @@ public class AuditLog {
 
     @JsonCreator
     public AuditLog(@JsonProperty("changeType") final String changeType,
-                    @JsonProperty("changeDate") final DateTime changeDate,
+                    @JsonProperty("changeDate") final String changeDate,
                     @JsonProperty("changedBy") final String changedBy,
                     @JsonProperty("reasonCode") final String reasonCode,
                     @JsonProperty("comments") final String comments,
@@ -40,11 +40,11 @@ public class AuditLog {
         this.changeType = changeType;
     }
 
-    public DateTime getChangeDate() {
+    public String getChangeDate() {
         return changeDate;
     }
 
-    public void setChangeDate(final DateTime changeDate) {
+    public void setChangeDate(final String changeDate) {
         this.changeDate = changeDate;
     }
 
