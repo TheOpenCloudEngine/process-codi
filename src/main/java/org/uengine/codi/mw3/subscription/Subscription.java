@@ -23,15 +23,7 @@ import java.util.UUID;
 /**
  * Created by jjy on 2016. 6. 15..
  */
-public class Subscription implements ContextAware{
-
-    MetaworksContext metaworksContext;
-        @Override
-        public MetaworksContext getMetaworksContext() { return metaworksContext; }
-
-        @Override
-        public void setMetaworksContext(MetaworksContext metaworksContext) { this.metaworksContext = metaworksContext; }
-
+public class Subscription implements ContextAware {
     public Subscription(){
         setMetaworksContext(new MetaworksContext());
         getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
@@ -53,9 +45,22 @@ public class Subscription implements ContextAware{
         System.out.println(result);
     }
 
+    SelectBox planSelected;
+    public SelectBox getPlanSelected() {
+        return planSelected;
+    }
+    public void setPlanSelected(SelectBox planSelected) {
+        this.planSelected = planSelected;
+    }
+
+    MetaworksContext metaworksContext;
+    @Override
+    public MetaworksContext getMetaworksContext() { return metaworksContext; }
+    @Override
+    public void setMetaworksContext(MetaworksContext metaworksContext) { this.metaworksContext = metaworksContext; }
+
     @ServiceMethod(callByContent=true)
     public void changePlan(){
-
         String selectedSubscription = this.getPlanSelected().getSelected();
 
         BillingHttpClient billingHttpClient = new BillingHttpClient();
@@ -74,13 +79,10 @@ public class Subscription implements ContextAware{
 
     @ServiceMethod(callByContent=true)
     public void subscribe(){
-
         String selectedSubscription = this.getPlanSelected().getSelected();
-
         String billingSubscription = session.getCompany().getKillbillSubscription();
 
         if(billingSubscription == null) {
-
             BillingHttpClient billingHttpClient = new BillingHttpClient();
 
             Subscriptions subscription = new Subscriptions();
@@ -109,20 +111,10 @@ public class Subscription implements ContextAware{
         }
     }
 
-
-    SelectBox planSelected;
-        public SelectBox getPlanSelected() {
-            return planSelected;
-        }
-        public void setPlanSelected(SelectBox planSelected) {
-            this.planSelected = planSelected;
-        }
-
     public void load() {
-
         //load current subscription for session
-
         String billingAccount = session.getCompany().getKillbillAccount();
+
         if(billingAccount == null) {
             BillingHttpClient billingHttpClient = new BillingHttpClient();
 
@@ -145,13 +137,17 @@ public class Subscription implements ContextAware{
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         } else {
-            String subscriptionInfo = "";
             String billingSubscriptionId = session.getCompany().getKillbillSubscription();
+
             if(billingSubscriptionId != null) {
+                getMetaworksContext().setHow("subscription");
+
                 BillingHttpClient billingHttpClient = new BillingHttpClient();
                 Subscriptions restulSubscriptions = billingHttpClient.getSubscription(billingSubscriptionId);
                 ObjectMapper objectMapper = new ObjectMapper();
+
                 try {
                     System.out.println(objectMapper.writeValueAsString(restulSubscriptions));
                     this.setsubscriptInfo(objectMapper.writeValueAsString(restulSubscriptions));
@@ -162,7 +158,6 @@ public class Subscription implements ContextAware{
                 //TODO
             }
         }
-
         setPlanSelected(new SelectBox());
 
         ArrayList<String> plans = new ArrayList<>();
