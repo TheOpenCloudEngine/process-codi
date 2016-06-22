@@ -166,7 +166,16 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		public void setIsScheduled(boolean isScheduled) {
 			this.isScheduled = isScheduled;
 		}
-		
+
+	DefinitionDrag definitionDrag;
+		public DefinitionDrag getDefinitionDrag() {
+			return definitionDrag;
+		}
+		public void setDefinitionDrag(DefinitionDrag definitionDrag) {
+			this.definitionDrag = definitionDrag;
+		}
+
+
 	public void createRoleDef() throws Exception {
 		org.uengine.kernel.ProcessDefinition definition = processManager.getProcessDefinition(defId);
 		for(org.uengine.kernel.Role role : definition.getRoles()){

@@ -59,8 +59,11 @@ public interface IProcessMap extends IDAO {
 
 	@ORMapping(databaseFields = {"color"}, objectFields = {"value"})
 	public ProcessMapColor getIconColor();
-
 	public void setIconColor(ProcessMapColor color);
+
+	@ORMapping(databaseFields = {"defId"}, objectFields = {"id"})
+	public DefinitionDrag getDefinitionDrag();
+	public void setDefinitionDrag(DefinitionDrag definitionDrag);
 
 	@ServiceMethod(callByContent = true, when = WHEN_VIEW, target = ServiceMethodContext.TARGET_POPUP)
 	public Popup modify() throws Exception;

@@ -16,7 +16,7 @@ public class TopPanel {
 		//setSession(session);
 		setUx(session.getUx());
 		
-		notificationBadge = new NotificationBadge();
+		notificationBadge = MetaworksRemoteService.getComponent(NotificationBadge.class);
 
 		todoBadge = new TodoBadge();
 		
@@ -145,7 +145,7 @@ public class TopPanel {
 	}
 
 	@ServiceMethod(target=ServiceMethodContext.TARGET_STICK, onLoad = true)
-	@Available(condition = "value.ux != 'phone'")
+	@Available(condition = "ux != 'phone'")
 	public Popup showApps() throws Exception{
 		AllAppList allAppList = MetaworksRemoteService.getComponent(AllAppList.class);
 		//allAppList.session = session;

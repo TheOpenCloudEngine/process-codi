@@ -120,8 +120,8 @@ public class Employee extends EmployeeWithCRUD {
 
     @Override
     @Range(
-            values={"ko", "en"},
-            options={"Korean", "English"}
+            values={ "en", "zh", "de", "jp", "ko", "ru", "pu", "sv"},
+            options={ "English", "Chinese", "Deutsch", "Japanese", "Korean", "Russian", "Portuguese", "Swedish"}
     )
     public String getLocale(){
         return super.getLocale();
