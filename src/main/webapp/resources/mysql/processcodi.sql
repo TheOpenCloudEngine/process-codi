@@ -35,8 +35,6 @@ create  table if not exists `uengine`.`bpm_knol` (
   `isdistributed` tinyint(1) null default null ,
   `projectalias` varchar(1000) null default null ,
   `projectalias` varchar(100) null default null ,
-  `killbillAccount` varchar(100) DEFAULT NULL,
-  `killbillSubscription` varchar(100) DEFAULT NULL,
   index `parentid` (`parentid` asc, `no` asc) )
 engine = myisam
 default character set = utf8;
@@ -294,6 +292,8 @@ create  table if not exists `uengine`.`comtable` (
   `repmlpwd` varchar(100) null default null ,
   `alias` varchar(100) null default null ,
   `logopath` varchar(100) null default null ,
+  `killbillAccount` varchar(100) DEFAULT NULL,
+  `killbillSubscription` varchar(100) DEFAULT NULL,
   primary key (`comcode`) )
 engine = innodb
 default character set = utf8;
