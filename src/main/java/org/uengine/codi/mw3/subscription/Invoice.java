@@ -1,4 +1,4 @@
-package org.uengine.codi.mw3.subscription.subscription;
+package org.uengine.codi.mw3.subscription;
 
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.ServiceMethod;

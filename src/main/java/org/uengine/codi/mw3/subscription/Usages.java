@@ -1,7 +1,7 @@
-package org.uengine.codi.mw3.subscription.subscription;
+package org.uengine.codi.mw3.subscription;
 
-import org.metaworks.ContextAware;
 import org.metaworks.annotation.AutowiredFromClient;
+import org.metaworks.annotation.Face;
 import org.metaworks.annotation.ServiceMethod;
 import org.uengine.codi.mw3.billing.model.RolledUpUsage;
 import org.uengine.codi.mw3.billing.model.SubscriptionUsageRecord;

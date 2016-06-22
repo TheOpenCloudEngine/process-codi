@@ -1,4 +1,4 @@
-package org.uengine.codi.mw3.subscription.subscription;
+package org.uengine.codi.mw3.subscription;
 
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
