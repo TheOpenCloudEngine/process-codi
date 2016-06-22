@@ -1,8 +1,11 @@
 package org.uengine.codi.mw3.subscription;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
 import org.metaworks.annotation.AutowiredFromClient;
+import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.component.SelectBox;
 import org.uengine.codi.mw3.billing.catalog.api.BillingPeriod;
@@ -22,22 +25,26 @@ import java.util.UUID;
  */
 public class Subscription implements ContextAware{
 
-    @Override
-    public MetaworksContext getMetaworksContext() {
-        return metaworksContext;
-    }
-
-    @Override
-    public void setMetaworksContext(MetaworksContext metaworksContext) {
-        this.metaworksContext = metaworksContext;
-    }
-
     MetaworksContext metaworksContext;
+        @Override
+        public MetaworksContext getMetaworksContext() { return metaworksContext; }
 
+        @Override
+        public void setMetaworksContext(MetaworksContext metaworksContext) { this.metaworksContext = metaworksContext; }
+
+    public Subscription(){
+        setMetaworksContext(new MetaworksContext());
+        getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
+    }
 
     @AutowiredFromClient
     public Session session;
 
+
+    @Hidden
+    public String subscriptInfo;
+        public String getsubscriptInfo() { return subscriptInfo; }
+        public void setsubscriptInfo(String subscriptInfo) { this.subscriptInfo = subscriptInfo; }
 
     @ServiceMethod
     public void unsubscribe(){
@@ -86,6 +93,9 @@ public class Subscription implements ContextAware{
 
             session.getCompany().setKillbillSubscription(subscription.getSubscriptionId().toString());
 
+            setMetaworksContext(new MetaworksContext());
+            getMetaworksContext().setWhen(MetaworksContext.HOW_EVER);
+
             Company company = new Company();
             try {
                 company.copyFrom(session.getCompany());
@@ -109,8 +119,6 @@ public class Subscription implements ContextAware{
         }
 
     public void load() {
-        setMetaworksContext(new MetaworksContext());
-        getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
 
         //load current subscription for session
 
@@ -121,7 +129,7 @@ public class Subscription implements ContextAware{
             Account account = new Account();
             account.setName(session.getCompany().getComName());
             account.setCurrency("USD");
-            account.setTimeZone("+09:00");
+            account.setTimeZone("UTC");
             account.setCompany(session.getCompany().getComName());
             account.setIsMigrated(true);
             account.setIsNotifiedForInvoices(true);
@@ -136,6 +144,22 @@ public class Subscription implements ContextAware{
                 company.syncToDatabaseMe();
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        } else {
+            String subscriptionInfo = "";
+            String billingSubscriptionId = session.getCompany().getKillbillSubscription();
+            if(billingSubscriptionId != null) {
+                BillingHttpClient billingHttpClient = new BillingHttpClient();
+                Subscriptions restulSubscriptions = billingHttpClient.getSubscription(billingSubscriptionId);
+                ObjectMapper objectMapper = new ObjectMapper();
+                try {
+                    System.out.println(objectMapper.writeValueAsString(restulSubscriptions));
+                    this.setsubscriptInfo(objectMapper.writeValueAsString(restulSubscriptions));
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //TODO
             }
         }
 

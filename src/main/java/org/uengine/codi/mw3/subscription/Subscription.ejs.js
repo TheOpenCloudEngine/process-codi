@@ -9,38 +9,29 @@ var org_uengine_codi_mw3_subscription_Subscription = function(objectId, classNam
     $("#objDiv_"+this.objectId).find(".tbl_th").first().css("width","150px").css("border-left","1px solid #ccc");
     $("#objDiv_"+this.objectId).find(".tbl_td").first().css("width","150px").css("border-left","1px solid #ccc");
 
+    var jsonObjet = JSON.parse(this.object.subscriptInfo);
+
     var dataSet = [
         [
-            "Tiger Nixon",
-            "System Architect",
-            "Edinburgh",
-            "5421",
-            "2011/04/25",
-            "$320,800"
-        ],
-        [
-            "Garrett Winters",
-            "Accountant",
-            "Tokyo",
-            "8422",
-            "2011/07/25",
-            "$170,750"
+            jsonObjet.productCategory,
+            jsonObjet.productName + "(" + jsonObjet.billingPeriod.toLowerCase() +")",
+            jsonObjet.startDate,
+            jsonObjet.chargedThroughDate
         ]
     ];
-
     var table = $('#subscription').DataTable({
         dom: 'ftipr',
         data: dataSet,
+        searching:false,
         bPaginate: false,
         columns: [
             { data: '0' },
             { data: '1' },
             { data: '2' },
             { data: '3' },
-            { data: '4' },
-            { data: '5' }
         ]
     });
 
     $('#subscription').width('650');
+    $('#subscription_info').hide();
 }
