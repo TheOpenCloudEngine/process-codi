@@ -6,7 +6,7 @@ var org_uengine_codi_mw3_subscription_Subscription = function(objectId, classNam
     this.drawInformation();
     this.drawSubscription();
     this.drawSettings();
-}
+};
 
 org_uengine_codi_mw3_subscription_Subscription.prototype = {
     drawInformation: function() {
@@ -40,7 +40,6 @@ org_uengine_codi_mw3_subscription_Subscription.prototype = {
         var subscriptionInfoTable = $('#subscriptionInfo').DataTable({
             dom: 'ftipr',
             data: subscriptionInfoDataSet,
-            searching:false,
             bPaginate: false,
             columnDefs: [ {
                 targets: 0,
@@ -69,12 +68,9 @@ org_uengine_codi_mw3_subscription_Subscription.prototype = {
     },
 
     drawSettings: function() {
-        // datatables setting
-        $('#subscription').width('700');
-
-        $('#subscriptionInfo_info').hide();
-        $('#subscription_info').hide();
-
+        $('#subscriptionInfo_info').remove();
+        $('#subscription_info').remove();
         $('#objDiv_' + this.objectId).parent().prev().prev().remove();
+        $('#objDiv_' + this.objectId).css('marginLeft', '50px');
     }
 }
