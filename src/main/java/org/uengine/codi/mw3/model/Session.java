@@ -305,6 +305,9 @@ public class Session implements ContextAware{
 
 	@ServiceMethod(callByContent = true, onLoad = true)
 	public void fillDeptAndComp() throws Exception {
+		if (this.jiraComCode != null) {
+			jiraLogin();
+		}
 		if (this.getEmployee() != null
 				&& this.getEmployee().getGlobalCom() != null) {
 
