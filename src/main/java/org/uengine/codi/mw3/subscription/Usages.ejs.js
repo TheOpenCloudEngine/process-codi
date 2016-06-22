@@ -3,7 +3,6 @@ var org_uengine_codi_mw3_subscription_Usages = function(objectId, className){
     this.className = className;
     this.object = mw3.objects[this.objectId];
 
-
     this.drawUsages();
     this.drawSettings();
 
@@ -20,7 +19,6 @@ org_uengine_codi_mw3_subscription_Usages.prototype = {
             jsonArray.push(json);
         }
 
-        console.log(jsonArray);
         $('#usages').DataTable({
             aaData: jsonArray,
             bPaginate: false,

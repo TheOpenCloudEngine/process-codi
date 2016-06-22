@@ -30,6 +30,10 @@ public class TenantConfiguration implements ContextAware {
         autowire(getInvoice());
         getInvoice().load();
 
+        setPayments((new Payments()));
+        autowire(getPayments());
+        getPayments().load();
+
         setUsages(new Usages());
         autowire(getUsages());
         getUsages().load();
@@ -62,16 +66,23 @@ public class TenantConfiguration implements ContextAware {
             this.invoice = invoice;
         }
 
+    Payments payments;
+    @Group(name="Payments")
+    @Order(3)
+        public Payments getPayments() { return payments; }
+
+        public void setPayments(Payments payments) { this.payments = payments; }
+
     Usages usages;
     @Group(name="Usages")
-    @Order(3)
+    @Order(4)
         public Usages getUsages() { return usages; }
 
         public void setUsages(Usages usages) { this.usages = usages; }
 
     TimeLine timeLine;
     @Group(name="TimeLine")
-    @Order(4)
+    @Order(5)
         public TimeLine getTimeLine() { return timeLine; }
 
         public void setTimeLine(TimeLine timeLine) { this.timeLine = timeLine; }

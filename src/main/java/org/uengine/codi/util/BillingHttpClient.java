@@ -210,6 +210,30 @@ public class BillingHttpClient implements Serializable, DisposableBean{
 		}
 	}
 
+	public List<Payment> getPaymentForAccount(final String accountId) {
+
+		final String url = BILLING_SYSTEM_DOMAIN + BillingResource.ACCOUNTS_PATH + "/" +accountId + "/" + BillingResource.PAYMENTS+"?audit=FULL";
+
+		final Future<HashMap> result = EXECUTOR_SERVICE.submit(new MessageSender("GET", url, "", "", this.readTimeout, this.connectionTimeout, this.followRedirects));
+
+		//        if (async) {
+		//            return new HashMap();
+		//        }
+
+		try {
+
+			HashMap resultMap = result.get();
+			String resultString = (String)resultMap.get(BillingHttpClient.RESULT_KEY);
+			ObjectMapper mapper = new ObjectMapper();
+			TypeReference<List<Payment>> typeRef = new TypeReference<List<Payment>>() {};
+			List<Payment> paymentList = mapper.readValue(resultString, typeRef);
+			return paymentList;
+
+		} catch (final Exception e) {
+			return null;
+		}
+	}
+
 	public Invoice getInvoiceById(final String invoiceId) {
 
 		final String url = BILLING_SYSTEM_DOMAIN + BillingResource.INVOICES_PATH + "/" + invoiceId;
