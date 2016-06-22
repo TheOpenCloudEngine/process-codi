@@ -1,36 +1,35 @@
 var org_uengine_codi_mw3_subscription_Invoice = function(objectId, className){
-    var dataSet = [
-        [
-            "Tiger Nixon",
-            "System Architect",
-            "Edinburgh",
-            "5421",
-            "2011/04/25",
-            "$320,800"
-        ],
-        [
-            "Garrett Winters",
-            "Accountant",
-            "Tokyo",
-            "8422",
-            "2011/07/25",
-            "$170,750"
-        ]
-    ];
 
-    var table = $('#invoice').DataTable({
-        dom: 'ftipr',
-        data: dataSet,
+    this.objectId = objectId;
+    this.className = className;
+    this.object = mw3.objects[this.objectId];
+
+    var jsonObjet = JSON.parse(this.object.invoiceList);
+
+    $('#invoice').dataTable({
+        "aaData": jsonObjet,
+        searching:false,
         bPaginate: false,
-        columns: [
-            { data: '0' },
-            { data: '1' },
-            { data: '2' },
-            { data: '3' },
-            { data: '4' },
-            { data: '5' }
+        "columnDefs": [ {
+            "targets": 3,
+            "data": null,
+            "render": function ( data, type, full, meta ) {
+                var html =  '<ul>';
+                    html += '<li><span class="hide" title="11"></span>';
+                    html += 'Amount: $'+ full.amount + '('+ full.currency +')</li>';
+                    html += '<li>Balance: $'+ full.balance + '('+ full.currency +')</li>';
+                    html += '</ul>';
+                return html;
+            }
+        } ],
+        "aoColumns": [
+            { "mDataProp": "invoiceNumber" },
+            { "mDataProp": "invoiceId" },
+            { "mDataProp": "invoiceDate" },
+            { "mDataProp": "amount" }
         ]
     });
 
     $('#invoice').width('650');
+    $('#invoice_info').hide();
 }

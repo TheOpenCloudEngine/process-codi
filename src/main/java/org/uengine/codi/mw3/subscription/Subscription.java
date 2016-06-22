@@ -35,8 +35,8 @@ public class Subscription implements ContextAware {
 
     @Hidden
     public String subscriptInfo;
-        public String getsubscriptInfo() { return subscriptInfo; }
-        public void setsubscriptInfo(String subscriptInfo) { this.subscriptInfo = subscriptInfo; }
+        public String getSubscriptInfo() { return subscriptInfo; }
+        public void setSubscriptInfo(String subscriptInfo) { this.subscriptInfo = subscriptInfo; }
 
     @ServiceMethod
     public void unsubscribe(){
@@ -149,8 +149,7 @@ public class Subscription implements ContextAware {
                 ObjectMapper objectMapper = new ObjectMapper();
 
                 try {
-                    System.out.println(objectMapper.writeValueAsString(restulSubscriptions));
-                    this.setsubscriptInfo(objectMapper.writeValueAsString(restulSubscriptions));
+                    this.setSubscriptInfo(objectMapper.writeValueAsString(restulSubscriptions));
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
