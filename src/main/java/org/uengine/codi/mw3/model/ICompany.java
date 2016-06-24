@@ -41,12 +41,12 @@ public interface ICompany extends IDAO {
 	public void setIsDeleted(String deleted);
 
 	@Hidden
-	public String getKillbillAccount();
-	public void setKillbillAccount(String killbillAccount);
+	public String getBillAccnt();
+	public void setBillAccnt(String killbillAccount);
 
 	@Hidden
-	public String getKillbillSubscription();
-	public void setKillbillSubscription(String killbillSubscription);
+	public String getBillSbscr();
+	public void setBillSbscr(String killbillSubscription);
 
 	@ValidatorSet({
 		@Validator(name=ValidatorContext.VALIDATE_REGULAREXPRESSION, condition="repMail", options={"/^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$/"}, message="이메일 형식이 잘못되었습니다")

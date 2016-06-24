@@ -21,7 +21,7 @@ public class DefinitionDrag{
         }
 
 
-    @ServiceMethod(mouseBinding="drag", callByContent = true)
+    @ServiceMethod(mouseBinding="drag", callByContent = true, clientSide = true)
     public Session cut(
             @AutowiredFromClient
              Session session) throws Exception {

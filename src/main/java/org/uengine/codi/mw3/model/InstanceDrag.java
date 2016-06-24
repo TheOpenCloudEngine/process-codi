@@ -15,7 +15,7 @@ public class InstanceDrag {
 			this.instanceId = instanceId;
 		}
 
-	@ServiceMethod(mouseBinding="drag")
+	@ServiceMethod(mouseBinding="drag", clientSide = true)
 	public Session cut() throws Exception{
 		Instance instance = new Instance();
 		instance.setInstId(this.instanceId);

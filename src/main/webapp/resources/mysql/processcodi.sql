@@ -30,7 +30,7 @@ create  table if not exists `uengine`.`bpm_knol` (
   `startdate` date null default null ,
   `enddate` date null default null ,
   `description` varchar(1000) null default null ,
-  `ext` varchar(3000) null default null ,
+  `ext` varchar(3000) null default null ,l
   `isreleased` tinyint(1) null default null ,
   `isdistributed` tinyint(1) null default null ,
   `projectalias` varchar(1000) null default null ,
@@ -291,8 +291,6 @@ create  table if not exists `uengine`.`comtable` (
   `repmlpwd` varchar(100) null default null ,
   `alias` varchar(100) null default null ,
   `logopath` varchar(100) null default null ,
-  `killbillAccount` varchar(100) DEFAULT NULL,
-  `killbillSubscription` varchar(100) DEFAULT NULL,
   primary key (`comcode`) )
 engine = innodb
 default character set = utf8;
@@ -533,3 +531,7 @@ alter table processmap modify column mapid varchar(200); -- generation logic of 
 alter table processmap modify column defid varchar(200); -- generation logic of map id should be changed to reduce the string size
 
 alter table emptable modify column password varchar(100);
+
+
+alter table comtable modify column `billaccount` varchar(100) DEFAULT NULL,
+alter table comtable modify column `billsbscr` varchar(100) DEFAULT NULL,

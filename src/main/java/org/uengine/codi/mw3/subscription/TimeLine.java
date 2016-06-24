@@ -8,8 +8,6 @@ import org.uengine.codi.mw3.billing.model.*;
 import org.uengine.codi.mw3.model.Session;
 import org.uengine.codi.util.BillingHttpClient;
 
-import java.util.List;
-
 /**
  * Created by uEngineYBS on 2016-06-21.
  */
@@ -27,11 +25,11 @@ public class TimeLine {
 
     public void load() {
 
-        String billingSubscription = session.getCompany().getKillbillSubscription();
+        String billingSubscription = session.getCompany().getBillSbscr();
         String timeLineInfo = "";
         if(billingSubscription != null) {
             BillingHttpClient billingHttpClient = new BillingHttpClient();
-            AccountTimeline timeLine = billingHttpClient.getAccountTimeline(session.getCompany().getKillbillAccount());
+            AccountTimeline timeLine = billingHttpClient.getAccountTimeline(session.getCompany().getBillAccnt());
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 this.setTimeLineInfo(objectMapper.writeValueAsString(timeLine));

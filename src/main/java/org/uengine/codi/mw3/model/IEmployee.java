@@ -4,6 +4,11 @@ import org.metaworks.annotation.*;
 import org.metaworks.dao.IDAO;
 
 @Table(name = "emptable")
+@Face(
+		ejsPathMappingByContext={
+				"{how: 'signUp', face: 'dwr/metaworks/org/uengine/codi/mw3/model/EmployeeSignUp.ejs'}"
+		}, options={"fieldOrder"}, values={"empName,password"})
+
 public interface IEmployee extends IDAO {
     @Id
 	public String getEmpCode();

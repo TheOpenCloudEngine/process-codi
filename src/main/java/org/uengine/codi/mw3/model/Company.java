@@ -3,7 +3,6 @@ package org.uengine.codi.mw3.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.metaworks.Refresh;
 import org.metaworks.Remover;
 import org.metaworks.dao.DAOFactory;
 import org.metaworks.dao.Database;
@@ -18,8 +17,8 @@ public class Company extends Database<ICompany> implements ICompany {
 	String description;
 	String isDeleted;
 	String alias;
-	String killbillAccount;
-	String killbillSubscription;
+	String billAccnt;
+	String billSbscr;
 
 		public String getAlias() {
 			return alias;
@@ -89,11 +88,11 @@ public class Company extends Database<ICompany> implements ICompany {
 		this.isDeleted = isDeleted;
 	}
 
-	public String getKillbillAccount() { return killbillAccount; }
-	public void setKillbillAccount(String killbillAccount) { this.killbillAccount = killbillAccount; }
+	public String getBillAccnt() { return billAccnt; }
+	public void setBillAccnt(String billAccnt) { this.billAccnt = billAccnt; }
 
-	public String getKillbillSubscription() { return killbillSubscription; }
-	public void setKillbillSubscription(String killbillSubscription) { this.killbillSubscription = killbillSubscription; }
+	public String getBillSbscr() { return billSbscr; }
+	public void setBillSbscr(String billSbscr) { this.billSbscr = billSbscr; }
 
 	MetaworksFile logo;
 		public MetaworksFile getLogo() {

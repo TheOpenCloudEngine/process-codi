@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.Hidden;
-import org.uengine.codi.mw3.billing.model.AccountTimeline;
 import org.uengine.codi.mw3.billing.model.Payment;
 import org.uengine.codi.mw3.model.Session;
 import org.uengine.codi.util.BillingHttpClient;
@@ -27,10 +26,10 @@ public class Payments {
 
     public void load() {
 
-        String billingSubscription = session.getCompany().getKillbillSubscription();
+        String billingSubscription = session.getCompany().getBillSbscr();
         if(billingSubscription != null) {
             BillingHttpClient billingHttpClient = new BillingHttpClient();
-            List<Payment> paymentsList = billingHttpClient.getPaymentForAccount(session.getCompany().getKillbillAccount());
+            List<Payment> paymentsList = billingHttpClient.getPaymentForAccount(session.getCompany().getBillAccnt());
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 this.setPaymentsInfo(objectMapper.writeValueAsString(paymentsList));

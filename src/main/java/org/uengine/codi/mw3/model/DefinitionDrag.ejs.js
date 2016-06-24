@@ -1,9 +1,9 @@
-var org_uengine_codi_mw3_model_InstanceDrag = function(objectId, className){
+var org_uengine_codi_mw3_model_DefinitionDrag = function(objectId, className){
 
 }
 
-org_uengine_codi_mw3_model_InstanceDrag.prototype.drag = function(object, autowiredObjects){
-    var clipboard = mw3.getAutowiredObject("org.metaworks.widget.Clipboard");
+org_uengine_codi_mw3_model_DefinitionDrag.prototype.cut = function(object, autowiredObjects){
+    var session = mw3.getAutowiredObject("org.uengine.codi.mw3.model.Session");
 
-    clipboard.content = (object);
+    session.clipboard = (object);
 }

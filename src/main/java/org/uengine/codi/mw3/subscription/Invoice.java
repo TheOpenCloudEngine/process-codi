@@ -43,12 +43,12 @@ public class Invoice {
     public void load() {
 
         //setAmount(1000d); // value from killbill
-        //String billingAccount = session.getCompany().getKillbillAccount();
-        String billingSubscription = session.getCompany().getKillbillSubscription();
+        //String billingAccount = session.getCompany().getBillAccnt();
+        String billingSubscription = session.getCompany().getBillSbscr();
         String invoiceInfo = "";
         if(billingSubscription != null) {
             BillingHttpClient billingHttpClient = new BillingHttpClient();
-            List<org.uengine.codi.mw3.billing.model.Invoice> invoiceList = billingHttpClient.getInvoicesForAccount(session.getCompany().getKillbillAccount());
+            List<org.uengine.codi.mw3.billing.model.Invoice> invoiceList = billingHttpClient.getInvoicesForAccount(session.getCompany().getBillAccnt());
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 this.setInvoiceList(objectMapper.writeValueAsString(invoiceList));

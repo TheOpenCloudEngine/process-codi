@@ -30,10 +30,6 @@ import org.uengine.codi.mw3.common.MainPanel;
 import org.uengine.codi.mw3.knowledge.TopicMapping;
 import org.uengine.codi.mw3.knowledge.WfNode;
 
-@Face(
-        ejsPathMappingByContext={
-        "{how: 'signUp', face: 'dwr/metaworks/org/uengine/codi/mw3/model/EmployeeSignUp.ejs'}"
-}, options={"fieldOrder"}, values={"empName,password"})
 public class Employee extends EmployeeWithCRUD {
 
     @Override
@@ -449,7 +445,7 @@ public class Employee extends EmployeeWithCRUD {
         } else
             syncToDatabaseMe();
 
-        flushDatabaseMe();
+        flushDatabaseMe(); // this makes transaction issue.
 
         NotiSetting notiSetting = new NotiSetting();
         notiSetting.setId(this.createNewNotiSettingId());
@@ -690,7 +686,7 @@ public class Employee extends EmployeeWithCRUD {
 
 
     @ServiceMethod(callByContent = true, target = ServiceMethodContext.TARGET_SELF)
-    public Object forgotPassword() throws MetaworksException {
+    public Object forgotPassword() throws Exception {
         System.out.println("authKey= " + getAuthKey());
 
         Employee employee = new Employee();
@@ -714,7 +710,10 @@ public class Employee extends EmployeeWithCRUD {
         findEmployee.getMetaworksContext().setHow("signUp");
         findEmployee.getMetaworksContext().setWhen(MetaworksContext.WHEN_EDIT);
         findEmployee.setPassword(null);
-        return findEmployee;
+
+        employee.copyFrom(findEmployee);
+
+        return employee;
     }
 
 

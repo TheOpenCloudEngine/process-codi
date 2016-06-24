@@ -2,10 +2,7 @@ package org.uengine.codi.mw3.subscription;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.metaworks.ContextAware;
-import org.metaworks.MetaworksContext;
 import org.metaworks.annotation.AutowiredFromClient;
-import org.metaworks.annotation.Face;
 import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.ServiceMethod;
 import org.uengine.codi.mw3.billing.model.RolledUpUsage;
@@ -49,7 +46,7 @@ public class Usages {
 
         BillingHttpClient billingHttpClient = new BillingHttpClient();
         SubscriptionUsageRecord subscriptionUsageRecord = new SubscriptionUsageRecord();
-        subscriptionUsageRecord.setSubscriptionId(UUID.fromString(session.getCompany().getKillbillSubscription()));
+        subscriptionUsageRecord.setSubscriptionId(UUID.fromString(session.getCompany().getBillSbscr()));
         List<UnitUsageRecord> unitUsageRecords = new ArrayList<>();
         UnitUsageRecord unitUsageRecord = new UnitUsageRecord();
         unitUsageRecord.setUnitType("GByte");
@@ -81,7 +78,7 @@ public class Usages {
 
         if(startDate != null && endDate != null) {
             BillingHttpClient billingHttpClient = new BillingHttpClient();
-            RolledUpUsage resultRolledUpUsage = billingHttpClient.getRolledUpUsage(session.getCompany().getKillbillSubscription(), "GByte", startDate, endDate);
+            RolledUpUsage resultRolledUpUsage = billingHttpClient.getRolledUpUsage(session.getCompany().getBillSbscr(), "GByte", startDate, endDate);
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 this.setUsagesInfo(objectMapper.writeValueAsString(resultRolledUpUsage));

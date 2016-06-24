@@ -41,7 +41,7 @@ public class Subscription implements ContextAware {
     @ServiceMethod
     public void unsubscribe(){
         BillingHttpClient billingHttpClient = new BillingHttpClient();
-        Subscriptions result = billingHttpClient.cancelSubscription(session.getCompany().getKillbillSubscription(), session.getCompany().getComName());
+        Subscriptions result = billingHttpClient.cancelSubscription(session.getCompany().getBillSbscr(), session.getCompany().getComName());
         System.out.println(result);
     }
 
@@ -66,8 +66,8 @@ public class Subscription implements ContextAware {
         BillingHttpClient billingHttpClient = new BillingHttpClient();
 
         Subscriptions subscription = new Subscriptions();
-        subscription.setAccountId(UUID.fromString(session.getCompany().getKillbillAccount()));
-        subscription.setSubscriptionId(UUID.fromString(session.getCompany().getKillbillSubscription()));
+        subscription.setAccountId(UUID.fromString(session.getCompany().getBillAccnt()));
+        subscription.setSubscriptionId(UUID.fromString(session.getCompany().getBillSbscr()));
         subscription.setProductName(selectedSubscription);
         subscription.setProductCategory(ProductCategory.BASE);
         subscription.setBillingPeriod(BillingPeriod.MONTHLY);
@@ -80,20 +80,20 @@ public class Subscription implements ContextAware {
     @ServiceMethod(callByContent=true)
     public void subscribe(){
         String selectedSubscription = this.getPlanSelected().getSelected();
-        String billingSubscription = session.getCompany().getKillbillSubscription();
+        String billingSubscription = session.getCompany().getBillSbscr();
 
         if(billingSubscription == null) {
             BillingHttpClient billingHttpClient = new BillingHttpClient();
 
             Subscriptions subscription = new Subscriptions();
-            subscription.setAccountId(UUID.fromString(session.getCompany().getKillbillAccount()));
+            subscription.setAccountId(UUID.fromString(session.getCompany().getBillAccnt()));
             subscription.setProductName(selectedSubscription);
             subscription.setProductCategory(ProductCategory.BASE);
             subscription.setBillingPeriod(BillingPeriod.MONTHLY);
             subscription.setPriceList(PriceListSet.DEFAULT_PRICELIST_NAME);
             subscription = billingHttpClient.createSubscription(subscription, session.getCompany().getComName());
 
-            session.getCompany().setKillbillSubscription(subscription.getSubscriptionId().toString());
+            session.getCompany().setBillSbscr(subscription.getSubscriptionId().toString());
 
             setMetaworksContext(new MetaworksContext());
             getMetaworksContext().setWhen(MetaworksContext.HOW_EVER);
@@ -101,7 +101,7 @@ public class Subscription implements ContextAware {
             Company company = new Company();
             try {
                 company.copyFrom(session.getCompany());
-                company.setKillbillSubscription(subscription.getSubscriptionId().toString());
+                company.setBillSbscr(subscription.getSubscriptionId().toString());
                 company.syncToDatabaseMe();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -113,7 +113,7 @@ public class Subscription implements ContextAware {
 
     public void load() {
         //load current subscription for session
-        String billingAccount = session.getCompany().getKillbillAccount();
+        String billingAccount = session.getCompany().getBillAccnt();
 
         if(billingAccount == null) {
             BillingHttpClient billingHttpClient = new BillingHttpClient();
@@ -127,19 +127,19 @@ public class Subscription implements ContextAware {
             account.setIsNotifiedForInvoices(true);
             account = billingHttpClient.createAccount(account, session.getCompany().getComName());
 
-            session.getCompany().setKillbillAccount(account.getAccountId().toString());
+            session.getCompany().setBillAccnt(account.getAccountId().toString());
 
             Company company = new Company();
             try {
                 company.copyFrom(session.getCompany());
-                company.setKillbillAccount(account.getAccountId().toString());
+                company.setBillAccnt(account.getAccountId().toString());
                 company.syncToDatabaseMe();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         } else {
-            String billingSubscriptionId = session.getCompany().getKillbillSubscription();
+            String billingSubscriptionId = session.getCompany().getBillSbscr();
 
             if(billingSubscriptionId != null) {
                 getMetaworksContext().setHow("subscription");
