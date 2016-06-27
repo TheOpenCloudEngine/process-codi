@@ -73,8 +73,7 @@ public class Subscription implements ContextAware {
         subscription.setBillingPeriod(BillingPeriod.MONTHLY);
         subscription.setPriceList(PriceListSet.DEFAULT_PRICELIST_NAME);
         Subscriptions result = billingHttpClient.updateSubscription(subscription, session.getCompany().getComName());
-        System.out.println(result);
-
+        this.load();
     }
 
     @ServiceMethod(callByContent=true)
@@ -145,11 +144,11 @@ public class Subscription implements ContextAware {
                 getMetaworksContext().setHow("subscription");
 
                 BillingHttpClient billingHttpClient = new BillingHttpClient();
-                Subscriptions restulSubscriptions = billingHttpClient.getSubscription(billingSubscriptionId);
+                Subscriptions restultSubscriptions = billingHttpClient.getSubscription(billingSubscriptionId);
                 ObjectMapper objectMapper = new ObjectMapper();
 
                 try {
-                    this.setSubscriptInfo(objectMapper.writeValueAsString(restulSubscriptions));
+                    this.setSubscriptInfo(objectMapper.writeValueAsString(restultSubscriptions));
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
