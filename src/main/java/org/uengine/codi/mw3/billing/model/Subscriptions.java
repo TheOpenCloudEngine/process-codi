@@ -33,6 +33,7 @@ public class Subscriptions extends BillingObject {
     private String chargedThroughDate;
     private String billingStartDate;
     private String billingEndDate;
+    private Integer billCycleDayLocal;
     private List<EventSubscription> events;
     private List<PhasePriceOverride> priceOverrides;
 
@@ -55,6 +56,7 @@ public class Subscriptions extends BillingObject {
                         @JsonProperty("chargedThroughDate") @Nullable final String chargedThroughDate,
                         @JsonProperty("billingStartDate") @Nullable final String billingStartDate,
                         @JsonProperty("billingEndDate") @Nullable final String billingEndDate,
+                         @JsonProperty("billCycleDayLocal") @Nullable final Integer billCycleDayLocal,
                         @JsonProperty("events") @Nullable final List<EventSubscription> events,
                         @JsonProperty("priceOverrides") @Nullable final List<PhasePriceOverride> priceOverrides,
                         @JsonProperty("auditLogs") @Nullable final List<AuditLog> auditLogs) {
@@ -71,6 +73,7 @@ public class Subscriptions extends BillingObject {
         this.chargedThroughDate = chargedThroughDate;
         this.billingStartDate = billingStartDate;
         this.billingEndDate = billingEndDate;
+        this.billCycleDayLocal = billCycleDayLocal;
         this.accountId = accountId;
         this.bundleId = bundleId;
         this.subscriptionId = subscriptionId;
@@ -197,6 +200,10 @@ public class Subscriptions extends BillingObject {
 
     public void setBillingEndDate(final String billingEndDate) { this.billingStartDate = billingEndDate; }
 
+    public Integer getBillCycleDayLocal() { return billCycleDayLocal; }
+
+    public void setBillCycleDayLocal(Integer billCycleDayLocal) { this.billCycleDayLocal = billCycleDayLocal; }
+
     public List<EventSubscription> getEvents() {
         return events;
     }
@@ -232,6 +239,7 @@ public class Subscriptions extends BillingObject {
         sb.append(", chargedThroughDate=").append(chargedThroughDate);
         sb.append(", billingStartDate=").append(billingStartDate);
         sb.append(", billingEndDate=").append(billingEndDate);
+        sb.append(", billCycleDayLocal=").append(billCycleDayLocal);
         sb.append(", events=").append(events);
         sb.append(", priceOverrides=").append(priceOverrides);
         sb.append('}');
@@ -265,6 +273,9 @@ public class Subscriptions extends BillingObject {
             return false;
         }
         if (cancelledDate != null ? cancelledDate.compareTo(that.cancelledDate) != 0 : that.cancelledDate != null) {
+            return false;
+        }
+        if (billCycleDayLocal != null ? billCycleDayLocal.compareTo(that.billCycleDayLocal) != 0 : that.billCycleDayLocal != null) {
             return false;
         }
         if (chargedThroughDate != null ? chargedThroughDate.compareTo(that.chargedThroughDate) != 0 : that.chargedThroughDate != null) {
@@ -325,6 +336,7 @@ public class Subscriptions extends BillingObject {
         result = 31 * result + (chargedThroughDate != null ? chargedThroughDate.hashCode() : 0);
         result = 31 * result + (billingStartDate != null ? billingStartDate.hashCode() : 0);
         result = 31 * result + (billingEndDate != null ? billingEndDate.hashCode() : 0);
+        result = 31 * result + (billCycleDayLocal != null ? billCycleDayLocal.hashCode() : 0);
         result = 31 * result + (events != null ? events.hashCode() : 0);
         result = 31 * result + (priceOverrides != null ? priceOverrides.hashCode() : 0);
         return result;
