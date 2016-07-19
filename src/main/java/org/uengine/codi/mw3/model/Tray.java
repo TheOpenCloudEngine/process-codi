@@ -46,7 +46,7 @@ public class Tray {
   }
 
   protected void save() throws Exception {
-    GlobalContext.serialize(getTrayItems(), new FileOutputStream(GlobalContext.FILE_SYSTEM_DIR + "/Tray_" + session.getUser().getUserId() + ".xml"), TrayItem.class);
+    GlobalContext.serialize(getTrayItems(), new FileOutputStream(GlobalContext.FILE_SYSTEM_PATH + "/Tray_" + session.getUser().getUserId() + ".xml"), TrayItem.class);
   }
 
   public TrayItem getTargetItem() {
@@ -83,7 +83,7 @@ public class Tray {
 
   public void load() throws Exception {
     /// read source file
-    File sourceCodeFile = new File(GlobalContext.FILE_SYSTEM_DIR + "/Tray_" + session.getUser().getUserId() + ".xml");
+    File sourceCodeFile = new File(GlobalContext.FILE_SYSTEM_PATH + "/Tray_" + session.getUser().getUserId() + ".xml");
     ByteArrayOutputStream bao = new ByteArrayOutputStream();
     FileInputStream is;
     if (sourceCodeFile.exists()) {

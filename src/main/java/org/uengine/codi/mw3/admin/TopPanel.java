@@ -36,9 +36,6 @@ public class TopPanel {
 		}
 
 		setCompany(session.getCompany());
-
-		topSearchBox = new TopSearchBox();
-		
 	}
 	
 	NotificationBadge notificationBadge;
@@ -130,14 +127,6 @@ public class TopPanel {
 	TopMenuPanel topMenuPanel;
 	public TopMenuPanel getTopMenuPanel() {
 		return topMenuPanel;
-	}
-
-	TopSearchBox topSearchBox;
-	public TopSearchBox getTopSearchBox() {
-		return topSearchBox;
-	}
-	public void setTopSearchBox(TopSearchBox topSearchBox) {
-		this.topSearchBox = topSearchBox;
 	}
 
 	public void setTopMenuPanel(TopMenuPanel topMenuPanel) {

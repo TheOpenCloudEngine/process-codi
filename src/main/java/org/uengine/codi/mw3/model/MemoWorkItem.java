@@ -44,7 +44,7 @@ public class MemoWorkItem extends WorkItem{
 			if(getMemo().getContents().length() > 2990){
 				
 				String relativeFilePath = UEngineUtil.getCalendarDir() + "/memo" + getInstId() + "_" + System.currentTimeMillis() + ".html";
-				String absoluteFilePath = CodiStringUtil.lastLastFileSeparatorChar(GlobalContext.FILE_SYSTEM_DIR) + relativeFilePath;
+				String absoluteFilePath = CodiStringUtil.lastLastFileSeparatorChar(GlobalContext.FILE_SYSTEM_PATH) + relativeFilePath;
 				
 				File contentFile = new File(absoluteFilePath);
 				contentFile.getParentFile().mkdirs();
@@ -76,7 +76,7 @@ public class MemoWorkItem extends WorkItem{
 			ByteArrayOutputStream bao = null;
 			try{
 				bao = new ByteArrayOutputStream();
-				String absoluteFilePath = CodiStringUtil.lastLastFileSeparatorChar(GlobalContext.FILE_SYSTEM_DIR) + getExtFile();
+				String absoluteFilePath = CodiStringUtil.lastLastFileSeparatorChar(GlobalContext.FILE_SYSTEM_PATH) + getExtFile();
 				
 				is = new FileInputStream(absoluteFilePath);
 	

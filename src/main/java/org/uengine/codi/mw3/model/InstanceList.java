@@ -145,8 +145,8 @@ public class InstanceList implements ContextAware{
 		String usedSolr = GlobalContext.getPropertyString("solr.server.used");
 
 		// 솔라설정 셋팅을 설정했는가? 검색어를 입력했는가? 그렇다면 솔라를 사용
-		if("1".equals(usedSolr) && navigation.getKeyword() != null && !"".equals(navigation.getKeyword())) {
-			// codi search to sorl
+		if("1".equals(usedSolr) && navigation.getKeyword() != null && !("".equals(navigation.getKeyword()))) {
+			// codi search to solr
 			ArrayList<IInstance> instanceContents = Instance.loadWithSolr(navigation, getPage() - 1, count);
 			this.setArrayInstances(instanceContents);
 
@@ -160,7 +160,7 @@ public class InstanceList implements ContextAware{
 			IInstance instanceContents = Instance.load(navigation, getPage() - 1, count);
 
 
-			if(getMetaworksContext()==null) {
+			if(getMetaworksContext() == null) {
 				instanceContents.setMetaworksContext(new MetaworksContext());
 				instanceContents.getMetaworksContext().setWhere(IInstance.WHERE_INSTANCELIST);
 			}else{

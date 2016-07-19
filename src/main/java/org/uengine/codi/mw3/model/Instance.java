@@ -93,12 +93,10 @@ public class Instance extends Database<IInstance> implements IInstance{
 	// solr load
 	static public ArrayList<IInstance> loadWithSolr(Navigation navigation, int page, int count) throws Exception {
 		// 다른 회사 사람 확인
-		Employee employee = null;
-
 		if(navigation.getPerspectiveValue() != null &&
 				Perspective.MODE_PERSONAL.equals(navigation.getPerspectiveMode())){
 
-			employee = new Employee();
+			Employee employee = new Employee();
 			employee.setEmpCode(navigation.getEmployee().getEmpCode());
 			employee.copyFrom(employee.databaseMe());
 

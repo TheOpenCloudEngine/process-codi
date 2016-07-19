@@ -12,7 +12,7 @@ public class MetaworksFile extends AbstractMetaworksFile{
 	@Override
 	public String overrideUploadPathPrefix() {
 		
-		String base = GlobalContext.FILE_SYSTEM_DIR;
+		String base = GlobalContext.FILE_SYSTEM_PATH;
 		
 		return base + "/";
 		

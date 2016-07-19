@@ -67,8 +67,8 @@ public class SolrServerManager {
         HttpSolrServer httpSolrServer = this.createHttpSolrServer();
         SolrQuery solrQuery = this.createQuery(keyword, page, count);
 
-        QueryResponse queryResponse = null;
-        ArrayList<IInstance> instanceContents = new ArrayList<IInstance>();
+        QueryResponse queryResponse;
+        ArrayList<IInstance> instanceContents = new ArrayList<>();
 
         // reflect iinstance
         Class instanceClass = IInstance.class;
