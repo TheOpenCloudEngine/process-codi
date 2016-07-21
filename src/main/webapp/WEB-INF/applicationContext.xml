@@ -4,14 +4,17 @@
 	   xmlns:context="http://www.springframework.org/schema/context"
        xmlns:task="http://www.springframework.org/schema/task"
 	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:int="http://www.springframework.org/schema/integration"
+
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 
     <!-- ============================================================= -->
-    <!-- anotation scan -->
+    <!-- annotation scan -->
     <!-- ============================================================= -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -66,7 +69,7 @@
 		  class="org.uengine.codi.MetaworksUEngineSpringConnectionAdapter"></bean>
 
 	<bean id="processManagerBean" class="org.uengine.codi.CodiProcessManagerBean"
-		  scope="request">
+		  scope="request" primary="true">
 		<property name="managedTransaction" value="true" />
 		<property name="autoCloseConnection" value="false" />
 		<property name="connectionFactory" ref="springConnectionFactory" />
@@ -98,5 +101,31 @@
     <task:executor id="codiExecutor" pool-size="1"/>
     <task:scheduler id="codiScheduler" pool-size="2"/>
 
+	<!-- ============================================================= -->
+	<!-- Queue Service -->
+	<!-- ============================================================= -->
 
+	<int:channel id="inputChannel">
+		<int:queue capacity="10"/>
+	</int:channel>
+
+	<int:channel id="outputChannel">
+		<int:queue capacity="10"/>
+	</int:channel>
+
+	<int:service-activator input-channel="inputChannel"
+						   output-channel="outputChannel"
+						   ref="processExecutor"
+						   method="run"/>
+
+	<int:poller default="true" fixed-delay="50"/>
+
+	<bean id="processExecutor" class="org.uengine.kernel.ProcessExecutionThread"/>
+
+	<bean id="processManagerBeanForQueue" class="org.uengine.codi.CodiProcessManagerBean"
+		  scope="prototype">
+		<property name="managedTransaction" value="true" />
+		<property name="autoCloseConnection" value="false" />
+		<property name="connectionFactory" ref="springConnectionFactory" />
+	</bean>
 </beans>
