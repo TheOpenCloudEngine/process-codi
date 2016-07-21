@@ -368,7 +368,13 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		processManager.executeProcess(instId);
 		processManager.applyChanges();
 	}
-	
+
+
+	@ServiceMethod(callByContent = true, target=ServiceMethod.TARGET_SELF)
+	public Object runSimulation() throws Exception{
+		return initiate()[0];
+	}
+
 	public Object[] initiate() throws Exception{
 		
 		/* 프로세스를 시작할때, 사용자가 지정이 안되어 있으면 팝업을 띄우는 부분 현재 안쓰여서 주석 처리 - 14.2.12 김형국
@@ -485,6 +491,9 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 			
 			roleMappingPanel = new RoleMappingPanel(processManager, this.getDefId(), session);
 			roleMappingPanel.putRoleMappings(processManager, processMapList.getParentInstanceId().toString());
+
+
+
 			processManager.executeProcess(instId);
 			
 			String[] executedTaskIds = WorkItemHandler.executedActivityTaskIds(instanceObject);
@@ -678,7 +687,9 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 					new Object[]{new Refresh(todoBadge, true)});
 
 			if("simulator".equals(this.getMetaworksContext().getWhere())){
-				return new Object[]{new ToEvent(ServiceMethodContext.TARGET_OPENER, EventContext.EVENT_CLOSE), new ModalWindow(new org.metaworks.widget.Label("<h4>Successfully initiated a simulation instance. <br>Please go to workspace to work with the practice instance.</h4>"), 500, 200, "Simulator")};
+
+				return new Object[]{instanceView};
+				//return new Object[]{new ToEvent(ServiceMethodContext.TARGET_OPENER, EventContext.EVENT_CLOSE), new ModalWindow(new org.metaworks.widget.Label("<h4>Successfully initiated a simulation instance. <br>Please go to workspace to work with the practice instance.</h4>"), 500, 200, "Simulator")};
 			}
 
 			return new Object[]{new ToEvent(ServiceMethodContext.TARGET_OPENER, EventContext.EVENT_CLOSE), new Refresh(instanceView), new Remover(new ModalWindow())};
