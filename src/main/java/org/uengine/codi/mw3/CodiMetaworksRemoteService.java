@@ -149,57 +149,11 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 
 		awareTenant(autowiredFields);
 
-		ProcessManagerRemote processManager = null;
 
-		try {
-			
-			Object returnVal = instance.callMetaworksService(objectTypeName, clientObject, methodName, autowiredFields);
+		Object returnVal = instance.callMetaworksService(objectTypeName, clientObject, methodName, autowiredFields);
 
-			if(TransactionContext.getThreadLocalInstance().getSharedContext("processManagerBeanChanged") != null){
-				processManager = getDirtyProcessManager(null);
-	
-				if(processManager!=null){
-					processManager.applyChanges();				
-				}
-			}
-			
-			return returnVal;
-			
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			if(!(e.getTargetException() instanceof MetaworksException))			
-				e.printStackTrace();
+		return returnVal;
 
-			if(TransactionContext.getThreadLocalInstance().getSharedContext("processManagerBeanChanged") != null){
-				processManager = getDirtyProcessManager(processManager);
-				
-				if(processManager!=null){
-					try {
-						processManager.cancelChanges();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}				
-				}
-			}
-			
-			throw e.getTargetException();
-
-		} finally{
-
-			processManager = getDirtyProcessManager(processManager);
-
-			if(processManager!=null){
-				try {
-					processManager.remove();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
-			}
-
-
-		}
 		
 	}
 
@@ -220,35 +174,6 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 			}
 
 		}
-	}
-
-	private ProcessManagerRemote getDirtyProcessManager(
-			ProcessManagerRemote processManager) {
-		//2. try the case that the one of inner classes issued the processmanager
-		if(TransactionContext.getThreadLocalInstance().getSharedContext("processManagerBeanUsed") != null){
-			if(TransactionalDwrServlet.useSpring){
-				ApplicationContext springAppContext = getBeanFactory();
-				
-				Map beanMap = springAppContext.getBeansOfType(ProcessManagerRemote.class);
-				Set keys = beanMap.keySet();			
-
-				Object springBean = null;
-					
-				for (Object key : keys) {
-					if(springBean != null) {
-						break;
-					}
-					springBean = beanMap.get(key);
-				}
-				
-				processManager = (ProcessManagerRemote) springBean;
-			}
-			
-			return processManager;
-		}
-
-		return null;
-		//return processManager;
 	}
 
 	@Override
