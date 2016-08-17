@@ -12,6 +12,7 @@ import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.mindrot.jbcrypt.BCrypt;
+import org.oce.garuda.multitenancy.TenantContext;
 import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.collection.SessionIdHashTable;
 import org.uengine.codi.mw3.common.MainPanel;
@@ -703,6 +704,8 @@ public class Login implements ContextAware {
         session.fillSession();
         session.fillUserInfoToHttpSession();
 
+        new TenantContext(session.getCompany().getComCode());
+
         storeIntoServerSession(session);
 
 
@@ -735,10 +738,14 @@ public class Login implements ContextAware {
 		}
 		 */
 
-        SNS app = null;
+        Application app = null;
 
 
-        if (app == null)
+        //try to find application named "mainApplication" firstly,
+        app = (Application) MetaworksRemoteService.getInstance().getBeanFactory().getBean("mainApplication");
+
+        //if there's no mainApplication, try to find component which is a SNS
+        if(app==null)
             app = MetaworksRemoteService.getComponent(SNS.class);
 
         app.load(session);

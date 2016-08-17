@@ -32,4 +32,8 @@ public class Application {
 		
 		return contentTopPanel; 
 	}
+
+	public void load(Session session) throws Exception {
+		this.session = session;
+	}
 }
