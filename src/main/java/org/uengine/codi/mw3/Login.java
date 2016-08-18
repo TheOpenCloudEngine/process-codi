@@ -742,8 +742,11 @@ public class Login implements ContextAware {
 
 
         //try to find application named "mainApplication" firstly,
-        app = (Application) MetaworksRemoteService.getInstance().getBeanFactory().getBean("mainApplication");
-
+        try{
+            app = (Application) MetaworksRemoteService.getInstance().getBeanFactory().getBean("mainApplication");
+        }catch (Exception ex){
+            //Nothing to do
+        }
         //if there's no mainApplication, try to find component which is a SNS
         if(app==null)
             app = MetaworksRemoteService.getComponent(SNS.class);
