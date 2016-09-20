@@ -122,10 +122,14 @@
 
 	<bean id="processExecutor" class="org.uengine.kernel.ProcessExecutionThread"/>
 
+	<bean id="springConnectionFactoryForProcessManagerBeanForQueue" class="org.uengine.util.dao.UEngineSpringConnectionFactory">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
 	<bean id="processManagerBeanForQueue" class="org.uengine.codi.CodiProcessManagerBean"
 		  scope="prototype">
 		<property name="managedTransaction" value="true" />
 		<property name="autoCloseConnection" value="false" />
-		<property name="connectionFactory" ref="springConnectionFactory" />
+		<property name="connectionFactory" ref="springConnectionFactoryForProcessManagerBeanForQueue" />
 	</bean>
 </beans>

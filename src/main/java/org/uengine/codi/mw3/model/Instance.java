@@ -1615,4 +1615,49 @@ public class Instance extends Database<IInstance> implements IInstance{
 	}
 
 
+	public static IInstance loadForAllChildInstances(long rootInstanceId) throws Exception {
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * ");
+		sql.append("  FROM bpm_procinst ");
+		sql.append(" WHERE rootInstId = ?rootInstId");
+
+		IInstance instanceContents;
+
+		instanceContents = (IInstance) sql(Instance.class, sql.toString());
+		instanceContents.setRootInstId(rootInstanceId);
+		instanceContents.select();
+
+		return instanceContents;
+
+	}
+
+	public static IInstance loadRecentSimulationInstance(String userId) throws Exception {
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * ");
+		sql.append("  FROM bpm_procinst ");
+		sql.append(" WHERE initEp = ?initEp and isSim=1 and Status = 'Running'");
+
+		IInstance instanceContents;
+
+		instanceContents = (IInstance) sql(Instance.class, sql.toString());
+		instanceContents.setInitEp(userId);
+		instanceContents.select();
+
+		return instanceContents;
+
+	}
+
+	public static InstanceViewDetail createInstanceViewDetail(Long instanceId) throws Exception {
+
+		IInstance instance = new Instance();
+		instance.setInstId(instanceId);
+
+		InstanceView instanceView = MetaworksRemoteService.getComponent(InstanceView.class);
+		instanceView.load(instance);
+		InstanceViewDetail instanceViewDetail = instanceView.createInstanceViewDetail();
+
+		return instanceViewDetail;
+	}
 }

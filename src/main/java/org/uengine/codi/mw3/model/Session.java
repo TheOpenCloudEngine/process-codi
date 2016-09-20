@@ -17,11 +17,12 @@ import org.metaworks.widget.ModalWindow;
 import org.uengine.codi.mw3.Login;
 import org.uengine.codi.mw3.StartCodi;
 import org.uengine.codi.util.CodiHttpClient;
+import org.uengine.security.ISession;
 import org.uengine.sso.BaseAuthenticate;
 import org.uengine.sso.CasAuthenticate;
 
 @AutowiredFromClient
-public class Session implements ContextAware{
+public class Session implements ContextAware, ISession {
 
 	static Hashtable<String, ArrayList> messagesToUsers = new Hashtable<String, ArrayList>();
 
@@ -368,5 +369,22 @@ public class Session implements ContextAware{
         this.setEmployee(iEmployee);
         this.fillSession();
     }
+
+	@Override
+	public String getEndpoint() {
+
+		if(getUser()==null) return null;
+
+		return getUser().getUserId();
+	}
+
+	@Override
+	public String getLocale() {
+
+		if(getEmployee()==null) return null;
+
+		return getEmployee().getLocale();
+	}
+
 
 }
