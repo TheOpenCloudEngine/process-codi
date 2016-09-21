@@ -1413,7 +1413,7 @@ public class Instance extends Database<IInstance> implements IInstance{
 
 		String tobe = null;
 		String title = null;
-		if(getStatus().equals("Completed")){
+		if(getStatus()!=null && getStatus().equals("Completed")){
 			tobe = "Running";
 			title = localeManager.getString("$CancleCompleted");
 		}else{
@@ -1632,17 +1632,18 @@ public class Instance extends Database<IInstance> implements IInstance{
 
 	}
 
-	public static IInstance loadRecentSimulationInstance(String userId) throws Exception {
+	public static IInstance loadRecentSimulationInstance(String userId, String defVerId) throws Exception {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * ");
 		sql.append("  FROM bpm_procinst ");
-		sql.append(" WHERE initEp = ?initEp and isSim=1 and Status = 'Running'");
+		sql.append(" WHERE initEp = ?initEp and isSim=1 and defVerId = ?defVerId and Status = 'Running'");
 
 		IInstance instanceContents;
 
 		instanceContents = (IInstance) sql(Instance.class, sql.toString());
 		instanceContents.setInitEp(userId);
+		instanceContents.setDefVerId(defVerId);
 		instanceContents.select();
 
 		return instanceContents;
@@ -1651,13 +1652,17 @@ public class Instance extends Database<IInstance> implements IInstance{
 
 	public static InstanceViewDetail createInstanceViewDetail(Long instanceId) throws Exception {
 
+		return createInstanceView(instanceId).getInstanceViewDetail();
+	}
+
+	public static InstanceView createInstanceView(Long instanceId) throws Exception {
+
 		IInstance instance = new Instance();
 		instance.setInstId(instanceId);
 
 		InstanceView instanceView = MetaworksRemoteService.getComponent(InstanceView.class);
 		instanceView.load(instance);
-		InstanceViewDetail instanceViewDetail = instanceView.createInstanceViewDetail();
 
-		return instanceViewDetail;
+		return instanceView;
 	}
 }

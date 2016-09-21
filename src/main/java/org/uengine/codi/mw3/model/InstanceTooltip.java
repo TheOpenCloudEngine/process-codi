@@ -4,6 +4,7 @@ import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
 import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.*;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.uengine.kernel.ProcessInstance;
@@ -189,7 +190,7 @@ public class InstanceTooltip implements ContextAware {
 		this.setSecuopt(instance.getSecuopt());
 	}
 	
-	@Available(condition="(dueDate)")
+//	@Available(condition="(dueDate)")
 	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF)
 	public void complete() throws Exception{
 		Instance instance = new Instance();
@@ -208,4 +209,13 @@ public class InstanceTooltip implements ContextAware {
         return null;
     }
 
+	@ServiceMethod(callByContent=true)
+	public InstanceViewDetail workItems() throws Exception{
+
+		InstanceView instanceView = new InstanceView();
+		instanceView.setInstanceId(String.valueOf(getInstanceId()));
+		MetaworksRemoteService.autowire(instanceView);
+
+		return instanceView.createInstanceViewDetail();
+	}
 }
