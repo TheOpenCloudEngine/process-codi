@@ -572,3 +572,5 @@ ALTER TABLE emptable MODIFY COLUMN password VARCHAR(100);
 
 ALTER TABLE comtable MODIFY COLUMN `billaccnt` VARCHAR(100) DEFAULT NULL;
 ALTER TABLE comtable MODIFY COLUMN `billsbscr` VARCHAR(100) DEFAULT NULL;
+
+ALTER TABLE bpm_procinst ADD COLUMN issim INT(1) DEFAULT 0; -- to identify simulation instance or not

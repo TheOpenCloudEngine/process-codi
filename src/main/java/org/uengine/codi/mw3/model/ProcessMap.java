@@ -394,11 +394,22 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 				
 		// InstanceViewContent instanceView// = new InstanceViewContent();
 		// 프로세스 실행
+
+		boolean simulationTime = false;
 		if(getMetaworksContext()!=null && "simulator".equals(getMetaworksContext().getWhere())){
 			TransactionContext.getThreadLocalInstance().setSharedContext("isDevelopmentTime", new Boolean(true));
+			simulationTime = true;
 		}
 
 		String instId = processManager.initializeProcess(VersionManager.getProductionResourcePath("codi", this.getDefId()));
+
+		if(simulationTime){
+			ProcessInstance processInstance = processManager.getProcessInstance(instId);
+
+			if(processInstance instanceof EJBProcessInstance){
+				((EJBProcessInstance)processInstance).getProcessInstanceDAO().set("isSim", 1);
+			}
+		}
 
 		
 		String title = null;		
