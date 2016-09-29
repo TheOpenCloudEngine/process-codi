@@ -65,7 +65,11 @@ public class WorkItemHandler implements ContextAware {
 					continue;
 
 				pv.setVariableName(pc.getVariable().getName());
-				pv.setArgument(pc.getArgument().getText(session!=null && session.getEmployee()!=null ? session.getEmployee().getLocale() : null));
+				if(pv.getArgument()==null){
+					pv.setArgument(pv.getVariableName());
+				}else
+					pv.setArgument(pc.getArgument().getText(session!=null && session.getEmployee()!=null ? session.getEmployee().getLocale() : null));
+
 				pv.setDirection(pc.getDirection());
 
 				String when = this.getMetaworksContext().getWhen();
