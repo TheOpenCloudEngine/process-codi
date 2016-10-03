@@ -2,14 +2,19 @@ package org.uengine.codi.mw3.model;
 
 import org.metaworks.ContextAware;
 import org.metaworks.MetaworksContext;
+import org.metaworks.Refresh;
 import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.*;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.widget.ModalWindow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.uengine.kernel.Activity;
+import org.uengine.kernel.ComplexActivity;
 import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.bpmn.Event;
+import org.uengine.kernel.view.IInstanceMonitor;
 import org.uengine.processmanager.ProcessManagerRemote;
+import org.uengine.util.ActivityForLoop;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -204,7 +209,53 @@ public class InstanceTooltip implements ContextAware {
 		this.setStatus(instance.getStatus());
 	}
 
-    @ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
+	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
+	public void suspend() throws Exception{
+
+		ProcessInstance instance = processManager.getProcessInstance(String.valueOf(getInstanceId()));
+		for (Activity activity : instance.getCurrentRunningActivities()){
+			activity.suspend(instance);
+		}
+
+		IInstanceMonitor instanceMonitor = MetaworksRemoteService.getComponent(IInstanceMonitor.class);
+		instanceMonitor.setInstanceId(String.valueOf(getInstanceId()));
+		instanceMonitor.load();
+
+		processManager.applyChanges(); // we need to apply implicitly. since we didn't use processManager's set interface
+
+		MetaworksRemoteService.wrapReturn(new Refresh(instanceMonitor));
+	}
+
+	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
+	public void resume() throws Exception{
+		final ProcessInstance instance = processManager.getProcessInstance(String.valueOf(getInstanceId()));
+		ActivityForLoop forLoop = new ActivityForLoop(){
+			public void logic(Activity act){
+				try{
+					String status1 = act.getStatus(instance);
+					if(!(act instanceof ComplexActivity) &&
+							(status1.equals(Activity.STATUS_STOPPED)|| status1.equals(Activity.STATUS_SUSPENDED))){
+						act.resume(instance);
+					}
+				}catch(Exception e){
+					throw new RuntimeException(e);
+				}
+			}
+		};
+
+		forLoop.run(instance.getProcessDefinition());
+
+		processManager.setChanged();
+
+
+		IInstanceMonitor instanceMonitor = MetaworksRemoteService.getComponent(IInstanceMonitor.class);
+		instanceMonitor.setInstanceId(String.valueOf(getInstanceId()));
+		instanceMonitor.load();
+
+		MetaworksRemoteService.wrapReturn(new Refresh(instanceMonitor));
+	}
+
+	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
     public ModalWindow monitor() throws Exception{
         return null;
     }
