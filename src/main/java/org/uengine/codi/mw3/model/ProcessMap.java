@@ -37,9 +37,7 @@ import org.uengine.codi.mw3.filter.OtherSessionFilter;
 import org.uengine.codi.mw3.knowledge.KnowledgeTool;
 import org.uengine.codi.mw3.knowledge.TopicNode;
 import org.uengine.codi.mw3.knowledge.WfNode;
-import org.uengine.kernel.EJBProcessInstance;
-import org.uengine.kernel.NoSuchProcessDefinitionException;
-import org.uengine.kernel.ProcessInstance;
+import org.uengine.kernel.*;
 import org.uengine.kernel.RoleMapping;
 import org.uengine.modeling.resource.DefaultResource;
 import org.uengine.modeling.resource.ResourcePreviewer;
@@ -406,8 +404,8 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		if(simulationTime){
 			ProcessInstance processInstance = processManager.getProcessInstance(instId);
 
-			if(processInstance instanceof EJBProcessInstance){
-				((EJBProcessInstance)processInstance).getProcessInstanceDAO().set("isSim", 1);
+			if(processInstance instanceof DefaultProcessInstance){
+				((DefaultProcessInstance) processInstance).setSimulation(true);
 			}
 		}
 

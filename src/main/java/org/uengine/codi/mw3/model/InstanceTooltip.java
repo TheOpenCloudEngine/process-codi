@@ -256,6 +256,41 @@ public class InstanceTooltip implements ContextAware {
 	}
 
 	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
+	public void stop() throws Exception{
+		final ProcessInstance instance = processManager.getProcessInstance(String.valueOf(getInstanceId()));
+
+		instance.stop();
+
+//
+//		ActivityForLoop forLoop = new ActivityForLoop(){
+//			public void logic(Activity act){
+//				try{
+//					String status1 = act.getStatus(instance);
+//					if(!(act instanceof ComplexActivity) &&
+//							(status1.equals(Activity.STATUS_STOPPED)|| status1.equals(Activity.STATUS_SUSPENDED))){
+//						act.stop(instance);
+//					}
+//				}catch(Exception e){
+//					throw new RuntimeException(e);
+//				}
+//			}
+//		};
+//
+//		forLoop.run(instance.getProcessDefinition());
+
+		processManager.setChanged();
+
+
+		IInstanceMonitor instanceMonitor = MetaworksRemoteService.getComponent(IInstanceMonitor.class);
+		instanceMonitor.setInstanceId(String.valueOf(getInstanceId()));
+		instanceMonitor.load();
+
+		MetaworksRemoteService.wrapReturn(new Refresh(instanceMonitor));
+	}
+
+
+
+	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_POPUP)
     public ModalWindow monitor() throws Exception{
         return null;
     }
