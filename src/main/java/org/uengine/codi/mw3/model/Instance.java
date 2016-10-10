@@ -29,6 +29,7 @@ import org.uengine.codi.mw3.common.MainPanel;
 import org.uengine.codi.mw3.filter.AllSessionFilter;
 import org.uengine.codi.mw3.knowledge.TopicNode;
 import org.uengine.codi.mw3.widget.IFrame;
+import org.uengine.kernel.ProcessInstance;
 import org.uengine.kernel.Role;
 import org.uengine.processmanager.ProcessManagerRemote;
 import org.uengine.solr.SolrServerManager;
@@ -1650,15 +1651,17 @@ public class Instance extends Database<IInstance> implements IInstance{
 
 	}
 
-	public static InstanceViewDetail createInstanceViewDetail(Long instanceId) throws Exception {
+	public static InstanceViewDetail createInstanceViewDetail(String instanceId) throws Exception {
 
 		return createInstanceView(instanceId).getInstanceViewDetail();
 	}
 
-	public static InstanceView createInstanceView(Long instanceId) throws Exception {
+	public static InstanceView createInstanceView(String instanceId) throws Exception {
+
+		Object[] instanceIdAndESC = ProcessInstance.parseInstanceIdAndExecutionScope(instanceId);
 
 		IInstance instance = new Instance();
-		instance.setInstId(instanceId);
+		instance.setInstId((Long) instanceIdAndESC[0]);
 
 		InstanceView instanceView = MetaworksRemoteService.getComponent(InstanceView.class);
 		instanceView.load(instance);

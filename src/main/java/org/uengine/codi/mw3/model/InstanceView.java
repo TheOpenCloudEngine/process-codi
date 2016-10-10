@@ -43,8 +43,17 @@ public class InstanceView {
 		}
 
 	public InstanceView() {
-	}		
-		
+	}
+
+	String executionScope;
+		public String getExecutionScope() {
+			return executionScope;
+		}
+		public void setExecutionScope(String executionScope) {
+			this.executionScope = executionScope;
+		}
+
+
 	public void load(IInstance instance) throws Exception{
 
 		InstanceTooltip instanceTooltip = MetaworksRemoteService.getComponent(InstanceTooltip.class);
