@@ -105,31 +105,45 @@
 	<!-- Queue Service -->
 	<!-- ============================================================= -->
 
-	<int:channel id="inputChannel">
+	<bean id="processManagerBeanForQueue" class="org.uengine.codi.CodiProcessManagerBean"
+		  scope="prototype">
+		<property name="managedTransaction" value="true" />
+		<property name="autoCloseConnection" value="false" />
+		<property name="connectionFactory" ref="springConnectionFactory" />
+	</bean>
+
+	<int:channel id="inputChannelForProcessExecutionThread">
 		<int:queue capacity="10"/>
 	</int:channel>
 
-	<int:channel id="outputChannel">
+	<int:channel id="outputChannelForProcessExecutionThread">
 		<int:queue capacity="10"/>
 	</int:channel>
 
-	<int:service-activator input-channel="inputChannel"
-						   output-channel="outputChannel"
+	<int:service-activator input-channel="inputChannelForProcessExecutionThread"
+						   output-channel="outputChannelForProcessExecutionThread"
 						   ref="processExecutor"
 						   method="run"/>
 
 	<int:poller default="true" fixed-delay="50"/>
 
-	<bean id="processExecutor" class="org.uengine.kernel.ProcessExecutionThread"/>
+	<bean id="processExecutor" class="org.uengine.kernel.ProcessExecutionThread" scope="prototype"/>
 
-	<bean id="springConnectionFactoryForProcessManagerBeanForQueue" class="org.uengine.util.dao.UEngineSpringConnectionFactory">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+	<int:channel id="inputChannelForActivityCompleter">
+		<int:queue capacity="10"/>
+	</int:channel>
 
-	<bean id="processManagerBeanForQueue" class="org.uengine.codi.CodiProcessManagerBean"
-		  scope="prototype">
-		<property name="managedTransaction" value="true" />
-		<property name="autoCloseConnection" value="false" />
-		<property name="connectionFactory" ref="springConnectionFactoryForProcessManagerBeanForQueue" />
-	</bean>
+	<int:channel id="outputChannelForActivityCompleter">
+		<int:queue capacity="10"/>
+	</int:channel>
+
+	<int:service-activator input-channel="inputChannelForActivityCompleter"
+						   output-channel="outputChannelForActivityCompleter"
+						   ref="activityCompleter"
+						   method="run"/>
+
+
+	<bean id="activityCompleter" class="org.uengine.kernel.ActivityCompleter" scope="prototype"/>
+
+
 </beans>
