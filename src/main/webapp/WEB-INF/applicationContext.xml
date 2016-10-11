@@ -126,8 +126,8 @@
 						   method="run"/>
 
 	<int:poller default="true" fixed-delay="50"/>
-
 	<bean id="processExecutor" class="org.uengine.kernel.ProcessExecutionThread" scope="prototype"/>
+
 
 	<int:channel id="inputChannelForActivityCompleter">
 		<int:queue capacity="10"/>
@@ -145,5 +145,21 @@
 
 	<bean id="activityCompleter" class="org.uengine.kernel.ActivityCompleter" scope="prototype"/>
 
+
+
+	<int:channel id="inputChannelForFaultMarker">
+		<int:queue capacity="10"/>
+	</int:channel>
+
+	<int:channel id="outputChannelForFaultMarker">
+		<int:queue capacity="10"/>
+	</int:channel>
+
+	<int:service-activator input-channel="inputChannelForFaultMarker"
+						   output-channel="outputChannelForFaultMarker"
+						   ref="faultMarker"
+						   method="run"/>
+
+	<bean id="faultMarker" class="org.uengine.kernel.FaultMarker" scope="prototype"/>
 
 </beans>
