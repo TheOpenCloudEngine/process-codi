@@ -1664,6 +1664,8 @@ public class Instance extends Database<IInstance> implements IInstance{
 		instance.setInstId((Long) instanceIdAndESC[0]);
 
 		InstanceView instanceView = MetaworksRemoteService.getComponent(InstanceView.class);
+
+		instanceView.setExecutionScope((String) instanceIdAndESC[1]);
 		instanceView.load(instance);
 
 		return instanceView;
