@@ -10,6 +10,7 @@ import org.uengine.kernel.NoSuchProcessDefinitionException;
 import org.uengine.kernel.ProcessDefinition;
 import org.uengine.kernel.ProcessDefinitionFactory;
 import org.uengine.modeling.resource.DefaultResource;
+import org.uengine.modeling.resource.IResource;
 import org.uengine.processmanager.ProcessTransactionContext;
 import org.uengine.processmanager.SimulatorTransactionContext;
 import org.uengine.util.UEngineUtil;
@@ -60,11 +61,9 @@ public class CodiProcessDefinitionFactory extends ProcessDefinitionFactory{
 
 
 		try {
-			DefaultResource processResource = new DefaultResource();
+			IResource processResource =  DefaultResource.createResource("codi/" + location);
 
-			processResource.setPath("codi/" + location);
-
-			Object object = resourceManager.getObject(processResource);
+			Object object = processResource.load();
 
 			if(object==null)
 				throw new Exception("No definition found where location = '" + location + "'");
