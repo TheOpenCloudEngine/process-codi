@@ -756,7 +756,8 @@ public class Login implements ContextAware {
         TopPanel topPanel = null;
 
         if (!SNS.isPhone()) {
-            topPanel = new TopPanel(session);
+            topPanel = MetaworksRemoteService.getComponent(TopPanel.class);
+            topPanel.load(session);
             topPanel.setTopCenterPanel(app.loadTopCenterPanel(session));
         }
 

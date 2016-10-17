@@ -13,13 +13,18 @@ public class TopPanel {
 	}
 	
 	public TopPanel(Session session) {
+		load(session);
+
+	}
+
+	public void load(Session session) {
 		//setSession(session);
 		setUx(session.getUx());
-		
+
 		notificationBadge = MetaworksRemoteService.getComponent(NotificationBadge.class);
 
 		todoBadge = new TodoBadge();
-		
+
 		TopPanelUser topPanelUser = new TopPanelUser();
 		try {
 			topPanelUser.copyFrom(session.getUser());
@@ -29,7 +34,7 @@ public class TopPanel {
 		}
 		setLoginUser(topPanelUser);
 		this.getLoginUser().getMetaworksContext().setHow(IUser.HOW_SELF);
-		
+
 		if(!SNS.isPhone()){
 			TopMenuPanel topMenuPanel = new TopMenuPanel();
 			this.setTopMenuPanel(topMenuPanel);
@@ -37,7 +42,7 @@ public class TopPanel {
 
 		setCompany(session.getCompany());
 	}
-	
+
 	NotificationBadge notificationBadge;
 		public NotificationBadge getNotificationBadge() {
 			return notificationBadge;
@@ -144,4 +149,5 @@ public class TopPanel {
 
 		return popup;
 	}
+
 }
