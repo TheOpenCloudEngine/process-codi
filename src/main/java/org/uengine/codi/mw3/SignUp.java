@@ -3,6 +3,7 @@ package org.uengine.codi.mw3;
 import org.metaworks.MetaworksException;
 import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.ServiceMethod;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.metaworks.website.MetaworksFile;
 import org.uengine.codi.mw3.email.sender.SignUpInvitationEmailSender;
 import org.uengine.codi.mw3.model.Company;
@@ -31,7 +32,8 @@ public class SignUp {
 		}
 		
 	public SignUp(){
-		Login login = new Login();
+		//Login login = new Login();
+        Login login = MetaworksRemoteService.getComponent(Login.class);
 		login.getMetaworksContext().setWhere("index");
 		login.getMetaworksContext().setHow("signup");
 		
@@ -42,7 +44,7 @@ public class SignUp {
 	
 	@ServiceMethod(target=ServiceMethodContext.TARGET_SELF)
 	public Object goLogin(){
-		return new Login();
+		return MetaworksRemoteService.getComponent(Login.class);
 	}
 
     public IEmployee signUp(String email, boolean signUpCompany) throws Exception{
