@@ -84,6 +84,7 @@
 		  scope="singleton">
 		<property name="connectionFactory" ref="springConnectionFactoryForMetaworks" />
 		<property name="lowerCaseSQL" value="true"/>
+		<property name="debugMode" value="true"/>
 	</bean>
 
 	<bean class="org.metaworks.dao.TransactionAdvice">
