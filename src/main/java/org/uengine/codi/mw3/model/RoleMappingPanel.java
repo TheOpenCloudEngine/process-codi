@@ -82,8 +82,9 @@ public class RoleMappingPanel implements ContextAware{
 		setDefId(defId_);
 
 		VersionManager versionManager = MetaworksRemoteService.getComponent(VersionManager.class);
+		versionManager.setAppName("codi");
 
-		defId_ = versionManager.getProductionResourcePath("codi", defId_);
+		defId_ = versionManager.getProductionResourcePath(defId_);
 
 		if(defId_ == null)
 			throw new NoSuchProcessDefinitionException();

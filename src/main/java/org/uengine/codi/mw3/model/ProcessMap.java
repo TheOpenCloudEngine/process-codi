@@ -348,8 +348,9 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		CodiProcessDefinitionFactory.getInstance(pmb.getTransactionContext()).removeFromCache(this.getDefId());
 
 		VersionManager versionManager = MetaworksRemoteService.getComponent(VersionManager.class);
+		versionManager.setAppName("codi");
 
-		String instId = processManager.initializeProcess(versionManager.getProductionResourcePath("codi", this.getDefId()));
+		String instId = processManager.initializeProcess(versionManager.getProductionResourcePath(this.getDefId()));
 
 		RoleMapping rm = RoleMapping.create();
 		if(session.getUser() != null){
@@ -402,8 +403,9 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 		}
 
 		VersionManager versionManager = MetaworksRemoteService.getComponent(VersionManager.class);
+		versionManager.setAppName("codi");
 
-		String instId = processManager.initializeProcess(versionManager.getProductionResourcePath("codi", this.getDefId()));
+		String instId = processManager.initializeProcess(versionManager.getProductionResourcePath(this.getDefId()));
 
 		if(simulationTime){
 			ProcessInstance processInstance = processManager.getProcessInstance(instId);
