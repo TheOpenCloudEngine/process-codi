@@ -11,6 +11,7 @@ import org.metaworks.ServiceMethodContext;
 import org.metaworks.annotation.Hidden;
 import org.metaworks.annotation.ServiceMethod;
 import org.metaworks.dao.TransactionContext;
+import org.metaworks.dwr.MetaworksRemoteService;
 import org.oce.garuda.multitenancy.TenantContext;
 import org.uengine.codi.mw3.model.Company;
 import org.uengine.codi.mw3.model.Employee;
@@ -210,13 +211,13 @@ public class StartCodi {
 			   return new Refresh(login, false, true);
 			   
 		}else{
-			return new Refresh(new SignUp(), false, true);
+			return new Refresh(MetaworksRemoteService.getComponent(SignUp.class), false, true);
 			
 			/*
 			String comAlias = TenantContext.getThreadLocalInstance().getTenantId();
 			
 			if(comAlias == null){
-				return new SignUp();
+				return MetaworksRemoteService.getComponent(SignUp.class);
 			}
 			
 			// 등록되어 있는테넌트 불러오기.
@@ -281,7 +282,7 @@ public class StartCodi {
 			e.printStackTrace();
 		}
 		
-		return new Object[]{new Refresh(new SignUp(), false, true)};
+		return new Object[]{new Refresh(MetaworksRemoteService.getComponent(SignUp.class), false, true)};
 	}
 
 	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_SELF)
@@ -312,7 +313,7 @@ public class StartCodi {
         log.setIp(ipAddress);
         log.createDatabaseMe();
         
-        return new SignUp();
+        return MetaworksRemoteService.getComponent(SignUp.class);
 	}
 	
 	@ServiceMethod(callByContent=true)
