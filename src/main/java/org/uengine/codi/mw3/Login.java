@@ -704,7 +704,8 @@ public class Login implements ContextAware {
         session.fillSession();
         session.fillUserInfoToHttpSession();
 
-        new TenantContext(session.getCompany().getComCode());
+        if(GlobalContext.multiTenant)
+            new TenantContext(session.getCompany().getComCode());
 
         storeIntoServerSession(session);
 

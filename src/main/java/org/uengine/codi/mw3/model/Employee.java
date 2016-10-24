@@ -29,6 +29,7 @@ import org.uengine.codi.mw3.admin.TopPanel;
 import org.uengine.codi.mw3.common.MainPanel;
 import org.uengine.codi.mw3.knowledge.TopicMapping;
 import org.uengine.codi.mw3.knowledge.WfNode;
+import org.uengine.kernel.GlobalContext;
 
 public class Employee extends EmployeeWithCRUD {
 
@@ -402,7 +403,8 @@ public class Employee extends EmployeeWithCRUD {
 
                 this.setGlobalCom(tenantId);
 
-                new TenantContext(tenantId); // From now, tenant will be recognized.
+                if(GlobalContext.multiTenant)
+                    new TenantContext(tenantId); // From now, tenant will be recognized.
 
                 TenantLifecycle tenantLifecycle = MetaworksRemoteService.getComponent(TenantLifecycle.class);
                 if(tenantLifecycle!=null)

@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 //import org.uengine.codi.platform.SecurityContext;
 import org.uengine.codi.mw3.model.Session;
+import org.uengine.kernel.GlobalContext;
 import org.uengine.processmanager.ProcessManagerBean;
 import org.uengine.processmanager.ProcessManagerRemote;
 
@@ -161,6 +162,9 @@ public class CodiMetaworksRemoteService extends MetaworksRemoteService{
 	static String[] autowirableSessionKeys={"session", ServiceMethodContext.WIRE_PARAM_CLS + Session.class.getName()};
 
 	private void awareTenant(Map<String, Object> autowiredFields) {
+
+		if(!GlobalContext.multiTenant)
+			return;
 
 		for (String autowirableSessionKey : autowirableSessionKeys) {
 			if (autowiredFields.get(autowirableSessionKey) instanceof Session) {
