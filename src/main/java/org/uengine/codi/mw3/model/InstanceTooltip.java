@@ -108,9 +108,23 @@ public class InstanceTooltip implements ContextAware {
 		this.setDueDate(instance.getDueDate());
 		this.setInstanceDefId(instance.getDefVerId());
 
-		loadEventTriggers();
+		try {
+			loadEventTriggers(); //event triggers is not required to load
+			setEventTriggersAreLoaded(true);
+		}catch (Exception e){
+		}
 	}
-	
+
+	boolean eventTriggersAreLoaded;
+		public boolean isEventTriggersAreLoaded() {
+			return eventTriggersAreLoaded;
+		}
+		public void setEventTriggersAreLoaded(boolean eventTriggersAreLoaded) {
+			this.eventTriggersAreLoaded = eventTriggersAreLoaded;
+		}
+
+
+
 	@ServiceMethod(callByContent=true)
 	public void loadEventTriggers() throws Exception{
 		if( Instance.INSTNACE_STATUS_RUNNING.equals(this.getStatus()) ){
