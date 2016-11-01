@@ -3,8 +3,8 @@
 <div id="objDiv_<%=objectId%>" style="overflow:auto">
 
 <%
-	if(value == null && typeof value == 'undefined')
-		return;
+	if(!(value == null && typeof value == 'undefined')){
+
 
 		if(mw3.how == 'loadDocument'){
 %>
@@ -47,7 +47,9 @@
 
 %>
 </div>
-<%}%>
+<%}
+
+}%>
 
 
 </div>

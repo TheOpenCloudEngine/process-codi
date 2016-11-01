@@ -7,6 +7,7 @@ import org.metaworks.MetaworksContext;
 import org.metaworks.annotation.AutowiredFromClient;
 import org.metaworks.annotation.Face;
 import org.metaworks.annotation.Id;
+import org.metaworks.dao.TransactionContext;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.uengine.kernel.*;
@@ -81,10 +82,13 @@ public class RoleMappingPanel implements ContextAware{
 
 		setDefId(defId_);
 
-		VersionManager versionManager = MetaworksRemoteService.getComponent(VersionManager.class);
-		versionManager.setAppName("codi");
+		if(!new Boolean(true).equals(TransactionContext.getThreadLocalInstance().getSharedContext("isDevelopmentTime"))) {
 
-		defId_ = versionManager.getProductionResourcePath(defId_);
+			VersionManager versionManager = MetaworksRemoteService.getComponent(VersionManager.class);
+			versionManager.setAppName("codi");
+
+			defId_ = versionManager.getProductionResourcePath(defId_);
+		}
 
 		if(defId_ == null)
 			throw new NoSuchProcessDefinitionException();
