@@ -29,8 +29,8 @@ public interface IEmployee extends IDAO {
 	public void setPassword(String password);
 	
 	@Face(displayName="$Position")
-	public String getJikName();
-	public void setJikName(String jikName);
+	public String getRoleType();
+	public void setRoleType(String roleType);
 	
 	public String getPartCode();	
 	public void setPartCode(String partCode);

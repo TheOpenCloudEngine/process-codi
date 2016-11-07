@@ -68,8 +68,8 @@ public class Employee extends EmployeeWithCRUD {
 
     @Override
     @Validator(name=ValidatorContext.VALIDATE_MAX , options={"20"}, message="Title must be under 20 characters.")
-    public String getJikName(){
-        return super.getJikName();
+    public String getRoleType(){
+        return super.getRoleType();
     }
 
     @Override
@@ -157,9 +157,9 @@ public class Employee extends EmployeeWithCRUD {
         return super.getPreferMob();
     }
 
-    @ServiceMethod(where = "navigator", payload = {"empCode", "empName", "jikName"})
+    @ServiceMethod(where = "navigator", payload = {"empCode", "empName", "roleType"})
     public Object[] loadOrganization() throws Exception {
-        return Perspective.loadInstanceListPanel(session, "organization", getEmpCode(), "사원 : " + this.getEmpName() + "(" + this.getJikName() + ")");
+        return Perspective.loadInstanceListPanel(session, "organization", getEmpCode(), "사원 : " + this.getEmpName() + "(" + this.getRoleType() + ")");
     }
 
     @ServiceMethod(target = "append", where = "picker")

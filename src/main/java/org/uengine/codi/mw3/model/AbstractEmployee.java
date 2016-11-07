@@ -33,7 +33,7 @@ public abstract class AbstractEmployee extends Database<IEmployee> implements IE
     String password;
     String confirmPassword;
     boolean isAdmin;
-    String jikName;
+    String roleType;
     transient String partName;
     String globalCom;
     String isDeleted;
@@ -175,13 +175,13 @@ public abstract class AbstractEmployee extends Database<IEmployee> implements IE
     }
 
     @Override
-    public String getJikName() {
-        return jikName;
+    public String getRoleType() {
+        return roleType;
     }
 
     @Override
-    public void setJikName(String jikName) {
-        this.jikName = jikName;
+    public void setRoleType(String roleType) {
+        this.roleType = roleType;
     }
 
     public String getPartName() {
