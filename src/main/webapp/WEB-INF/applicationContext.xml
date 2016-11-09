@@ -114,11 +114,11 @@
 	</bean>
 
 	<int:channel id="inputChannelForProcessExecutionThread">
-		<int:queue capacity="10"/>
+		<int:queue capacity="1000"/>
 	</int:channel>
 
 	<int:channel id="outputChannelForProcessExecutionThread">
-		<int:queue capacity="10"/>
+		<int:queue capacity="1000"/>
 	</int:channel>
 
 	<int:service-activator input-channel="inputChannelForProcessExecutionThread"
@@ -131,11 +131,11 @@
 
 
 	<int:channel id="inputChannelForActivityCompleter">
-		<int:queue capacity="10"/>
+		<int:queue capacity="1000"/>
 	</int:channel>
 
 	<int:channel id="outputChannelForActivityCompleter">
-		<int:queue capacity="10"/>
+		<int:queue capacity="1000"/>
 	</int:channel>
 
 	<int:service-activator input-channel="inputChannelForActivityCompleter"
@@ -149,11 +149,11 @@
 
 
 	<int:channel id="inputChannelForFaultMarker">
-		<int:queue capacity="10"/>
+		<int:queue capacity="1000"/>
 	</int:channel>
 
 	<int:channel id="outputChannelForFaultMarker">
-		<int:queue capacity="10"/>
+		<int:queue capacity="1000"/>
 	</int:channel>
 
 	<int:service-activator input-channel="inputChannelForFaultMarker"
