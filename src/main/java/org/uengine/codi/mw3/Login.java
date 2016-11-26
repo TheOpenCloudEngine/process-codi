@@ -747,7 +747,7 @@ public class Login implements ContextAware {
             app = (Application) MetaworksRemoteService.getInstance().getBeanFactory().getBean("mainApplication");
         }catch (Exception ex){
             //Nothing to do
-            throw new Exception("Error to load mainApplication:", ex);
+            new Exception("Error to load mainApplication:", ex).printStackTrace();
         }
         //if there's no mainApplication, try to find component which is a SNS
         if(app==null)
