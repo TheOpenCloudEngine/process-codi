@@ -574,3 +574,6 @@ ALTER TABLE comtable MODIFY COLUMN `billaccnt` VARCHAR(100) DEFAULT NULL;
 ALTER TABLE comtable MODIFY COLUMN `billsbscr` VARCHAR(100) DEFAULT NULL;
 
 ALTER TABLE bpm_procinst ADD COLUMN issim INT(1) DEFAULT 0; -- to identify simulation instance or not
+
+alter table bpm_procinst modify column defverid varchar(255);
+alter table bpm_roledef modify column rolename varchar(255);
