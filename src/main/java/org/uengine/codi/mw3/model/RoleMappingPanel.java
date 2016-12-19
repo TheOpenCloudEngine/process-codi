@@ -197,11 +197,7 @@ public class RoleMappingPanel implements ContextAware{
 	
 	public void putRoleMappings(ProcessManagerRemote processManager, String instId) throws Exception{
 		for(IRoleMappingDefinition roleMappingDefinition: roleMappingDefinitions){
-			if( RoleMappingDefinition.ROLE_DEF_TYPE_USER.equals(roleMappingDefinition.getRoleDefType() )){
-				if(roleMappingDefinition.getMappedUserId()!=null){
-					processManager.putRoleMapping(instId, roleMappingDefinition.getRoleName(), roleMappingDefinition.getMappedUserId());
-				}
-			}else if( RoleMappingDefinition.ROLE_DEF_TYPE_ROLE.equals(roleMappingDefinition.getRoleDefType() )){
+			if( RoleMappingDefinition.ROLE_DEF_TYPE_ROLE.equals(roleMappingDefinition.getRoleDefType() )){
 				if(roleMappingDefinition.getMappedRoleCode()!=null ){
 					RoleUser roleUser = new RoleUser();
 					roleUser.setRoleCode(roleMappingDefinition.getMappedRoleCode());
@@ -210,6 +206,10 @@ public class RoleMappingPanel implements ContextAware{
 						processManager.putRoleMapping(instId, roleMappingDefinition.getRoleName(), refRoleUser.getEmpCode() );
 					}
 					
+				}
+			}else{
+				if(roleMappingDefinition.getMappedUserId()!=null){
+					processManager.putRoleMapping(instId, roleMappingDefinition.getRoleName(), roleMappingDefinition.getMappedUserId());
 				}
 			}
 		}
