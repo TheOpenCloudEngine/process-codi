@@ -25,6 +25,15 @@ public class ParameterValue implements ContextAware{
 			this.direction = direction;
 		}
 
+	boolean ignore;
+		public boolean isIgnore() {
+			return ignore;
+		}
+		public void setIgnore(boolean ignore) {
+			this.ignore = ignore;
+		}
+
+
 
 	String argument;
 		public String getArgument() {

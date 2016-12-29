@@ -379,7 +379,7 @@ public class WorkItemHandler implements ContextAware {
 	@AutowiredFromClient
 	public Session session;
 
-	@ServiceMethod(callByContent=true, when= MetaworksContext.WHEN_EDIT, validate=true, target= ServiceMethodContext.TARGET_APPEND)
+	@ServiceMethod(payload = {"instanceId", "tracingTag", "outputParameters[!ignore]"}, /*callByContent=true,*/ when= MetaworksContext.WHEN_EDIT, validate=true, target= ServiceMethodContext.TARGET_APPEND)
 //	@Available(when={"NEW"})
 	public Object[] complete() throws RemoteException, ClassNotFoundException, Exception{
 
@@ -588,6 +588,9 @@ public class WorkItemHandler implements ContextAware {
 
 		if(outputParameters!=null)
 			for(ParameterValue pv : outputParameters){
+
+				if(pv.isIgnore()) continue;
+
 				String variableTypeName = pv.getVariableType();
 				//Class variableType = Thread.currentThread().getContextClassLoader().loadClass(variableTypeName);
 				ProcessVariableValue processVariableValue = new ProcessVariableValue();
