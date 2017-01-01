@@ -54,6 +54,10 @@ public class RoleMappingDefinition extends Database<IRoleMappingDefinition> impl
 
 	String mappedUserId;
 		public String getMappedUserId() {
+			if(mappedUserId==null && getRoleMappedUser()!=null){
+				return getRoleMappedUser().getEndpoint();
+			}
+
 			return mappedUserId;
 		}
 		public void setMappedUserId(String mappedUserId) {
