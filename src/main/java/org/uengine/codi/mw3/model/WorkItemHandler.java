@@ -35,10 +35,7 @@ public class WorkItemHandler implements ContextAware {
 		Long taskId = getTaskId();
 		String tracingTag = getTracingTag();
 
-		ProcessInstance instance = processManager.getProcessInstance(instanceId.toString());
-
-		if(getExecutionScope()!=null)
-			instance.setExecutionScope(getExecutionScope());
+		ProcessInstance instance = getProcessInstance();
 
 		HumanActivity humanActivity = null;
 
@@ -379,14 +376,11 @@ public class WorkItemHandler implements ContextAware {
 	@AutowiredFromClient
 	public Session session;
 
-	@ServiceMethod(payload = {"instanceId", "tracingTag", "outputParameters[!ignore]"}, /*callByContent=true,*/ when= MetaworksContext.WHEN_EDIT, validate=true, target= ServiceMethodContext.TARGET_APPEND)
+	@ServiceMethod(payload = {"instanceId", "tracingTag", "outputParameters[!ignore]", "taskId", "rootInstId", "executionScope"}, /*callByContent=true,*/ when= MetaworksContext.WHEN_EDIT, validate=true, target= ServiceMethodContext.TARGET_APPEND)
 //	@Available(when={"NEW"})
 	public Object[] complete() throws RemoteException, ClassNotFoundException, Exception{
 
-		ProcessInstance instance = processManager.getProcessInstance(instanceId);
-
-		if(getExecutionScope()!=null)
-			instance.setExecutionScope(getExecutionScope());
+		ProcessInstance instance = getProcessInstance();
 
 
 		HumanActivity humanActivity = null;
@@ -405,7 +399,7 @@ public class WorkItemHandler implements ContextAware {
 
 		ResultPayload rp = createResultPayload();
 
-		processManager.completeWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp);
+		processManager.completeWorkitem(getFullInstanceId(), getTracingTag(), getTaskId().toString(), rp);
 		processManager.applyChanges();
 
 		releaseMapForITool();
@@ -575,7 +569,7 @@ public class WorkItemHandler implements ContextAware {
 
 		ResultPayload rp = createResultPayload();
 
-		processManager.saveWorkitem(getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():""), getTracingTag(), getTaskId().toString(), rp );
+		processManager.saveWorkitem(getFullInstanceId(), getTracingTag(), getTaskId().toString(), rp );
 	}
 
 	@ServiceMethod(when= MetaworksContext.WHEN_EDIT, target=ServiceMethod.TARGET_POPUP )
@@ -616,9 +610,10 @@ public class WorkItemHandler implements ContextAware {
 		return rp;
 	}
 
-	@ServiceMethod(callByContent=true, when="compete")
+	@ServiceMethod(/*callByContent=true,*/ when="compete", payload = {"instanceId", "tracingTag", "taskId", "rootInstId", "executionScope"})
 	public Object[]  accept() throws Exception{
-		ProcessInstance instance = processManager.getProcessInstance(instanceId.toString());
+		ProcessInstance instance = getProcessInstance();
+
 
 		HumanActivity humanActivity = (HumanActivity) instance.getProcessDefinition().getActivity(tracingTag);
 
@@ -627,7 +622,7 @@ public class WorkItemHandler implements ContextAware {
 		roleMapping.setName(humanActivity.getRole().getName());
 		roleMapping.setEndpoint(session.getEmployee().getEmpCode());
 
-		String[] executedTaskIds = processManager.delegateWorkitem(this.getInstanceId(), this.getTracingTag(), roleMapping);
+		String[] executedTaskIds = processManager.delegateWorkitem(getFullInstanceId(), this.getTracingTag(), roleMapping);
 		processManager.applyChanges();
 
 		// 변경된 액티비티 들만 찾기
@@ -664,6 +659,19 @@ public class WorkItemHandler implements ContextAware {
 		return new Object[]{panel, new Remover(new ModalWindow(), true)};
 
 	}
+
+	private String getFullInstanceId() {
+		return this.getInstanceId() + (getExecutionScope() != null ? "@" + getExecutionScope():"");
+	}
+
+	protected ProcessInstance getProcessInstance() throws RemoteException {
+		ProcessInstance instance = processManager.getProcessInstance(instanceId.toString());
+
+		if(getExecutionScope()!=null)
+			instance.setExecutionScope(getExecutionScope());
+		return instance;
+	}
+
 	@ServiceMethod(payload={"taskId", "replyTitle", "replyFieldName", "rootInstId", "instanceId"}, when=MetaworksContext.WHEN_EDIT, target=ServiceMethodContext.TARGET_APPEND)
 	public ReplyOverlayCommentWorkItem comment() throws Exception{
 

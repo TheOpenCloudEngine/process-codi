@@ -771,7 +771,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
                     DefaultWorkList.WORKITEM_STATUS_DRAFT.equals(getStatus()) ||
                     DefaultWorkList.WORKITEM_STATUS_CONFIRMED.equals(getStatus())) {
 
-                ProcessInstance instance = processManager.getProcessInstance(this.getInstId().toString());
+                ProcessInstance instance = processManager.getProcessInstance(this.getInstId().toString() + (this.getExecScope()!=null ? "@" + this.getExecScope() : ""));
                 HumanActivity humanActivity = (HumanActivity) instance.getProcessDefinition().getActivity(tracingTag);
 
 
