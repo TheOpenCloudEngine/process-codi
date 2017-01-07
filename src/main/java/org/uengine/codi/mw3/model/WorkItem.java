@@ -176,7 +176,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         return workitem;
     }
 
-    protected static IWorkItem findByTaskId(String taskId) throws Exception {
+    public static IWorkItem findByTaskId(String taskId) throws Exception {
         StringBuffer sql = new StringBuffer();
 
         sql.append("select *");
