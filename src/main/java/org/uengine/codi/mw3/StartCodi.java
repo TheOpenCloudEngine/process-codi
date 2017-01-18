@@ -193,7 +193,7 @@ public class StartCodi {
 				ICompany company = findCompany.findByAlias();
 				
 				if(company != null){
-					Login login = new Login();
+					Login login = MetaworksRemoteService.getComponent(Login.class);
 					login.setCompanyName(company.getComName());
 					return new Refresh(login, false, true);
 				}
@@ -268,7 +268,7 @@ public class StartCodi {
 		Session session = new Session();
 		session.setEmployee(findEmp);
 		
-		Login login = new Login();
+		Login login = MetaworksRemoteService.getComponent(Login.class);
 		login.lastVisitPage = this.getLastVisitPage();
 		login.lastVisitValue = this.getLastVisitValue();
 		

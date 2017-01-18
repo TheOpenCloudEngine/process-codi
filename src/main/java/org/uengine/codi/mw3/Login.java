@@ -382,6 +382,12 @@ public class Login implements ContextAware {
             }
         }
 
+        {//setting access token for direct access
+            String accessToken = UUID.randomUUID().toString();
+
+            ((EmployeeWithCRUD)findEmp).databaseMe().setAuthKey(accessToken);
+        }
+
         secureEmployeeInfo(findEmp);
 
         session.setEmployee(findEmp);
@@ -740,18 +746,8 @@ public class Login implements ContextAware {
 		 */
 
         Application app = null;
+        app = getDefaultLoadingApplication(app);
 
-
-        //try to find application named "mainApplication" firstly,
-        try{
-            app = (Application) MetaworksRemoteService.getInstance().getBeanFactory().getBean("mainApplication");
-        }catch (Exception ex){
-            //Nothing to do
-            new Exception("Error to load mainApplication:", ex).printStackTrace();
-        }
-        //if there's no mainApplication, try to find component which is a SNS
-        if(app==null)
-            app = MetaworksRemoteService.getComponent(SNS.class);
 
         app.load(session);
 
@@ -784,6 +780,20 @@ public class Login implements ContextAware {
         mainPanel.setSession(session);
 
         return new Object[]{/*session, */new Refresh(locale), new Refresh(mainPanel, false, true)};
+    }
+
+    protected Application getDefaultLoadingApplication(Application app) {
+        //try to find application named "mainApplication" firstly,
+        try{
+            app = (Application) MetaworksRemoteService.getInstance().getBeanFactory().getBean("mainApplication");
+        }catch (Exception ex){
+            //Nothing to do
+            new Exception("Error to load mainApplication:", ex).printStackTrace();
+        }
+        //if there's no mainApplication, try to find component which is a SNS
+        if(app==null)
+            app = MetaworksRemoteService.getComponent(SNS.class);
+        return app;
     }
 
   /*
