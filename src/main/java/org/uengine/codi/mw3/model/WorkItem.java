@@ -809,6 +809,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
             workItemHandler.session = session;
 
             workItemHandler.load();
+            workItemHandler.getMetaworksContext().setWhere("detail");
         }
     }
 
