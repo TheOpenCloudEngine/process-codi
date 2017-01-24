@@ -3,7 +3,6 @@
 
 <script>
 
-	var type = request.getParameter('type');
 	if(type == 'runner'){
 		var projectId = request.getParameter('projectId');
 		var className = request.getParameter('className');

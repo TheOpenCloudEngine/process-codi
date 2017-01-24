@@ -207,6 +207,9 @@
             }
         }
 
+        var request = new Request();
+
+
         $(document).ready(function() {
             document.body.addEventListener("DOMNodeInserted", function (ev) {
                 //console.log('DOMNodeInserted');
@@ -214,8 +217,6 @@
             });
 
             $.fn.cycle.defaults.autoSelector = '.slideshow';
-
-            var request = new Request();
 
             if (navigator.appVersion.indexOf("Win")!=-1){
                 $('body').css('font-family', "'맑은 고딕', Malgun gothic, Arial");
