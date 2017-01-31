@@ -94,11 +94,13 @@ public class WorkItemHandler implements ContextAware {
 				if(processVariableValue==null) {
 					processVariableValue = new ProcessVariableValue();
 
-					if(pc.getVariable().getDefaultValue()!=null){
-						processVariableValue.setValue(pc.getVariable().getDefaultValue());
-					}else {
+//					if(pc.getVariable().getDefaultValue()!=null){
+//						processVariableValue.setValue(pc.getVariable().getDefaultValue());
+//
+//
+//					}else {
 						processVariableValue.setValue(pc.getVariable().createNewValue());
-					}
+//					}
 				}
 
 				processVariableValue.beforeFirst();
