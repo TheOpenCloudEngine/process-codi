@@ -199,27 +199,27 @@ public class StartCodi {
 				}
 			}
 		}
-						
 
-		
+
+
 		if("login".equals(this.getKey()) || this.getLastVisitPage() != null || ssoService != null){
-			   
+
 			   Login login = new Login();
 			   if(ssoService != null)
 				   login.setSsoService(ssoService);
-		
+
 			   return new Refresh(login, false, true);
-			   
+
 		}else{
 			return new Refresh(MetaworksRemoteService.getComponent(SignUp.class), false, true);
-			
+
 			/*
 			String comAlias = TenantContext.getThreadLocalInstance().getTenantId();
-			
+
 			if(comAlias == null){
 				return MetaworksRemoteService.getComponent(SignUp.class);
 			}
-			
+
 			// 등록되어 있는테넌트 불러오기.
 			Company company = new Company();
 			company.setAlias(comAlias);
@@ -233,7 +233,7 @@ public class StartCodi {
 				return new Login();
 			*/
 		}
-		
+
 		/*
 		if(loggedUserId != null){
 			boolean isLogin = false;
@@ -248,26 +248,26 @@ public class StartCodi {
 			}else{
 				isLogin = true;
 			}
-			
+
 			if(isLogin)
 				return login();
 		}
 		*/
-		
+
 	}
-	
+
 	@ServiceMethod(callByContent=true, target=ServiceMethodContext.TARGET_APPEND)
 	public Object[] login() throws Exception {
-		HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession();		
+		HttpSession httpSession = TransactionContext.getThreadLocalInstance().getRequest().getSession();
 		String loggedUserId = (String)httpSession.getAttribute("loggedUserId");
 
 		Employee emp = new Employee();
 		emp.setEmpCode(loggedUserId);
 		IEmployee findEmp = emp.findMe();
-		
+
 		Session session = new Session();
 		session.setEmployee(findEmp);
-		
+
 		Login login = MetaworksRemoteService.getComponent(Login.class);
 		login.lastVisitPage = this.getLastVisitPage();
 		login.lastVisitValue = this.getLastVisitValue();
@@ -295,7 +295,7 @@ public class StartCodi {
 //		cookieGenerator.removeCookie(TransactionContext.getThreadLocalInstance().getResponse());
 		
 		
-		Login login = new Login();
+		Login login = MetaworksRemoteService.getComponent(Login.class);
 		login.getMetaworksContext().setHow("logout");
 		login.fireServerSession(this.getSession());
         
