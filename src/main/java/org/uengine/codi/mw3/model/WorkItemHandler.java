@@ -624,7 +624,10 @@ public class WorkItemHandler implements ContextAware {
 		roleMapping.setName(humanActivity.getRole().getName());
 		roleMapping.setEndpoint(session.getEmployee().getEmpCode());
 
+		save(); //save the workitem contents too.
+
 		String[] executedTaskIds = processManager.delegateWorkitem(getFullInstanceId(), this.getTracingTag(), roleMapping);
+
 		processManager.applyChanges();
 
 		// 변경된 액티비티 들만 찾기
@@ -655,6 +658,7 @@ public class WorkItemHandler implements ContextAware {
 		panel.getMetaworksContext().setWhere("sns");
 		panel.session = session;
 		panel.load(this.getRootInstId().toString());
+
 
 		this.sendPush(inst,newlyAddedWorkItems,workItemMe);
 
