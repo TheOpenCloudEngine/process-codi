@@ -157,8 +157,10 @@ public class RoleMappingPanel implements ContextAware{
 			
 			if(roleMappingDefinition instanceof RoleMappingDefinition){
 				saveRoleMappingDef = (RoleMappingDefinition)roleMappingDefinition;
-				saveRoleMappingDef.setMappedUserId(((RoleMappingDefinition) roleMappingDefinition).getRoleMappedUser().getUsers().get(0).getUserId());
-//				saveRoleMappingDef.setMappedUserName(((RoleMappingDefinition) roleMappingDefinition).getRoleMappedUser().getUsers().get(0).getUserName());
+				RoleMappedUser roleMappedUser = ((RoleMappingDefinition) roleMappingDefinition).getRoleMappedUser();
+
+				if(roleMappedUser!=null)
+					saveRoleMappingDef.setMappedUserId(roleMappedUser.getUsers().get(0).getUserId());
 			}else{
 				saveRoleMappingDef = new RoleMappingDefinition();
 				saveRoleMappingDef.copyFrom(roleMappingDefinition);
