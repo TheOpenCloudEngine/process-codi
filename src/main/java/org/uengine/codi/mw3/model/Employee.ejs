@@ -10,8 +10,8 @@ if(value){
 		
 			if(mw3.when == 'view') {
 			%>
-				<a onClick="<%=methods.showDetial.caller() %>" ><%=fields.empName.here() %>
-				<%=fields.jikName.here() %></a>
+				<a onClick="<%=methods.showDetail.caller() %>" ><%=fields.empName.here() %>
+				<%=fields.role.here() %></a>
 			<%
 			} else if(mw3.when == 'new') {
 			%>
@@ -31,7 +31,7 @@ if(value){
 				<%=mw3.localize("$Id")%> :<%=value.empCode %>
 				<%=mw3.localize("$Name")%> : <%=fields.empName.here() %>
 				<%=mw3.localize("$Dept")%> : <%=fields.partName.here() %>(<%=value.partCode %>)
-				<%=mw3.localize("$Position")%> : <%=fields.jikName.here() %>
+				<%=mw3.localize("$Position")%> : <%=fields.role.here() %>
 				<%=mw3.localize("$Phone")%> : <%=fields.mobileNo.here() %>
 				<%=mw3.localize("$Email")%> : <%=fields.email.here() %>
 				<%=mw3.localize("$Language")%> : <%=fields.locale.here() %>
@@ -190,13 +190,13 @@ if(value){
 	} else if(mw3.where == 'navigator'){
 	%>
 	
-	<a onClick="<%=methods.loadOrganization.caller() %>"class="iemployee"><%=value.empName %> <%=(value.jikName ? "(" + value.jikName + ")":"") %></a>
+	<a onClick="<%=methods.loadOrganization.caller() %>"class="iemployee"><%=value.empName %> <%=(value.role ? "(" + value.role + ")":"") %></a>
 	
 	<%
 	} else if(mw3.where == 'navigatorIDE'){
 	%>
 	
-	<span class="iemployee"><%=value.empName %> <%=(value.jikName ? "(" + value.jikName + ")":"") %></span>
+	<span class="iemployee"><%=value.empName %> <%=(value.role ? "(" + value.role + ")":"") %></span>
 	
 	<%
 	} else if(mw3.where == 'modifyEmployeeInfo') {
@@ -241,7 +241,7 @@ if(value){
 <%		
 		}
 %>
-					<div class="infoSub"><span class="infoSubFirstSpan"><%=mw3.localize("$Position")%> : </span><span style="width:350px"><%=fields.jikName.here() %></span></div>
+					<div class="infoSub"><span class="infoSubFirstSpan"><%=mw3.localize("$Position")%> : </span><span style="width:350px"><%=fields.role.here() %></span></div>
 					<div class="infoSub"><span class="infoSubFirstSpan"><%=mw3.localize("$Phone")%> : </span><span style="width:350px"><%=fields.mobileNo.here() %></span></div>
 					
 					<div class="infoSub"><span class="infoSubFirstSpan"><%=mw3.localize("$Language")%> : </span><span style="width:350px"><%=fields.locale.here() %></span></div>
