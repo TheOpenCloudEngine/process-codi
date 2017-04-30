@@ -787,7 +787,18 @@ public class ProcessMap extends Database<IProcessMap> implements IProcessMap {
 			((Instance)instanceRef).databaseMe().setDueDate(newInstancePanel.getDueDate());
 		}
 		*/
-		
+
+		{//add start message
+			CommentWorkItem commentWorkItem = new CommentWorkItem();
+			commentWorkItem.setTitle(session.getUser().getName() + " started this project ");
+			commentWorkItem.setWriter(session.getUser());
+			commentWorkItem.setInstId(new Long(instanceRef.getInstId()));  // if instanceId is not provided, create a new instance.
+
+			MetaworksRemoteService.autowire(commentWorkItem);
+
+			commentWorkItem.add();
+		}
+
 		((Instance)instanceRef).databaseMe().setName(this.getName() + " " + instanceRef.getInstId().toString());
 		
 		((Instance)instanceRef).flushDatabaseMe();
