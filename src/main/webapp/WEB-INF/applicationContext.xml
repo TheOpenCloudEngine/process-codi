@@ -45,6 +45,10 @@
         <property name="validationQuery" value="${codi.jdbc.validationQuery}"/>
 		<property name="connectionProperties" value="useUnicode=yes;characterEncoding=utf8;"/>
 
+		<property name="logAbandoned" value="true"/>
+		<property name="removeAbandonedTimeout" value="5"/>
+		<property name="removeAbandoned" value="true"/>
+
     </bean>
 
 

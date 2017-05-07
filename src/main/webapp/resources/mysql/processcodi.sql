@@ -577,3 +577,5 @@ ALTER TABLE bpm_procinst ADD COLUMN issim INT(1) DEFAULT 0; -- to identify simul
 
 alter table bpm_procinst modify column defverid varchar(255);
 alter table bpm_roledef modify column rolename varchar(255);
+
+alter table bpm_worklist modify column type varchar(100);
