@@ -378,7 +378,7 @@ public class WorkItemHandler implements ContextAware {
 	@AutowiredFromClient
 	public Session session;
 
-	@ServiceMethod(payload = {"instanceId", "tracingTag", "outputParameters[!ignore]", "taskId", "rootInstId", "executionScope"}, /*callByContent=true,*/ when= MetaworksContext.WHEN_EDIT, validate=true, target= ServiceMethodContext.TARGET_APPEND)
+	@ServiceMethod(payload = {"instanceId", "tracingTag", "outputParameters[!ignore]", "taskId", "rootInstId", "executionScope"}, /*callByContent=true,*/ when= MetaworksContext.WHEN_EDIT, /*validate=true,*/ target= ServiceMethodContext.TARGET_APPEND)
 //	@Available(when={"NEW"})
 	public Object[] complete() throws RemoteException, ClassNotFoundException, Exception{
 

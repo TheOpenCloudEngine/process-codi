@@ -1,3 +1,5 @@
+use uengine;
+
 SET @old_unique_checks = @@unique_checks, unique_checks = 0;
 SET @old_foreign_key_checks = @@foreign_key_checks, foreign_key_checks = 0;
 SET @old_sql_mode = @@sql_mode, sql_mode = 'traditional,allow_invalid_dates';
@@ -5,12 +7,12 @@ SET @old_sql_mode = @@sql_mode, sql_mode = 'traditional,allow_invalid_dates';
 CREATE SCHEMA IF NOT EXISTS `uengine`
   DEFAULT CHARACTER SET utf8
   COLLATE utf8_unicode_ci;
-USE `uengine`;
+
 
 -- -----------------------------------------------------
--- table `uengine`.`bpm_knol`
+-- table `bpm_knol`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`bpm_knol` (
+CREATE TABLE IF NOT EXISTS `bpm_knol` (
   `id`            VARCHAR(20)   NOT NULL,
   `name`          VARCHAR(1000) NULL DEFAULT NULL,
   `linkedinstid`  INT(11)       NULL DEFAULT NULL,
@@ -43,9 +45,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`bpm_knol` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`bpm_noti`
+-- table `bpm_noti`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`bpm_noti` (
+CREATE TABLE IF NOT EXISTS `bpm_noti` (
   `notiid`      MEDIUMTEXT   NULL DEFAULT NULL,
   `userid`      CHAR(100)    NULL DEFAULT NULL,
   `actorid`     CHAR(100)    NULL DEFAULT NULL,
@@ -61,9 +63,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`bpm_noti` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`bpm_procinst`
+-- table `bpm_procinst`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`bpm_procinst` (
+CREATE TABLE IF NOT EXISTS `bpm_procinst` (
   `instid`          INT(11)      NOT NULL,
   `defverid`        VARCHAR(100) NULL DEFAULT NULL,
   `defid`           VARCHAR(100) NULL DEFAULT NULL,
@@ -130,9 +132,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`bpm_procinst` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`bpm_procvar`
+-- table `bpm_procvar`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`bpm_procvar` (
+CREATE TABLE IF NOT EXISTS `bpm_procvar` (
   `varid`        INT(11)       NOT NULL AUTO_INCREMENT,
   `instid`       INT(11)       NULL     DEFAULT NULL,
   `datatype`     INT(11)       NULL     DEFAULT NULL,
@@ -156,9 +158,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`bpm_procvar` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`bpm_roledef`
+-- table `bpm_roledef`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`bpm_roledef` (
+CREATE TABLE IF NOT EXISTS `bpm_roledef` (
   `roledefid`      VARCHAR(100) NULL DEFAULT NULL,
   `defid`          VARCHAR(50)  NULL DEFAULT NULL,
   `rolename`       CHAR(20)     NULL DEFAULT NULL,
@@ -172,9 +174,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`bpm_roledef` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`bpm_rolemapping`
+-- table `bpm_rolemapping`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`bpm_rolemapping` (
+CREATE TABLE IF NOT EXISTS `bpm_rolemapping` (
   `rolemappingid`  INT(11)       NOT NULL AUTO_INCREMENT,
   `instid`         INT(11)       NULL     DEFAULT NULL,
   `rootinstid`     INT(11)       NULL     DEFAULT NULL,
@@ -196,9 +198,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`bpm_rolemapping` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`bpm_seq`
+-- table `bpm_seq`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`bpm_seq` (
+CREATE TABLE IF NOT EXISTS `bpm_seq` (
   `seq`         INT(11)      NULL DEFAULT NULL,
   `tbname`      VARCHAR(255) NULL DEFAULT NULL,
   `description` VARCHAR(255) NULL DEFAULT NULL,
@@ -209,9 +211,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`bpm_seq` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`bpm_topicmapping`
+-- table `bpm_topicmapping`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`bpm_topicmapping` (
+CREATE TABLE IF NOT EXISTS `bpm_topicmapping` (
   `topicmappingid` INT(11)       NOT NULL,
   `topicid`        VARCHAR(20)   NOT NULL,
   `userid`         VARCHAR(255)  NULL DEFAULT NULL,
@@ -224,9 +226,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`bpm_topicmapping` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`bpm_worklist`
+-- table `bpm_worklist`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`bpm_worklist` (
+CREATE TABLE IF NOT EXISTS `bpm_worklist` (
   `taskid`           INT(11)       NOT NULL,
   `title`            VARCHAR(3000) NULL DEFAULT NULL,
   `description`      VARCHAR(500)  NULL DEFAULT NULL,
@@ -290,9 +292,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`bpm_worklist` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`comtable`
+-- table `comtable`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`comtable` (
+CREATE TABLE IF NOT EXISTS `comtable` (
   `comcode`     VARCHAR(20)  NOT NULL DEFAULT '',
   `comname`     VARCHAR(100) NULL     DEFAULT NULL,
   `description` VARCHAR(255) NULL     DEFAULT NULL,
@@ -311,9 +313,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`comtable` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`contact`
+-- table `contact`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`contact` (
+CREATE TABLE IF NOT EXISTS `contact` (
   `userid`     VARCHAR(100) NULL DEFAULT NULL,
   `friendid`   VARCHAR(100) NULL DEFAULT NULL,
   `friendname` VARCHAR(20)  NULL DEFAULT NULL,
@@ -325,9 +327,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`contact` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`emp_prop_table`
+-- table `emp_prop_table`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`emp_prop_table` (
+CREATE TABLE IF NOT EXISTS `emp_prop_table` (
   `propid`    INT(11)      NOT NULL,
   `comcode`   VARCHAR(20)  NOT NULL,
   `empcode`   VARCHAR(20)  NOT NULL,
@@ -340,9 +342,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`emp_prop_table` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`emptable`
+-- table `emptable`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`emptable` (
+CREATE TABLE IF NOT EXISTS `emptable` (
   `empcode`          VARCHAR(100) NOT NULL DEFAULT '',
   `empname`          VARCHAR(100) NULL     DEFAULT NULL,
   `password`         VARCHAR(20)  NULL     DEFAULT NULL,
@@ -377,9 +379,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`emptable` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`inst_emp_perf`
+-- table `inst_emp_perf`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`inst_emp_perf` (
+CREATE TABLE IF NOT EXISTS `inst_emp_perf` (
   `instid`        INT(11)      NOT NULL,
   `empcode`       VARCHAR(100) NOT NULL DEFAULT '',
   `businessvalue` INT(10)      NULL     DEFAULT NULL,
@@ -390,9 +392,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`inst_emp_perf` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`logtable`
+-- table `logtable`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`logtable` (
+CREATE TABLE IF NOT EXISTS `logtable` (
   `id`      INT(11)                   NOT NULL,
   `type`    VARCHAR(20)
             CHARACTER SET 'utf8'
@@ -417,9 +419,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`logtable` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`notisetting`
+-- table `notisetting`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`notisetting` (
+CREATE TABLE IF NOT EXISTS `notisetting` (
   `id`              INT(11)     NOT NULL,
   `userid`          VARCHAR(20) NOT NULL,
   `notiadvice`      INT(11)     NULL DEFAULT '0',
@@ -445,9 +447,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`notisetting` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`parttable`
+-- table `parttable`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`parttable` (
+CREATE TABLE IF NOT EXISTS `parttable` (
   `globalcom`       VARCHAR(20)  NULL DEFAULT NULL,
   `partcode`        VARCHAR(20)  NOT NULL,
   `partname`        VARCHAR(30)  NULL DEFAULT NULL,
@@ -459,16 +461,16 @@ CREATE TABLE IF NOT EXISTS `uengine`.`parttable` (
   INDEX `fk3b63679b4506931c` (`comcode` ASC),
   CONSTRAINT `fk3b63679b4506931c`
   FOREIGN KEY (`comcode`)
-  REFERENCES `uengine`.`comtable` (`comcode`)
+  REFERENCES `comtable` (`comcode`)
 )
   ENGINE = innodb
   DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- table `uengine`.`processmap`
+-- table `processmap`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`processmap` (
+CREATE TABLE IF NOT EXISTS `processmap` (
   `mapid`       VARCHAR(100) NOT NULL DEFAULT '',
   `defid`       VARCHAR(50)  NOT NULL DEFAULT '',
   `name`        VARCHAR(50)  NULL     DEFAULT NULL,
@@ -486,9 +488,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`processmap` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`processtopicmapping`
+-- table `processtopicmapping`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`processtopicmapping` (
+CREATE TABLE IF NOT EXISTS `processtopicmapping` (
   `processname` VARCHAR(200) NOT NULL,
   `processpath` VARCHAR(200) NOT NULL,
   `topicid`     VARCHAR(50)  NOT NULL,
@@ -500,9 +502,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`processtopicmapping` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`recentitem`
+-- table `recentitem`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`recentitem` (
+CREATE TABLE IF NOT EXISTS `recentitem` (
   `empcode`      VARCHAR(100) NOT NULL,
   `itemtype`     VARCHAR(10)  NOT NULL,
   `itemid`       VARCHAR(100) NOT NULL,
@@ -515,9 +517,9 @@ CREATE TABLE IF NOT EXISTS `uengine`.`recentitem` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`roletable`
+-- table `roletable`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`roletable` (
+CREATE TABLE IF NOT EXISTS `roletable` (
   `rolecode`  VARCHAR(20)  NOT NULL,
   `comcode`   VARCHAR(20)  NULL DEFAULT NULL,
   `descr`     VARCHAR(255) NULL DEFAULT NULL,
@@ -532,22 +534,21 @@ CREATE TABLE IF NOT EXISTS `uengine`.`roletable` (
 
 
 -- -----------------------------------------------------
--- table `uengine`.`roleusertable`
+-- table `roleusertable`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `uengine`.`roleusertable` (
+CREATE TABLE IF NOT EXISTS `roleusertable` (
   `rolecode` VARCHAR(20) NOT NULL,
   `empcode`  VARCHAR(20) NOT NULL,
   PRIMARY KEY (`rolecode`, `empcode`),
   INDEX `fk8ceeb30d7c65b1a` (`rolecode` ASC),
   CONSTRAINT `fk8ceeb30d7c65b1a`
   FOREIGN KEY (`rolecode`)
-  REFERENCES `uengine`.`roletable` (`rolecode`)
+  REFERENCES `roletable` (`rolecode`)
 )
   ENGINE = innodb
   DEFAULT CHARACTER SET = utf8;
 
 
-USE `uengine`;
 
 
 SET sql_mode = @old_sql_mode;

@@ -39,7 +39,7 @@ public abstract class AbstractEmployee extends Database<IEmployee> implements IE
     String isDeleted;
     String mobileNo;
     String email;
-    String locale;
+    String locale = "ko";
     PortraitImageFile imageFile;
     boolean approved;
     boolean guest;

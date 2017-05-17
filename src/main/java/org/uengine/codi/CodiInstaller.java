@@ -3,6 +3,7 @@ package org.uengine.codi;
 import org.metaworks.annotation.Resource;
 import org.metaworks.dwr.MetaworksRemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -27,6 +28,7 @@ public class CodiInstaller implements ApplicationListener<ContextRefreshedEvent>
     }
 
     @Autowired
+    @Qualifier("resourceManagerForMarketplace")
     ResourceManager resourceManager;
 
     public void installDefaultProcessApp(){

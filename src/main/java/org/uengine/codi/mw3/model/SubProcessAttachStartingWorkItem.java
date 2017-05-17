@@ -10,7 +10,7 @@ import org.uengine.processmanager.ProcessManagerRemote;
 /**
  * Created by uengine on 2017. 1. 12..
  */
-public class SubProcessAttatchStartingWorkItem extends CommentWorkItem {
+public class SubProcessAttachStartingWorkItem extends CommentWorkItem {
 
     public Object[] add(@AutowiredFromClient(payload="processInstanceId") AwareProcessInstanceId processInstanceContext) throws Exception {
         Object[] returnValues = super.add();
@@ -18,6 +18,8 @@ public class SubProcessAttatchStartingWorkItem extends CommentWorkItem {
         //link created process instance to the main process instance
         ProcessInstance processInstance = processManager.getProcessInstance(""+getInstId());
         processInstance.setMainProcessInstanceId(processInstanceContext.getProcessInstanceId());
+        setRootInstId(Long.valueOf(processInstance.getRootProcessInstanceId()));
+
         processManager.setChanged();
 
         return returnValues;

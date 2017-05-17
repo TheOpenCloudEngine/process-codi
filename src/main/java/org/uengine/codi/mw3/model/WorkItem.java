@@ -284,7 +284,7 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
         sql.append("select * from (");
         sql.append("select *");
         sql.append("  from bpm_worklist");
-        sql.append(" where rootInstId=?instId");
+        sql.append(" where (rootInstId=?instId or instId=?instId)");
         sql.append("   and isdeleted!=?isDeleted");
         sql.append("   and (type  not in ('ovryCmnt' , 'replyCmnt') or type is null)");
         if(parentTaskId != null){
@@ -1188,9 +1188,11 @@ public class WorkItem extends Database<IWorkItem> implements IWorkItem {
 
                 afterInstantiation(instanceRef);
             } else {
-                if (this.getRootInstId() != null && this.getRootInstId() != this.getInstId()) {
-                    setInstId(this.getRootInstId());
-                }
+
+                //TODO: validate. This code is wrong
+//                if (this.getRootInstId() != null && this.getRootInstId() != this.getInstId()) {
+//                    setInstId(this.getRootInstId());
+//                }
                 instance = new Instance();
                 instance.setInstId(this.getInstId());
 
