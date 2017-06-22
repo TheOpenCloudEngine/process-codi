@@ -37,7 +37,7 @@ var org_uengine_codi_mw3_model_IWorkItem = function(objectId, className){
 		}
 		
 		this.objectDiv.find('.wih_title').css({cursor: 'pointer'/*, color: '#0000FF', 'text-decoration': 'underline'*/}).bind('click', {objectId: this.objectId}, function(event, ui){
-			mw3.call(event.data.objectId, 'workItemPopup');
+			mw3.call(event.data.objectId, 'detail');
 		});
 		
 	}else if(workItem.type == 'memo' && workItem.extFile!=null && !workItem.contentLoaded){
