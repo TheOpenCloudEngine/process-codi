@@ -22,6 +22,8 @@ import java.io.OutputStream;
 @Component
 public class CodiInstaller implements ApplicationListener<ContextRefreshedEvent> {
 
+    public static final String PATH_PROCESSAPP = "processapps/-1.processapp";
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         installDefaultProcessApp();
@@ -43,10 +45,11 @@ public class CodiInstaller implements ApplicationListener<ContextRefreshedEvent>
         try {
             OutputStream os = resourceManager.getStorage().getOutputStream(processAppResource);
 
-            UEngineUtil.copyStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("processapps/-1.processapp"), os);
+            UEngineUtil.copyStream(Thread.currentThread().getContextClassLoader().getResourceAsStream(PATH_PROCESSAPP), os);
 
         } catch (Exception e1) {
-            e1.printStackTrace();
+            new Exception("Failed to install default app - " + PATH_PROCESSAPP).printStackTrace();
+            //e1.printStackTrace();
         }
     }
 }

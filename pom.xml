@@ -544,35 +544,40 @@
 			<artifactId>jbcrypt</artifactId>
 			<version>0.3m</version>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>4.1.4.RELEASE</version>
+        </dependency>
 
 
-		<!-- killbill client
-		<dependency>
-			<groupId>org.kill-bill.billing</groupId>
-			<artifactId>killbill-client-java</artifactId>
-			<version>${killbill.version}</version>
-			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-databind</artifactId>
-				</exclusion>
+        <!-- killbill client
+        <dependency>
+            <groupId>org.kill-bill.billing</groupId>
+            <artifactId>killbill-client-java</artifactId>
+            <version>${killbill.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
 
-				<exclusion>
-					<groupId>joda-time</groupId>
-					<artifactId>joda-timed</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		-->
+                <exclusion>
+                    <groupId>joda-time</groupId>
+                    <artifactId>joda-timed</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        -->
 
 		<!--<dependency>-->
 			<!--<groupId>net.sourceforge</groupId>-->
