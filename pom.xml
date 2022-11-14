@@ -10,7 +10,7 @@
 		<basedir></basedir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<compiler.plugin.version>1.0.0</compiler.plugin.version>
-		<spring.version>4.1.4.RELEASE</spring.version>
+		<spring.version>4.2.7.RELEASE</spring.version>
 		<spring.security.version>4.1.4.RELEASE</spring.security.version>
 		<aopalliance.version>1.0</aopalliance.version>
 		<cglib.version>2.2</cglib.version>
